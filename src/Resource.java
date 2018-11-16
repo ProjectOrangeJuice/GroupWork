@@ -1,16 +1,12 @@
-public abstract class Resource {
-	static int nextIdValue = 0;
-	
+public abstract class Resource {	
 	int uniqueID;
 	String title;
 	int year;
 	
-	public Resource(String title, int year) {
-		this.uniqueID = nextIdValue;
+	public Resource(int uniqueID, String title, int year) {
+		this.uniqueID = uniqueID;
 		this.title = title;
 		this.year = year;
-		
-		nextIdValue++;
 	}
 
 	public int getUniqueID() {

@@ -5,9 +5,8 @@ public class Book extends Resource {
 	String ISBN;
 	String language;
 	
-	public Book (String title, int year, String author, String publisher, String ISBN, String language) {
-		super(title, year);
-		
+	public Book (int uniqueID, String title, int year, String author, String publisher, String ISBN, String language) {
+		super(uniqueID, title, year);
 		this.author = author;
 		this.publisher = publisher;
 		this.ISBN = ISBN;

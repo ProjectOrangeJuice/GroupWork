@@ -9,9 +9,9 @@ public class main {
 		languages.add("French");
 		languages.add("Romanian");
 		
-		Book Sapiens = new Book("Sapiens", 2017, "Noah", "Penguin Books", "111222333", "English");
-		Book TheMartian = new Book("The Martian", 2015, "Andy Weir", "Kane Books", "333444555", "English");
-		DVD Interstellar = new DVD("Interstellar", 2014, "Christopher Nolan", 169, "English", languages);
+		Book Sapiens = new Book(0, "Sapiens", 2017, "Noah", "Penguin Books", "111222333", "English");
+		Book TheMartian = new Book(1, "The Martian", 2015, "Andy Weir", "Kane Books", "333444555", "English");
+		DVD Interstellar = new DVD(2, "Interstellar", 2014, "Christopher Nolan", 169, "English", languages);
 		
 		System.out.println(Sapiens.getUniqueID());
 		System.out.println(TheMartian.getUniqueID());
