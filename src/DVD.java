@@ -1,21 +1,18 @@
 import java.util.ArrayList;
 
 public class DVD extends Resource {
-	
 	String director;
 	int runtime;
 	String language;
 	ArrayList<String> subtitleLanguages;
 	
 	public DVD(String title, int year, String director, int runtime, String language, ArrayList<String> subtitleLanguages) {
-		
 		super(title, year);
 		
 		this.director = director;
 		this.runtime = runtime;
 		this.language = language;
 		this.subtitleLanguages = subtitleLanguages;
-		
 	}
 
 	public String getDirector() {

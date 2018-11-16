@@ -1,18 +1,15 @@
 
 public class Laptop extends Resource {
-	
 	String manufacturer;
 	String model;
 	String OS;
 	
 	public Laptop(String title, int year, String manufacturer, String model, String OS) {
-		
 		super(title, year);
 		
 		this.manufacturer = manufacturer;
 		this.model = model;
 		this.OS = OS;
-		
 	}
 
 	public String getManufacturer() {

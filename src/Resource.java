@@ -7,13 +7,11 @@ public abstract class Resource {
 	int year;
 	
 	public Resource(String title, int year) {
-		
 		this.uniqueID = nextIdValue;
 		this.title = title;
 		this.year = year;
 		
 		nextIdValue++;
-		
 	}
 
 	public int getUniqueID() {

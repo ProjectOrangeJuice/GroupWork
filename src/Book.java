@@ -1,20 +1,17 @@
 
 public class Book extends Resource {
-	
 	String author;
 	String publisher;
 	String ISBN;
 	String language;
 	
 	public Book (String title, int year, String author, String publisher, String ISBN, String language) {
-		
 		super(title, year);
 		
 		this.author = author;
 		this.publisher = publisher;
 		this.ISBN = ISBN;
 		this.language = language;
-		
 	}
 
 	public String getAuthor() {
