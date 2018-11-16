@@ -1,4 +1,3 @@
-
 public class Laptop extends Resource {
 	String manufacturer;
 	String model;

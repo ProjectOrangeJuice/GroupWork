@@ -1,4 +1,3 @@
-
 public class Book extends Resource {
 	String author;
 	String publisher;
