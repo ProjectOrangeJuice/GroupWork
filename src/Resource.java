@@ -1,5 +1,4 @@
 public abstract class Resource {
-	
 	static int nextIdValue = 0;
 	
 	int uniqueID;
