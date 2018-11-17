@@ -1,7 +1,7 @@
 public class Laptop extends Resource {
-	String manufacturer;
-	String model;
-	String OS;
+	private String manufacturer;
+	private String model;
+	private String OS;
 	
 	public Laptop(int uniqueID, String title, int year, String manufacturer, String model, String OS) {
 		super(uniqueID, title, year);

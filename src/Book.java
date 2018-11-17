@@ -1,8 +1,8 @@
 public class Book extends Resource {
-	String author;
-	String publisher;
-	String ISBN;
-	String language;
+	private String author;
+	private String publisher;
+	private String ISBN;
+	private String language;
 	
 	public Book (int uniqueID, String title, int year, String author, String publisher, String ISBN, String language) {
 		super(uniqueID, title, year);

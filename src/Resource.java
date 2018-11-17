@@ -1,7 +1,7 @@
 public abstract class Resource {	
-	int uniqueID;
-	String title;
-	int year;
+	protected int uniqueID;
+	protected String title;
+	protected int year;
 	
 	public Resource(int uniqueID, String title, int year) {
 		this.uniqueID = uniqueID;
