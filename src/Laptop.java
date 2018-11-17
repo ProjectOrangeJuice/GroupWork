@@ -1,10 +1,12 @@
+import javafx.scene.image.Image;
+
 public class Laptop extends Resource {
 	private String manufacturer;
 	private String model;
 	private String OS;
 	
-	public Laptop(int uniqueID, String title, int year, String manufacturer, String model, String OS) {
-		super(uniqueID, title, year);
+	public Laptop(int uniqueID, String title, int year, Image thumbnail, String manufacturer, String model, String OS) {
+		super(uniqueID, title, year, thumbnail);
 		this.manufacturer = manufacturer;
 		this.model = model;
 		this.OS = OS;

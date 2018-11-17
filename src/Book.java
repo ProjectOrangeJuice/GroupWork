@@ -1,15 +1,33 @@
+import javafx.scene.image.Image;
+
 public class Book extends Resource {
 	private String author;
 	private String publisher;
+	private String genre;
 	private String ISBN;
 	private String language;
 	
-	public Book (int uniqueID, String title, int year, String author, String publisher, String ISBN, String language) {
-		super(uniqueID, title, year);
+	public Book (int uniqueID, String title, int year, Image thumbnail, String author, String publisher, String genre, String ISBN, String language) {
+		super(uniqueID, title, year, thumbnail);
 		this.author = author;
 		this.publisher = publisher;
+		this.genre = genre;
 		this.ISBN = ISBN;
 		this.language = language;
+	}
+	
+	public Book (int uniqueID, String title, int year, Image thumbnail, String author, String publisher) {
+		super(uniqueID, title, year, thumbnail);
+		this.author = author;
+		this.publisher = publisher;
+	}
+
+	public String getGenre() {
+		return genre;
+	}
+
+	public void setGenre(String genre) {
+		this.genre = genre;
 	}
 
 	public String getAuthor() {
