@@ -28,6 +28,22 @@ public abstract class Resource {
 		
 	}
 	
+	public void processReturn(Copy returnedCopy)
+	{
+		if(userRequest.isEmpty())
+		{
+			freeCopies.add(returnedCopy);
+			returnedCopy.setBorrower(null);
+		} 
+		else 
+		{
+			User firstRequest = userRequest.peek();
+			returnedCopy.setBorrower(firstRequest);
+			userRequest.dequeue();
+		}
+		
+	}
+	
 	public void loanToUser(User user) 
 	{	
 		if(!freeCopies.isEmpty()) 
