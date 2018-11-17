@@ -93,4 +93,8 @@ public abstract class Resource {
 		this.year = year;
 	}
 	
+	public String toString() {
+		return "Title: "+title + "\nID: " + uniqueID + "\nYear: " + year;
+	}
+	
 }
