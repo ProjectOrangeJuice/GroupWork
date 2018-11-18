@@ -1,2 +1,2 @@
 # Group 6 - Lib Tawe
-This is a Libary Application wirtten in Java for CS-230
+This is a library Application written in Java for CS-230
