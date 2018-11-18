@@ -1,5 +1,4 @@
-/bin/
+bin/
+.settings/
 *.class
-main.java
-*.db
 .classpath
