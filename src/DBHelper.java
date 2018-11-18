@@ -18,75 +18,66 @@ import java.io.InputStream;
 */
 public class DBHelper {
 
+	private static int VERSION = 1; // Version number for database
+	private static String LINK = "jdbc:sqlite:test.db"; // database connection string
+	private static String SQL = "src/tables.sql"; // database connection string
 
-  private static int VERSION = 1; //Version number for database
-  private static String LINK = "jdbc:sqlite:test.db"; //database connection string
-  private static String SQL = "src/tables.sql"; //database connection string
+	/**
+	 * Create the an empty database
+	 *
+	 */
+	private static void createNewDatabase() {
 
-  /**
-  * Create the an empty database
-  *
-  * @param fileName the database file name
-  */
-  private static void createNewDatabase() {
+		try (Connection conn = DriverManager.getConnection(LINK)) {
+			if (conn != null) {
+				System.out.println("A new database has been created.");
+			}
 
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		}
+	}
 
-    try (Connection conn = DriverManager.getConnection(LINK)) {
-      if (conn != null) {
-        System.out.println("A new database has been created.");
-      }
+	/**
+	 * Create the tables in the database
+	 *
+	 */
+	private static void createTables() {
 
-    } catch (SQLException e) {
-      System.out.println(e.getMessage());
-    }
-  }
+		try {
+			InputStream in = new FileInputStream(SQL);// Opens up the file
 
-  private static void createTables(){
+			Scanner s = new Scanner(in);
+			s.useDelimiter(";");// Each statement is split with ";"
+			Statement st = null;
 
-    try {
-      InputStream in = new FileInputStream("src/tables.sql");
+			Connection conn = DriverManager.getConnection(LINK); // Opens the database
+			st = conn.createStatement();
+			while (s.hasNext()) {
+				String line = s.next();
 
-      Scanner s = new Scanner(in);
-      s.useDelimiter(";");
-      Statement st = null;
+				if (line.trim().length() > 0) {
+					st.execute(line);
+				}
+			}
+		} catch (SQLException e) {
+			// Error in the text file
+			e.printStackTrace();
 
+		} catch (FileNotFoundException e) {
+			// File not found
+			e.printStackTrace();
+		} finally {
 
-      Connection conn = DriverManager.getConnection(LINK);
-      st = conn.createStatement();
-      while (s.hasNext())
-      {
-        String line = s.next();
-        if (line.startsWith("/*!") && line.endsWith("*/"))
-        {
-          int i = line.indexOf(' ');
-          line = line.substring(i + 1, line.length() - " */".length());
-        }
+		}
 
-        if (line.trim().length() > 0)
-        {
-          st.execute(line);
-        }
-      }
-    } catch (SQLException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
+	}
 
-    } catch (FileNotFoundException e) {// TODO Auto-generated catch block
-      e.printStackTrace();
-    }
-    finally
-    {
-
-    }
-
-  }
-
-
-  /**
-  * tester
-  */
-  public static void main(String[] args) {
-    createNewDatabase();
-    createTables();
-  }
+	/**
+	 * tester
+	 */
+	public static void main(String[] args) {
+		createNewDatabase();
+		createTables();
+	}
 }
