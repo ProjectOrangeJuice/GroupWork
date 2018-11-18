@@ -27,7 +27,7 @@ public class DBHelper {
 	 * Run an sql command and return a resultset
 	 *
 	 */
-	public static ResultSet select(String sql) throws SQLException{
+	private static ResultSet selectKnown(String sql) throws SQLException{
 	
 			
 			Connection conn = connect();
@@ -97,7 +97,7 @@ public class DBHelper {
 	 */
 	public static void tableCheck() {
 		try {
-		ResultSet rs = select("SELECT ver FROM system");
+		ResultSet rs = selectKnown("SELECT ver FROM system");
 			if(rs.next()) {
 				int ver = rs.getInt("ver");
 				rs.close();
