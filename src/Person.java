@@ -1,13 +1,33 @@
 import javafx.scene.image.Image;
 
+/**This class represents a person from which both the user and librarian
+ * classes are inherited from. It holds all the standard information to 
+ * create a profile.
+ * @author Charles Day
+ * @version 1.0
+ * */
 public class Person {
-	private String userName;
-	private String firstName;
-	private String lastName;
-	private String phoneNumber;
-	private String address;
-	private String postcode;
-	private Image avatar;
+	
+	/**The persons user name.*/
+	private String userName; 
+	
+	/**The persons first name.*/
+	private String firstName; 
+	
+	/**The persons last name.*/
+	private String lastName; 
+	
+	/**The persons phone number.*/
+	private String phoneNumber; 
+	
+	/**The persons street address.*/
+	private String address; 
+	
+	/**The persons postcode.*/
+	private String postcode; 
+	
+	/**The persons chosen avatar image.*/
+	private Image avatar; 
 
 	/**
 	 * Creates a new Person object from the given arguments.
@@ -127,6 +147,5 @@ public class Person {
 	public void setAvatar(Image avatar) {
 		this.avatar = avatar;
 	}
-	
-	
+
 }
