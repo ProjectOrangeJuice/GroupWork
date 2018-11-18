@@ -26,7 +26,7 @@ public abstract class Resource {
 	/**The thumbnail Image of this resource.*/
 	protected Image thumbnail;
 	
-	/*A list of all the copies of this resource.*/
+	/**A list of all the copies of this resource.*/
 	private ArrayList<Copy> copyList;
 	
 	/**A list of all copies of this resource that are not currently borrowed.*/
