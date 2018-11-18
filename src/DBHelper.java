@@ -1,6 +1,7 @@
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Scanner;
@@ -23,20 +24,36 @@ public class DBHelper {
 	private static String SQL = "src/tables.sql"; // database connection string
 
 	/**
-	 * Create the an empty database
+	 * Run an sql command and return a resultset
 	 *
 	 */
-	private static void createNewDatabase() {
-
-		try (Connection conn = DriverManager.getConnection(LINK)) {
-			if (conn != null) {
-				System.out.println("A new database has been created.");
-			}
-
-		} catch (SQLException e) {
-			System.out.println(e.getMessage());
-		}
+	public static ResultSet select(String sql) throws SQLException{
+	
+			
+			Connection conn = connect();
+			Statement stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery(sql);
+		
+			return rs;
+			
+		
 	}
+	
+	/**
+	 * Create a connection to the database
+	 * If the database doesn't exist, Create it.
+	 *
+	 */
+	private static Connection connect() {
+        // SQLite connection string
+        Connection conn = null;
+        try {
+            conn = DriverManager.getConnection(LINK);
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return conn;
+    }
 
 	/**
 	 * Create the tables in the database
@@ -51,7 +68,7 @@ public class DBHelper {
 			s.useDelimiter(";");// Each statement is split with ";"
 			Statement st = null;
 
-			Connection conn = DriverManager.getConnection(LINK); // Opens the database
+			Connection conn = connect(); // Opens the database
 			st = conn.createStatement();
 			while (s.hasNext()) {
 				String line = s.next();
@@ -72,12 +89,38 @@ public class DBHelper {
 		}
 
 	}
+	
+	/**
+	 * Check to see if the database has tables
+	 * Or what version it is
+	 *
+	 */
+	public static void tableCheck() {
+		try {
+		ResultSet rs = select("SELECT ver FROM system");
+			if(rs.next()) {
+				int ver = rs.getInt("ver");
+				rs.close();
+				System.out.println("Table is at "+ver+" program is at "+VERSION);
+				if(ver != VERSION) {
+					createTables();
+					System.out.println("Updating database");
+				}
+			}else {
+				createTables();
+				System.out.println("Creating database");
+			}
+		} catch (SQLException e) {
+			System.out.println("Error : "+e.getMessage());
+			createTables();
+			System.out.println("Creating database");
+		}
+	}
 
 	/**
 	 * tester
 	 */
 	public static void main(String[] args) {
-		createNewDatabase();
-		createTables();
+		tableCheck();
 	}
 }
