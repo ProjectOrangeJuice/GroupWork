@@ -21,5 +21,4 @@ public class main {
 		System.out.println(Interstellar.getUniqueID());
 
 	}
-
 }

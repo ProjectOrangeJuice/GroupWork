@@ -74,19 +74,16 @@ public abstract class Resource {
 	/**This method ensures a returned copy is marked a free copy or that it is
 	 *  reserved for the user at the front of the request queue.
 	 *  @param returnedCopy The copy being returned.*/
-	public void processReturn(Copy returnedCopy)
-	{
+	public void processReturn(Copy returnedCopy) {
 		/*If the user request queue is empty, add the copy to the list of free 
 		 * copies and mark it as free.*/
-		if(userRequest.isEmpty())
-		{
+		if(userRequest.isEmpty()) {
 			freeCopies.add(returnedCopy);
 			returnedCopy.setBorrower(null);
 		} 
 		/*If the are user in the queue, reserve this copy for the first user 
 		 * in the queue and take that person out of the queue.*/
-		else 
-		{
+		else {
 			User firstRequest = userRequest.peek();
 			returnedCopy.setBorrower(firstRequest);
 			userRequest.dequeue();
@@ -97,12 +94,10 @@ public abstract class Resource {
 	 * copies, else it adds the user to the request queue.
 	 * @param user The user that wants to borrow a copy of this resource.
 	 */
-	public void loanToUser(User user) 
-	{	
+	public void loanToUser(User user) {	
 		/*If there are free copies, mark a copy as borrowed and reserve 
 		 * it for the user.*/
-		if(!freeCopies.isEmpty()) 
-		{
+		if(!freeCopies.isEmpty()) {
 			Copy copyToBorrow = freeCopies.removeFirst();
 			copyToBorrow.setBorrower(user);
 			user.addBorrowedCopy(copyToBorrow);
@@ -110,8 +105,7 @@ public abstract class Resource {
 		/*Else, add the user to the request queue and set the due date
 		 * of the borrowed copy with no due date that has been borrowed
 		 * the longest.*/
-		else 
-		{
+		else {
 			userRequest.enqueue(user);
 			Copy firstCopy = noDueDateCopies.poll();
 			firstCopy.setDueDate();
