@@ -1,8 +1,8 @@
 # Database
 
-The database is called "test.db" and will be found in the working directory (Not bin). The main class should call DBHelper.tableCheck(); to ensure the database is ready. 
+The database is called "test.db" and will be found in the working directory (Not bin). 
 
-For testing you can call this in any location.
+When creating the object you pass either True or False. True will ensure the tables are up to date in the local database. If they're not the same version it will destroy the database.
 
 ## Force update
 
