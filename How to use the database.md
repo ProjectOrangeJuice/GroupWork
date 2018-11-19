@@ -1,12 +1,13 @@
 # Database
 
-The database is called "test.db" and will be found in the working directory (Not bin). The main class should call DBHelper.tableCheck(); to ensure the database is ready. 
+The database is called "test.db" and will be found in the working directory (Not bin). 
+You don't create the object!
 
-For testing you can call this in any location.
+To check for the latest database or create the database if you don't have it either call force update or DBHelper.tableCheck();
 
 ## Force update
 
-Remove the database file. Re-run the DBHelper
+DBHelper.forceUpdate();
 
 ## Getting the connection
 
