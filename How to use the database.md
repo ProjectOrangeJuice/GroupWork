@@ -1,6 +1,6 @@
 # Database
 
-The database is called "test.db" and will be found in the working directory (Not bin). The main class should call DBHelper.update(); to ensure the database is ready. 
+The database is called "test.db" and will be found in the working directory (Not bin). The main class should call DBHelper.tableCheck(); to ensure the database is ready. 
 
 For testing you can call this in any location.
 
