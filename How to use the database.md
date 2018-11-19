@@ -1,12 +1,13 @@
 # Database
 
 The database is called "test.db" and will be found in the working directory (Not bin). 
+You don't create the object!
 
-When creating the object you pass either True or False. True will ensure the tables are up to date in the local database. If they're not the same version it will destroy the database.
+To check for the latest database or create the database if you don't have it either call force update or DBHelper.tableCheck();
 
 ## Force update
 
-Remove the database file. Re-run the DBHelper
+DBHelper.forceUpdate();
 
 ## Getting the connection
 
