@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import javafx.scene.image.Image;
 
 /**This class represents a user of the library, allowing them to borrow copies
@@ -13,7 +14,11 @@ public class User extends Person {
 	private float accountBalance;
 	
 	/**All of the copies the user has taken out.*/
+	private ArrayList copiesList = new ArrayList();
 	
+
+	/**The user ID of the user.*/
+	private int userID;
 
 	/**
 	 * Creates a new User object from the given arguments.
@@ -26,17 +31,51 @@ public class User extends Person {
 	 * @param avatar
 	 * @param accountBalance
 	 */
-	public User(String userName, String firstName, String lastName, String phoneNumber, String address, String postcode, Image avatar, float accountBalance) {
+	public User(String userName, String firstName, String lastName, String phoneNumber, String address, String postcode, Image avatar, float accountBalance, int userID) {
 		super(userName, firstName, lastName, phoneNumber, address, postcode, avatar);
 		this.accountBalance = accountBalance;
+		this.userID = userID;
+	}
+	
+	
+	/**
+	 * Returns the user ID of the user.
+	 * @return userID int
+	 */
+	public int getUserID() {
+		return userID;
 	}
 
 	/**
-	 * Needs clarification.
-	 * @param copy The copy that the user has borrowed.
+	 * Sets the user ID of the user.
+	 * @param userID int
+	 */
+	public void setUserID(int userID) {
+		this.userID = userID;
+	}
+
+	/**
+	 * Adds a copy of a resource that the user has withdrawn.
+	 * @param copy Copy
 	 */
 	public void addBorrowedCopy(Copy copy) {
-		
+		this.copiesList.add(copy);
+	}
+	
+	/**
+	 * Returns all copies that the user has currently withdrawn.
+	 * @return copiesList ArrayList
+	 */
+	public ArrayList getAllCopies () {
+		return this.copiesList;
+	}
+	
+	/**
+	 * Removes a copy from the list of copies withdrawn.
+	 * @param copy Copy
+	 */
+	public void removeBorrowedCopy(Copy copy) {
+		this.copiesList.remove(copy);
 	}
 	
 	/**

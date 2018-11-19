@@ -40,7 +40,6 @@ public class Person {
 	 * @param avatar
 	 */
 	public Person(String userName, String firstName, String lastName, String phoneNumber, String address, String postcode, Image avatar) {
-		super();
 		this.userName = userName;
 		this.firstName = firstName;
 		this.lastName = lastName;
@@ -49,6 +48,7 @@ public class Person {
 		this.postcode = postcode;
 		this.avatar = avatar;
 	}
+	
 
 	/**
 	 * Returns the user name of the person.
