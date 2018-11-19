@@ -19,7 +19,7 @@ import java.io.InputStream;
 */
 public class DBHelper {
 
-	private static int VERSION = 1; // Version number for database
+	private static int VERSION = 2; // Version number for database
 	private static String LINK = "jdbc:sqlite:test.db"; // database connection string
 	private static String SQL = "src/tables.sql"; // database connection string
 
@@ -30,7 +30,7 @@ public class DBHelper {
 	private static ResultSet selectKnown(String sql) throws SQLException{
 	
 			
-			Connection conn = connect();
+			Connection conn = getConnection();
 			Statement stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery(sql);
 		
@@ -39,19 +39,18 @@ public class DBHelper {
 		
 	}
 	
+	
 	/**
 	 * Create a connection to the database
 	 * If the database doesn't exist, Create it.
 	 *
 	 */
-	private static Connection connect() {
+	public static Connection getConnection() throws SQLException{
         // SQLite connection string
         Connection conn = null;
-        try {
-            conn = DriverManager.getConnection(LINK);
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
+       
+        conn = DriverManager.getConnection(LINK);
+       
         return conn;
     }
 
@@ -68,7 +67,7 @@ public class DBHelper {
 			s.useDelimiter(";");// Each statement is split with ";"
 			Statement st = null;
 
-			Connection conn = connect(); // Opens the database
+			Connection conn = getConnection(); // Opens the database
 			st = conn.createStatement();
 			while (s.hasNext()) {
 				String line = s.next();
@@ -117,10 +116,5 @@ public class DBHelper {
 		}
 	}
 
-	/**
-	 * tester
-	 */
-	public static void main(String[] args) {
-		tableCheck();
-	}
+
 }
