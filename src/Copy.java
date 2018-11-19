@@ -3,6 +3,8 @@ public class Copy {
 	
 	private Resource resource;
 	private User borrower;
+	private int copyID;
+	
 	
 	public Copy(Resource resource) {
 		this.resource = resource;
