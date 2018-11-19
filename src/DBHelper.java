@@ -13,7 +13,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 /**
-*
+* 
 * @author Oliver Harris
 *
 */
@@ -23,9 +23,11 @@ public class DBHelper {
 	private static String LINK = "jdbc:sqlite:test.db"; // database connection string
 	private static String SQL = "src/tables.sql"; // database connection string
 
-	/**
-	 * Run an sql command and return a resultset
-	 *
+	
+	/** Execute a simple SQL command
+	 * @param sql to execute
+	 * @return ResultSet from the database table
+	 * @throws SQLException
 	 */
 	private static ResultSet selectKnown(String sql) throws SQLException{
 	
@@ -40,10 +42,10 @@ public class DBHelper {
 	}
 	
 	
-	/**
-	 * Create a connection to the database
-	 * If the database doesn't exist, Create it.
-	 *
+
+	/** Get the database connection
+	 * @return Connection to database
+	 * @throws SQLException
 	 */
 	public static Connection getConnection() throws SQLException{
         // SQLite connection string
@@ -54,9 +56,9 @@ public class DBHelper {
         return conn;
     }
 
+
 	/**
-	 * Create the tables in the database
-	 *
+	 * Create the tables in the database using the SQL file
 	 */
 	private static void createTables() {
 
@@ -89,10 +91,9 @@ public class DBHelper {
 
 	}
 	
+
 	/**
-	 * Check to see if the database has tables
-	 * Or what version it is
-	 *
+	 * Checks the table to see if it is an older version. If it is it will recreate the database using createTables()
 	 */
 	public static void tableCheck() {
 		try {
@@ -116,6 +117,9 @@ public class DBHelper {
 		}
 	}
 	
+	/**
+	 * Public method for createTables() 
+	 */
 	public static void forceUpdate() {
 		
 		createTables();
