@@ -1,8 +1,8 @@
 
 public class Copy {
 	
-	Resource resource;
-	User borrower;
+	private Resource resource;
+	private User borrower;
 	
 	public Copy(Resource resource) {
 		this.resource = resource;
