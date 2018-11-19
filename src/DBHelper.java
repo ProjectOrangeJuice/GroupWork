@@ -115,6 +115,14 @@ public class DBHelper {
 			System.out.println("Creating database");
 		}
 	}
-
+	
+	public static void forceUpdate() {
+		
+		createTables();
+		
+	}
+	
+	
+	
 
 }
