@@ -11,6 +11,9 @@ public class User extends Person {
 	
 	/**The current account balance for this User.*/
 	private float accountBalance;
+	
+	/**All of the copies the user has taken out.*/
+	
 
 	/**
 	 * Creates a new User object from the given arguments.

@@ -51,98 +51,112 @@ public class Person {
 	}
 
 	/**
-	 * @return
+	 * Returns the user name of the person.
+	 * @return userName String
 	 */
 	public String getUserName() {
 		return userName;
 	}
 
 	/**
-	 * @param userName
+	 * Sets the user name of the person.
+	 * @param userName String
 	 */
 	public void setUserName(String userName) {
 		this.userName = userName;
 	}
 
 	/**
-	 * @return
+	 * Returns the first name of the person.
+	 * @return firstName String
 	 */
 	public String getFirstName() {
 		return firstName;
 	}
 
-	/**
-	 * @param firstName
+	/** 
+	 * Sets the first name of the person.
+	 * @param firstName String
 	 */
 	public void setFirstName(String firstName) {
 		this.firstName = firstName;
 	}
 
 	/**
-	 * @return
+	 * Returns the last name of the person.
+	 * @return lastName String
 	 */
 	public String getLastName() {
 		return lastName;
 	}
 
 	/**
-	 * @param lastName
+	 * Sets the last name of the person.
+	 * @param lastName String
 	 */
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
 
 	/**
-	 * @return
+	 * Returns the phone number of the person.
+	 * @return phoneNumber String
 	 */
 	public String getPhoneNumber() {
 		return phoneNumber;
 	}
 
 	/**
-	 * @param phoneNumber
+	 * Sets the phone number of the person.
+	 * @param phoneNumber String
 	 */
 	public void setPhoneNumber(String phoneNumber) {
 		this.phoneNumber = phoneNumber;
 	}
 
 	/**
-	 * @return
+	 * Returns the address of the person.
+	 * @return address String
 	 */
 	public String getAddress() {
 		return address;
 	}
 
 	/**
-	 * @param address
+	 * Sets the address of the person.
+	 * @param address String
 	 */
 	public void setAddress(String address) {
 		this.address = address;
 	}
 
 	/**
-	 * @return
+	 * Returns the post code of the person.
+	 * @return postcode String
 	 */
 	public String getPostcode() {
 		return postcode;
 	}
 
 	/**
-	 * @param postcode
+	 * Sets the post code of the person
+	 * @param postcode String
 	 */
 	public void setPostcode(String postcode) {
 		this.postcode = postcode;
 	}
 
 	/**
-	 * @return
+	 * Returns the avatar the person has chosen.
+	 * @return avatar Image
 	 */
 	public Image getAvatar() {
 		return avatar;
 	}
 
 	/**
-	 * @param avatar
+	 * Sets the avatar the person has chosen.
+	 * @param avatar Image
 	 */
 	public void setAvatar(Image avatar) {
 		this.avatar = avatar;
