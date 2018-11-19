@@ -1,6 +1,7 @@
 /* for future implementation */
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import javafx.scene.image.Image;
 
 /**This class represents a librarian of the library. A librarian is allowed to create and edit a new resource,
  * loan copy to a user, process any return copies, and authorize a fine payment to a user.
