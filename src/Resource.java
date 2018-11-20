@@ -59,7 +59,7 @@ public abstract class Resource {
 		noDueDateCopies = new PriorityQueue<Copy>();
 		userRequest = new Queue<User>();
 		
-	}
+	} 
 	
 	public void addCopy(Copy copy) {
 		copyList.add(copy);
