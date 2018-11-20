@@ -1,3 +1,4 @@
+import java.util.NoSuchElementException;
 
 /**
  * 
@@ -7,9 +8,6 @@
  * @author you
  *
  */
-
-
-import java.util.NoSuchElementException;
 
 public class Queue<E> {
 
@@ -26,7 +24,7 @@ public class Queue<E> {
 	/**
 	 * Constructs an empty Queue.
 	 */
-	public Queue () {
+	public Queue() {
 	    //queue is empty so it has no head and no tail
 		head=null;
 		tail=null;
@@ -35,13 +33,10 @@ public class Queue<E> {
 	/**
 	 * Returns true if the queue is empty
 	 */
-	public boolean isEmpty () {
-		if(head==null && tail==null)
-		{
+	public boolean isEmpty() {
+		if(head==null && tail==null){
 			return true;
-		}
-		else
-		{
+		} else {
 			return false;
 		}
 	}
@@ -51,14 +46,12 @@ public class Queue<E> {
 	 * Returns the element at the head of the queue
 	 * @throws NoSuchElementException
 	 */
-	public E peek () throws NoSuchElementException {
-		if(!isEmpty())
-		{
+	public E peek() throws NoSuchElementException {
+		if(!isEmpty()){
 			return head.getElement();
 		}
 		//throw exception if the queue is empty
-		else
-		{
+		else {
 			throw new NoSuchElementException();
 		}
 	}
@@ -67,25 +60,21 @@ public class Queue<E> {
 	 * Removes the front element of the queue.
 	 * @throws NoSuchElementException
 	 */
-	public void dequeue () throws NoSuchElementException 
+	public void dequeue() throws NoSuchElementException 
 	{
-		if(!isEmpty())
-		{
-			if(head!=tail)
-			{
+		if(!isEmpty()){
+			if(head!=tail){
 				head=head.getNext();
 			}
 			//make sure to set both tail and head to null if we dequeue a queue
 			//with one element
-			else
-			{
+			else {
 				head=head.getNext();
 				tail=null;
 			}
 		}
 		//throw exception if the queue is empty
-		else
-		{
+		else {
 			throw new NoSuchElementException();
 		}
 	}
@@ -93,16 +82,14 @@ public class Queue<E> {
 	/**
 	 * Puts an element on the back of the queue.
 	 */
-	public void enqueue (E element) {
+	public void enqueue(E element) {
 		QueueElement<E> newTail=new QueueElement<>(element, null);
-		if(!isEmpty())
-		{
+		if(!isEmpty()) {
 			tail.setNext(newTail);
 			tail=newTail;
 		}
 		// a queue of one element has its head and tail as that element
-		else
-		{
+		else {
 			tail=newTail;
 			head=newTail;
 		}
@@ -112,9 +99,8 @@ public class Queue<E> {
 	/**
 	 * Method to print the full contents of the queue in order from head to tail.
 	 */
-	public void print () {
-		if(!isEmpty()) 
-		{
+	public void print() {
+		if(!isEmpty()) {
 			QueueElement<E> nextElement=head;
 			while(nextElement!=null)
 			{
@@ -122,9 +108,7 @@ public class Queue<E> {
 				nextElement=nextElement.getNext();
 			}
 			System.out.print("\n");
-		}
-		else
-		{
+		} else {
 			System.out.println("The queue is empty.");
 		}
 	}

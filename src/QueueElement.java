@@ -9,7 +9,7 @@ public class QueueElement <E> {
 	private E element; //the element contained in this linked list
 	private QueueElement <E> next; //the next element of the linked list
 	
-	public QueueElement (E e, QueueElement<E> n) {
+	public QueueElement(E e, QueueElement<E> n) {
 		this.element = e;
 		this.next = n;
 	}
@@ -17,28 +17,28 @@ public class QueueElement <E> {
 	/**
 	 * Method to set the element
 	 */
-	public void setElement (E element) {
+	public void setElement(E element) {
 		this.element = element;
 	}
 	
 	/**
 	 * Method to set the next linked list element
 	 */
-	public void setNext (QueueElement<E> e) {
+	public void setNext(QueueElement<E> e) {
 		this.next = e;
 	}
 	
 	/**
 	 * Method to get the element.
 	 */
-	public E getElement () {
+	public E getElement() {
 		return element;
 	}
 	
 	/**
 	 * Method to get the next linked list element
 	 */
-	public QueueElement<E> getNext () {
+	public QueueElement<E> getNext() {
 		return next;
 	}
 	
