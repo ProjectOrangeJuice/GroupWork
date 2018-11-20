@@ -79,6 +79,10 @@ public abstract class Resource {
 		 * copies and mark it as free.*/
 		if(userRequest.isEmpty()) {
 			freeCopies.add(returnedCopy);
+			
+			//Gets the user that returned the copy and removes it from
+			//there withdrawn copies.
+			returnedCopy.getBorrower().removeBorrowedCopy(returnedCopy);
 			returnedCopy.setBorrower(null);
 		} 
 		/*If the are user in the queue, reserve this copy for the first user 

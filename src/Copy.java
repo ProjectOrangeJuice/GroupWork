@@ -1,10 +1,9 @@
 
 public class Copy {
 	
-	private Resource resource;
+	private final Resource resource;
 	private User borrower;
 	private final int COPY_ID;
-	
 	
 	public Copy(Resource resource, int copyID, User borrower) {
 		this.resource = resource;
@@ -14,6 +13,14 @@ public class Copy {
 
 	public void setBorrower(User borrower) {
 		this.borrower = borrower;
+	}
+	
+	public User getBorrower() {
+		return this.borrower;
+	}
+	
+	public Resource getResource() {
+		return this.resource;
 	}
 	
 	public void setDueDate() {

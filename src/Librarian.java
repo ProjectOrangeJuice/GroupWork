@@ -40,7 +40,7 @@ public class Librarian extends Person{
 	 * @param resource Details of the resources
 	 */
 	public void createNewResources (Resource resource) {
-		
+		//Needs Clarification
 	}
 	
 	/**
@@ -48,15 +48,15 @@ public class Librarian extends Person{
 	 * @param resource Things that needs to be change on the resource
 	 */
 	public void editResources (Resource resource) {
-		
+		//Needs Clarification
 	}
 	
 	/**
 	 * Loans a copy to the user
 	 * @param copy Copy that a user has loaned
 	 */
-	public void loanCopy (Copy copy) {
-		
+	public void loanCopy (Copy copy, User user) {
+		copy.getResource().loanToUser(user);
 	}
 	
 	/**
@@ -65,7 +65,7 @@ public class Librarian extends Person{
 	 * @param copy The copy that has been borrowed by the user
 	 */
 	public void processReturn (User user, Copy copy) {
-		
+		copy.getResource().processReturn(copy);
 	}
 	
 	/**
