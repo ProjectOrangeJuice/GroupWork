@@ -19,6 +19,8 @@ public class Main {
 		System.out.println(Sapiens.getUniqueID());
 		System.out.println(TheMartian.getUniqueID());
 		System.out.println(Interstellar.getUniqueID());
+		
+		DBHelper.forceUpdate();
 
 	}
 }

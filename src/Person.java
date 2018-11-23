@@ -9,7 +9,7 @@ import javafx.scene.image.Image;
 public class Person {
 	
 	/**The persons user name.*/
-	private String userName; 
+	private final String userName; 
 	
 	/**The persons first name.*/
 	private String firstName; 
@@ -23,7 +23,7 @@ public class Person {
 	/**The persons street address.*/
 	private String address; 
 	
-	/**The persons postcode.*/
+	/**The persons post code.*/
 	private String postcode; 
 	
 	/**The persons chosen avatar image.*/
@@ -56,14 +56,6 @@ public class Person {
 	 */
 	public String getUserName() {
 		return userName;
-	}
-
-	/**
-	 * Sets the user name of the person.
-	 * @param userName String
-	 */
-	public void setUserName(String userName) {
-		this.userName = userName;
 	}
 
 	/**
@@ -161,5 +153,17 @@ public class Person {
 	public void setAvatar(Image avatar) {
 		this.avatar = avatar;
 	}
+	
+	//
+	//-------------------------------------------------------------------------
+	//
+	
+	static public Person loadPerson (String userName) {
+		
+		return null;
+	}
+	
+	//Remove Person
+	//onUpdate(preparedStatement)
 
 }

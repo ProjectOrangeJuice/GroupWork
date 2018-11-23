@@ -39,8 +39,6 @@ public class DBExample {
 	            pstmt.setString(2, "Oliver Twist");
 	            pstmt.executeUpdate();//This can return a value to tell you if it was successful.
 
-			
-			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -65,9 +63,7 @@ public class DBExample {
 	}
 	
 	
-	
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 		DBHelper.forceUpdate();
 		displayResourceTable();
 		insertIntoResource();

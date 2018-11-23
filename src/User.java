@@ -16,10 +16,6 @@ public class User extends Person {
 	/**All of the copies the user has taken out.*/
 	private ArrayList copiesList = new ArrayList();
 	
-
-	/**The user ID of the user.*/
-	private int userID;
-
 	/**
 	 * Creates a new User object from the given arguments.
 	 * @param userName
@@ -31,28 +27,11 @@ public class User extends Person {
 	 * @param avatar
 	 * @param accountBalance
 	 */
-	public User(String userName, String firstName, String lastName, String phoneNumber, String address, String postcode, Image avatar, float accountBalance, int userID) {
+	public User(String userName, String firstName, String lastName, String phoneNumber, String address, String postcode, Image avatar, float accountBalance) {
 		super(userName, firstName, lastName, phoneNumber, address, postcode, avatar);
 		this.accountBalance = accountBalance;
-		this.userID = userID;
 	}
 	
-	
-	/**
-	 * Returns the user ID of the user.
-	 * @return userID int
-	 */
-	public int getUserID() {
-		return userID;
-	}
-
-	/**
-	 * Sets the user ID of the user.
-	 * @param userID int
-	 */
-	public void setUserID(int userID) {
-		this.userID = userID;
-	}
 
 	/**
 	 * Adds a copy of a resource that the user has withdrawn.
