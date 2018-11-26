@@ -1,3 +1,7 @@
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
@@ -12,10 +16,10 @@ import javafx.scene.image.Image;
  * @author Alexandru Dascalu
  * @version 1.0
  * */
-public abstract class Resource {	
+public abstract class Resource {
 	
 	/**A unique number that identifies this resource.*/
-	protected int uniqueID;
+	protected final int uniqueID;
 	
 	/**The title of this resource.*/
 	protected String title;
@@ -38,6 +42,29 @@ public abstract class Resource {
 	/**A queue of user who have requested a copy of this resource but have not 
 	 * gotten one because there is no free copy.*/
 	private Queue<User> userRequest;
+	
+	private static ArrayList<Resource> resources = new ArrayList<>();
+	
+	public static void loadDatabaseResources() {
+			
+		Book.loadDatabaseBooks(resources);
+			
+		Laptop.loadDatabaseLaptops(resources);
+			
+		DVD.loadDatabaseDVDs(resources);
+	}
+	
+	protected static void updateDbValue(String tableName, int resourceId, String field, String data) {
+	
+		try {
+			Connection conn = DBHelper.getConnection(); //get the connection
+			Statement stmt = conn.createStatement(); //prep a statement
+			stmt.executeQuery("update " + tableName + " set " + field + " = " + data + " where rID = " + resourceId); //Your sql goes here
+		} catch (SQLException e) { 
+			e.printStackTrace();
+		}
+		
+	}
 	
 	/**
 	 * Makes a new resource whose details are the given arguments.
@@ -127,10 +154,6 @@ public abstract class Resource {
 
 	public void setThumbnail(Image thumbnail) {
 		this.thumbnail = thumbnail;
-	}
-
-	public void setUniqueID(int uniqueID) {
-		this.uniqueID = uniqueID;
 	}
 
 	public String getTitle() {
