@@ -1,4 +1,8 @@
 import java.sql.Date;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
+import com.sun.corba.se.pept.transport.Connection;
 
 public class Copy {
 	
@@ -22,8 +26,22 @@ public class Copy {
 	 * 
 	 * @param borrower
 	 */
-	public void setBorrower(int borrower) {
-		this.borrower = borrower;
+	private static void setBorrower() { //This is a prepared statement. Much safer than creating the SQL string yourself
+
+		try {
+			Connection conn = DBHelper.getConnection();
+			PreparedStatement pstmt = conn.prepareStatement("UPDATE borrowRecords SET borrowId = ?, copyId = ?, userId = ?, description = ?"); // "?" is a placeholder
+	            pstmt.setInt(1, 1);//Make sure you get the types correct (String, int..)
+	            pstmt.setInt(2, 1);
+	            pstmt.setInt(3, 1);
+	            pstmt.setString(4, "Brown hair, smells good");
+	            pstmt.executeUpdate();//This can return a value to tell you if it was successful.
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 	
 	/**
@@ -65,7 +83,23 @@ public class Copy {
 		return COPY_ID;
 	}
 	
-	
+	private static void setResource() { //This is a prepared statement. Much safer than creating the SQL string yourself
+
+		try {
+			Connection conn = DBHelper.getConnection();
+			PreparedStatement pstmt = conn.prepareStatement("UPDATE resource SET RId = ?,type = ?, title =?, description= ?  "); // "?" is a placeholder
+			    pstmt.setInt(1, 1);
+	            pstmt.setString(2, "Book");//Make sure you get the types correct (String, int..)
+	            pstmt.setString(3, "Oliver Twist");
+	            pstmt.setString(4, "Book about some poor boy")
+	            pstmt.executeUpdate();//This can return a value to tell you if it was successful.
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
 	
 	
 
