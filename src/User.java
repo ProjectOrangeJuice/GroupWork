@@ -38,7 +38,7 @@ public class User extends Person {
 	 * @param copy Copy
 	 */
 	public void addBorrowedCopy(Copy copy) {
-		this.copiesList.add(copy);
+		this.copiesList.add(copy);//TODO: Updater required
 	}
 	
 	/**
@@ -54,7 +54,7 @@ public class User extends Person {
 	 * @param copy Copy
 	 */
 	public void removeBorrowedCopy(Copy copy) {
-		this.copiesList.remove(copy);
+		this.copiesList.remove(copy);//TODO: Updater required
 	}
 	
 	/**
@@ -62,7 +62,7 @@ public class User extends Person {
 	 * @param amount The amount the User has payed in pounds.
 	 */
 	public void makePayment (float amount) {
-		this.accountBalance += amount;
+		this.accountBalance += amount;//TODO: Updater required
 	}
 
 	/**

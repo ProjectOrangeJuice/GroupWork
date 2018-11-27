@@ -76,7 +76,7 @@ public class Person {
 	 * @param firstName String
 	 */
 	public void setFirstName(String firstName) {
-		this.firstName = firstName;
+		this.firstName = firstName;//TODO: Updater required
 	}
 
 	/**
@@ -92,7 +92,7 @@ public class Person {
 	 * @param lastName String
 	 */
 	public void setLastName(String lastName) {
-		this.lastName = lastName;
+		this.lastName = lastName;//TODO: Updater required
 	}
 
 	/**
@@ -108,7 +108,7 @@ public class Person {
 	 * @param phoneNumber String
 	 */
 	public void setPhoneNumber(String phoneNumber) {
-		this.phoneNumber = phoneNumber;
+		this.phoneNumber = phoneNumber;//TODO: Updater required
 	}
 
 	/**
@@ -124,7 +124,7 @@ public class Person {
 	 * @param address String
 	 */
 	public void setAddress(String address) {
-		this.address = address;
+		this.address = address;//TODO: Updater required
 	}
 
 	/**
@@ -140,7 +140,7 @@ public class Person {
 	 * @param postcode String
 	 */
 	public void setPostcode(String postcode) {
-		this.postcode = postcode;
+		this.postcode = postcode;//TODO: Updater required
 	}
 
 	/**
@@ -156,7 +156,7 @@ public class Person {
 	 * @param avatar Image
 	 */
 	public void setAvatar(Image avatar) {
-		this.avatar = avatar;
+		this.avatar = avatar; //TODO: Updater required
 	}
 	
 	//
@@ -190,14 +190,20 @@ public class Person {
 				}
 				//Splits the CSV string into a string array
 				String[] parts = result.split(",");
+				
 				//Checks whether to make a Librarian or User
-				if (parts[9].equals("staff")) {
-					//Returns a new Librarian
+				switch (parts[9]) {
+				case "staff":
 					return new Librarian(parts[0], parts[1], parts[2], parts[3], parts[4], parts[5], getAvatar(parts[6]), parts[8]);
-				} else {
-					//Returns a new Librarian
+				case "user":
 					return new User(parts[0], parts[1], parts[2], parts[3], parts[4], parts[5], getAvatar(parts[6]), Float.parseFloat(parts[7]));
+				default:
+					System.out.println("Error: Incorrect user type loaded."); //Raise error
+					return null;
 				}
+			} else {
+				System.out.println("Error: Either too many or not enough rows returned."); //Raise error
+				return null;
 			}
 			
 		//Catch most other errors!
