@@ -1,4 +1,8 @@
 package model;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
@@ -152,6 +156,23 @@ public abstract class Resource {
 	
 	public String toString() {
 		return "Title: "+title + "\nID: " + uniqueID + "\nYear: " + year;
+	}
+	
+	public static void loadAll() {
+		try {
+			Connection conn = DBHelper.getConnection(); //get the connection
+			Statement stmt = conn.createStatement(); //prep a statement
+			ResultSet rs = stmt.executeQuery("SELECT * FROM resource"); //Your sql goes here
+			while(rs.next()) {
+				System.out.println("RID: "+rs.getInt("rId")+" Type:" +rs.getString("type") //The index is either a number of the name
+				+ " Title: "+rs.getString("title"));
+			} //Think of this a bit like the file reader for the games project
+				
+			
+		} catch (SQLException e) { //if your SQL is incorrect this will display it
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 }

@@ -1,13 +1,11 @@
 package application;
 
-import java.io.IOException;
 import javafx.application.Application;
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
+import model.Resource;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-
 /**
  * 
  * @author Kane Miles
@@ -38,6 +36,7 @@ public class Main extends Application {
 			primaryStage.setMinHeight(MIN_HEIGHT); //set minimum height of stage
 			primaryStage.setMaximized(true); //make stage full screen
 			primaryStage.show(); //show stage to user
+			Resource.loadAll();
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
@@ -46,7 +45,7 @@ public class Main extends Application {
 	/**
 	 * Sets new scene on stage within program using fxml file provided.
 	 * @param sceneFXML 
-	 */
+	 *//*
 	@FXML
 	public void changeScene(String sceneFXML) {
 		try {
@@ -59,21 +58,21 @@ public class Main extends Application {
 
 	}
 	
-	/**
+	*//**
 	 * Called when login button is clicked.
-	 */
+	 *//*
 	@FXML
 	public void loginAction() {
 		changeScene("/fxml/profileScene.fxml");
 	}
 	
-	/**
+	*//**
 	 * Called when log out link is clicked.
-	 */
+	 *//*
 	@FXML
 	public void logoutAction() {
 		changeScene("/fxml/loginScene.fxml");
-	}
+	}*/
 	
 	public static void main(String[] args) {
 		launch(args);
