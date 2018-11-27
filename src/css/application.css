@@ -19,3 +19,6 @@
 #searchButton {
     -fx-background-radius: 0 5 5 0 ;
 }
+
+.scroll-bar { -fx-font-size: 15; }
+

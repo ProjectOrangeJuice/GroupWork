@@ -42,38 +42,6 @@ public class Main extends Application {
 		}
 	}
 	
-	/**
-	 * Sets new scene on stage within program using fxml file provided.
-	 * @param sceneFXML 
-	 *//*
-	@FXML
-	public void changeScene(String sceneFXML) {
-		try {
-			//create new scene object
-			Parent root = FXMLLoader.load(getClass().getResource(sceneFXML));
-			currentScene.setRoot(root);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-	}
-	
-	*//**
-	 * Called when login button is clicked.
-	 *//*
-	@FXML
-	public void loginAction() {
-		changeScene("/fxml/profileScene.fxml");
-	}
-	
-	*//**
-	 * Called when log out link is clicked.
-	 *//*
-	@FXML
-	public void logoutAction() {
-		changeScene("/fxml/loginScene.fxml");
-	}*/
-	
 	public static void main(String[] args) {
 		launch(args);
 	}

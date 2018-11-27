@@ -10,13 +10,17 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class ProfileController {
 	
 	@FXML
-	private VBox resourcesVbox;
+	private HBox resourceImages;
+	
+	@FXML
+	private ScrollPane scrollPane;
 	
 	/**
 	 * Sets new scene on stage within program using fxml file provided.
@@ -50,14 +54,18 @@ public class ProfileController {
 		changeScene(event, "/fxml/loginScene.fxml");
 	}
 	
+	//@FXML
+	//public void scrollLeft()
+	
 	@FXML
 	 public void initialize() {
 		
-		for(Node resource : resourcesVbox.getChildren()) {
+		scrollPane.setHvalue(0.5);
+		
+		for(Node resource : resourceImages.getChildren()) {
 			((ImageView) resource).setFitWidth(300);
 			((ImageView) resource).setFitHeight(500);
 		}
-		
 		
 		
 	 }    
