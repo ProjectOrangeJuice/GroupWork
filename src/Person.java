@@ -1,3 +1,8 @@
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
 import javafx.scene.image.Image;
 
 /**This class represents a person from which both the user and librarian
@@ -9,7 +14,7 @@ import javafx.scene.image.Image;
 public class Person {
 	
 	/**The persons user name.*/
-	private final String userName; 
+	private final String username; 
 	
 	/**The persons first name.*/
 	private String firstName; 
@@ -39,8 +44,8 @@ public class Person {
 	 * @param postcode
 	 * @param avatar
 	 */
-	public Person(String userName, String firstName, String lastName, String phoneNumber, String address, String postcode, Image avatar) {
-		this.userName = userName;
+	public Person(String username, String firstName, String lastName, String phoneNumber, String address, String postcode, Image avatar) {
+		this.username = username;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.phoneNumber = phoneNumber;
@@ -54,8 +59,8 @@ public class Person {
 	 * Returns the user name of the person.
 	 * @return userName String
 	 */
-	public String getUserName() {
-		return userName;
+	public String getUsername() {
+		return username;
 	}
 
 	/**
@@ -158,8 +163,52 @@ public class Person {
 	//-------------------------------------------------------------------------
 	//
 	
-	static public Person loadPerson (String userName) {
-		
+	static public Person loadPerson (String username) {
+		try {
+			//Declaring necessary variables
+			Connection conn = DBHelper.getConnection();
+			Statement stmt = conn.createStatement();
+			String result = "";
+			String sql = "";
+			
+			//Checks whether the person exists in the Database
+			sql = "SELECT COUNT(*) FROM users WHERE `username` = '" + username + "';";
+			ResultSet rs = stmt.executeQuery(sql);
+			
+			if (rs.getInt(1) == 1) {
+			
+				sql = "SELECT * FROM users WHERE `username` = '" + username + "';";
+				rs = stmt.executeQuery(sql);
+				
+				//Iterates through every column in the result set
+				for (int i = 1; i <= rs.getMetaData().getColumnCount(); i++) {
+					if (i == rs.getMetaData().getColumnCount()) {
+						result += rs.getString(i);
+					} else {
+						result += rs.getString(i) + ",";
+					}
+				}
+				//Splits the CSV string into a string array
+				String[] parts = result.split(",");
+				//Checks whether to make a Librarian or User
+				if (parts[9].equals("staff")) {
+					//Returns a new Librarian
+					return new Librarian(parts[0], parts[1], parts[2], parts[3], parts[4], parts[5], getAvatar(parts[6]), parts[8]);
+				} else {
+					//Returns a new Librarian
+					return new User(parts[0], parts[1], parts[2], parts[3], parts[4], parts[5], getAvatar(parts[6]), Float.parseFloat(parts[7]));
+				}
+			}
+			
+		//Catch most other errors!
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		//By default return null.
+		return null;
+	}
+	
+	public static Image getAvatar(String path) {
 		return null;
 	}
 	

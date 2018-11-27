@@ -1,18 +1,22 @@
 BEGIN TRANSACTION;
 DROP TABLE IF EXISTS `users`;
 CREATE TABLE IF NOT EXISTS `users` (
-	`username`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
+	`username`	TEXT NOT NULL UNIQUE,
 	`firstName`	TEXT,
 	`lastName`	TEXT,
 	`telephone`	TEXT,
 	`address`	TEXT,
-	`profile`	TEXT,
-	`balance`	TEXT
+	`postcode`	TEXT,
+	`avatarPath`	TEXT,
+	`accountBalance`	TEXT,
+	`employmentDate`	TEXT,
+	`staffType`	TEXT NOT NULL,
+	PRIMARY KEY(`username`)
 );
-INSERT INTO `users` VALUES (1,'Bob','Bobby','01234567','Nowhere','','0');
-INSERT INTO `users` VALUES (2,'Tim','Timmy','223242','Elsewhere','','0');
-INSERT INTO `users` VALUES (3,'Staff','Staffy','253325','Here','','0');
-INSERT INTO `users` VALUES (4,'Staffy2','Staffy2y','575686','There','','0');
+INSERT INTO `users` VALUES ('Bobby','Bob','Harrison','01234567','Nowhere','XXX YYY','image1.png','0.70',NULL,'user');
+INSERT INTO `users` VALUES ('Timmy','Tim','Smith','223242','Elsewhere','XXX YYY','image2.png','5.20',NULL,'user');
+INSERT INTO `users` VALUES ('Staff1','Staff','Staffy','253325','Here','XXX YYY','image6.png','0','01/02/03','staff');
+INSERT INTO `users` VALUES ('Manager','Staffy2','Staffy2y','575686','There','XXX YYY','image8.png','0','03/02/01','staff');
 DROP TABLE IF EXISTS `transactions`;
 CREATE TABLE IF NOT EXISTS `transactions` (
 	`transactionId`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
@@ -27,14 +31,6 @@ CREATE TABLE IF NOT EXISTS `system` (
 	`ver`	INTEGER
 );
 INSERT INTO `system` VALUES (3);
-DROP TABLE IF EXISTS `staff`;
-CREATE TABLE IF NOT EXISTS `staff` (
-	`staffId`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
-	`userId`	INTEGER NOT NULL UNIQUE,
-	`date`	TEXT
-);
-INSERT INTO `staff` VALUES (1,3,'19/11/18');
-INSERT INTO `staff` VALUES (2,4,'1/1/73');
 DROP TABLE IF EXISTS `resource`;
 CREATE TABLE IF NOT EXISTS `resource` (
 	`rId`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,

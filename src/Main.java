@@ -21,6 +21,12 @@ public class Main {
 		System.out.println(Interstellar.getUniqueID());
 		
 		DBHelper.forceUpdate();
+		
+		Librarian testStaff = (Librarian)Librarian.loadPerson("Staff1");
+		System.out.println(testStaff.getUsername());
+		
+		User testUser = (User)User.loadPerson("Bobby");
+		System.out.println(testUser.getUsername());
 
 	}
 }

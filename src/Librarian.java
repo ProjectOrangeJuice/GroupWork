@@ -14,9 +14,6 @@ public class Librarian extends Person{
 	/** The employment date of the librarian.*/
 	private String employmentDate;
 	
-	/** The librarian's staff number.*/
-	private int staffNumber;
-	
 	/**
 	 * Create a new librarian user from the given arguments.
 	 * @param userName
@@ -29,10 +26,9 @@ public class Librarian extends Person{
 	 * @param employmentDate
 	 * @param staffNumber
 	 */
-	public Librarian (String userName, String firstName, String lastName, String phoneNumber, String address, String postcode, Image avatar, String employmentDate, int staffNumber) {
+	public Librarian (String userName, String firstName, String lastName, String phoneNumber, String address, String postcode, Image avatar, String employmentDate) {
 		super(userName, firstName, lastName, phoneNumber, address, postcode, avatar);
 		this.employmentDate = employmentDate;
-		this.staffNumber = staffNumber;
 	}
 	
 	/**
@@ -74,14 +70,6 @@ public class Librarian extends Person{
 	 */
 	public void authorizeFinePayment (User user) {
 		
-	}
-	
-	/**
-	 * Returns the unique staff number of the librarian
-	 * @return Staff number of the librarian
-	 */
-	public int getStaffNumber() {
-		return this.staffNumber;
 	}
 	
 	/**
