@@ -208,11 +208,24 @@ public class Person {
 		return null;
 	}
 	
+	//Temporary, to be replaced with image loader from James?
 	public static Image getAvatar(String path) {
 		return null;
 	}
 	
+	public static boolean updateDatabase(String SQL) {
+		try {
+			Connection conn = DBHelper.getConnection();
+			Statement stmt = conn.createStatement();
+			 if (stmt.executeUpdate(SQL) == 1) {
+				 return true;
+			 } 
+			
+		} catch (SQLException e) { 
+			e.printStackTrace();
+		}
+		return false;
+	}
+	
 	//Remove Person
-	//onUpdate(preparedStatement)
-
 }
