@@ -7,13 +7,16 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-public class Controller {
+public class ProfileController {
 	
 	@FXML
-	private TextField usernameTextBox;
+	private VBox resourcesVbox;
 	
 	/**
 	 * Sets new scene on stage within program using fxml file provided.
@@ -49,6 +52,14 @@ public class Controller {
 	
 	@FXML
 	 public void initialize() {
+		
+		for(Node resource : resourcesVbox.getChildren()) {
+			((ImageView) resource).setFitWidth(300);
+			((ImageView) resource).setFitHeight(500);
+		}
+		
+		
+		
 	 }    
 
 }

@@ -22,7 +22,7 @@
                         <Insets bottom="25.0" />
                      </VBox.margin>
                   </Label>
-                  <TextField promptText="username">
+                  <TextField fx:id="usernameTextBox" promptText="username">
                      <VBox.margin>
                         <Insets bottom="25.0" />
                      </VBox.margin>

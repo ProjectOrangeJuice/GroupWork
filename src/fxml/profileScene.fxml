@@ -5,7 +5,6 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.MenuButton?>
 <?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.Tab?>
@@ -19,7 +18,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane focusTraversable="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="400.0" minWidth="600.0" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.Controller">
+<BorderPane focusTraversable="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="400.0" minWidth="600.0" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.ProfileController">
    <center>
       <TabPane prefHeight="972.0" prefWidth="1920.0" BorderPane.alignment="CENTER">
         <tabs>
@@ -72,67 +71,8 @@
                         </VBox>
                      </left>
                      <center>
-                        <SplitPane dividerPositions="0.29300220210423294" prefHeight="160.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                        <SplitPane prefHeight="160.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                           <items>
-                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="974.0" prefWidth="392.0">
-                                 <children>
-                                    <ScrollPane fitToHeight="true" layoutX="154.0" layoutY="226.0" minViewportHeight="364.0" minViewportWidth="260.0" prefHeight="974.4" prefViewportHeight="364.0" prefViewportWidth="260.0" prefWidth="476.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                       <content>
-                                          <VBox alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="960.0" prefWidth="460.0" spacing="10.0">
-                                             <children>
-                                                <ImageView fitHeight="150.0" fitWidth="300.0" pickOnBounds="true" preserveRatio="true">
-                                                   <image>
-                                                      <Image url="@../graphics/ironMan.jpg" />
-                                                   </image>
-                                                </ImageView>
-                                                <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-                                                   <image>
-                                                      <Image url="@../graphics/winterSoldier.jpg" />
-                                                   </image>
-                                                </ImageView>
-                                                <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-                                                   <image>
-                                                      <Image url="@../graphics/ironMan3.jpg" />
-                                                   </image>
-                                                </ImageView>
-                                                <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="189.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true">
-                                                   <image>
-                                                      <Image url="@../graphics/ironMan.jpg" />
-                                                   </image>
-                                                </ImageView>
-                                                <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="188.0" layoutY="181.0" pickOnBounds="true" preserveRatio="true">
-                                                   <image>
-                                                      <Image url="@../graphics/winterSoldier.jpg" />
-                                                   </image>
-                                                </ImageView>
-                                                <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="188.0" layoutY="342.0" pickOnBounds="true" preserveRatio="true">
-                                                   <image>
-                                                      <Image url="@../graphics/ironMan3.jpg" />
-                                                   </image>
-                                                </ImageView>
-                                                <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="189.0" layoutY="503.0" pickOnBounds="true" preserveRatio="true">
-                                                   <image>
-                                                      <Image url="@../graphics/ironMan.jpg" />
-                                                   </image>
-                                                </ImageView>
-                                                <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="188.0" layoutY="664.0" pickOnBounds="true" preserveRatio="true">
-                                                   <image>
-                                                      <Image url="@../graphics/winterSoldier.jpg" />
-                                                   </image>
-                                                </ImageView>
-                                                <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="188.0" layoutY="824.0" pickOnBounds="true" preserveRatio="true">
-                                                   <image>
-                                                      <Image url="@../graphics/ironMan3.jpg" />
-                                                   </image>
-                                                </ImageView>
-                                             </children>
-                                             <padding>
-                                                <Insets bottom="10.0" top="10.0" />
-                                             </padding></VBox>
-                                       </content>
-                                    </ScrollPane>
-                                 </children>
-                              </AnchorPane>
                             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                                  <children>
                                     <SplitPane dividerPositions="0.5" layoutX="449.0" layoutY="202.0" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
@@ -168,7 +108,7 @@
                <children>
                   <HBox alignment="CENTER" layoutX="5.0" layoutY="5.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
                      <children>
-                        <TextField id="searchBar" focusTraversable="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="0.0" minWidth="0.0" prefHeight="46.0" prefWidth="738.0" promptText="find a resource..." />
+                        <TextField id="searchBar" fx:id="searchTextBox" focusTraversable="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="0.0" minWidth="0.0" prefHeight="46.0" prefWidth="738.0" promptText="find a resource..." />
                         <Button id="searchButton" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="45.0" prefWidth="55.0" style="-fx-background-color: #545454;" text="🔍" textFill="#2c2c2c">
                            <font>
                               <Font name="Lucida Bright Regular" size="20.0" />
