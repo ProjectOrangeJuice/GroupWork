@@ -164,8 +164,7 @@ public abstract class Resource {
 			Statement stmt = conn.createStatement(); //prep a statement
 			ResultSet rs = stmt.executeQuery("SELECT * FROM resource"); //Your sql goes here
 			while(rs.next()) {
-				System.out.println("RID: "+rs.getInt("rId")+" Type:" +rs.getString("type") //The index is either a number of the name
-				+ " Title: "+rs.getString("title"));
+				System.out.println("RID: "+rs.getInt("rId"));
 			} //Think of this a bit like the file reader for the games project
 				
 			

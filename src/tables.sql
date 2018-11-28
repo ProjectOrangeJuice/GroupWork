@@ -29,13 +29,38 @@ INSERT INTO `staff` VALUES (2,4,'1/1/73');
 DROP TABLE IF EXISTS `resource`;
 CREATE TABLE IF NOT EXISTS `resource` (
 	`rId`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
-	`type`	TEXT,
 	`title`	TEXT,
-	`description`	TEXT
+	`year`	INTEGER
 );
-INSERT INTO `resource` VALUES (1,'Book','Bookie',NULL);
-INSERT INTO `resource` VALUES (2,'Laptop','Laptop 1',NULL);
-INSERT INTO `resource` VALUES (3,'Book','Other book',NULL);
+DROP TABLE IF EXISTS `book`;
+CREATE TABLE IF NOT EXISTS `book` (
+	`author`	TEXT,
+	`publisher`	TEXT,
+	`genre`		TEXT,
+	`ISBN`		TEXT,
+	`language`	TEXT,
+	`rId`		INTEGER NOT NULL,
+	FOREIGN KEY (rId) REFERENCES `resource`(`rId`)
+);
+DROP TABLE IF EXISTS `dvd`;
+CREATE TABLE IF NOT EXISTS `dvd` (
+	`director`	TEXT,
+	`runtime`	INTEGER,
+	`language`	TEXT,
+	`languages`	TEXT,
+	`rId`		INTEGER NOT NULL,
+	FOREIGN KEY (rId) REFERENCES `resource`(`rId`)
+);
+DROP TABLE IF EXISTS `laptop`;
+CREATE TABLE IF NOT EXISTS `laptop` (
+	`manufacturer`	TEXT,
+	`model`			INTEGER,
+	`os`			TEXT,
+	`rId`			INTEGER NOT NULL,
+	FOREIGN KEY (rId) REFERENCES `resource`(`rId`)
+);
+INSERT INTO `resource` VALUES (0,'Sapiens', 2016);
+INSERT INTO `book` VALUES ('Noah', 'penguin books', 'non-fiction', '111222333', 'English', 0);
 DROP TABLE IF EXISTS `copies`;
 CREATE TABLE IF NOT EXISTS `copies` (
 	`CopyId`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
