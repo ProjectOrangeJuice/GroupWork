@@ -11,7 +11,7 @@ import javafx.scene.image.Image;
 public class User extends Person {
 	
 	/**The current account balance for this User.*/
-	private float accountBalance;
+	private double accountBalance;
 	
 	/**All of the copies the user has taken out.*/
 	private ArrayList copiesList = new ArrayList();
@@ -27,8 +27,8 @@ public class User extends Person {
 	 * @param avatar
 	 * @param accountBalance
 	 */
-	public User(String userName, String firstName, String lastName, String phoneNumber, String address, String postcode, Image avatar, float accountBalance) {
-		super(userName, firstName, lastName, phoneNumber, address, postcode, avatar);
+	public User(String username, String firstName, String lastName, String phoneNumber, String address, String postcode, Image avatar, double accountBalance) {
+		super(username, firstName, lastName, phoneNumber, address, postcode, avatar);
 		this.accountBalance = accountBalance;
 	}
 	
@@ -38,7 +38,7 @@ public class User extends Person {
 	 * @param copy Copy
 	 */
 	public void addBorrowedCopy(Copy copy) {
-		this.copiesList.add(copy);//TODO: Updater required
+		this.copiesList.add(copy);//TODO: Special updater required
 	}
 	
 	/**
@@ -54,22 +54,23 @@ public class User extends Person {
 	 * @param copy Copy
 	 */
 	public void removeBorrowedCopy(Copy copy) {
-		this.copiesList.remove(copy);//TODO: Updater required
+		this.copiesList.remove(copy);//TODO: Special updater required
 	}
 	
 	/**
 	 * Allows payments to be added to the account balance.
 	 * @param amount The amount the User has payed in pounds.
 	 */
-	public void makePayment (float amount) {
-		this.accountBalance += amount;//TODO: Updater required
+	public void makePayment (double amount) {
+		this.accountBalance += amount;
+		Person.updateDatabase(this.getUsername(), "accountBalance", Double.toString(this.accountBalance));
 	}
 
 	/**
 	 * Returns the current account balance.
 	 * @return accountBalance The current account balance in pounds.
 	 */
-	public float getAccountBalance() {
+	public double getAccountBalance() {
 		return accountBalance;
 	}
 	
