@@ -1,8 +1,9 @@
+import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-import com.sun.corba.se.pept.transport.Connection;
+
 
 public class Copy {
 	
@@ -23,18 +24,34 @@ public class Copy {
 	}
     
 	/**
-	 * 
-	 * @param borrower
+	 * Sets the borrow variable by inserting the values into the borrowrecords table, then updates the keeper column in the copies class
+	 * @param borrower 
+	 * @author Joe Wright
 	 */
-	private static void setBorrower() { //This is a prepared statement. Much safer than creating the SQL string yourself
+	private void setBorrower(int borrower) { //This is a prepared statement. Much safer than creating the SQL string yourself
 
+		
+		this.borrower = borrower;
+		
 		try {
 			Connection conn = DBHelper.getConnection();
-			PreparedStatement pstmt = conn.prepareStatement("UPDATE borrowRecords SET borrowId = ?, copyId = ?, userId = ?, description = ?"); // "?" is a placeholder
+			PreparedStatement pstmt = conn.prepareStatement("INSERT INTO borrowRecords (borrowId, copyId, userId, description)"
+					+ " VALUES ('?', '?', '?', '?')"); // "?" is a placeholder
 	            pstmt.setInt(1, 1);//Make sure you get the types correct (String, int..)
 	            pstmt.setInt(2, 1);
 	            pstmt.setInt(3, 1);
 	            pstmt.setString(4, "Brown hair, smells good");
+	            pstmt.executeUpdate();//This can return a value to tell you if it was successful.
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		try {
+			Connection conn = DBHelper.getConnection();
+			PreparedStatement pstmt = conn.prepareStatement("UPDATE copies SET keeper = ?"); // "?" is a placeholder
+	            pstmt.setInt(1, 1);//Make sure you get the types correct (String, int..)
 	            pstmt.executeUpdate();//This can return a value to tell you if it was successful.
 
 		} catch (SQLException e) {
@@ -54,6 +71,7 @@ public class Copy {
 	/**
 	 * Method that gets the duedate variable
 	 * @return duedate
+	 * @author Joe Wright
 	 */
 	public Date getDueDate(){
 		return duedate;
@@ -70,6 +88,7 @@ public class Copy {
 	/**
 	 * Method that gets the resource variable
 	 * @return resource
+	 * @author Joe Wright
 	 */
 	public Resource getResource(){
 		return resource;
@@ -78,30 +97,12 @@ public class Copy {
 	/**
 	 * Method that gets the COPY_ID final variable
 	 * @return COPY_ID
+	 * @author Joe Wright
 	 */
 	public int getCOPY_ID(){
 		return COPY_ID;
 	}
 	
-	private static void setResource() { //This is a prepared statement. Much safer than creating the SQL string yourself
-
-		try {
-			Connection conn = DBHelper.getConnection();
-			PreparedStatement pstmt = conn.prepareStatement("UPDATE resource SET RId = ?,type = ?, title =?, description= ?  "); // "?" is a placeholder
-			    pstmt.setInt(1, 1);
-	            pstmt.setString(2, "Book");//Make sure you get the types correct (String, int..)
-	            pstmt.setString(3, "Oliver Twist");
-	            pstmt.setString(4, "Book about some poor boy")
-	            pstmt.executeUpdate();//This can return a value to tell you if it was successful.
-
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-	}
 	
-	
-
 
 }
