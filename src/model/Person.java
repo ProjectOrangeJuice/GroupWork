@@ -1,4 +1,10 @@
 package model;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
 import javafx.scene.image.Image;
 
 /**This class represents a person from which both the user and librarian
@@ -10,7 +16,7 @@ import javafx.scene.image.Image;
 public class Person {
 	
 	/**The persons user name.*/
-	private final String userName; 
+	private final String username; 
 	
 	/**The persons first name.*/
 	private String firstName; 
@@ -40,8 +46,8 @@ public class Person {
 	 * @param postcode
 	 * @param avatar
 	 */
-	public Person(String userName, String firstName, String lastName, String phoneNumber, String address, String postcode, Image avatar) {
-		this.userName = userName;
+	public Person(String username, String firstName, String lastName, String phoneNumber, String address, String postcode, Image avatar) {
+		this.username = username;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.phoneNumber = phoneNumber;
@@ -55,8 +61,8 @@ public class Person {
 	 * Returns the user name of the person.
 	 * @return userName String
 	 */
-	public String getUserName() {
-		return userName;
+	public String getUsername() {
+		return username;
 	}
 
 	/**
@@ -73,6 +79,7 @@ public class Person {
 	 */
 	public void setFirstName(String firstName) {
 		this.firstName = firstName;
+		Person.updateDatabase(this.getUsername(), "firstName", firstName);
 	}
 
 	/**
@@ -89,6 +96,7 @@ public class Person {
 	 */
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
+		Person.updateDatabase(this.getUsername(), "lastName", lastName);
 	}
 
 	/**
@@ -105,6 +113,7 @@ public class Person {
 	 */
 	public void setPhoneNumber(String phoneNumber) {
 		this.phoneNumber = phoneNumber;
+		Person.updateDatabase(this.getUsername(), "telephone", phoneNumber);
 	}
 
 	/**
@@ -121,6 +130,7 @@ public class Person {
 	 */
 	public void setAddress(String address) {
 		this.address = address;
+		Person.updateDatabase(this.getUsername(), "address", address);
 	}
 
 	/**
@@ -137,6 +147,7 @@ public class Person {
 	 */
 	public void setPostcode(String postcode) {
 		this.postcode = postcode;
+		Person.updateDatabase(this.getUsername(), "postcode", postcode);
 	}
 
 	/**
@@ -151,20 +162,90 @@ public class Person {
 	 * Sets the avatar the person has chosen.
 	 * @param avatar Image
 	 */
-	public void setAvatar(Image avatar) {
-		this.avatar = avatar;
+	public void setAvatar(String avatarPath) {
+		this.avatar = loadAvatar(avatarPath);
+		Person.updateDatabase(this.getUsername(), "avatarPath", avatarPath);
+	}
+	
+	//TEMPORARY
+	public static Image loadAvatar(String avatarPath) {
+		return null; //TODO: Make actual image loader for avatars.
 	}
 	
 	//
 	//-------------------------------------------------------------------------
 	//
 	
-	static public Person loadPerson (String userName) {
-		
+	static public Person loadPerson(String username) {
+		try {
+			//Declaring necessary variables
+			Connection conn = DBHelper.getConnection();
+			Statement stmt = conn.createStatement();
+			String result = "";
+			String sql = "";
+			
+			//Checks whether the person exists in the Database
+			sql = "SELECT COUNT(*) FROM users WHERE `username` = '" + username + "';";
+			ResultSet rs = stmt.executeQuery(sql);
+			
+			if (rs.getInt(1) == 1) {
+			
+				sql = "SELECT * FROM users WHERE `username` = '" + username + "';";
+				rs = stmt.executeQuery(sql);
+				
+				//Iterates through every column in the result set
+				for (int i = 1; i <= rs.getMetaData().getColumnCount(); i++) {
+					if (i == rs.getMetaData().getColumnCount()) {
+						result += rs.getString(i);
+					} else {
+						result += rs.getString(i) + ",";
+					}
+				}
+				//Splits the CSV string into a string array
+				String[] parts = result.split(",");
+				
+				//Checks whether to make a Librarian or User
+				switch (parts[9]) {
+				case "staff":
+					conn.close();
+					return new Librarian(parts[0], parts[1], parts[2], parts[3], parts[4], parts[5], loadAvatar(parts[6]), parts[8]);
+				case "user":
+					conn.close();
+					return new User(parts[0], parts[1], parts[2], parts[3], parts[4], parts[5], loadAvatar(parts[6]), Double.parseDouble(parts[7]));
+				default:
+					System.out.println("Error: Could not load type: '" + parts[9] + "'"); //Raise error
+					conn.close();
+					return null;
+				}
+			} else {
+				System.out.println("Error: Either too many or not enough rows returned."); //Raise error
+				conn.close();
+			}
+			
+		//Catch most other errors!
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		//By default return null.
 		return null;
 	}
 	
+	protected static boolean updateDatabase(String username, String field, String data) {
+		try {
+			Connection conn = DBHelper.getConnection();
+			PreparedStatement pstmt = conn.prepareStatement("UPDATE users SET " + field +" = ? WHERE username = ?");
+            pstmt.setString(1, data);
+            pstmt.setString(2, username);
+            if (pstmt.executeUpdate() == 1) {
+            	conn.close();
+            	return true;
+            }
+            conn.close();
+		} catch (SQLException e) { 
+			e.printStackTrace();
+		}
+		return false;
+	}
+	
 	//Remove Person
-	//onUpdate(preparedStatement)
-
 }

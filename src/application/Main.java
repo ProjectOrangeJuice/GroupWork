@@ -36,7 +36,6 @@ public class Main extends Application {
 			primaryStage.setMinHeight(MIN_HEIGHT); //set minimum height of stage
 			primaryStage.setMaximized(true); //make stage full screen
 			primaryStage.show(); //show stage to user
-			Resource.loadAll();
 		} catch(Exception e) {
 			e.printStackTrace();
 		}

@@ -17,10 +17,10 @@ import javafx.scene.image.Image;
  * @author Alexandru Dascalu
  * @version 1.0
  * */
-public abstract class Resource {	
+public abstract class Resource {
 	
 	/**A unique number that identifies this resource.*/
-	protected int uniqueID;
+	protected final int uniqueID;
 	
 	/**The title of this resource.*/
 	protected String title;
@@ -43,6 +43,29 @@ public abstract class Resource {
 	/**A queue of user who have requested a copy of this resource but have not 
 	 * gotten one because there is no free copy.*/
 	private Queue<User> userRequest;
+	
+	private static ArrayList<Resource> resources = new ArrayList<>();
+	
+	public static void loadDatabaseResources() {
+			
+		Book.loadDatabaseBooks(resources);
+			
+		Laptop.loadDatabaseLaptops(resources);
+			
+		DVD.loadDatabaseDVDs(resources);
+	}
+	
+	protected static void updateDbValue(String tableName, int resourceId, String field, String data) {
+	
+		try {
+			Connection conn = DBHelper.getConnection(); //get the connection
+			Statement stmt = conn.createStatement(); //prep a statement
+			stmt.executeQuery("update " + tableName + " set " + field + " = " + data + " where rID = " + resourceId); //Your sql goes here
+		} catch (SQLException e) { 
+			e.printStackTrace();
+		}
+		
+	}
 	
 	/**
 	 * Makes a new resource whose details are the given arguments.
@@ -134,10 +157,6 @@ public abstract class Resource {
 		this.thumbnail = thumbnail;
 	}
 
-	public void setUniqueID(int uniqueID) {
-		this.uniqueID = uniqueID;
-	}
-
 	public String getTitle() {
 		return title;
 	}
@@ -156,22 +175,6 @@ public abstract class Resource {
 	
 	public String toString() {
 		return "Title: "+title + "\nID: " + uniqueID + "\nYear: " + year;
-	}
-	
-	public static void loadAll() {
-		try {
-			Connection conn = DBHelper.getConnection(); //get the connection
-			Statement stmt = conn.createStatement(); //prep a statement
-			ResultSet rs = stmt.executeQuery("SELECT * FROM resource"); //Your sql goes here
-			while(rs.next()) {
-				System.out.println("RID: "+rs.getInt("rId"));
-			} //Think of this a bit like the file reader for the games project
-				
-			
-		} catch (SQLException e) { //if your SQL is incorrect this will display it
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 	}
 	
 }

@@ -31,15 +31,12 @@ public class DBHelper {
 	 * @throws SQLException
 	 */
 	private static ResultSet selectKnown(String sql) throws SQLException{
-	
 			
-			Connection conn = getConnection();
-			Statement stmt = conn.createStatement();
-			ResultSet rs = stmt.executeQuery(sql);
+		Connection conn = getConnection();
+		Statement stmt = conn.createStatement();
+		ResultSet rs = stmt.executeQuery(sql);
 		
-			return rs;
-			
-		
+		return rs;
 	}
 	
 	
