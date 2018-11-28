@@ -4,12 +4,17 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 
-
+/**
+ * 
+ * @author Joe Wright
+ *
+ */
 public class Copy {
 	
 	private Resource resource;
 	private int borrower;
 	private final int COPY_ID;
+	private Date duration;
 	
 	/**
 	 * Class Constructor
@@ -24,11 +29,10 @@ public class Copy {
 	}
     
 	/**
-	 * Sets the borrow variable by inserting the values into the borrowrecords table, then updates the keeper column in the copies class
+	 * Sets the borrow variable by inserting the values into the borrowrecords table, then updates the keeper column in the copies table
 	 * @param borrower 
-	 * @author Joe Wright
 	 */
-	private void setBorrower(int borrower) { //This is a prepared statement. Much safer than creating the SQL string yourself
+	public void setBorrower(int borrower) { //This is a prepared statement. Much safer than creating the SQL string yourself
 
 		
 		this.borrower = borrower;
@@ -61,21 +65,6 @@ public class Copy {
 		
 	}
 	
-	/**
-	 * 
-	 */
-	public void setDueDate() {
-		
-	}
-	
-	/**
-	 * Method that gets the duedate variable
-	 * @return duedate
-	 * @author Joe Wright
-	 */
-	public Date getDueDate(){
-		return duedate;
-	}
 	
 	/**
 	 * Method that gets the duration variable
@@ -88,7 +77,7 @@ public class Copy {
 	/**
 	 * Method that gets the resource variable
 	 * @return resource
-	 * @author Joe Wright
+	 * 
 	 */
 	public Resource getResource(){
 		return resource;
@@ -103,6 +92,8 @@ public class Copy {
 		return COPY_ID;
 	}
 	
-	
+	public void duration(){
+		this.duration = duration;
+	}
 
 }
