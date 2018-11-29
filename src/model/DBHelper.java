@@ -24,18 +24,8 @@ public class DBHelper {
 	 * @return ResultSet from the database table
 	 * @throws SQLException
 	 */
-<<<<<<< HEAD
-	static private ResultSet selectKnown(String sql) throws SQLException {
-	
-			
-			Connection conn = getConnection();
-			Statement stmt = conn.createStatement();
-			ResultSet rs = stmt.executeQuery(sql);
-		
-			return rs;
-=======
+
 	private static ResultSet selectKnown(String sql) throws SQLException{
->>>>>>> da97ddc63bbc44825d99a51b48e8eb9d02142ff7
 			
 		Connection conn = getConnection();
 		Statement stmt = conn.createStatement();

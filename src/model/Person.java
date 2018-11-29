@@ -208,7 +208,7 @@ public class Person {
 				switch (parts[9]) {
 				case "staff":
 					conn.close();
-					return new Librarian(parts[0], parts[1], parts[2], parts[3], parts[4], parts[5], loadAvatar(parts[6]), parts[8]);
+					return new Librarian(parts[0], parts[1], parts[2], parts[3], parts[4], parts[5], loadAvatar(parts[6]), parts[8], 0); //Last is temp
 				case "user":
 					conn.close();
 					return new User(parts[0], parts[1], parts[2], parts[3], parts[4], parts[5], loadAvatar(parts[6]), Double.parseDouble(parts[7]));

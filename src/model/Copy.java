@@ -13,7 +13,7 @@ import java.sql.SQLException;
 public class Copy {
 	
 	private Resource resource;
-	private int borrower;
+	private User borrower;
 	private final int COPY_ID;
 	private Date duration;
 	
@@ -23,7 +23,7 @@ public class Copy {
 	 * @param copyID
 	 * @param borrower
 	 */
-	public Copy(Resource resource, int copyID, int borrower) {
+	public Copy(Resource resource, int copyID, User borrower) {
 		this.resource = resource;
 		this.borrower = borrower;
 		this.COPY_ID = copyID;
@@ -31,12 +31,12 @@ public class Copy {
     
 	/**
 	 * Sets the borrow variable by inserting the values into the borrowrecords table, then updates the keeper column in the copies table
-	 * @param borrower 
+	 * @param firstRequest 
 	 */
-	public void setBorrower(int borrower) { //This is a prepared statement. Much safer than creating the SQL string yourself
+	public void setBorrower(User firstRequest) { //This is a prepared statement. Much safer than creating the SQL string yourself
 
 		
-		this.borrower = borrower;
+		this.borrower = firstRequest;
 		
 		try {
 			Connection conn = DBHelper.getConnection();
@@ -93,8 +93,12 @@ public class Copy {
 		return COPY_ID;
 	}
 	
-	public void duration(){
+	public void setDuration(Date duration){
 		this.duration = duration;
+	}
+
+	public User getBorrower() {
+		return this.borrower;
 	}
 
 }
