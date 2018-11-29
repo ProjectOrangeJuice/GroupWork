@@ -22,11 +22,17 @@ public class Main {
 		
 		DBHelper.forceUpdate();
 		
+		//Loading a Librarian example
 		Librarian testStaff = (Librarian)Librarian.loadPerson("Staff1");
 		System.out.println(testStaff.getUsername());
 		
+		//Loading a User example
 		User testUser = (User)User.loadPerson("Bobby");
 		System.out.println(testUser.getUsername());
+		
+		System.out.println(testUser.getAccountBalance());
+		testUser.makePayment(2.66);
+		System.out.println(testUser.getAccountBalance());
 
 	}
 }

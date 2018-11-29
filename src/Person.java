@@ -1,4 +1,5 @@
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -76,7 +77,8 @@ public class Person {
 	 * @param firstName String
 	 */
 	public void setFirstName(String firstName) {
-		this.firstName = firstName;//TODO: Updater required
+		this.firstName = firstName;
+		Person.updateDatabase(this.getUsername(), "firstName", firstName);
 	}
 
 	/**
@@ -92,7 +94,8 @@ public class Person {
 	 * @param lastName String
 	 */
 	public void setLastName(String lastName) {
-		this.lastName = lastName;//TODO: Updater required
+		this.lastName = lastName;
+		Person.updateDatabase(this.getUsername(), "lastName", lastName);
 	}
 
 	/**
@@ -108,7 +111,8 @@ public class Person {
 	 * @param phoneNumber String
 	 */
 	public void setPhoneNumber(String phoneNumber) {
-		this.phoneNumber = phoneNumber;//TODO: Updater required
+		this.phoneNumber = phoneNumber;
+		Person.updateDatabase(this.getUsername(), "telephone", phoneNumber);
 	}
 
 	/**
@@ -124,7 +128,8 @@ public class Person {
 	 * @param address String
 	 */
 	public void setAddress(String address) {
-		this.address = address;//TODO: Updater required
+		this.address = address;
+		Person.updateDatabase(this.getUsername(), "address", address);
 	}
 
 	/**
@@ -140,7 +145,8 @@ public class Person {
 	 * @param postcode String
 	 */
 	public void setPostcode(String postcode) {
-		this.postcode = postcode;//TODO: Updater required
+		this.postcode = postcode;
+		Person.updateDatabase(this.getUsername(), "postcode", postcode);
 	}
 
 	/**
@@ -155,15 +161,21 @@ public class Person {
 	 * Sets the avatar the person has chosen.
 	 * @param avatar Image
 	 */
-	public void setAvatar(Image avatar) {
-		this.avatar = avatar; //TODO: Updater required
+	public void setAvatar(String avatarPath) {
+		this.avatar = loadAvatar(avatarPath);
+		Person.updateDatabase(this.getUsername(), "avatarPath", avatarPath);
+	}
+	
+	//TEMPORARY
+	public static Image loadAvatar(String avatarPath) {
+		return null; //TODO: Make actual image loader for avatars.
 	}
 	
 	//
 	//-------------------------------------------------------------------------
 	//
 	
-	static public Person loadPerson (String username) {
+	static public Person loadPerson(String username) {
 		try {
 			//Declaring necessary variables
 			Connection conn = DBHelper.getConnection();
@@ -194,16 +206,19 @@ public class Person {
 				//Checks whether to make a Librarian or User
 				switch (parts[9]) {
 				case "staff":
-					return new Librarian(parts[0], parts[1], parts[2], parts[3], parts[4], parts[5], getAvatar(parts[6]), parts[8]);
+					conn.close();
+					return new Librarian(parts[0], parts[1], parts[2], parts[3], parts[4], parts[5], loadAvatar(parts[6]), parts[8]);
 				case "user":
-					return new User(parts[0], parts[1], parts[2], parts[3], parts[4], parts[5], getAvatar(parts[6]), Float.parseFloat(parts[7]));
+					conn.close();
+					return new User(parts[0], parts[1], parts[2], parts[3], parts[4], parts[5], loadAvatar(parts[6]), Double.parseDouble(parts[7]));
 				default:
-					System.out.println("Error: Incorrect user type loaded."); //Raise error
+					System.out.println("Error: Could not load type: '" + parts[9] + "'"); //Raise error
+					conn.close();
 					return null;
 				}
 			} else {
 				System.out.println("Error: Either too many or not enough rows returned."); //Raise error
-				return null;
+				conn.close();
 			}
 			
 		//Catch most other errors!
@@ -214,19 +229,17 @@ public class Person {
 		return null;
 	}
 	
-	//Temporary, to be replaced with image loader from James?
-	public static Image getAvatar(String path) {
-		return null;
-	}
-	
-	public static boolean updateDatabase(String SQL) {
+	protected static boolean updateDatabase(String username, String field, String data) {
 		try {
 			Connection conn = DBHelper.getConnection();
-			Statement stmt = conn.createStatement();
-			 if (stmt.executeUpdate(SQL) == 1) {
-				 return true;
-			 } 
-			
+			PreparedStatement pstmt = conn.prepareStatement("UPDATE users SET " + field +" = ? WHERE username = ?");
+            pstmt.setString(1, data);
+            pstmt.setString(2, username);
+            if (pstmt.executeUpdate() == 1) {
+            	conn.close();
+            	return true;
+            }
+            conn.close();
 		} catch (SQLException e) { 
 			e.printStackTrace();
 		}
