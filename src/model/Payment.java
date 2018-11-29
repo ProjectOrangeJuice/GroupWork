@@ -1,3 +1,4 @@
+package model;
 
 public class Payment {
 	private int transactionId;

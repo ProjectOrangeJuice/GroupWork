@@ -1,3 +1,4 @@
+package model;
 
 /**
  * You must use this class when constructing your Queue.  This class represents a link of the
