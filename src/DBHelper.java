@@ -1,35 +1,29 @@
 import java.sql.Connection;
-import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Scanner;
-import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
 import java.io.InputStream;
 /**
-* 
 * @author Oliver Harris
 *
 */
 public class DBHelper {
-
+	
 	private static int VERSION = 2; // Version number for database
 	private static String LINK = "jdbc:sqlite:test.db"; // database connection string
 	private static String SQL = "src/tables.sql"; // database connection string
 
-	
-	/** Execute a simple SQL command
+
+	/** Execute a simple SQL command.
 	 * @param sql to execute
 	 * @return ResultSet from the database table
 	 * @throws SQLException
 	 */
-	private static ResultSet selectKnown(String sql) throws SQLException{
+	static private ResultSet selectKnown(String sql) throws SQLException {
 	
 			
 			Connection conn = getConnection();
