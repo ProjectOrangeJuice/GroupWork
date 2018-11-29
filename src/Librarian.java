@@ -1,7 +1,11 @@
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
 /* for future implementation */
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import javafx.scene.image.Image;
 
 /**This class represents a librarian of the library. A librarian is allowed to create and edit a new resource,
  * loan copy to a user, process any return copies, and authorize a fine payment to a user.
@@ -13,6 +17,9 @@ public class Librarian extends Person{
 
 	/** The employment date of the librarian.*/
 	private String employmentDate;
+	
+	/** The librarian's staff ID.*/
+	private int staffID;
 	
 	/**
 	 * Create a new librarian user from the given arguments.
@@ -26,9 +33,15 @@ public class Librarian extends Person{
 	 * @param employmentDate
 	 * @param staffNumber
 	 */
-	public Librarian (String userName, String firstName, String lastName, String phoneNumber, String address, String postcode, Image avatar, String employmentDate) {
+	public Librarian (String userName, String firstName, String lastName, String phoneNumber, String address, String postcode, Image avatar, String employmentDate, int staffID) {
 		super(userName, firstName, lastName, phoneNumber, address, postcode, avatar);
 		this.employmentDate = employmentDate;
+		this.staffID = staffID;
+	}
+	
+	public void setEmploymentDate(String employmentDate) {
+		this.employmentDate = employmentDate;
+		Person.updateDatabase(this.getEmploymentDate(), "employmentDate", employmentDate);
 	}
 	
 	/**
@@ -36,7 +49,9 @@ public class Librarian extends Person{
 	 * @param resource Details of the resources
 	 */
 	public void createNewResources (Resource resource) {
-		//Needs Clarification
+		// I think this will use the GUI, but I'm still not sure
+		Resource r1 = new Resource (resource);
+		Resources.updateDatabase(r1);
 	}
 	
 	/**
@@ -44,15 +59,15 @@ public class Librarian extends Person{
 	 * @param resource Things that needs to be change on the resource
 	 */
 	public void editResources (Resource resource) {
-		//Needs Clarification
+		// This will interact with the GUI
 	}
 	
 	/**
 	 * Loans a copy to the user
 	 * @param copy Copy that a user has loaned
 	 */
-	public void loanCopy (Copy copy, User user) {
-		copy.getResource().loanToUser(user);
+	public void loanCopy (Copy copy) {
+		copy.getResource().loadnToUser(user);
 	}
 	
 	/**
@@ -70,6 +85,19 @@ public class Librarian extends Person{
 	 */
 	public void authorizeFinePayment (User user) {
 		
+	}
+	
+	public void setStaffID (int staffID) {
+		this.staffID = staffID;
+		Person.updateDatabase(this.staffID(), "staffID", staffID);
+	}
+	
+	/**
+	 * Returns the unique staff number of the librarian
+	 * @return Staff number of the librarian
+	 */
+	public int getStaffID() {
+		return this.staffID;
 	}
 	
 	/**
