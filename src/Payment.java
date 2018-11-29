@@ -1,13 +1,13 @@
 
 public class Payment {
 	private int transactionId;
-	private int userId;
+	private int username;
 	private float amount;
 	private String stamp;
-	
-	public Payment(int transactionId, int userId, float amount, String stamp) {
+
+	public Payment(int transactionId, int username, float amount, String stamp) {
 		this.transactionId = transactionId;
-		this.userId = userId;
+		this.username = username;
 		this.amount = amount;
 		this.stamp = stamp;
 	}
@@ -15,17 +15,17 @@ public class Payment {
 	public float getAmount() {
 		return amount;
 	}
-	
-	
+
+
 	public String getStamp() {
 		return stamp;
 	}
-	
+
 	public int getTransactionId() {
 		return transactionId;
 	}
-	
-	public int getUserId() {
-		return userId;
+
+	public int getusername() {
+		return username;
 	}
 }

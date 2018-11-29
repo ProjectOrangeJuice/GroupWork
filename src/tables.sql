@@ -1,4 +1,4 @@
-BEGIN TRANSACTION;
+usernameBEGIN TRANSACTION;
 DROP TABLE IF EXISTS `users`;
 CREATE TABLE IF NOT EXISTS `users` (
 	`username`	TEXT NOT NULL UNIQUE,
@@ -20,7 +20,7 @@ INSERT INTO `users` VALUES ('Manager','Staffy2','Staffy2y','575686','There','XXX
 DROP TABLE IF EXISTS `transactions`;
 CREATE TABLE IF NOT EXISTS `transactions` (
 	`transactionId`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
-	`userId`	INTEGER,
+	`username`	INTEGER,
 	`paid`	REAL,
 	`dateTime`	TEXT
 );
@@ -44,7 +44,7 @@ INSERT INTO `resource` VALUES (3,'Book','Other book',NULL);
 DROP TABLE IF EXISTS `fines`;
 CREATE TABLE IF NOT EXISTS `fines` (
 	`fineId`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
-	`userId`	INTEGER,
+	`username`	INTEGER,
 	`copyId`	INTEGER,
 	`amount`	REAL,
 	`dateTime`	TEXT,
@@ -73,7 +73,7 @@ DROP TABLE IF EXISTS `borrowRecords`;
 CREATE TABLE IF NOT EXISTS `borrowRecords` (
 	`borrowId`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
 	`copyId`	INTEGER NOT NULL,
-	`userId`	INTEGER NOT NULL,
+	`username`	INTEGER NOT NULL,
 	`description`	TEXT
 );
 COMMIT;
