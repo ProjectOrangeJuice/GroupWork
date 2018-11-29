@@ -40,6 +40,7 @@ public class ProfileController {
 	
 	/**
 	 * Called when login button is clicked.
+	 * @param event Passed when mouse event occurs
 	 */
 	@FXML
 	public void loginAction(MouseEvent event) {
@@ -47,15 +48,13 @@ public class ProfileController {
 	}
 	
 	/**
-	 * Called when log out link is clicked.
+	 * Called when logout link is clicked.
+	 * @param event Passed when mouse event occurs 
 	 */
 	@FXML
 	public void logoutAction(MouseEvent event) {
 		changeScene(event, "/fxml/loginScene.fxml");
 	}
-	
-	//@FXML
-	//public void scrollLeft()
 	
 	@FXML
 	 public void initialize() {
