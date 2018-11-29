@@ -1,35 +1,6 @@
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-/bin/
-   
-.project    
-.classpath
-.db
-=======
 bin/
 .settings/
 *.class
 *.db
 .classpath
 .project
-
->>>>>>> refs/remotes/origin/master
-=======
-bin/
-.settings/
-*.class
-*.db
-.classpath
-.project
-
->>>>>>> refs/remotes/origin/master
-=======
-bin/
-.settings/
-*.class
-*.db
-.classpath
-.project
-
->>>>>>> refs/remotes/origin/master
