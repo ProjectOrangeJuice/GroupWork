@@ -10,6 +10,7 @@ CREATE TABLE IF NOT EXISTS `users` (
 	`avatarPath`	TEXT,
 	`accountBalance`	TEXT,
 	`employmentDate`	TEXT,
+	`staffID`	INTEGER NOT NULL AUTOINCREMENT UNIQUE,
 	`staffType`	TEXT NOT NULL,
 	PRIMARY KEY(`username`)
 );
