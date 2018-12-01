@@ -9,7 +9,7 @@ import java.sql.SQLException;
  */
 public class Fine {
 
-	private int amount;
+	private float amount;
 	private String stamp;
 	private int copy;
 	private int daysOver;
@@ -27,7 +27,7 @@ public class Fine {
 	 * @param fineId
 	 * @param paid
 	 */
-	public Fine(int amount, String stamp,int user, int copy, int daysOver, int fineId, boolean paid ) {
+	public Fine(float amount, String stamp,int user, int copy, int daysOver, int fineId, boolean paid ) {
 		this.amount = amount;
 		this.user = user;
 		this.stamp = stamp;
@@ -63,7 +63,7 @@ public class Fine {
 	}
 
 
-	public int getAmount() {
+	public float getAmount() {
 		return amount;
 	}
 
