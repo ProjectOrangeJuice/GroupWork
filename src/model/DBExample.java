@@ -19,8 +19,8 @@ public class DBExample {
 			Statement stmt = conn.createStatement(); //prep a statement
 			ResultSet rs = stmt.executeQuery("SELECT * FROM resource"); //Your sql goes here
 			while(rs.next()) {
-				System.out.println("RID: "+rs.getInt("rId")+" Type:" +rs.getString("type") //The index is either a number of the name
-				+ " Title: "+rs.getString("title"));
+				System.out.println("RID: "+rs.getInt("rId")+" Title:" +rs.getString("title") //The index is either a number of the name
+				+ " Year: "+rs.getInt("year"));
 			} //Think of this a bit like the file reader for the games project
 				
 			
@@ -31,14 +31,29 @@ public class DBExample {
 		
 	}
 	
+	private static void displaySubtitles() {
+		System.out.println("----Displaying dvd table----");
+		try {
+			Connection conn = DBHelper.getConnection(); //get the connection
+			Statement stmt = conn.createStatement(); //prep a statement
+			ResultSet rs = stmt.executeQuery("SELECT * FROM subtitles"); //Your sql goes here
+			while(rs.next()) {
+				System.out.println("dvdID: "+rs.getInt("dvdID")+" Title:" +rs.getString("subtitleLanguage"));
+			} //Think of this a bit like the file reader for the games project
+				
+			
+		} catch (SQLException e) { //if your SQL is incorrect this will display it
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
 	private static void insertIntoResource() { //This is a prepared statement. Much safer than creating the SQL string yourself
 
 		try {
 			Connection conn = DBHelper.getConnection();
-			PreparedStatement pstmt = conn.prepareStatement("INSERT INTO resource (type,title) VALUES (?,?)"); // "?" is a placeholder
-	            pstmt.setString(1, "Test");//Make sure you get the types correct (String, int..)
-	            pstmt.setString(2, "Oliver Twist");
-	            pstmt.executeUpdate();//This can return a value to tell you if it was successful.
+			PreparedStatement pstmt = conn.prepareStatement("INSERT INTO resource (rId,title,year) VALUES (4,\"Marea Unire\",1918)"); // "?" is a placeholder
+			pstmt.executeUpdate();//This can return a value to tell you if it was successful.
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -51,8 +66,8 @@ public class DBExample {
 
 		try {
 			Connection conn = DBHelper.getConnection();
-			PreparedStatement pstmt = conn.prepareStatement("DELETE FROM resource WHERE type=?");//A prepared statement can be used for anything
-	            pstmt.setString(1, "Test"); //Including select
+			PreparedStatement pstmt = conn.prepareStatement("DELETE FROM resource WHERE title=?");//A prepared statement can be used for anything
+	            pstmt.setString(1, "Other Book"); //Including select
 	            pstmt.executeUpdate();//Instead of update you'll use something else.. But what? ;)
 			
 			
@@ -66,12 +81,13 @@ public class DBExample {
 	
 	public static void main(String[] args) {
 		DBHelper.forceUpdate();
-		displayResourceTable();
+		/*displayResourceTable();
 		insertIntoResource();
 		displayResourceTable();
 		removeAResource();
-		displayResourceTable();
-
+		displayResourceTable();*/
+		
+		displaySubtitles();
 	}
 
 }
