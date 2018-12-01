@@ -78,11 +78,28 @@ CREATE TABLE IF NOT EXISTS `dvd` (
 	`director`	TEXT,
 	`runtime`	INTEGER,
 	`language`	TEXT,
-	`languages`	TEXT,
 	`rID`		INTEGER,
 	PRIMARY KEY (rID),
 	FOREIGN KEY (rID) REFERENCES `resource`(`rID`)
 );
+
+INSERT INTO `dvd` VALUES ('George Lucas',200,'english',1);
+INSERT INTO `dvd` VALUES ('Kubrick',100,'russian',2);
+INSERT INTO `dvd` VALUES ('Kubrick',100,'russian',4);
+
+drop table if exists `subtitles`;
+create table if not exists `subtitles` (
+	`dvdID` integer,
+	`subtitleLanguage` TEXT,
+	primary key (dvdID,subtitleLanguage),
+	foreign key (dvdID) references `dvd`(`rID`)
+);
+
+INSERT INTO `subtitles` VALUES (1,'romanian');
+INSERT INTO `subtitles` VALUES (1,'greek');
+INSERT INTO `subtitles` VALUES (2,'welsh');
+INSERT INTO `subtitles` VALUES (3,'wel');
+
 DROP TABLE IF EXISTS `laptop`;
 CREATE TABLE IF NOT EXISTS `laptop` (
 	`manufacturer`	TEXT,
