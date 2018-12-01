@@ -21,14 +21,18 @@ public class Book extends Resource {
 			ResultSet rs = stmt.executeQuery("SELECT * FROM book"); //Your sql goes here
 			
 			while(rs.next()) {
-				resources.add(new Book(rs.getInt("rID"), rs.getString("title"), 
-						rs.getInt("year"), null, rs.getString("author"),rs.getString("publisher"),
+				int resourceID = rs.getInt("rId");
+				ResultSet resourceResult = stmt.executeQuery("SELECT title, year FROM resource WHERE rId="+resourceID);
+				
+				resources.add(new Book(resourceID, resourceResult.getString("title"), 
+						resourceResult.getInt("year"), null, rs.getString("author"),rs.getString("publisher"),
 						rs.getString("genre"), rs.getString("ISBN"), rs.getString("language")));
 			} 
 		} catch (SQLException e) { 
 			e.printStackTrace();
 		}
 	}
+	
 	public Book (int uniqueID, String title, int year, Image thumbnail, String author, String publisher, String genre, String ISBN, String language) {
 		super(uniqueID, title, year, thumbnail);
 		this.author = author;
@@ -98,5 +102,4 @@ public class Book extends Resource {
 		this.language = language;
 		updateDbValue("book", this.uniqueID, "language", language);
 	}
-
 }
