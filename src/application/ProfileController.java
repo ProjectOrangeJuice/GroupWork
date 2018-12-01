@@ -16,22 +16,22 @@ import javafx.stage.Stage;
 import model.ShortTerm;
 
 public class ProfileController {
-	
-	
-	private ShortTerm mem = new ShortTerm();
-	
-	
+
+
+
+
+
 	@FXML
 	private HBox resourceImages;
-	
-	
-	
+
+
+
 	@FXML
 	private ScrollPane scrollPane;
-	
+
 	/**
 	 * Sets new scene on stage within program using fxml file provided.
-	 * @param sceneFXML 
+	 * @param sceneFXML
 	 */
 	public void changeScene(MouseEvent event, String sceneFXML) {
 		try {
@@ -44,7 +44,7 @@ public class ProfileController {
 		}
 
 	}
-	
+
 	/**
 	 * Called when login button is clicked.
 	 * @param event Passed when mouse event occurs
@@ -53,27 +53,27 @@ public class ProfileController {
 	public void loginAction(MouseEvent event) {
 		changeScene(event, "/fxml/profileScene.fxml");
 	}
-	
+
 	/**
 	 * Called when logout link is clicked.
-	 * @param event Passed when mouse event occurs 
+	 * @param event Passed when mouse event occurs
 	 */
 	@FXML
 	public void logoutAction(MouseEvent event) {
 		changeScene(event, "/fxml/loginScene.fxml");
 	}
-	
+
 	@FXML
 	 public void initialize() {
-		
+
 		scrollPane.setHvalue(0.5);
-		
+
 		for(Node resource : resourceImages.getChildren()) {
 			((ImageView) resource).setFitWidth(300);
 			((ImageView) resource).setFitHeight(500);
 		}
-		
-		
-	 }    
+
+
+	 }
 
 }
