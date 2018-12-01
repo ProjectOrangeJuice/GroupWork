@@ -94,7 +94,7 @@ public class DVD extends Resource {
 		//TO-DO update subtitle languages
 	}
 
-	private static ArrayList<String> loadSubtitles(Statement stmt, int dvdID) {
+	static ArrayList<String> loadSubtitles(Statement stmt, int dvdID) {
 		ArrayList<String> subtitleLanguages = new ArrayList<>();
 		try {
 			ResultSet languages = stmt.executeQuery("SELECT * FROM LANGUAGES WHERE rID="+dvdID);
