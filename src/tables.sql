@@ -23,8 +23,8 @@ CREATE TABLE IF NOT EXISTS `transactions` (
 	`paid`	REAL,
 	`dateTime`	TEXT
 );
-INSERT INTO `transactions` VALUES (1,1,5.0,NULL);
-INSERT INTO `transactions` VALUES (2,1,10.0,NULL);
+INSERT INTO `transactions` VALUES (1,1,5.0,"sometime");
+INSERT INTO `transactions` VALUES (2,1,10.0,"othertime");
 DROP TABLE IF EXISTS `system`;
 CREATE TABLE IF NOT EXISTS `system` (
 	`ver`	INTEGER
@@ -43,12 +43,13 @@ CREATE TABLE IF NOT EXISTS `fines` (
 	`fineId`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
 	`username`	INTEGER,
 	`copyId`	INTEGER,
+`daysOver`	INTEGER,
 	`amount`	REAL,
 	`dateTime`	TEXT,
 	`paid`	INTEGER
 );
-INSERT INTO `fines` VALUES (1,1,4,5.0,NULL,1);
-INSERT INTO `fines` VALUES (2,1,5,10.0,NULL,1);
+INSERT INTO `fines` VALUES (1,1,4,3,5.0,NULL,1);
+INSERT INTO `fines` VALUES (2,1,5,100,10.0,NULL,1);
 DROP TABLE IF EXISTS `copies`;
 CREATE TABLE IF NOT EXISTS `copies` (
 	`CopyId`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
