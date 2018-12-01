@@ -10,14 +10,12 @@ CREATE TABLE IF NOT EXISTS `users` (
 	`avatarPath`	TEXT,
 	`accountBalance`	TEXT,
 	`employmentDate`	TEXT,
-	`staffID`	INTEGER NOT NULL AUTOINCREMENT UNIQUE,
+	`staffID`	INTEGER NOT NULL,
 	`staffType`	TEXT NOT NULL,
 	PRIMARY KEY(`username`)
 );
-INSERT INTO `users` VALUES ('Bobby','Bob','Harrison','01234567','Nowhere','XXX YYY','image1.png','0.70',NULL,'user');
-INSERT INTO `users` VALUES ('Timmy','Tim','Smith','223242','Elsewhere','XXX YYY','image2.png','5.20',NULL,'user');
-INSERT INTO `users` VALUES ('Staff1','Staff','Staffy','253325','Here','XXX YYY','image6.png','0','01/02/03','staff');
-INSERT INTO `users` VALUES ('Manager','Staffy2','Staffy2y','575686','There','XXX YYY','image8.png','0','03/02/01','staff');
+
+
 DROP TABLE IF EXISTS `transactions`;
 CREATE TABLE IF NOT EXISTS `transactions` (
 	`transactionId`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
@@ -38,7 +36,7 @@ CREATE TABLE IF NOT EXISTS `resource` (
 	`title`	TEXT
 );
 INSERT INTO `resource` VALUES (1,'Bookie');
-INSERT INTO `resource` VALUES (2'Laptop 1');
+INSERT INTO `resource` VALUES (2,'Laptop 1');
 INSERT INTO `resource` VALUES (3,'Other book');
 DROP TABLE IF EXISTS `fines`;
 CREATE TABLE IF NOT EXISTS `fines` (
@@ -86,7 +84,7 @@ CREATE TABLE IF NOT EXISTS `laptop` (
 	`rId`			INTEGER NOT NULL,
 	FOREIGN KEY (rId) REFERENCES `resource`(`rId`)
 );
-INSERT INTO `resource` VALUES (0,'Sapiens', 2016);
+INSERT INTO `resource` VALUES (0,'Sapiens');
 INSERT INTO `book` VALUES ('Noah', 'penguin books', 'non-fiction', '111222333', 'English', 0);
 
 
