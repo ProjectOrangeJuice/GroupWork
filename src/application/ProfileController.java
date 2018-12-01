@@ -13,11 +13,18 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import model.ShortTerm;
 
 public class ProfileController {
 	
+	
+	private ShortTerm mem = new ShortTerm();
+	
+	
 	@FXML
 	private HBox resourceImages;
+	
+	
 	
 	@FXML
 	private ScrollPane scrollPane;
