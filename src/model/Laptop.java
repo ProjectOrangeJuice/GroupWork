@@ -16,13 +16,14 @@ public class Laptop extends Resource {
 		try {
 			Connection conn = DBHelper.getConnection(); //get the connection
 			Statement stmt = conn.createStatement(); //prep a statement
-			ResultSet rs = stmt.executeQuery("SELECT * FROM book"); //Your sql goes here
-			
-			rs = stmt.executeQuery("SELECT * FROM laptop");
+			ResultSet rs = stmt.executeQuery("SELECT * FROM laptop");
 			
 			while(rs.next()) {
-				resources.add(new Laptop(rs.getInt("rID"), rs.getString("title"), 
-						rs.getInt("year"), null, rs.getString("manufacturer"), rs.getString("Model"),
+				int resourceID=rs.getInt("rId");
+				ResultSet resourceResult = stmt.executeQuery("SELECT title, year FROM resource WHERE rId="+resourceID);
+				
+				resources.add(new Laptop(rs.getInt("rID"), resourceResult.getString("title"), 
+						resourceResult.getInt("year"), null, rs.getString("manufacturer"), rs.getString("Model"),
 						rs.getString("os")));
 			}
 		} catch (SQLException e) { 
@@ -72,8 +73,5 @@ public class Laptop extends Resource {
 	public void setOS(String OS) {
 		this.OS = OS;
 		updateDbValue("laptop", this.uniqueID, "OS", OS);
-		
 	}
-
-	
 }
