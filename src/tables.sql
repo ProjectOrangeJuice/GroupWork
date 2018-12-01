@@ -15,7 +15,6 @@ CREATE TABLE IF NOT EXISTS `users` (
 	PRIMARY KEY(`username`)
 );
 
-
 DROP TABLE IF EXISTS `transactions`;
 CREATE TABLE IF NOT EXISTS `transactions` (
 	`transactionId`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
@@ -25,19 +24,23 @@ CREATE TABLE IF NOT EXISTS `transactions` (
 );
 INSERT INTO `transactions` VALUES (1,1,5.0,"sometime");
 INSERT INTO `transactions` VALUES (2,1,10.0,"othertime");
+
 DROP TABLE IF EXISTS `system`;
 CREATE TABLE IF NOT EXISTS `system` (
 	`ver`	INTEGER
 );
 INSERT INTO `system` VALUES (3);
+
 DROP TABLE IF EXISTS `resource`;
 CREATE TABLE IF NOT EXISTS `resource` (
-	`rId`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
-	`title`	TEXT
+	`rID`	INTEGER PRIMARY KEY AUTOINCREMENT,
+	`title`	TEXT,
+	`year`  INTEGER
 );
-INSERT INTO `resource` VALUES (1,'Bookie');
-INSERT INTO `resource` VALUES (2,'Laptop 1');
-INSERT INTO `resource` VALUES (3,'Other book');
+INSERT INTO `resource` VALUES (1,'Bookie',1998);
+INSERT INTO `resource` VALUES (2,'Laptop 1',2000);
+INSERT INTO `resource` VALUES (3,'Other book',2000);
+
 DROP TABLE IF EXISTS `fines`;
 CREATE TABLE IF NOT EXISTS `fines` (
 	`fineId`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
@@ -50,6 +53,7 @@ CREATE TABLE IF NOT EXISTS `fines` (
 );
 INSERT INTO `fines` VALUES (1,1,4,3,5.0,NULL,1);
 INSERT INTO `fines` VALUES (2,1,5,100,10.0,NULL,1);
+
 DROP TABLE IF EXISTS `copies`;
 CREATE TABLE IF NOT EXISTS `copies` (
 	`CopyId`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
@@ -65,8 +69,9 @@ CREATE TABLE IF NOT EXISTS `book` (
 	`genre`		TEXT,
 	`ISBN`		TEXT,
 	`language`	TEXT,
-	`rId`		INTEGER NOT NULL,
-	FOREIGN KEY (rId) REFERENCES `resource`(`rId`)
+	`rID`		INTEGER,
+	PRIMARY KEY (rID),
+	FOREIGN KEY (rID) REFERENCES `resource`(`rID`)
 );
 DROP TABLE IF EXISTS `dvd`;
 CREATE TABLE IF NOT EXISTS `dvd` (
@@ -74,18 +79,20 @@ CREATE TABLE IF NOT EXISTS `dvd` (
 	`runtime`	INTEGER,
 	`language`	TEXT,
 	`languages`	TEXT,
-	`rId`		INTEGER NOT NULL,
-	FOREIGN KEY (rId) REFERENCES `resource`(`rId`)
+	`rID`		INTEGER,
+	PRIMARY KEY (rID),
+	FOREIGN KEY (rID) REFERENCES `resource`(`rID`)
 );
 DROP TABLE IF EXISTS `laptop`;
 CREATE TABLE IF NOT EXISTS `laptop` (
 	`manufacturer`	TEXT,
 	`model`			INTEGER,
 	`os`			TEXT,
-	`rId`			INTEGER NOT NULL,
-	FOREIGN KEY (rId) REFERENCES `resource`(`rId`)
+	`rID`			INTEGER,
+	PRIMARY KEY (rID),
+	FOREIGN KEY (rID) REFERENCES `resource`(`rID`)
 );
-INSERT INTO `resource` VALUES (0,'Sapiens');
+INSERT INTO `resource` VALUES (0,'Sapiens',1998);
 INSERT INTO `book` VALUES ('Noah', 'penguin books', 'non-fiction', '111222333', 'English', 0);
 
 
