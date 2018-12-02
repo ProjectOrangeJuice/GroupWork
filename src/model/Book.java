@@ -53,9 +53,10 @@ public class Book extends Resource {
 		super.setTitle(title);
 	}
 	
-	public void setYear(String year) {
-		updateDbValue("book", this.uniqueID, "year", year);
-		super.setTitle(year);
+	public void setYear(int year) {
+		String yearString = Integer.toString(year);
+		updateDbValue("book", this.uniqueID, "year", yearString);
+		super.setTitle(yearString);
 	}
 
 	public String getGenre() {
