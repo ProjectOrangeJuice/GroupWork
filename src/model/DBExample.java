@@ -48,6 +48,24 @@ public class DBExample {
 		}
 	}
 	
+	private static void displayDVDs() {
+		System.out.println("----Displaying dvd table----");
+		try {
+			Connection conn = DBHelper.getConnection(); //get the connection
+			Statement stmt = conn.createStatement(); //prep a statement
+			ResultSet rs = stmt.executeQuery("SELECT * FROM dvd"); //Your sql goes here
+			while(rs.next()) {
+				System.out.println("dvdID: "+rs.getInt("rID")+" Director:" +rs.getString("director")+
+						"language: "+rs.getString("language")+" runtime: "+rs.getInt("runtime"));
+			} //Think of this a bit like the file reader for the games project
+				
+			
+		} catch (SQLException e) { //if your SQL is incorrect this will display it
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
 	private static void insertIntoResource() { //This is a prepared statement. Much safer than creating the SQL string yourself
 
 		try {
@@ -81,13 +99,14 @@ public class DBExample {
 	
 	public static void main(String[] args) {
 		DBHelper.forceUpdate();
-		/*displayResourceTable();
-		insertIntoResource();
+		displayResourceTable();
+		/*insertIntoResource();
 		displayResourceTable();
 		removeAResource();
 		displayResourceTable();*/
 		
 		displaySubtitles();
+		displayDVDs();
 	}
 
 }

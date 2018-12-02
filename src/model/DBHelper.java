@@ -24,7 +24,6 @@ public class DBHelper {
 	 * @return ResultSet from the database table
 	 * @throws SQLException
 	 */
-
 	private static ResultSet selectKnown(String sql) throws SQLException{
 			
 		Connection conn = getConnection();
@@ -34,8 +33,6 @@ public class DBHelper {
 		return rs;
 	}
 	
-	
-
 	/** Get the database connection
 	 * @return Connection to database
 	 * @throws SQLException
@@ -46,7 +43,7 @@ public class DBHelper {
        
         conn = DriverManager.getConnection(LINK);
         if(keyCheck) {
-        conn.createStatement().execute("PRAGMA foreign_keys = ON");
+        	conn.createStatement().execute("PRAGMA foreign_keys = ON");
         }
         return conn;
     }
@@ -54,7 +51,6 @@ public class DBHelper {
 	public static Connection getConnection() throws SQLException{
 		return getConnection(true);
 	}
-
 
 	/**
 	 * Create the tables in the database using the SQL file
@@ -68,7 +64,7 @@ public class DBHelper {
 			s.useDelimiter(";");// Each statement is split with ";"
 			Statement st = null;
 
-			Connection conn = getConnection(false); // Opens the database
+			Connection conn = getConnection(true); // Opens the database
 			st = conn.createStatement();
 			while (s.hasNext()) {
 				String line = s.next();
@@ -90,7 +86,6 @@ public class DBHelper {
 
 	}
 	
-
 	/**
 	 * Checks the table to see if it is an older version. If it is it will recreate the database using createTables()
 	 */
@@ -124,8 +119,4 @@ public class DBHelper {
 		createTables();
 		
 	}
-	
-	
-	
-
 }
