@@ -40,14 +40,20 @@ public class DBHelper {
 	 * @return Connection to database
 	 * @throws SQLException
 	 */
-	public static Connection getConnection() throws SQLException{
+	public static Connection getConnection(boolean keyCheck) throws SQLException{
         // SQLite connection string
         Connection conn = null;
        
         conn = DriverManager.getConnection(LINK);
-       
+        if(keyCheck) {
+        conn.createStatement().execute("PRAGMA foreign_keys = ON");
+        }
         return conn;
     }
+	
+	public static Connection getConnection() throws SQLException{
+		return getConnection(true);
+	}
 
 
 	/**
@@ -62,7 +68,7 @@ public class DBHelper {
 			s.useDelimiter(";");// Each statement is split with ";"
 			Statement st = null;
 
-			Connection conn = getConnection(); // Opens the database
+			Connection conn = getConnection(false); // Opens the database
 			st = conn.createStatement();
 			while (s.hasNext()) {
 				String line = s.next();
