@@ -4,7 +4,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-
+import java.text.ParseException;
 /* for future implementation */
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -44,20 +44,21 @@ public class Librarian extends Person{
 	}
 	
 	public void setEmploymentDate(String employmentDate) {
-		String dob = employmentDate;
-		Date date = new SimpleDateFormat("dd/MM/YYYY").parse(dob);
-		this.employmentDate = date;
-		Person.updateDatabase(this.getEmploymentDate(), "employmentDate", employmentDate);
+		Date date;
+		try {
+			date = new SimpleDateFormat("dd/MM/YYYY").parse(employmentDate);
+			this.employmentDate = date;
+		} catch (ParseException e) {
+			e.printStackTrace();
+			this.employmentDate = null;
+		}
+		Person.updateDatabase(this.getEmploymentDate().toString(), "employmentDate", employmentDate);
 	}
 	
-	/**
-	 * Make a new resource
-	 * @param resource Details of the resources
-	 */
+	//TEMP
+	//TODO: Remove.
 	public void createNewResources (Resource resource) {
-		// this will use the GUI, but I'm still not sure
-		Resource r1 = new Resource (resource);
-		Resources.updateDatabase(r1);
+		// GUI METHOD
 	}
 	
 	/**
@@ -74,7 +75,7 @@ public class Librarian extends Person{
 	 */
 	public void loanCopy (Copy copy, User user) {
 		//copy.getResource().loadnToUser(user);
-		copy.getResource().setBorrower(user);
+		copy.getResource().loanToUser(user);
 	}
 	
 	/**
@@ -82,7 +83,7 @@ public class Librarian extends Person{
 	 * @param user The user that returns the copy
 	 * @param copy The copy that has been borrowed by the user
 	 */
-	public void processReturn (User user, Copy copy) {
+	public void processReturn(User user, Copy copy) {
 		copy.getResource().processReturn(copy);
 	}
 	
@@ -90,8 +91,8 @@ public class Librarian extends Person{
 	 * 
 	 * @param user User that needs to make the payment
 	 */
-	public void authorizeFinePayment (User user) {
-		user.makePayment();
+	public void authorizeFinePayment(User user, double amount) {
+		user.makePayment(amount);
 	}
 	
 	public void setStaffID (int staffID) {
@@ -106,7 +107,6 @@ public class Librarian extends Person{
 	public int getStaffID() {
 		return this.staffID;
 	}
-	
 	
 	/**
 	 * Return the date when the librarian was hired.
