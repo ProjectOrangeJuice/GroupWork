@@ -32,6 +32,9 @@ public class ProfileController {
 	
 	@FXML
 	private TextField searchTextBox;
+	
+	@FXML
+	private Controller loginController;
 
 	/**
 	 * Sets new scene on stage within program using fxml file provided.

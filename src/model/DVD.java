@@ -25,7 +25,7 @@ public class DVD extends Resource {
 				//ArrayList<String> subtitleLanguages = loadSubtitles(stmt, rs.getInt("rID"));
 				
 				resources.add(new DVD(rs.getInt("rID"), rs.getString("title"), rs.getInt("year"),
-						null, rs.getString("director"), rs.getInt("runTime"), rs.getString("language"), null)); //!!
+						null, rs.getString("director"), rs.getInt("runTime"), rs.getString("language"), null)); //NEED TO FIX
 			}
 			
 		} catch (SQLException e) { 
