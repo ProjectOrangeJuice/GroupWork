@@ -28,7 +28,7 @@ public class transactionsTester {
 
 			}
 
-			t = new Transactions(1,p);
+			t = new Transactions("1",p);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
