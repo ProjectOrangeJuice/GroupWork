@@ -30,7 +30,8 @@ CREATE TABLE IF NOT EXISTS `transactions` (
 	`transactionId`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
 	`username`	TEXT,
 	`paid`	REAL,
-	`dateTime`	TEXT
+	`dateTime`	TEXT,
+	FOREIGN KEY(`username`) REFERENCES `users`(`username`)
 );
 INSERT INTO `transactions` VALUES (1,1,5.0,"sometime");
 INSERT INTO `transactions` VALUES (2,1,10.0,"othertime");
@@ -53,13 +54,15 @@ INSERT INTO `resource` VALUES (3,'Other book',2000);
 
 DROP TABLE IF EXISTS `fines`;
 CREATE TABLE IF NOT EXISTS `fines` (
-	`fineId`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
+	`fineID`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
 	`username`	TEXT,
-	`copyId`	INTEGER,
+	`copyID`	INTEGER,
 	`daysOver`	INTEGER,
 	`amount`	REAL,
 	`dateTime`	TEXT,
-	`paid`	INTEGER
+	`paid`	INTEGER,
+	FOREIGN KEY(`username`) REFERENCES `users`(`username`),
+	FOREIGN KEY(`copyID`) REFERENCES `copies`(`copyID`)
 );
 INSERT INTO `fines` VALUES (1,1,4,3,5.0,NULL,1);
 INSERT INTO `fines` VALUES (2,1,5,100,10.0,NULL,1);
@@ -68,8 +71,10 @@ DROP TABLE IF EXISTS `copies`;
 CREATE TABLE IF NOT EXISTS `copies` (
 	`copyID`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
 	`rID`	INTEGER NOT NULL,
-	`keeper`	INTEGER,
-	`date`	TEXT
+	`keeper`	TEXT,
+	`date`	TEXT,
+	FOREIGN KEY(`keeper`) REFERENCES `users`(`username`),
+	FOREIGN KEY(`rID`) REFERENCES `resource`(`rID`)
 );
 
 DROP TABLE IF EXISTS `book`;
