@@ -14,6 +14,10 @@ public class Book extends Resource {
 	private String ISBN;
 	private String language;
 	
+	/**
+	 * Book constructor
+	 * @param resources
+	 */
 	public static void loadDatabaseBooks(ArrayList<Resource> resources) {
 		try {
 			Connection conn = DBHelper.getConnection(); //get the connection
