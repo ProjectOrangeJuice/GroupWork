@@ -15,7 +15,7 @@ public class User extends Person {
 	private double accountBalance;
 	
 	/**All of the copies the user has taken out.*/
-	private ArrayList copiesList = new ArrayList();
+	private ArrayList<Copy> copiesList = new ArrayList<Copy>();
 	
 	/**
 	 * Creates a new User object from the given arguments.
@@ -40,6 +40,10 @@ public class User extends Person {
 	 */
 	public void addBorrowedCopy(Copy copy) {
 		this.copiesList.add(copy);//TODO: Special updater required
+	}
+	
+	public void addBorrowedCopies(ArrayList<Copy> copyList) {
+		this.copiesList.addAll(copyList);
 	}
 	
 	/**
