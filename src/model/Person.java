@@ -13,7 +13,7 @@ import javafx.scene.image.Image;
  * @author Charles Day
  * @version 1.0
  * */
-public class Person {
+public abstract class Person {
 	
 	/**The persons user name.*/
 	private final String username; 

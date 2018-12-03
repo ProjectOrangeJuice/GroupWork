@@ -20,7 +20,7 @@ import javafx.scene.image.Image;
 public class Librarian extends Person{
 
 	/** The employment date of the librarian.*/
-	private String employmentDate;
+	private Date employmentDate;
 	
 	/** The librarian's staff ID.*/
 	private int staffID;
@@ -36,16 +36,17 @@ public class Librarian extends Person{
 	 * @param avatar
 	 * @param employmentDate
 	 * @param staffNumber
-	 * @param staffID
 	 */
 	public Librarian (String userName, String firstName, String lastName, String phoneNumber, String address, String postcode, Image avatar, String employmentDate, int staffID) {
 		super(userName, firstName, lastName, phoneNumber, address, postcode, avatar);
-		this.employmentDate = employmentDate;
+		setEmploymentDate(employmentDate);
 		this.staffID = staffID;
 	}
 	
 	public void setEmploymentDate(String employmentDate) {
-		this.employmentDate = employmentDate;
+		String dob = employmentDate;
+		Date date = new SimpleDateFormat("dd/MM/YYYY").parse(dob);
+		this.employmentDate = date;
 		Person.updateDatabase(this.getEmploymentDate(), "employmentDate", employmentDate);
 	}
 	
@@ -54,7 +55,9 @@ public class Librarian extends Person{
 	 * @param resource Details of the resources
 	 */
 	public void createNewResources (Resource resource) {
-		// I think this will use the GUI, but I'm still not sure
+		// this will use the GUI, but I'm still not sure
+		Resource r1 = new Resource (resource);
+		Resources.updateDatabase(r1);
 	}
 	
 	/**
@@ -62,7 +65,7 @@ public class Librarian extends Person{
 	 * @param resource Things that needs to be change on the resource
 	 */
 	public void editResources (Resource resource) {
-		// This will interact with the GUI
+		// This will interact with the GUI as well
 	}
 	
 	/**
@@ -70,7 +73,8 @@ public class Librarian extends Person{
 	 * @param copy Copy that a user has loaned
 	 */
 	public void loanCopy (Copy copy, User user) {
-		copy.getResource().loanToUser(user);
+		//copy.getResource().loadnToUser(user);
+		copy.getResource().setBorrower(user);
 	}
 	
 	/**
@@ -87,7 +91,12 @@ public class Librarian extends Person{
 	 * @param user User that needs to make the payment
 	 */
 	public void authorizeFinePayment (User user) {
-		
+		user.makePayment();
+	}
+	
+	public void setStaffID (int staffID) {
+		this.staffID = staffID;
+		Person.updateDatabase(this.getUsername(), "staffID", Integer.toString(staffID));
 	}
 	
 	/**
@@ -98,11 +107,12 @@ public class Librarian extends Person{
 		return this.staffID;
 	}
 	
+	
 	/**
 	 * Return the date when the librarian was hired.
 	 * @return Employment date of the librarian.
 	 */
-	public String getEmploymentDate() {
+	public Date getEmploymentDate() {
 		return this.employmentDate;
 	}
 }
