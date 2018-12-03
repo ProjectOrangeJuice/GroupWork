@@ -70,7 +70,14 @@ public class DBHelper {
 				String line = s.next();
 
 				if (line.trim().length() > 0) {
-					st.execute(line);
+					try {
+						st.execute(line);
+					}
+					catch(SQLException e)
+					{
+						System.out.println(line);
+						e.printStackTrace();
+					}
 				}
 			}
 		} catch (SQLException e) {

@@ -4,6 +4,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 public class DBExample {
 
@@ -96,6 +97,32 @@ public class DBExample {
 		
 	}
 	
+	private static void testFreeCopiesDB() {
+		Laptop laptop1=new Laptop(1,"VX15",2017,null,"IBM","Acer","Windows 10");
+		ArrayList<Copy> list = new ArrayList<>();
+		list.add(new Copy(laptop1,1,null));
+		list.add(new Copy(laptop1,2,null));
+		list.add(new Copy(laptop1,3,null));
+		
+		laptop1.addCopies(list);
+		
+		laptop1.saveFreeCopies();
+		
+		System.out.println("----Displaying free copies table----");
+		try {
+			Connection conn = DBHelper.getConnection(); //get the connection
+			Statement stmt = conn.createStatement(); //prep a statement
+			ResultSet rs = stmt.executeQuery("SELECT * FROM freeCopies"); //Your sql goes here
+			while(rs.next()) {
+				System.out.println("copyID "+rs.getInt("copyID")+" rID " +rs.getInt("rID"));
+			} //Think of this a bit like the file reader for the games project
+				
+			
+		} catch (SQLException e) { //if your SQL is incorrect this will display it
+			// TODO Auto-generated catch block
+			System.out.println(e.getMessage());
+		}
+	}
 	
 	public static void main(String[] args) {
 		DBHelper.forceUpdate();
@@ -105,8 +132,10 @@ public class DBExample {
 		removeAResource();
 		displayResourceTable();*/
 		
-		displaySubtitles();
-		displayDVDs();
+		//displaySubtitles();
+		//displayDVDs();
+		
+		testFreeCopiesDB();
 	}
 
 }

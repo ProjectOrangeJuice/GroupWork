@@ -71,7 +71,7 @@ CREATE TABLE IF NOT EXISTS `book` (
 	`language`	TEXT,
 	`rID`		INTEGER,
 	PRIMARY KEY (rID),
-	FOREIGN KEY (rID) REFERENCES `resource`(`rID`)
+	FOREIGN KEY (rID) REFERENCES `resource`(`rID`) ON UPDATE CASCADE ON DELETE CASCADE
 );
 DROP TABLE IF EXISTS `dvd`;
 CREATE TABLE IF NOT EXISTS `dvd` (
@@ -80,25 +80,23 @@ CREATE TABLE IF NOT EXISTS `dvd` (
 	`language`	TEXT,
 	`rID`		INTEGER,
 	PRIMARY KEY (rID),
-	FOREIGN KEY (rID) REFERENCES `resource`(`rID`)
+	FOREIGN KEY (rID) REFERENCES `resource`(`rID`) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 INSERT INTO `dvd` VALUES ('George Lucas',200,'english',1);
 INSERT INTO `dvd` VALUES ('Kubrick',100,'russian',2);
-INSERT INTO `dvd` VALUES ('Kubrick',100,'russian',4);
 
 drop table if exists `subtitles`;
 create table if not exists `subtitles` (
 	`dvdID` integer,
 	`subtitleLanguage` TEXT,
 	primary key (dvdID,subtitleLanguage),
-	foreign key (dvdID) references `dvd`(`rID`)
+	foreign key (dvdID) references `dvd`(`rID`) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 INSERT INTO `subtitles` VALUES (1,'romanian');
 INSERT INTO `subtitles` VALUES (1,'greek');
 INSERT INTO `subtitles` VALUES (2,'welsh');
-INSERT INTO `subtitles` VALUES (3,'wel');
 
 DROP TABLE IF EXISTS `laptop`;
 CREATE TABLE IF NOT EXISTS `laptop` (
@@ -107,7 +105,7 @@ CREATE TABLE IF NOT EXISTS `laptop` (
 	`os`			TEXT,
 	`rID`			INTEGER,
 	PRIMARY KEY (rID),
-	FOREIGN KEY (rID) REFERENCES `resource`(`rID`)
+	FOREIGN KEY (rID) REFERENCES `resource`(`rID`) ON UPDATE CASCADE ON DELETE CASCADE
 );
 INSERT INTO `resource` VALUES (0,'Sapiens',1998);
 INSERT INTO `book` VALUES ('Noah', 'penguin books', 'non-fiction', '111222333', 'English', 0);
@@ -129,5 +127,13 @@ CREATE TABLE IF NOT EXISTS `borrowRecords` (
 	`copyId`	INTEGER NOT NULL,
 	`username`	INTEGER NOT NULL,
 	`description`	TEXT
+);
+
+DROP TABLE IF EXISTS `freeCopies`;
+CREATE TABLE IF NOT EXISTS `freeCopies` (
+	`copyID` INTEGER,
+	`rID` INTEGER,
+	PRIMARY KEY (copyID),
+	FOREIGN KEY (copyID) REFERENCES `copies` (`copyID`) ON UPDATE CASCADE ON DELETE CASCADE
 );
 COMMIT;

@@ -99,6 +99,19 @@ public abstract class Resource {
 		freeCopies.addAll(copies);
 	}
 	
+	public void saveFreeCopies() {
+		try {
+			Connection conn = DBHelper.getConnection(); //get the connection
+			Statement stmt = conn.createStatement(); //prep a statement
+			
+			for(Copy c: freeCopies) {
+				stmt.executeUpdate("insert into freeCopies values ("+c.getCOPY_ID()+","+uniqueID+")");
+			}
+		} catch (SQLException e) { 
+			e.printStackTrace();
+		}
+	}
+	
 	/**This method ensures a returned copy is marked a free copy or that it is
 	 *  reserved for the user at the front of the request queue.
 	 *  @param returnedCopy The copy being returned.*/
