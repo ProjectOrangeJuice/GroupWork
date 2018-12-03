@@ -81,7 +81,7 @@ public class ProfileController {
 			
 			ImageView image = new ImageView();
 			image.setImage(resource.getThumbnail());
-			//resourcePane.add(image);
+			resourcePane.add(image, 0, 0);
 		}
 		
 		

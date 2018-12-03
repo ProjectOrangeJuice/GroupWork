@@ -9,13 +9,12 @@ CREATE TABLE IF NOT EXISTS `users` (
 	`postcode`	TEXT,
 	`avatarPath`	TEXT,
 	`accountBalance`	TEXT,
-	`staffType`	TEXT NOT NULL,
 	PRIMARY KEY(`username`)
 );
 
-<<<<<<< HEAD
-INSERT INTO `users` VALUES ("test", "testName", "testSecondName", "12345", "1 Imaginary Street", "111 111", "FAKEPATH", "1000", "1000", 1, "user");
-=======
+INSERT INTO `users` VALUES ('test','testname','testSecondName','12345','1 blabla street','ABC DEF','whatPath?','12');
+INSERT INTO `users` VALUES ('staff','teststaff','testSecondstaff','56789','2 blabla street','ABB DEE','whatPathAgain?','100');
+
 DROP TABLE IF EXISTS `staff`;
 CREATE TABLE IF NOT EXISTS `staff`(
 	`username`	TEXT,
@@ -24,7 +23,8 @@ CREATE TABLE IF NOT EXISTS `staff`(
 	PRIMARY KEY(`staffID`),
 	FOREIGN KEY (`username`) REFERENCING `users`(`username`) ON UPDATE CASCADE ON DELETE CASCADE
 );
->>>>>>> branch 'master' of https://github.com/The-Juggernaut/Group6.git
+
+INSERT INTO `staff` VALUES ('staff','6237','03/11/2000');
 
 DROP TABLE IF EXISTS `transactions`;
 CREATE TABLE IF NOT EXISTS `transactions` (
