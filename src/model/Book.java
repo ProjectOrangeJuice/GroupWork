@@ -14,6 +14,10 @@ public class Book extends Resource {
 	private String ISBN;
 	private String language;
 	
+	/**
+	 * Method that loads the details of a book from the book table
+	 * @param resources
+	 */
 	public static void loadDatabaseBooks(ArrayList<Resource> resources) {
 		try {
 			Connection conn = DBHelper.getConnection(); //get the connection
@@ -33,6 +37,18 @@ public class Book extends Resource {
 		}
 	}
 	
+	/**
+	 * Book constructor with all the fields
+	 * @param uniqueID
+	 * @param title
+	 * @param year
+	 * @param thumbnail
+	 * @param author
+	 * @param publisher
+	 * @param genre
+	 * @param ISBN
+	 * @param language
+	 */
 	public Book (int uniqueID, String title, int year, Image thumbnail, String author, String publisher, String genre, String ISBN, String language) {
 		super(uniqueID, title, year, thumbnail);
 		this.author = author;
@@ -42,12 +58,24 @@ public class Book extends Resource {
 		this.language = language;
 	}
 	
+	/**
+	 * Book constructor that constructs the optional fields
+	 * @param uniqueID
+	 * @param title
+	 * @param year
+	 * @param thumbnail
+	 * @param author
+	 * @param publisher
+	 */
 	public Book (int uniqueID, String title, int year, Image thumbnail, String author, String publisher) {
 		super(uniqueID, title, year, thumbnail);
 		this.author = author;
 		this.publisher = publisher;
 	}
 	
+	/**
+	 * 
+	 */
 	public void setTitle(String title) {
 		updateDbValue("book", this.uniqueID, "title", title);
 		super.setTitle(title);

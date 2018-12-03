@@ -15,7 +15,8 @@ public class Copy {
 	private Resource resource;
 	private User borrower;
 	private final int COPY_ID;
-	private Date duration;
+	private int duration;
+	private Date dueDate;
 	
 	/**
 	 * Class Constructor
@@ -71,7 +72,7 @@ public class Copy {
 	 * Method that gets the duration variable
 	 * @return duration
 	 */
-	public Date getDuration(){
+	public int getDuration(){
 		return duration;
 	}
 	
@@ -93,8 +94,16 @@ public class Copy {
 		return COPY_ID;
 	}
 	
-	public void setDuration(Date duration){
+	public void setDuration(int duration){
 		this.duration = duration;
+	}
+	
+	public Date getDueDate() {
+		return dueDate;
+	}
+	
+	public void setDueDate(Date dueDate) {
+		this.dueDate=dueDate;
 	}
 
 	public User getBorrower() {

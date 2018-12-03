@@ -28,28 +28,18 @@ public class transactionsTester {
 
 			}
 
-			t = new Transactions(1,p);
+			t = new Transactions("1",p);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 
 
-		t.addPayment(new Payment(3,"1",400,"bla"));
+		//t.addPayment(new Payment(3,"1",400,"bla"));
 
 		System.out.println("Over");
 
 
 
-		try {
-			Connection conn = DBHelper.getConnection();
-
-			PreparedStatement pstmt = conn.prepareStatement("insert into dvd(director,runtime,language,rId) values ('bob',200,'english',77);"); // "?" is a placeholder
-			pstmt.executeUpdate();//This can return a value to tell you if it was successful.
-
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 	}
 
 
