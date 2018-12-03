@@ -184,14 +184,15 @@ public abstract class Person {
 			String result = "";
 			String sql = "";
 			
-			//Checks whether the person exists in the Database
-			sql = "SELECT COUNT(*) FROM users WHERE `username` = '" + username + "';";
-			ResultSet rs = stmt.executeQuery(sql);
+			PreparedStatement pstmt = conn.prepareStatement("SELECT COUNT(*) FROM users WHERE username = ?;");
+            pstmt.setString(1, username);
+            ResultSet rs = pstmt.executeQuery();
 			
 			if (rs.getInt(1) == 1) {
-			
-				sql = "SELECT * FROM users WHERE `username` = '" + username + "';";
-				rs = stmt.executeQuery(sql);
+				
+				pstmt = conn.prepareStatement("SELECT * FROM users WHERE username = ?;");
+	            pstmt.setString(1, username);
+	            rs = pstmt.executeQuery();
 				
 				//Iterates through every column in the result set
 				for (int i = 1; i <= rs.getMetaData().getColumnCount(); i++) {
