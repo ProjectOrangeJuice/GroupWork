@@ -187,7 +187,7 @@ public abstract class Person {
 			
 			if (rs.getInt(1) == 1) {
 				
-				pstmt = conn.prepareStatement("SELECT * FROM users WHERE username = ?;");
+				pstmt = conn.prepareStatement("SELECT * FROM users, staff WHERE users.username = staff.username and username = ?;");
 	            pstmt.setString(1, username);
 	            rs = pstmt.executeQuery();
 				
