@@ -79,4 +79,9 @@ public class User extends Person {
 		return accountBalance;
 	}
 	
+	//Make method that loaded all of the copies associated with that user
+	//Query copies by username
+	//	load copies by id
+	//	load resouces by id
+	
 }
