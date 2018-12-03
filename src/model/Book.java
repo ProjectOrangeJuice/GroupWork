@@ -23,19 +23,24 @@ public class Book extends Resource {
 			
 			Connection conn = DBHelper.getConnection(); //get the connection
 			Statement stmt = conn.createStatement(); //prep a statement
-			ResultSet rs = stmt.executeQuery("SELECT resource.rID, resource.year, resource.title, author, publisher,"
+			ResultSet rs = stmt.executeQuery("SELECT resource.rID, resource.year, resource.title, resource.thumbnail, author, publisher,"
 					+ "genre, ISBN, language FROM book, resource WHERE book.rID = resource.rID"); //Your sql goes here
 			
 			while(rs.next()) {
 				
+				Image resourceImage = new Image(rs.getString("thumbnail"), true);
+				
 				resources.add(new Book(rs.getInt("rID"), rs.getString("title"), 
-						rs.getInt("year"), null, rs.getString("author"),rs.getString("publisher"),
+						rs.getInt("year"), resourceImage, rs.getString("author"),rs.getString("publisher"),
 						rs.getString("genre"), rs.getString("ISBN"), rs.getString("language")));
+				
+				System.out.println("New book added!");
 			}
 			
 		} catch (SQLException e) { 
 			e.printStackTrace();
 		}
+		
 	}
 	
 	/**

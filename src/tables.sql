@@ -46,11 +46,11 @@ DROP TABLE IF EXISTS `resource`;
 CREATE TABLE IF NOT EXISTS `resource` (
 	`rID`	INTEGER PRIMARY KEY AUTOINCREMENT,
 	`title`	TEXT,
-	`year`  INTEGER
+	`year`  INTEGER,
+	`thumbnail`	TEXT
 );
-INSERT INTO `resource` VALUES (1,'Bookie',1998);
-INSERT INTO `resource` VALUES (2,'Laptop 1',2000);
-INSERT INTO `resource` VALUES (3,'Other book',2000);
+INSERT INTO `resource` VALUES (1,'Homo Deus',2017,'\graphics\homoDeus.png');
+INSERT INTO `resource` VALUES (2,'Iron Man',2008,'\graphics\ironMan.jpg');
 
 DROP TABLE IF EXISTS `fines`;
 CREATE TABLE IF NOT EXISTS `fines` (
@@ -88,6 +88,9 @@ CREATE TABLE IF NOT EXISTS `book` (
 	PRIMARY KEY (rID),
 	FOREIGN KEY (rID) REFERENCES `resource`(`rID`) ON UPDATE CASCADE ON DELETE CASCADE
 );
+
+INSERT INTO `book` VALUES ('Yuval Noah Harari','Harvill Secker','Non-Fiction','978-191-070-187-4','English',1);
+
 DROP TABLE IF EXISTS `dvd`;
 CREATE TABLE IF NOT EXISTS `dvd` (
 	`director`	TEXT,
@@ -98,8 +101,7 @@ CREATE TABLE IF NOT EXISTS `dvd` (
 	FOREIGN KEY (rID) REFERENCES `resource`(`rID`) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
-INSERT INTO `dvd` VALUES ('George Lucas',200,'english',1);
-INSERT INTO `dvd` VALUES ('Kubrick',100,'russian',2);
+INSERT INTO `dvd` VALUES ('Jon Favreau',126,'english',2);
 
 drop table if exists `subtitles`;
 create table if not exists `subtitles` (
@@ -122,9 +124,6 @@ CREATE TABLE IF NOT EXISTS `laptop` (
 	PRIMARY KEY (rID),
 	FOREIGN KEY (rID) REFERENCES `resource`(`rID`) ON UPDATE CASCADE ON DELETE CASCADE
 );
-INSERT INTO `resource` VALUES (0,'Sapiens',1998);
-INSERT INTO `book` VALUES ('Noah', 'penguin books', 'non-fiction', '111222333', 'English', 0);
-
 
 INSERT INTO `copies` VALUES (1,1,NULL,NULL);
 INSERT INTO `copies` VALUES (2,1,NULL,NULL);

@@ -27,7 +27,8 @@ public class Laptop extends Resource {
 			}
 		} catch (SQLException e) { 
 			e.printStackTrace();
-		} 
+		}
+		
 	}
 	
 	public Laptop(int uniqueID, String title, int year, Image thumbnail, String manufacturer, String model, String OS) {

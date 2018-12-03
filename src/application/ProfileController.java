@@ -83,11 +83,17 @@ public class ProfileController {
 		//load resources
 		ArrayList<Resource> resources = Resource.loadDatabaseResources();
 		
-		for(Resource resource: resources) {
+		//adds resources to resources tab in UI.
+		for(int i = 0; i < resources.size(); i++) {
 			
-			//ImageView image = new ImageView();
-			//image.setImage(resource.getThumbnail());
-			//resourcePane.add(image, 0, 0);
+			ImageView image = new ImageView();
+			
+			image.setFitWidth(300);
+			image.setFitHeight(500);
+			image.setImage(resources.get(i).getThumbnail());
+			
+			resourcePane.add(image, i, 0); ///FIXXXXX!!!!!!
+			
 			
 		}
 	
