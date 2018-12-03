@@ -15,6 +15,8 @@ CREATE TABLE IF NOT EXISTS `users` (
 	PRIMARY KEY(`username`)
 );
 
+INSERT INTO `users` VALUES ("test", "testName", "testSecondName", "12345", "1 Imaginary Street", "111 111", "FAKEPATH", "1000", "1000", 1, "user");
+
 DROP TABLE IF EXISTS `transactions`;
 CREATE TABLE IF NOT EXISTS `transactions` (
 	`transactionId`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
