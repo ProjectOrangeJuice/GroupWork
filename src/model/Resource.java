@@ -47,7 +47,7 @@ public abstract class Resource {
 	private static ArrayList<Resource> resources = new ArrayList<>();
 	
 	public static void loadDatabaseResources() {
-			
+		
 		Book.loadDatabaseBooks(resources);
 			
 		Laptop.loadDatabaseLaptops(resources);
@@ -56,7 +56,6 @@ public abstract class Resource {
 	}
 	
 	protected static void updateDbValue(String tableName, int resourceId, String field, String data) {
-	
 		try {
 			Connection conn = DBHelper.getConnection(); //get the connection
 			Statement stmt = conn.createStatement(); //prep a statement
@@ -64,7 +63,51 @@ public abstract class Resource {
 		} catch (SQLException e) { 
 			e.printStackTrace();
 		}
-		
+	}
+	
+	protected void loadCopyList() {
+		try {
+			Connection conn = DBHelper.getConnection(); //get the connection
+			Statement stmt = conn.createStatement(); //prep a statement
+			ResultSet rs = stmt.executeQuery("SELECT * FROM copies WHERE rID="+uniqueID); //Your sql goes here
+			copyList.clear();
+			
+			while(rs.next()) {
+				copyList.add(new Copy(this, rs.getInt("copyID"),null));
+			} 
+		} catch (SQLException e) { 
+			e.printStackTrace();
+		}
+	}
+	
+	protected void loadFreeCopiesList() {
+		try {
+			Connection conn = DBHelper.getConnection(); //get the connection
+			Statement stmt = conn.createStatement(); //prep a statement
+			ResultSet rs = stmt.executeQuery("SELECT * FROM freeCopies WHERE rID="+uniqueID); //Your sql goes here
+			freeCopies.clear();
+			
+			while(rs.next()) {
+				int copyID = rs.getInt("copyID");
+				
+				Copy currentCopy = null;
+				for(Copy c: copyList) {
+					if(c.getCOPY_ID()==copyID) {
+						currentCopy=c;
+						break;
+					}
+				}
+				
+				if(currentCopy==null) {
+					throw new IllegalStateException("No copy in the copy List "+
+							"with the ID from the freeCopies list.");
+				} else {
+					freeCopies.addFirst(currentCopy);
+				}
+			} 
+		} catch (SQLException e) { 
+			e.printStackTrace();
+		}
 	}
 	
 	/**
@@ -87,6 +130,8 @@ public abstract class Resource {
 		noDueDateCopies = new PriorityQueue<Copy>();
 		userRequest = new Queue<User>();
 		
+		loadCopyList();
+		loadFreeCopiesList();
 	} 
 	
 	public void addCopy(Copy copy) {
@@ -155,7 +200,6 @@ public abstract class Resource {
 			Copy firstCopy = noDueDateCopies.poll();
 			firstCopy.setDuration(null);
 		}
-		
 	}
 
 	public int getUniqueID() {
