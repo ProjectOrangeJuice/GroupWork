@@ -221,7 +221,7 @@ public abstract class Resource {
 		else {
 			userRequest.enqueue(user);
 			Copy firstCopy = noDueDateCopies.poll();
-			firstCopy.setDuration(null);
+			firstCopy.setDueDate(null);
 		}
 	}
 
