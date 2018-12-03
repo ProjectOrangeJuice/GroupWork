@@ -181,40 +181,54 @@ public abstract class Person {
 			Connection conn = DBHelper.getConnection();
 			String result = "";
 			
-			PreparedStatement pstmt = conn.prepareStatement("SELECT COUNT(*) FROM users WHERE username = ?;");
+			PreparedStatement pstmt = conn.prepareStatement("SELECT COUNT(*) FROM users WHERE users.username = ?;");
             pstmt.setString(1, username);
             ResultSet rs = pstmt.executeQuery();
 			
 			if (rs.getInt(1) == 1) {
 				
-				pstmt = conn.prepareStatement("SELECT * FROM users, staff WHERE users.username = staff.username and username = ?;");
+				pstmt = conn.prepareStatement("SELECT COUNT (*) FROM staff WHERE username = ?;");
 	            pstmt.setString(1, username);
 	            rs = pstmt.executeQuery();
-				
-				//Iterates through every column in the result set
-				for (int i = 1; i <= rs.getMetaData().getColumnCount(); i++) {
-					if (i == rs.getMetaData().getColumnCount()) {
-						result += rs.getString(i);
-					} else {
-						result += rs.getString(i) + ",";
+	            
+	            if (rs.getInt(1) == 1) {
+	            	
+	            	pstmt = conn.prepareStatement("SELECT * FROM users, staff WHERE users.username = staff.username and users.username = ?;");
+		            pstmt.setString(1, username);
+		            rs = pstmt.executeQuery();
+		            
+		            for (int i = 1; i <= rs.getMetaData().getColumnCount(); i++) {
+						if (i == rs.getMetaData().getColumnCount()) {
+							result += rs.getString(i);
+						} else {
+							result += rs.getString(i) + ",";
+						}
 					}
-				}
-				//Splits the CSV string into a string array
-				String[] parts = result.split(",");
-				
-				//Checks whether to make a Librarian or User
-				switch (parts[10]) {
-				case "staff":
+		            
+		            String[] parts = result.split(",");
+
 					conn.close();
-					return new Librarian(parts[0], parts[1], parts[2], parts[3], parts[4], parts[5], loadAvatar(parts[6]), parts[8], 0); //Last is temp
-				case "user":
+					return new Librarian(parts[0], parts[1], parts[2], parts[3], parts[4], parts[5], loadAvatar(parts[6]), parts[8], 0);
+	            } else {
+
+	            	pstmt = conn.prepareStatement("SELECT * FROM users WHERE username = ?;");
+		            pstmt.setString(1, username);
+		            rs = pstmt.executeQuery();
+		            
+		            for (int i = 1; i <= rs.getMetaData().getColumnCount(); i++) {
+						if (i == rs.getMetaData().getColumnCount()) {
+							result += rs.getString(i);
+						} else {
+							result += rs.getString(i) + ",";
+						}
+					}
+		            
+		            String[] parts = result.split(",");
+
 					conn.close();
 					return new User(parts[0], parts[1], parts[2], parts[3], parts[4], parts[5], loadAvatar(parts[6]), Double.parseDouble(parts[7]));
-				default:
-					System.out.println("Error: Could not load type: '" + parts[10] + "'"); //Raise error
-					conn.close();
-					return null;
-				}
+	            }
+				
 			} else {
 				System.out.println("Error: Either too many or not enough rows returned."); //Raise error
 				conn.close();
