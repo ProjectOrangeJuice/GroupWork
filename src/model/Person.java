@@ -225,7 +225,7 @@ public abstract class Person {
 			
 		//Catch most other errors!
 		} catch (SQLException e) {
-			e.printStackTrace();
+			System.out.println(e);
 		}
 		//By default return null.
 		return null;
