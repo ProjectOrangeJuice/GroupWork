@@ -17,14 +17,8 @@ import javafx.stage.Stage;
 
 public class ProfileController {
 
-
-
-
-
 	@FXML
 	private HBox resourceImages;
-
-
 
 	@FXML
 	private ScrollPane scrollPane;
