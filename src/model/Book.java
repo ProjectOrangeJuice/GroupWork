@@ -20,18 +20,19 @@ public class Book extends Resource {
 	 */
 	public static void loadDatabaseBooks(ArrayList<Resource> resources) {
 		try {
+			
 			Connection conn = DBHelper.getConnection(); //get the connection
 			Statement stmt = conn.createStatement(); //prep a statement
-			ResultSet rs = stmt.executeQuery("SELECT * FROM book"); //Your sql goes here
+			ResultSet rs = stmt.executeQuery("SELECT resource.rID, resource.year, resource.title, author, publisher,"
+					+ "genre, ISBN, language FROM book, resource WHERE book.rID = resource.rID"); //Your sql goes here
 			
 			while(rs.next()) {
-				int resourceID = rs.getInt("rId");
-				ResultSet resourceResult = stmt.executeQuery("SELECT title, year FROM resource WHERE rId="+resourceID);
 				
-				resources.add(new Book(resourceID, resourceResult.getString("title"), 
-						resourceResult.getInt("year"), null, rs.getString("author"),rs.getString("publisher"),
+				resources.add(new Book(rs.getInt("rID"), rs.getString("title"), 
+						rs.getInt("year"), null, rs.getString("author"),rs.getString("publisher"),
 						rs.getString("genre"), rs.getString("ISBN"), rs.getString("language")));
-			} 
+			}
+			
 		} catch (SQLException e) { 
 			e.printStackTrace();
 		}

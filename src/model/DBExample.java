@@ -141,7 +141,7 @@ public class DBExample {
 		//displaySubtitles();
 		//displayDVDs();
 		
-		testFreeCopiesDB();
+		//testFreeCopiesDB();
 	}
 
 }

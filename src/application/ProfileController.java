@@ -29,6 +29,9 @@ public class ProfileController {
 	
 	@FXML
 	private GridPane resourcePane;
+	
+	@FXML
+	private TextField searchTextBox;
 
 	/**
 	 * Sets new scene on stage within program using fxml file provided.
@@ -79,14 +82,12 @@ public class ProfileController {
 		
 		for(Resource resource: resources) {
 			
-			ImageView image = new ImageView();
-			image.setImage(resource.getThumbnail());
-			resourcePane.add(image, 0, 0);
+			//ImageView image = new ImageView();
+			//image.setImage(resource.getThumbnail());
+			//resourcePane.add(image, 0, 0);
+			
 		}
-		
-		
-		
-
+	
 	 }
 
 }
