@@ -16,12 +16,11 @@ INSERT INTO `users` VALUES ('test','testname','testSecondName','12345','1 blabla
 INSERT INTO `users` VALUES ('staff','teststaff','testSecondstaff','56789','2 blabla street','ABB DEE','whatPathAgain?','100');
 
 DROP TABLE IF EXISTS `staff`;
-CREATE TABLE IF NOT EXISTS `staff`(
+CREATE TABLE IF NOT EXISTS `staff` (
 	`username`	TEXT,
-	`staffID`	INTEGER NOT NULL AUTOINCREMENT UNIQUE,
+	`staffId`	INTEGER NOT NULL UNIQUE,
 	`employmentDate`	TEXT,
-	PRIMARY KEY(`staffID`),
-	FOREIGN KEY (`username`) REFERENCING `users`(`username`) ON UPDATE CASCADE ON DELETE CASCADE
+	FOREIGN KEY(`username`) REFERENCES `users`(`username`)
 );
 
 INSERT INTO `staff` VALUES ('staff','6237','03/11/2000');
