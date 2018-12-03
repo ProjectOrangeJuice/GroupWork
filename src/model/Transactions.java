@@ -8,12 +8,12 @@ import java.util.Date;
 
 public class Transactions {
 
-	private int username;
+	private String username;
 	private ArrayList<Payment> payments;
 
 
 
-	public Transactions(int username, ArrayList<Payment> payments) {
+	public Transactions(String username, ArrayList<Payment> payments) {
 		this.username = username;
 		this.payments = payments;
 
@@ -23,7 +23,7 @@ public class Transactions {
 		return username;
 	}
 
-	public void setUsername(int username) {
+	public void setUsername(String username) {
 		this.username = username;
 	}
 
@@ -37,7 +37,7 @@ public class Transactions {
 		try {
 			Connection conn = DBHelper.getConnection();
 			PreparedStatement pstmt = conn.prepareStatement("INSERT INTO transactions (username,paid,dateTime) VALUES (?,?,?)");
-	            pstmt.setInt(1, username);
+	            pstmt.setString(1, username);
 	            pstmt.setFloat(2, payment.getAmount());
 	            pstmt.setString(3, stamp);
 	            pstmt.executeUpdate();
@@ -54,5 +54,5 @@ public class Transactions {
 
 
 
-	
+
 }

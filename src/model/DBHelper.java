@@ -13,8 +13,8 @@ import java.io.InputStream;
 *
 */
 public class DBHelper {
-	
-	private static int VERSION = 5; // Version number for database
+
+	private static int VERSION = 6; // Version number for database
 	private static String LINK = "jdbc:sqlite:test.db"; // database connection string
 	private static String SQL = "src/tables.sql"; // database connection string
 
@@ -25,14 +25,14 @@ public class DBHelper {
 	 * @throws SQLException
 	 */
 	private static ResultSet selectKnown(String sql) throws SQLException{
-			
+
 		Connection conn = getConnection();
 		Statement stmt = conn.createStatement();
 		ResultSet rs = stmt.executeQuery(sql);
-		
+
 		return rs;
 	}
-	
+
 	/** Get the database connection
 	 * @return Connection to database
 	 * @throws SQLException
@@ -40,14 +40,14 @@ public class DBHelper {
 	public static Connection getConnection(boolean keyCheck) throws SQLException{
         // SQLite connection string
         Connection conn = null;
-       
+
         conn = DriverManager.getConnection(LINK);
         if(keyCheck) {
         	conn.createStatement().execute("PRAGMA foreign_keys = ON");
         }
         return conn;
     }
-	
+
 	public static Connection getConnection() throws SQLException{
 		return getConnection(true);
 	}
@@ -64,7 +64,7 @@ public class DBHelper {
 			s.useDelimiter(";");// Each statement is split with ";"
 			Statement st = null;
 
-			Connection conn = getConnection(true); // Opens the database
+			Connection conn = getConnection(false); // Opens the database
 			st = conn.createStatement();
 			while (s.hasNext()) {
 				String line = s.next();
@@ -92,7 +92,7 @@ public class DBHelper {
 		}
 
 	}
-	
+
 	/**
 	 * Checks the table to see if it is an older version. If it is it will recreate the database using createTables()
 	 */
@@ -117,13 +117,13 @@ public class DBHelper {
 			System.out.println("Creating database");
 		}
 	}
-	
+
 	/**
-	 * Public method for createTables() 
+	 * Public method for createTables()
 	 */
 	public static void forceUpdate() {
-		
+
 		createTables();
-		
+
 	}
 }

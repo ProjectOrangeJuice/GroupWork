@@ -18,7 +18,7 @@ CREATE TABLE IF NOT EXISTS `users` (
 DROP TABLE IF EXISTS `transactions`;
 CREATE TABLE IF NOT EXISTS `transactions` (
 	`transactionId`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
-	`username`	INTEGER,
+	`username`	TEXT,
 	`paid`	REAL,
 	`dateTime`	TEXT
 );
@@ -44,7 +44,7 @@ INSERT INTO `resource` VALUES (3,'Other book',2000);
 DROP TABLE IF EXISTS `fines`;
 CREATE TABLE IF NOT EXISTS `fines` (
 	`fineId`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
-	`username`	INTEGER,
+	`username`	TEXT,
 	`copyId`	INTEGER,
 `daysOver`	INTEGER,
 	`amount`	REAL,
@@ -125,7 +125,7 @@ DROP TABLE IF EXISTS `borrowRecords`;
 CREATE TABLE IF NOT EXISTS `borrowRecords` (
 	`borrowId`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
 	`copyId`	INTEGER NOT NULL,
-	`username`	INTEGER NOT NULL,
+	`username`	TEXT NOT NULL,
 	`description`	TEXT
 );
 
