@@ -197,36 +197,39 @@ public abstract class Person {
 		            pstmt.setString(1, username);
 		            rs = pstmt.executeQuery();
 		            
-		            for (int i = 1; i <= rs.getMetaData().getColumnCount(); i++) {
-						if (i == rs.getMetaData().getColumnCount()) {
-							result += rs.getString(i);
-						} else {
-							result += rs.getString(i) + ",";
-						}
-					}
-		            
-		            String[] parts = result.split(",");
+		            String usernameResult = rs.getString(1);
+		            String firstnameResult = rs.getString(2);
+		            String lastnameResult = rs.getString(3);
+		            String telephoneResult = rs.getString(4);
+		            String addressResult = rs.getString(5);
+		            String postcodeResult = rs.getString(6);
+		            String pathResult = rs.getString(7);
+		            String staffIDResult = rs.getString(8);
+		            String employmentDateResult = rs.getString(11);
 
 					conn.close();
-					return new Librarian(parts[0], parts[1], parts[2], parts[3], parts[4], parts[5], loadAvatar(parts[6]), parts[10], Integer.parseInt(parts[9]));
+					return new Librarian(usernameResult, firstnameResult, lastnameResult, 
+							telephoneResult, addressResult, postcodeResult, loadAvatar(pathResult),
+							employmentDateResult, Integer.parseInt(staffIDResult));
 	            } else {
 
 	            	pstmt = conn.prepareStatement("SELECT * FROM users WHERE username = ?;");
 		            pstmt.setString(1, username);
 		            rs = pstmt.executeQuery();
 		            
-		            for (int i = 1; i <= rs.getMetaData().getColumnCount(); i++) {
-						if (i == rs.getMetaData().getColumnCount()) {
-							result += rs.getString(i);
-						} else {
-							result += rs.getString(i) + ",";
-						}
-					}
+		            String usernameResult = rs.getString(1);
+		            String firstnameResult = rs.getString(2);
+		            String lastnameResult = rs.getString(3);
+		            String telephoneResult = rs.getString(4);
+		            String addressResult = rs.getString(5);
+		            String postcodeResult = rs.getString(6);
+		            String pathResult = rs.getString(7);
+		            String balanceResult = rs.getString(8);
 		            
-		            String[] parts = result.split(",");
-
 					conn.close();
-					return new User(parts[0], parts[1], parts[2], parts[3], parts[4], parts[5], loadAvatar(parts[6]), Double.parseDouble(parts[7]));
+					return new User(usernameResult, firstnameResult, lastnameResult,
+							telephoneResult, addressResult, postcodeResult, loadAvatar(pathResult),
+							Double.parseDouble(balanceResult));
 	            }
 				
 			} else {
@@ -242,6 +245,7 @@ public abstract class Person {
 		return null;
 	}
 	
+	//TODO: FIX ME!
 	protected static boolean updateDatabase(String username, String field, String data) {
 		try {
 			Connection conn = DBHelper.getConnection();

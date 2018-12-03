@@ -23,7 +23,7 @@ public class Librarian extends Person{
 	private Date employmentDate;
 	
 	/** The librarian's staff ID.*/
-	private int staffID;
+	private final int staffID;
 	
 	/**
 	 * Create a new librarian user from the given arguments.
@@ -52,7 +52,8 @@ public class Librarian extends Person{
 			e.printStackTrace();
 			this.employmentDate = null;
 		}
-		Person.updateDatabase(this.getEmploymentDate().toString(), "employmentDate", employmentDate);
+		//TODO: make date converter separate
+		//Person.updateDatabase(this.getEmploymentDate().toString(), "employmentDate", employmentDate);
 	}
 	
 	//TEMP
@@ -93,11 +94,6 @@ public class Librarian extends Person{
 	 */
 	public void authorizeFinePayment(User user, double amount) {
 		user.makePayment(amount);
-	}
-	
-	public void setStaffID (int staffID) {
-		this.staffID = staffID;
-		Person.updateDatabase(this.getUsername(), "staffID", Integer.toString(staffID));
 	}
 	
 	/**

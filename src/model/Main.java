@@ -26,10 +26,10 @@ public class Main {
 		//Loading a Librarian example
 		Librarian testStaff = (Librarian)Librarian.loadPerson("staff");
 		System.out.println(testStaff.getUsername());
+		System.out.println(testStaff.getEmploymentDate());
 		
 		//Loading a User example
 		User testUser = (User)User.loadPerson("test");
-
 		System.out.println(testUser.getUsername());
 		
 		System.out.println(testUser.getAccountBalance());
