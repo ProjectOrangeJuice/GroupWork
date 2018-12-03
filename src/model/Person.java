@@ -3,7 +3,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 
 import javafx.scene.image.Image;
 
@@ -180,9 +179,7 @@ public abstract class Person {
 		try {
 			//Declaring necessary variables
 			Connection conn = DBHelper.getConnection();
-			Statement stmt = conn.createStatement();
 			String result = "";
-			String sql = "";
 			
 			PreparedStatement pstmt = conn.prepareStatement("SELECT COUNT(*) FROM users WHERE username = ?;");
             pstmt.setString(1, username);
