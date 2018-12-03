@@ -98,7 +98,7 @@ public class DBExample {
 	}
 	
 	private static void testFreeCopiesDB() {
-		Laptop laptop1=new Laptop(1,"VX15",2017,null,"IBM","Acer","Windows 10");
+		DVD laptop1=new DVD(1,"Bookie",1998,null,"George Lucas",200);
 		ArrayList<Copy> list = new ArrayList<>();
 		list.add(new Copy(laptop1,1,null));
 		list.add(new Copy(laptop1,2,null));
@@ -117,7 +117,19 @@ public class DBExample {
 				System.out.println("copyID "+rs.getInt("copyID")+" rID " +rs.getInt("rID"));
 			} //Think of this a bit like the file reader for the games project
 				
+			System.out.println("Load free copies from database");
+			laptop1.loadCopyList();
+			/*
+			System.out.println("Copy List:");
+			for(Copy c: laptop1.copyList) {
+				System.out.println(c.getCOPY_ID());
+			}
 			
+			laptop1.loadFreeCopiesList();
+			System.out.println("Free Copy List:");
+			for(Copy c: laptop1.freeCopies) {
+				System.out.println(c.getCOPY_ID());
+			}*/
 		} catch (SQLException e) { //if your SQL is incorrect this will display it
 			// TODO Auto-generated catch block
 			System.out.println(e.getMessage());
