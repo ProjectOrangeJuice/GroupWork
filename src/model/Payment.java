@@ -2,11 +2,11 @@ package model;
 
 public class Payment {
 	private int transactionId;
-	private int username;
+	private String username;
 	private float amount;
 	private String stamp;
 
-	public Payment(int transactionId, int username, float amount, String stamp) {
+	public Payment(int transactionId, String username, float amount, String stamp) {
 		this.transactionId = transactionId;
 		this.username = username;
 		this.amount = amount;
@@ -26,7 +26,7 @@ public class Payment {
 		return transactionId;
 	}
 
-	public int getusername() {
+	public String getusername() {
 		return username;
 	}
 }
