@@ -1,6 +1,8 @@
 package application;
 
 
+import java.util.ArrayList;
+
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -10,9 +12,11 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import model.Resource;
 
 
 public class ProfileController {
@@ -22,6 +26,9 @@ public class ProfileController {
 
 	@FXML
 	private ScrollPane scrollPane;
+	
+	@FXML
+	private GridPane resourcePane;
 
 	/**
 	 * Sets new scene on stage within program using fxml file provided.
@@ -60,13 +67,25 @@ public class ProfileController {
 	@FXML
 	 public void initialize() {
 
+		//change resources size on profile page.
 		scrollPane.setHvalue(0.5);
-
 		for(Node resource : resourceImages.getChildren()) {
 			((ImageView) resource).setFitWidth(300);
 			((ImageView) resource).setFitHeight(500);
 		}
-
+		
+		//load resources
+		ArrayList<Resource> resources = Resource.loadDatabaseResources();
+		
+		for(Resource resource: resources) {
+			
+			ImageView image = new ImageView();
+			image.setImage(resource.getThumbnail());
+			//resourcePane.add(image);
+		}
+		
+		
+		
 
 	 }
 

@@ -9,13 +9,22 @@ CREATE TABLE IF NOT EXISTS `users` (
 	`postcode`	TEXT,
 	`avatarPath`	TEXT,
 	`accountBalance`	TEXT,
-	`employmentDate`	TEXT,
-	`staffID`	INTEGER NOT NULL,
 	`staffType`	TEXT NOT NULL,
 	PRIMARY KEY(`username`)
 );
 
+<<<<<<< HEAD
 INSERT INTO `users` VALUES ("test", "testName", "testSecondName", "12345", "1 Imaginary Street", "111 111", "FAKEPATH", "1000", "1000", 1, "user");
+=======
+DROP TABLE IF EXISTS `staff`;
+CREATE TABLE IF NOT EXISTS `staff`(
+	`username`	TEXT,
+	`staffID`	INTEGER NOT NULL AUTOINCREMENT UNIQUE,
+	`employmentDate`	TEXT,
+	PRIMARY KEY(`staffID`),
+	FOREIGN KEY (`username`) REFERENCING `users`(`username`) ON UPDATE CASCADE ON DELETE CASCADE
+);
+>>>>>>> branch 'master' of https://github.com/The-Juggernaut/Group6.git
 
 DROP TABLE IF EXISTS `transactions`;
 CREATE TABLE IF NOT EXISTS `transactions` (

@@ -46,13 +46,14 @@ public abstract class Resource {
 	
 	private static ArrayList<Resource> resources = new ArrayList<>();
 	
-	public static void loadDatabaseResources() {
+	public static  ArrayList<Resource> loadDatabaseResources() {
 		
 		Book.loadDatabaseBooks(resources);
-			
 		Laptop.loadDatabaseLaptops(resources);
-			
 		DVD.loadDatabaseDVDs(resources);
+		
+		return resources;
+		
 	}
 	
 	protected static void updateDbValue(String tableName, int resourceId, String field, String data) {
