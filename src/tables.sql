@@ -9,9 +9,11 @@ CREATE TABLE IF NOT EXISTS `users` (
 	`postcode`	TEXT,
 	`avatarPath`	TEXT,
 	`accountBalance`	TEXT,
-	`staffType`	TEXT NOT NULL,
 	PRIMARY KEY(`username`)
 );
+
+INSERT INTO `users` VALUES ('test','testname','testSecondName','12345','1 blabla street','ABC DEF','whatPath?','12');
+INSERT INTO `users` VALUES ('staff','teststaff','testSecondstaff','56789','2 blabla street','ABB DEE','whatPathAgain?','100');
 
 DROP TABLE IF EXISTS `staff`;
 CREATE TABLE IF NOT EXISTS `staff`(
@@ -21,6 +23,8 @@ CREATE TABLE IF NOT EXISTS `staff`(
 	PRIMARY KEY(`staffID`),
 	FOREIGN KEY (`username`) REFERENCING `users`(`username`) ON UPDATE CASCADE ON DELETE CASCADE
 );
+
+INSERT INTO `staff` VALUES ('staff','6237','03/11/2000');
 
 DROP TABLE IF EXISTS `transactions`;
 CREATE TABLE IF NOT EXISTS `transactions` (
