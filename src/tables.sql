@@ -9,10 +9,17 @@ CREATE TABLE IF NOT EXISTS `users` (
 	`postcode`	TEXT,
 	`avatarPath`	TEXT,
 	`accountBalance`	TEXT,
-	`employmentDate`	TEXT,
-	`staffID`	INTEGER NOT NULL,
 	`staffType`	TEXT NOT NULL,
 	PRIMARY KEY(`username`)
+);
+
+DROP TABLE IF EXISTS `staff`;
+CREATE TABLE IF NOT EXISTS `staff`(
+	`username`	TEXT,
+	`staffID`	INTEGER NOT NULL AUTOINCREMENT UNIQUE,
+	`employmentDate`	TEXT,
+	PRIMARY KEY(`staffID`),
+	FOREIGN KEY (`username`) REFERENCING `users`(`username`) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 DROP TABLE IF EXISTS `transactions`;
