@@ -137,11 +137,33 @@ public abstract class Resource {
 	public void addCopy(Copy copy) {
 		copyList.add(copy);
 		freeCopies.addFirst(copy);
+		
+		try {
+			Connection conn = DBHelper.getConnection(); //get the connection
+			Statement stmt = conn.createStatement(); //prep a statement
+			
+			stmt.executeUpdate("insert into copies values ("+copy.getCOPY_ID()+","+getUniqueID()+",null,null)");
+			stmt.executeUpdate("insert into freeCopies values("+copy.getCOPY_ID()+","+getUniqueID()+")");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public void addCopies(Collection<Copy> copies) {
 		copyList.addAll(copies);
 		freeCopies.addAll(copies);
+		
+		for(Copy copy: copies) {
+			try {
+				Connection conn = DBHelper.getConnection(); //get the connection
+				Statement stmt = conn.createStatement(); //prep a statement
+				
+				stmt.executeUpdate("insert into copies values ("+copy.getCOPY_ID()+","+getUniqueID()+",null,null)");
+				stmt.executeUpdate("insert into freeCopies values("+copy.getCOPY_ID()+","+getUniqueID()+")");
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 	
 	public void saveFreeCopies() {
