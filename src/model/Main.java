@@ -24,8 +24,8 @@ public class Main {
 		System.out.println(Interstellar.getUniqueID());
 		
 		//Loading a Librarian example
-		//Librarian testStaff = (Librarian)Librarian.loadPerson("Staff1");
-		//System.out.println(testStaff.getUsername());
+		Librarian testStaff = (Librarian)Librarian.loadPerson("staff");
+		System.out.println(testStaff.getUsername());
 		
 		//Loading a User example
 		User testUser = (User)User.loadPerson("test");

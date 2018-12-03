@@ -208,7 +208,7 @@ public abstract class Person {
 		            String[] parts = result.split(",");
 
 					conn.close();
-					return new Librarian(parts[0], parts[1], parts[2], parts[3], parts[4], parts[5], loadAvatar(parts[6]), parts[8], 0);
+					return new Librarian(parts[0], parts[1], parts[2], parts[3], parts[4], parts[5], loadAvatar(parts[6]), parts[10], Integer.parseInt(parts[9]));
 	            } else {
 
 	            	pstmt = conn.prepareStatement("SELECT * FROM users WHERE username = ?;");
