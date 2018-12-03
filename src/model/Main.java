@@ -1,4 +1,5 @@
 package model;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import javafx.scene.image.Image;
@@ -28,7 +29,9 @@ public class Main {
 		System.out.println(testStaff.getUsername());
 		
 		//Loading a User example
-		User testUser = (User)User.loadPerson("Bobby");
+		User testUser;
+		testUser = (User)User.loadPerson("Bobby");
+
 		System.out.println(testUser.getUsername());
 		
 		System.out.println(testUser.getAccountBalance());
