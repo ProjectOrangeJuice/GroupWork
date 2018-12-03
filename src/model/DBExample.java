@@ -8,10 +8,6 @@ import java.util.ArrayList;
 
 public class DBExample {
 
-	//remove me at the end :(
-	
-	
-	
 	//Display a table
 	private static void displayResourceTable() {
 		System.out.println("----Displaying resource table----");
@@ -23,8 +19,6 @@ public class DBExample {
 				System.out.println("RID: "+rs.getInt("rId")+" Title:" +rs.getString("title") //The index is either a number of the name
 				+ " Year: "+rs.getInt("year"));
 			} //Think of this a bit like the file reader for the games project
-				
-			
 		} catch (SQLException e) { //if your SQL is incorrect this will display it
 			// TODO Auto-generated catch block
 			e.printStackTrace();
