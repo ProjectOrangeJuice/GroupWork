@@ -94,8 +94,16 @@ public class Copy {
 		return COPY_ID;
 	}
 	
-	public void setDuration(Date duration){
+	public void setDuration(int duration){
 		this.duration = duration;
+	}
+	
+	public Date getDueDate() {
+		return dueDate;
+	}
+	
+	public void setDueDate(Date dueDate) {
+		this.dueDate=dueDate;
 	}
 
 	public User getBorrower() {

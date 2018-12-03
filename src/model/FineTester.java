@@ -17,9 +17,9 @@ public class FineTester {
 			Statement stmt = conn.createStatement(); //prep a statement
 			ResultSet rs = stmt.executeQuery("SELECT * FROM fines WHERE username=1"); //Your sql goes here
 			while(rs.next()) {
-				int a = rs.getInt("fineId");
+				int a = rs.getInt("fineID");
 				int b = rs.getInt("username");
-				int c = rs.getInt("copyId");
+				int c = rs.getInt("copyID");
 				int c2 = rs.getInt("daysOver");
 				float d = rs.getFloat("amount");
 				String e = rs.getString("dateTime");
