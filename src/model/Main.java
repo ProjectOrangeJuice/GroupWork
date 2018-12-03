@@ -7,6 +7,7 @@ import javafx.scene.image.Image;
 public class Main {
 
 	public static void main(String[] args) {
+		DBHelper.forceUpdate();
 		
 		ArrayList<String> languages = new ArrayList<String>();
 		
@@ -22,15 +23,12 @@ public class Main {
 		System.out.println(TheMartian.getUniqueID());
 		System.out.println(Interstellar.getUniqueID());
 		
-		DBHelper.forceUpdate();
-		
 		//Loading a Librarian example
-		Librarian testStaff = (Librarian)Librarian.loadPerson("Staff1");
-		System.out.println(testStaff.getUsername());
+		//Librarian testStaff = (Librarian)Librarian.loadPerson("Staff1");
+		//System.out.println(testStaff.getUsername());
 		
 		//Loading a User example
-		User testUser;
-		testUser = (User)User.loadPerson("Bobby");
+		User testUser = (User)User.loadPerson("test");
 
 		System.out.println(testUser.getUsername());
 		
