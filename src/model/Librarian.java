@@ -36,6 +36,7 @@ public class Librarian extends Person{
 	 * @param avatar
 	 * @param employmentDate
 	 * @param staffNumber
+	 * @param staffID
 	 */
 	public Librarian (String userName, String firstName, String lastName, String phoneNumber, String address, String postcode, Image avatar, String employmentDate, int staffID) {
 		super(userName, firstName, lastName, phoneNumber, address, postcode, avatar);
@@ -87,11 +88,6 @@ public class Librarian extends Person{
 	 */
 	public void authorizeFinePayment (User user) {
 		
-	}
-	
-	public void setStaffID (int staffID) {
-		this.staffID = staffID;
-		Person.updateDatabase(this.getUsername(), "staffID", Integer.toString(this.getStaffID()));
 	}
 	
 	/**
