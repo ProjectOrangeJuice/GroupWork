@@ -8,10 +8,6 @@ import java.util.ArrayList;
 
 public class DBExample {
 
-	//remove me at the end :(
-	
-	
-	
 	//Display a table
 	private static void displayResourceTable() {
 		System.out.println("----Displaying resource table----");

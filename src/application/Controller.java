@@ -1,19 +1,28 @@
 package application;
 
 
+import java.sql.SQLException;
+
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
+import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
+import model.Librarian;
+import model.Person;
+import model.User;
 
 public class Controller {
 	
 	@FXML
 	private TextField usernameTextBox;
+	
+	@FXML
+	private Label errorLabel;
 	
 	/**
 	 * Sets new scene on stage within program using fxml file provided.
@@ -36,7 +45,18 @@ public class Controller {
 	 */
 	@FXML
 	public void loginAction(MouseEvent event) {
-		changeScene(event, "/fxml/profileScene.fxml");
+		
+		Person User1 = Person.loadPerson(usernameTextBox.getText());
+		if(User1 != null) {
+			if(User1 instanceof User) {
+				changeScene(event, "/fxml/profileScene.fxml");
+			} else {
+				changeScene(event, "/fxml/librarianScene.fxml");
+			}
+		} else {
+			errorLabel.setText("User cannot be found.");
+		}
+		
 	}
 	
 	/**
@@ -48,7 +68,8 @@ public class Controller {
 	}
 	
 	@FXML
-	 public void initialize() {
+	public void initialize() {
+		
 	 }    
 
 }
