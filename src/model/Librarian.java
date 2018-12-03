@@ -90,7 +90,7 @@ public class Librarian extends Person{
 	 * @param user User that needs to make the payment
 	 */
 	public void authorizeFinePayment (User user) {
-		//user.makePayment();
+		user.makePayment();
 	}
 	
 	public void setStaffID (int staffID) {
