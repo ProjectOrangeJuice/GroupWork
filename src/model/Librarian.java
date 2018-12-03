@@ -72,9 +72,8 @@ public class Librarian extends Person{
 	 * Loans a copy to the user
 	 * @param copy Copy that a user has loaned
 	 */
-	public void loanCopy (Copy copy, User user) {
-		//copy.getResource().loadnToUser(user);
-		copy.getResource().setBorrower(user);
+	public void loanCopy (Copy copy) {
+		copy.getResource().loadnToUser(user);
 	}
 	
 	/**
