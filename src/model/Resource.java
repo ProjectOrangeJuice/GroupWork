@@ -1,5 +1,6 @@
 package model;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -81,7 +82,7 @@ public abstract class Resource {
 		}
 	}
 	
-	protected void loadFreeCopiesList() {
+	private void loadFreeCopiesList() {
 		try {
 			Connection conn = DBHelper.getConnection(); //get the connection
 			Statement stmt = conn.createStatement(); //prep a statement
@@ -111,6 +112,16 @@ public abstract class Resource {
 		}
 	}
 	
+	private void loadCopyPriorityQueue() {
+		noDueDateCopies.clear();
+		
+		for(Copy c: copyList) {
+			if(c.getDueDate()==null && freeCopies.equals(c)) {
+				noDueDateCopies.add(c);
+			}
+		}
+	}
+	
 	/**
 	 * Makes a new resource whose details are the given arguments.
 	 * @param uniqueID The unique number that identifies this resource.
@@ -133,6 +144,7 @@ public abstract class Resource {
 		
 		loadCopyList();
 		loadFreeCopiesList();
+		loadCopyPriorityQueue();
 	} 
 	
 	public void addCopy(Copy copy) {
@@ -257,4 +269,18 @@ public abstract class Resource {
 		return "Title: "+title + "\nID: " + uniqueID + "\nYear: " + year;
 	}
 	
+	/*public static void main(String args[]) {
+		Resource r1 = new Resource(1,"Eduroam sucks",2018,null);
+		Copy c1= new Copy(r1,1,null);
+		Copy c2 = new Copy(r1,2,null);
+		
+		c1.setBorrowDate(new Date(100));
+		c2.setBorrowDate(new Date(200));
+		
+		r1.noDueDateCopies.add(c1);
+		r1.noDueDateCopies.add(c2);
+		
+		System.out.println(r1.noDueDateCopies.poll().getCOPY_ID());
+		System.out.println(r1.noDueDateCopies.poll().getCOPY_ID());
+	}*/
 }

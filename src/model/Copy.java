@@ -9,12 +9,13 @@ import java.sql.SQLException;
  * @author Joe Wright
  *
  */
-public class Copy {
+public class Copy  implements Comparable<Copy>{
 	
 	private Resource resource;
 	private User borrower;
 	private final int COPY_ID;
 	private int duration;
+	private Date borrowDate;
 	private Date dueDate;
 	
 	/**
@@ -107,9 +108,29 @@ public class Copy {
 	public void setDueDate(Date dueDate) {
 		this.dueDate=dueDate;
 	}
+	
+	public Date getBorrowDate() {
+		return borrowDate;
+	}
+	
+	public void setBorrowDate(Date borrowDate) {
+		this.borrowDate=borrowDate;
+	}
 
 	public User getBorrower() {
 		return this.borrower;
+	}
+	
+	public int compareTo(Copy otherCopy) {
+		if(borrowDate.before(otherCopy.getBorrowDate())) {
+			return -1;
+		}
+		else if(borrowDate.after(otherCopy.getBorrowDate())) {
+			return 1;
+		}
+		else {
+			return 0;
+		}
 	}
 
 }
