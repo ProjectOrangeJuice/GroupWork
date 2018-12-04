@@ -1,6 +1,7 @@
 package application;
 
 import java.util.ArrayList;
+import java.util.Optional;
 
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleStringProperty;
@@ -9,6 +10,9 @@ import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.SplitPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
@@ -66,6 +70,7 @@ public class TransactionsController {
     
 	@SuppressWarnings("unchecked")
 	private void setupFines() {
+		
 		if(isStaff) {
 			fines = Fine.getFines();
 		}else {
@@ -107,13 +112,56 @@ public class TransactionsController {
 	        
 	        tableFine.setItems(ffilteredList);
 	        
-	        
+	        if(isStaff) {
+	        tableFine.setRowFactory( tv -> {
+	            TableRow<Fine> row = new TableRow<>();
+	            row.setOnMouseClicked(event -> {
+	                if (event.getClickCount() == 2 && (! row.isEmpty()) ) {
+	                    Fine rowData = row.getItem();
+	                    confirmPay(rowData);
+	                }
+	            });
+	            return row ;
+	        });
+	        }
 	        
 	        tableFine.getColumns().addAll(fineCol,personCol,amountCol,overCol,forCol,whenCol,paidCol);
 	        tableFine.autosize();
 		
 		finesSplit.getItems().add(tableFine);
 		
+	}
+	
+	
+	private void confirmPay(Fine f) {
+		Alert alert = new Alert(AlertType.CONFIRMATION);
+		alert.setTitle("Confirmation Dialog");
+		alert.setHeaderText("Pay fine for "+f.getUsername()+"?");
+		alert.setContentText("For the amount of "+f.getAmount()+" due to "+f.getDaysOver()+" days late");
+
+		Optional<ButtonType> result = alert.showAndWait();
+		if (result.get() == ButtonType.OK){
+		    if(Payment.makePayment(f.getUsername(), f.getAmount(),f.getFineId()) != null){
+		    	alert.close();
+		    	alertDone("Fine has been paid");
+		    	finesSplit.getItems().remove(tableFine);
+				tableFine = new TableView<>();
+		    	setupFines();
+		    }else {
+		    	alertDone("Fine was not able to be paid");
+		    }
+		} else {
+		    // ... user chose CANCEL or closed the dialog
+		}
+	}
+	
+	private void alertDone(String text) {
+		Alert alert = new Alert(AlertType.INFORMATION);
+		alert.setTitle("Information Dialog");
+		alert.setHeaderText(null);
+		alert.setContentText(text);
+
+		alert.showAndWait();
 	}
 	
 	
