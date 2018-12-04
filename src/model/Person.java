@@ -167,7 +167,13 @@ public abstract class Person {
 	}
 	
 	public static Image loadAvatar(String avatarPath) {
-		return new Image(avatarPath);
+		try {
+			return new Image(avatarPath);
+		} catch (IllegalArgumentException e){
+			System.out.println("Failed to load avatar");
+			return null;
+		}
+			
 	}
 	
 	//
