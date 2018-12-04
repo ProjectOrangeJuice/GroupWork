@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.ScrollPane;
@@ -28,7 +29,7 @@ public class ProfileController {
 	private ScrollPane scrollPane;
 	
 	@FXML
-	private GridPane resourcePane;
+	private VBox vResourceBox;
 	
 	@FXML
 	private TextField searchTextBox;
@@ -69,6 +70,46 @@ public class ProfileController {
 	public void logoutAction(MouseEvent event) {
 		changeScene(event, "/fxml/loginScene.fxml");
 	}
+	
+	private void loadResourceImages() {
+		
+		//load resources
+		ArrayList<Resource> resources = Resource.loadDatabaseResources();
+		
+		//for each resource in resources array
+		for(int i = 0; i < resources.size(); i++) {
+			
+			//create new resource image to be added.
+			ImageView image = new ImageView();
+			image.setFitWidth(150);
+			image.setFitHeight(250);
+			image.setImage(resources.get(i).getThumbnail());
+			
+			//get last image in last resource HBox.
+			HBox latestHBox = (HBox) vResourceBox.getChildren().get(vResourceBox.getChildren().size() - 1);
+			
+			//if there is at least one image in last resource HBox
+			if(latestHBox.getChildren().size() > 0) {
+				//if the number of resources in resource HBox is more than
+				//the width of the resource VBox / the width of a resource image
+				if(latestHBox.getChildren().size() > (vResourceBox.getPrefWidth() - 150) / 150) {
+					//create new HBox below last HBox
+					HBox hResourceBox = new HBox();
+					hResourceBox.setAlignment(Pos.TOP_CENTER);
+					hResourceBox.setSpacing(5);
+					//add image to new HBox
+					hResourceBox.getChildren().add(image);
+					vResourceBox.getChildren().add(hResourceBox);
+				} else {
+					latestHBox.getChildren().add(image); //add new image to last HBox
+				}
+			} else {
+				latestHBox.getChildren().add(image); //add new image to last HBox
+			}
+			
+		}
+		
+	}
 
 	@FXML
 	 public void initialize() {
@@ -80,22 +121,7 @@ public class ProfileController {
 			((ImageView) resource).setFitHeight(500);
 		}
 		
-		//load resources
-		ArrayList<Resource> resources = Resource.loadDatabaseResources();
-		
-		//adds resources to resources tab in UI.
-		for(int i = 0; i < resources.size(); i++) {
-			
-			ImageView image = new ImageView();
-			
-			image.setFitWidth(300);
-			image.setFitHeight(500);
-			image.setImage(resources.get(i).getThumbnail());
-			
-			resourcePane.add(image, i, 0); ///FIXXXXX!!!!!!
-			
-			
-		}
+		loadResourceImages();
 	
 	 }
 
