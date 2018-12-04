@@ -29,4 +29,12 @@ public class Payment {
 	public String getusername() {
 		return username;
 	}
+	
+	public boolean contains(String search) {
+		if(this.getStamp().contains(search)) {
+			return true;
+		}else {
+			return false;
+		}
+	}
 }

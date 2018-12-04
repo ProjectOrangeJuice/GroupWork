@@ -122,4 +122,13 @@ public class Fine {
 		return null;
 	}
 
+
+	public boolean contains(String search) {
+		if(this.getStamp().contains(search)) {
+			return true;
+		}else {
+			return false;
+		}
+	}
+
 }
