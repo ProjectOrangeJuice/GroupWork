@@ -37,7 +37,7 @@ public class TransactionsController {
 	
 	@FXML
 	 public void initialize() {
-		Person user = Controller.user;
+		Person user = ScreenManager.currentUser;
 		transactions = Transactions.createTransactions(user.getUsername());
 		
 		
