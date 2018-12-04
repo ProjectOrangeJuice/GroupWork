@@ -3,6 +3,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 import javafx.scene.image.Image;
 
@@ -170,26 +171,23 @@ public abstract class Person {
 	//-------------------------------------------------------------------------
 	//
 	
-	static public Person loadPerson(String username) {
+	public static Person loadPerson(String userName) {
 		try {
 			//Declaring necessary variables
 			Connection conn = DBHelper.getConnection();
-			String result = "";
 			
 			PreparedStatement pstmt = conn.prepareStatement("SELECT COUNT(*) FROM users WHERE users.username = ?;");
-            pstmt.setString(1, username);
+            pstmt.setString(1, userName);
             ResultSet rs = pstmt.executeQuery();
 			
 			if (rs.getInt(1) == 1) {
-				
 				pstmt = conn.prepareStatement("SELECT COUNT (*) FROM staff WHERE username = ?;");
-	            pstmt.setString(1, username);
+	            pstmt.setString(1, userName);
 	            rs = pstmt.executeQuery();
 	            
 	            if (rs.getInt(1) == 1) {
-	            	
 	            	pstmt = conn.prepareStatement("SELECT * FROM users, staff WHERE users.username = staff.username and users.username = ?;");
-		            pstmt.setString(1, username);
+		            pstmt.setString(1, userName);
 		            rs = pstmt.executeQuery();
 		            
 		            String usernameResult = rs.getString(1);
@@ -199,7 +197,7 @@ public abstract class Person {
 		            String addressResult = rs.getString(5);
 		            String postcodeResult = rs.getString(6);
 		            String pathResult = rs.getString(7);
-		            String staffIDResult = rs.getString(8);
+		            String staffIDResult = rs.getString(10);
 		            String employmentDateResult = rs.getString(11);
 
 					conn.close();
@@ -209,7 +207,7 @@ public abstract class Person {
 	            } else {
 
 	            	pstmt = conn.prepareStatement("SELECT * FROM users WHERE username = ?;");
-		            pstmt.setString(1, username);
+		            pstmt.setString(1, userName);
 		            rs = pstmt.executeQuery();
 		            
 		            String usernameResult = rs.getString(1);
@@ -226,10 +224,9 @@ public abstract class Person {
 							telephoneResult, addressResult, postcodeResult, pathResult,
 							Double.parseDouble(balanceResult));
 	            }
-				
 			} else {
-				System.out.println("Error: Either too many or not enough rows returned."); //Raise error
 				conn.close();
+				throw new IllegalStateException("Either too many or not enough rows returned.");
 			}
 			
 		//Catch most other errors!
