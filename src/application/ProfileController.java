@@ -8,12 +8,11 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
+import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -36,6 +35,24 @@ public class ProfileController {
 	
 	@FXML
 	private Controller loginController;
+	
+	@FXML
+	private Label userLabel;
+	
+	@FXML
+	private Label fullnameLabel;
+	
+	@FXML
+	private Label ageLabel;
+	
+	@FXML
+	private Label address1Label;
+	
+	@FXML
+	private Label address2Label;
+	
+	@FXML
+	private Label cityLabel;
 
 	/**
 	 * Sets new scene on stage within program using fxml file provided.
@@ -69,6 +86,18 @@ public class ProfileController {
 	@FXML
 	public void logoutAction(MouseEvent event) {
 		changeScene(event, "/fxml/loginScene.fxml");
+	}
+	
+	private void loadUserInformation() {
+		
+		String username = ScreenManager.currentUser.getUsername();
+		String fullname = ScreenManager.currentUser.getFirstName() + " "
+		+ ScreenManager.currentUser.getLastName();
+		String address = ScreenManager.currentUser.getAddress();
+		
+		userLabel.setText(userLabel.getText() + " " + username);
+		fullnameLabel.setText(fullnameLabel.getText() + " " + fullname);
+		address1Label.setText(address1Label.getText() + " " + address);
 	}
 	
 	private void loadResourceImages() {
@@ -113,7 +142,7 @@ public class ProfileController {
 
 	@FXML
 	 public void initialize() {
-
+		
 		//change resources size on profile page.
 		scrollPane.setHvalue(0.5);
 		for(Node resource : resourceImages.getChildren()) {
@@ -122,6 +151,7 @@ public class ProfileController {
 		}
 		
 		loadResourceImages();
+		loadUserInformation();
 	
 	 }
 
