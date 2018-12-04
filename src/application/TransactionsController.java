@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.control.SplitPane;
@@ -27,6 +28,15 @@ public class TransactionsController {
 	private TableView<Payment> tableTransaction = new TableView<>();
 	private TableView<Fine> tableFine = new TableView<>();
 	Person user = ScreenManager.currentUser;
+	@FXML
+	private TextField dateSearch;
+	
+	
+	 ObservableList<Fine> fdata = FXCollections.observableArrayList();
+		FilteredList<Fine> ffilteredList = new FilteredList<>(fdata);
+		
+		 ObservableList<Payment> tdata = FXCollections.observableArrayList();
+			FilteredList<Payment> tfilteredList = new FilteredList<>(tdata);
 	
 	@FXML
 	private SplitPane transactionsSplit;
@@ -37,7 +47,9 @@ public class TransactionsController {
 	
 	@FXML  
     void transactionSearch(KeyEvent event) {
-        
+		//System.out.println(dateSearch.getText());
+		ffilteredList.setPredicate(s -> s.contains(dateSearch.getText()));
+		tfilteredList.setPredicate(s -> s.contains(dateSearch.getText()));
         }
     
 	@SuppressWarnings("unchecked")
@@ -46,10 +58,12 @@ public class TransactionsController {
 		
 		
 
-        ObservableList<Fine> data = FXCollections.observableArrayList();
+         fdata = FXCollections.observableArrayList();
 	for (Fine f : fines) {
-		data.add(f);
+		fdata.add(f);
 	}
+	
+	ffilteredList = new FilteredList<>(fdata);
 		
 		//create the table
 		 TableColumn<Fine, String> fineCol = new TableColumn<Fine, String>("Fine");
@@ -62,14 +76,19 @@ public class TransactionsController {
 	        forCol.setCellValueFactory(new PropertyValueFactory<>("copy"));
 	        
 	        TableColumn<Fine, String> overCol = new TableColumn<Fine, String>("Days over");
-	        overCol.setCellValueFactory(new PropertyValueFactory<>("datsOver"));
+	        overCol.setCellValueFactory(new PropertyValueFactory<>("daysOver"));
+	        
+	        TableColumn<Fine, String> whenCol = new TableColumn<Fine, String>("When");
+	        whenCol.setCellValueFactory(new PropertyValueFactory<>("stamp"));
 	        
 	        TableColumn<Fine, String> paidCol = new TableColumn<Fine, String>("Paid");
 	        paidCol.setCellValueFactory(new PropertyValueFactory<>("paid"));
 	        
-	        tableFine.setItems(data);
+	        tableFine.setItems(ffilteredList);
 	        
-	        tableFine.getColumns().addAll(fineCol,amountCol,forCol,paidCol);
+	        
+	        
+	        tableFine.getColumns().addAll(fineCol,amountCol,overCol,forCol,whenCol,paidCol);
 	        tableFine.autosize();
 		
 		finesSplit.getItems().add(tableFine);
@@ -85,9 +104,9 @@ public class TransactionsController {
 		
 		
 
-        ObservableList<Payment> data = FXCollections.observableArrayList();
+        
 	for (Payment p : transactions.getPayments()) {
-		data.add(p);
+		tdata.add(p);
 		
 		
 	}
@@ -102,7 +121,7 @@ public class TransactionsController {
 	        TableColumn<Payment, String> whenCol = new TableColumn<Payment, String>("When");
 	        whenCol.setCellValueFactory(new PropertyValueFactory<>("stamp"));
 	        
-	        tableTransaction.setItems(data);
+	        tableTransaction.setItems(tfilteredList);
 	        
 	        tableTransaction.getColumns().addAll(transCol,amountCol,whenCol);
 	        tableTransaction.autosize();
