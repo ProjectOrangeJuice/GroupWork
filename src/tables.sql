@@ -64,8 +64,8 @@ CREATE TABLE IF NOT EXISTS `fines` (
 	FOREIGN KEY(`username`) REFERENCES `users`(`username`),
 	FOREIGN KEY(`copyID`) REFERENCES `copies`(`copyID`)
 );
-INSERT INTO `fines` VALUES (1,1,4,3,5.0,NULL,1);
-INSERT INTO `fines` VALUES (2,1,5,100,10.0,NULL,1);
+INSERT INTO `fines` VALUES (1,"test",4,3,5.0,NULL,1);
+INSERT INTO `fines` VALUES (2,"test",5,100,10.0,NULL,1);
 
 DROP TABLE IF EXISTS `copies`;
 CREATE TABLE IF NOT EXISTS `copies` (
