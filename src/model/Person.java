@@ -170,7 +170,7 @@ public abstract class Person {
 		try {
 			return new Image(avatarPath);
 		} catch (IllegalArgumentException e){
-			System.out.println("Failed to load avatar");
+			System.out.println("Failed to load image.");
 			return null;
 		}
 			

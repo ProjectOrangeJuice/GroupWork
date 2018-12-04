@@ -43,7 +43,7 @@ public class Librarian extends Person{
 		
 		Date date = null;
 		try {
-			date = new SimpleDateFormat("dd/MM/YYYY").parse(employmentDate);
+			date = new SimpleDateFormat("dd/MM/yyyy").parse(employmentDate);
 		} catch (ParseException e) {
 			System.out.println("Failed to load date.");
 		} finally {
