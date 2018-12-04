@@ -143,11 +143,4 @@ CREATE TABLE IF NOT EXISTS `borrowRecords` (
 	`description`	TEXT
 );
 
-DROP TABLE IF EXISTS `freeCopies`;
-CREATE TABLE IF NOT EXISTS `freeCopies` (
-	`copyID` INTEGER,
-	`rID` INTEGER,
-	PRIMARY KEY (copyID),
-	FOREIGN KEY (copyID) REFERENCES `copies` (`copyID`) ON UPDATE CASCADE ON DELETE CASCADE
-);
 COMMIT;
