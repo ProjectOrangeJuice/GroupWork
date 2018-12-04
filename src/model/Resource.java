@@ -48,13 +48,11 @@ public abstract class Resource {
 	private static ArrayList<Resource> resources = new ArrayList<>();
 	
 	public static  ArrayList<Resource> loadDatabaseResources() {
-		
 		Book.loadDatabaseBooks(resources);
 		Laptop.loadDatabaseLaptops(resources);
 		DVD.loadDatabaseDVDs(resources);
 		
 		return resources;
-		
 	}
 	
 	protected static void updateDbValue(String tableName, int resourceId, String field, String data) {
@@ -67,22 +65,7 @@ public abstract class Resource {
 		}
 	}
 	
-	protected void loadCopyList() {
-		try {
-			Connection conn = DBHelper.getConnection(); //get the connection
-			Statement stmt = conn.createStatement(); //prep a statement
-			ResultSet rs = stmt.executeQuery("SELECT * FROM copies WHERE rID="+uniqueID); //Your sql goes here
-			copyList.clear();
-			
-			while(rs.next()) {
-				copyList.add(new Copy(this, rs.getInt("copyID"),null));
-			} 
-		} catch (SQLException e) { 
-			e.printStackTrace();
-		}
-	}
-	
-	private void loadFreeCopiesList() {
+	/*private void loadFreeCopiesList() {
 		try {
 			Connection conn = DBHelper.getConnection(); //get the connection
 			Statement stmt = conn.createStatement(); //prep a statement
@@ -110,17 +93,7 @@ public abstract class Resource {
 		} catch (SQLException e) { 
 			e.printStackTrace();
 		}
-	}
-	
-	private void loadCopyPriorityQueue() {
-		noDueDateCopies.clear();
-		
-		for(Copy c: copyList) {
-			if(c.getDueDate()==null && freeCopies.equals(c)) {
-				noDueDateCopies.add(c);
-			}
-		}
-	}
+	}*/
 	
 	/**
 	 * Makes a new resource whose details are the given arguments.
@@ -143,7 +116,6 @@ public abstract class Resource {
 		userRequest = new Queue<User>();
 		
 		loadCopyList();
-		loadFreeCopiesList();
 		loadCopyPriorityQueue();
 	} 
 	
@@ -156,7 +128,6 @@ public abstract class Resource {
 			Statement stmt = conn.createStatement(); //prep a statement
 			
 			stmt.executeUpdate("insert into copies values ("+copy.getCOPY_ID()+","+getUniqueID()+",null,null)");
-			stmt.executeUpdate("insert into freeCopies values("+copy.getCOPY_ID()+","+getUniqueID()+")");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -172,14 +143,13 @@ public abstract class Resource {
 				Statement stmt = conn.createStatement(); //prep a statement
 				
 				stmt.executeUpdate("insert into copies values ("+copy.getCOPY_ID()+","+getUniqueID()+",null,null)");
-				stmt.executeUpdate("insert into freeCopies values("+copy.getCOPY_ID()+","+getUniqueID()+")");
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
 		}
 	}
 	
-	public void saveFreeCopies() {
+	/*public void saveFreeCopies() {
 		try {
 			Connection conn = DBHelper.getConnection(); //get the connection
 			Statement stmt = conn.createStatement(); //prep a statement
@@ -190,7 +160,7 @@ public abstract class Resource {
 		} catch (SQLException e) { 
 			e.printStackTrace();
 		}
-	}
+	}*/
 	
 	/**This method ensures a returned copy is marked a free copy or that it is
 	 *  reserved for the user at the front of the request queue.
@@ -287,6 +257,41 @@ public abstract class Resource {
 	
 	public String toString() {
 		return "Title: "+title + "\nID: " + uniqueID + "\nYear: " + year;
+	}
+	
+	private void loadCopyList() {
+		try {
+			Connection conn = DBHelper.getConnection(); //get the connection
+			Statement stmt = conn.createStatement(); //prep a statement
+			ResultSet rs = stmt.executeQuery("SELECT * FROM copies WHERE rID="+uniqueID); //Your sql goes here
+			copyList.clear();
+			freeCopies.clear();
+			
+			while(rs.next()) {
+				String userName=rs.getString("keeper");
+		
+				if(userName!=null) {
+					User borrower;
+					borrower=(User)Person.loadPerson(userName);
+					copyList.add(new Copy(this, rs.getInt("copyID"),borrower));
+				} else {
+					Copy freeCopy=new Copy(this, rs.getInt("copyID"),null);
+					freeCopies.add(freeCopy);
+				}
+			} 
+		} catch (SQLException e) { 
+			e.printStackTrace();
+		}
+	}
+	
+	private void loadCopyPriorityQueue() {
+		noDueDateCopies.clear();
+		
+		for(Copy c: copyList) {
+			if(c.getDueDate()==null && c.getBorrower()!=null) {
+				noDueDateCopies.add(c);
+			}
+		}
 	}
 	
 	/*public static void main(String args[]) {
