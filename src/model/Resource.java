@@ -265,6 +265,26 @@ public abstract class Resource {
 		this.year = year;
 	}
 	
+	public Copy getCopy(int copyID) {
+		for(Copy c: copyList) {
+			if(c.getCOPY_ID()==copyID) {
+				return c;
+			}
+		}
+		
+		return null;
+	}
+	
+	public static Resource getResource(int resourceID) {
+		for(Resource r: resources) {
+			if(r.getUniqueID()==resourceID) {
+				return r;
+			}
+		}
+		
+		return null;
+	}
+	
 	public String toString() {
 		return "Title: "+title + "\nID: " + uniqueID + "\nYear: " + year;
 	}
