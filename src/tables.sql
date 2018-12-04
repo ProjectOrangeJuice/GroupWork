@@ -49,8 +49,8 @@ CREATE TABLE IF NOT EXISTS `resource` (
 	`year`  INTEGER,
 	`thumbnail`	TEXT
 );
-INSERT INTO `resource` VALUES (1,'Homo Deus',2017,'\graphics\homoDeus.png');
-INSERT INTO `resource` VALUES (2,'Iron Man',2008,'\graphics\ironMan.jpg');
+INSERT INTO `resource` VALUES (1,'Homo Deus',2017,'/graphics/homoDeus.png');
+INSERT INTO `resource` VALUES (2,'Iron Man',2008,'/graphics/ironMan.jpg');
 
 DROP TABLE IF EXISTS `fines`;
 CREATE TABLE IF NOT EXISTS `fines` (
