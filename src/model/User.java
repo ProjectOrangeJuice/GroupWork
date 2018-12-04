@@ -42,10 +42,6 @@ public class User extends Person {
 		this.copiesList.add(copy);//TODO: Special updater required
 	}
 	
-	public void addBorrowedCopies(ArrayList<Copy> copyList) {
-		this.copiesList.addAll(copyList);
-	}
-	
 	/**
 	 * Returns all copies that the user has currently withdrawn.
 	 * @return copiesList ArrayList
@@ -68,7 +64,7 @@ public class User extends Person {
 	 */
 	public void makePayment (double amount) {
 		this.accountBalance += amount;
-		Person.updateDatabase(this.getUsername(), "accountBalance", Double.toString(this.accountBalance));
+		Person.updateDatabase("users",this.getUsername(), "accountBalance", Double.toString(this.accountBalance));
 	}
 
 	/**
@@ -79,9 +75,11 @@ public class User extends Person {
 		return accountBalance;
 	}
 	
-	//Make method that loaded all of the copies associated with that user
-	//Query copies by username
-	//	load copies by id
-	//	load resouces by id
-	
+	public void loadUserCopies() {
+		//Get copies by username
+		//Get resources by copies ID
+		//Load resources by resouces ID
+		//Load copies by username
+		//TODO: loadUserCopies
+	}
 }

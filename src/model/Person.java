@@ -78,7 +78,7 @@ public abstract class Person {
 	 */
 	public void setFirstName(String firstName) {
 		this.firstName = firstName;
-		Person.updateDatabase(this.getUsername(), "firstName", firstName);
+		Person.updateDatabase("users",this.getUsername(), "firstName", firstName);
 	}
 
 	/**
@@ -95,7 +95,7 @@ public abstract class Person {
 	 */
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
-		Person.updateDatabase(this.getUsername(), "lastName", lastName);
+		Person.updateDatabase("users",this.getUsername(), "lastName", lastName);
 	}
 
 	/**
@@ -112,7 +112,7 @@ public abstract class Person {
 	 */
 	public void setPhoneNumber(String phoneNumber) {
 		this.phoneNumber = phoneNumber;
-		Person.updateDatabase(this.getUsername(), "telephone", phoneNumber);
+		Person.updateDatabase("users",this.getUsername(), "telephone", phoneNumber);
 	}
 
 	/**
@@ -129,7 +129,7 @@ public abstract class Person {
 	 */
 	public void setAddress(String address) {
 		this.address = address;
-		Person.updateDatabase(this.getUsername(), "address", address);
+		Person.updateDatabase("users",this.getUsername(), "address", address);
 	}
 
 	/**
@@ -146,7 +146,7 @@ public abstract class Person {
 	 */
 	public void setPostcode(String postcode) {
 		this.postcode = postcode;
-		Person.updateDatabase(this.getUsername(), "postcode", postcode);
+		Person.updateDatabase("users",this.getUsername(), "postcode", postcode);
 	}
 
 	/**
@@ -163,7 +163,7 @@ public abstract class Person {
 	 */
 	public void setAvatar(String avatarPath) {
 		this.avatar = loadAvatar(avatarPath);
-		Person.updateDatabase(this.getUsername(), "avatarPath", avatarPath);
+		Person.updateDatabase("users",this.getUsername(), "avatarPath", avatarPath);
 	}
 	
 	public static Image loadAvatar(String avatarPath) {
@@ -250,11 +250,10 @@ public abstract class Person {
 		return null;
 	}
 	
-	//TODO: FIX ME!
-	protected static boolean updateDatabase(String username, String field, String data) {
+	protected static boolean updateDatabase(String table, String username, String column, String data) {
 		try {
 			Connection conn = DBHelper.getConnection();
-			PreparedStatement pstmt = conn.prepareStatement("UPDATE users SET " + field +" = ? WHERE username = ?");
+			PreparedStatement pstmt = conn.prepareStatement("UPDATE " + table + " SET " + column +" = ? WHERE username = ?");
             pstmt.setString(1, data);
             pstmt.setString(2, username);
             if (pstmt.executeUpdate() == 1) {

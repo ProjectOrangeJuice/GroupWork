@@ -20,7 +20,7 @@ import javafx.scene.image.Image;
 public class Librarian extends Person{
 
 	/** The employment date of the librarian.*/
-	private Date employmentDate;
+	private final Date employmentDate;
 	
 	/** The librarian's staff ID.*/
 	private final int staffID;
@@ -39,36 +39,32 @@ public class Librarian extends Person{
 	 */
 	public Librarian (String userName, String firstName, String lastName, String phoneNumber, String address, String postcode, Image avatar, String employmentDate, int staffID) {
 		super(userName, firstName, lastName, phoneNumber, address, postcode, avatar);
-		setEmploymentDate(employmentDate);
 		this.staffID = staffID;
-	}
-	
-	public void setEmploymentDate(String employmentDate) {
-		Date date;
+		
+		Date date = null;
 		try {
 			date = new SimpleDateFormat("dd/MM/YYYY").parse(employmentDate);
-			this.employmentDate = date;
 		} catch (ParseException e) {
-			e.printStackTrace();
-			this.employmentDate = null;
+			System.out.println("Failed to load date.");
+		} finally {
+			this.employmentDate = date;
 		}
-		//TODO: make date converter separate
-		//Person.updateDatabase(this.getEmploymentDate().toString(), "employmentDate", employmentDate);
 	}
 	
 	//TEMP
-	//TODO: Remove.
+	//-----------------------------------------------------
+	//
+	//TODO: Remove after GUI.
 	public void createNewResources (Resource resource) {
 		// GUI METHOD
 	}
 	
-	/**
-	 * make changes to the resource
-	 * @param resource Things that needs to be change on the resource
-	 */
 	public void editResources (Resource resource) {
-		// This will interact with the GUI as well
+		// GUI METHOD
 	}
+	//
+	//-----------------------------------------------------
+	//
 	
 	/**
 	 * Loans a copy to the user
