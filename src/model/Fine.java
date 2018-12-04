@@ -14,7 +14,7 @@ public class Fine {
 
 	private float amount;
 	private String stamp;
-	private int copy;
+	private int resource;
 	private int daysOver;
 	private int fineId;
 	private int user;
@@ -25,16 +25,16 @@ public class Fine {
 	 * @param amount
 	 * @param stamp timestamp
 	 * @param user who owns this fine
-	 * @param copy the copy that caused this fine
+	 * @param resource the resource that caused this fine
 	 * @param daysOver days over due
 	 * @param fineId
 	 * @param paid
 	 */
-	public Fine(float amount, String stamp,int user, int copy, int daysOver, int fineId, boolean paid ) {
+	public Fine(float amount, String stamp,int user, int resource, int daysOver, int fineId, boolean paid ) {
 		this.amount = amount;
 		this.user = user;
 		this.stamp = stamp;
-		this.copy = copy;
+		this.resource = resource;
 		this.daysOver = daysOver;
 		this.fineId = fineId;
 		this.paid = paid;
@@ -76,8 +76,13 @@ public class Fine {
 	}
 
 
-	public int getCopy() {
-		return copy;
+	public int getResource() {
+		return resource;
+	}
+	
+	public String getResourceName() {
+		return Resource.getResource(resource).getTitle();
+
 	}
 
 
@@ -101,7 +106,7 @@ public class Fine {
 			while(rs.next()) {
 				int a = rs.getInt("fineID");
 				int b = rs.getInt("username");
-				int c = rs.getInt("copyID");
+				int c = rs.getInt("rID");
 				int c2 = rs.getInt("daysOver");
 				float d = rs.getFloat("amount");
 				String e = rs.getString("dateTime");
