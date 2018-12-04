@@ -1,4 +1,8 @@
 package model;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import javafx.scene.image.Image;
 
@@ -78,10 +82,20 @@ public class User extends Person {
 	}
 	
 	public void loadUserCopies() {
-		//Get copies by username
-		//Get resources by copies ID
-		//Load resources by resouces ID
-		//Load copies by username
-		//TODO: loadUserCopies
+		try {
+			Resource.loadDatabaseResources();
+			
+			Connection conn = DBHelper.getConnection();
+			PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM copies WHERE keeper = ?;");
+            pstmt.setString(1, this.getUsername());
+            ResultSet rs = pstmt.executeQuery();
+            
+            while(rs.next()) {
+            	this.copiesList.add(Resource.getResource(rs.getInt("rID")).getCopy(rs.getInt("copyID")));
+            }
+		} catch (SQLException e) { 
+			System.out.println("Failed to load copies into user.");
+			e.printStackTrace();
+		}
 	}
 }
