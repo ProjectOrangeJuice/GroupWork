@@ -4,7 +4,7 @@ import javafx.scene.image.ImageView;
 /**
  * @author James Finlayson
  */
-public abstract class ProfileImage {
+public abstract class Avatar {
     //Number of dimensions a profile image has
     public static final int NO_OF_DIMENSIONS = 2;
     public static final int X_INDEX = 0; //x index
@@ -13,13 +13,13 @@ public abstract class ProfileImage {
     private double[] position; //centre x,y coordinates 
 
     /**
-     * Creates a profile image.
+     * Creates an avatar.
      *
      * @param size 
      * @param posX 
      * @param posY 
      */
-    public ProfileImage(double size, double posX, double posY) {
+    public Avatar(double size, double posX, double posY) {
         this.size = size;
         position = new double[NO_OF_DIMENSIONS];
         position[X_INDEX] = posX;
@@ -93,5 +93,5 @@ public abstract class ProfileImage {
      * Displays the profile image on an ImageView.
      * @param imageView The ImageView that the profile image is being displayed on.
      */
-    public abstract void displayProfileImage(ImageView imageView);
+    public abstract void displayAvatar(ImageView imageView);
 }
