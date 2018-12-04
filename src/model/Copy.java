@@ -40,9 +40,9 @@ public class Copy  implements Comparable<Copy>{
 				Connection conn = DBHelper.getConnection();
 				PreparedStatement pstmt = conn.prepareStatement("INSERT INTO borrowRecords (borrowId, copyId, userId, description)"
 						+ " VALUES ('?','?','?')");
-	            pstmt.setInt(1, this.getCOPY_ID());
-	            pstmt.setString(2, user.getUsername());
-	            pstmt.setString(2, "Not sure what to put in description.");
+	            pstmt.setInt(2, this.getCOPY_ID());
+	            pstmt.setString(3, user.getUsername());
+	            pstmt.setString(4, "Not sure what to put in description.");
 	            pstmt.executeUpdate();
 	            conn.close();
 			} catch (SQLException e) { 
@@ -59,7 +59,7 @@ public class Copy  implements Comparable<Copy>{
 			} else {
 				pstmt.setString(1, user.getUsername());
 			}
-            pstmt.setInt(1, this.getCOPY_ID());
+            pstmt.setInt(2, this.getCOPY_ID());
             pstmt.executeUpdate();
             conn.close();
 		} catch (SQLException e) { 
