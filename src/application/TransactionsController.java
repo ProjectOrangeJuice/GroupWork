@@ -19,8 +19,10 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.VBox;
 import model.DBHelper;
 import model.Fine;
+import model.Librarian;
 import model.Payment;
 import model.Person;
+import model.Resource;
 import model.Transactions;
 
 
@@ -31,6 +33,7 @@ public class TransactionsController {
 	private TableView<Payment> tableTransaction = new TableView<>();
 	private TableView<Fine> tableFine = new TableView<>();
 	Person user = ScreenManager.currentUser;
+	private boolean isStaff = false;
 	@FXML
 	private TextField dateSearch;
 	
@@ -51,13 +54,24 @@ public class TransactionsController {
 	@FXML  
     void transactionSearch(KeyEvent event) {
 		//System.out.println(dateSearch.getText());
-		ffilteredList.setPredicate(s -> s.contains(dateSearch.getText()));
-		tfilteredList.setPredicate(s -> s.contains(dateSearch.getText()));
+		if(isStaff) {
+			ffilteredList.setPredicate(s -> s.containsUser(dateSearch.getText()));
+			
+		}else {
+			ffilteredList.setPredicate(s -> s.contains(dateSearch.getText()));
+			tfilteredList.setPredicate(s -> s.contains(dateSearch.getText()));
+		}
+
         }
     
 	@SuppressWarnings("unchecked")
 	private void setupFines() {
-		fines = Fine.getFines(user.getUsername());
+		if(isStaff) {
+			fines = Fine.getFines();
+		}else {
+			fines = Fine.getFines(user.getUsername());
+		}
+		
 		
 		
 
@@ -72,12 +86,15 @@ public class TransactionsController {
 		 TableColumn<Fine, String> fineCol = new TableColumn<Fine, String>("Fine");
 		 fineCol.setCellValueFactory(new PropertyValueFactory<>("fineId"));
 		 
+		 TableColumn<Fine, String> personCol = new TableColumn<Fine, String>("Person");
+		 personCol.setCellValueFactory(new PropertyValueFactory<>("username"));
+		 
 	        TableColumn<Fine, String> amountCol = new TableColumn<Fine, String>("Amount");
 	        amountCol.setCellValueFactory(new PropertyValueFactory<>("amount"));
 	        
 	        TableColumn<Fine, String> forCol = new TableColumn<Fine, String>("For");
 	        forCol.setCellValueFactory(cd -> new SimpleStringProperty(cd.getValue().getResourceName()));
-	        // forCol.setCellValueFactory(new PropertyValueFactory<>("resource"));
+	        
 	        
 	        TableColumn<Fine, String> overCol = new TableColumn<Fine, String>("Days over");
 	        overCol.setCellValueFactory(new PropertyValueFactory<>("daysOver"));
@@ -92,7 +109,7 @@ public class TransactionsController {
 	        
 	        
 	        
-	        tableFine.getColumns().addAll(fineCol,amountCol,overCol,forCol,whenCol,paidCol);
+	        tableFine.getColumns().addAll(fineCol,personCol,amountCol,overCol,forCol,whenCol,paidCol);
 	        tableFine.autosize();
 		
 		finesSplit.getItems().add(tableFine);
@@ -136,8 +153,13 @@ public class TransactionsController {
 	
 	@FXML
 	 public void initialize() {
-
+		isStaff = user instanceof Librarian;
+		System.out.println("Is staff? "+isStaff);
+		if(!isStaff) {
 		setupTransactions();
+		}else {
+			Resource.loadDatabaseResources(); // remove me later
+		}
 		setupFines();
 	 }    
 }
