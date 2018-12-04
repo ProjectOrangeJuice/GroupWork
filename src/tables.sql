@@ -33,8 +33,8 @@ CREATE TABLE IF NOT EXISTS `transactions` (
 	`dateTime`	TEXT,
 	FOREIGN KEY(`username`) REFERENCES `users`(`username`)
 );
-INSERT INTO `transactions` VALUES (1,1,5.0,"sometime");
-INSERT INTO `transactions` VALUES (2,1,10.0,"othertime");
+INSERT INTO `transactions` VALUES (1,'test',5.0,"sometime");
+INSERT INTO `transactions` VALUES (2,'test',10.0,"othertime");
 
 DROP TABLE IF EXISTS `system`;
 CREATE TABLE IF NOT EXISTS `system` (
