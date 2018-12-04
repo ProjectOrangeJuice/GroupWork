@@ -2,6 +2,8 @@ package application;
 
 import java.util.ArrayList;
 
+import javafx.beans.binding.Bindings;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -9,6 +11,7 @@ import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.control.SplitPane;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -73,7 +76,8 @@ public class TransactionsController {
 	        amountCol.setCellValueFactory(new PropertyValueFactory<>("amount"));
 	        
 	        TableColumn<Fine, String> forCol = new TableColumn<Fine, String>("For");
-	        forCol.setCellValueFactory(new PropertyValueFactory<>("copy"));
+	        forCol.setCellValueFactory(cd -> new SimpleStringProperty(cd.getValue().getResourceName()));
+	        // forCol.setCellValueFactory(new PropertyValueFactory<>("resource"));
 	        
 	        TableColumn<Fine, String> overCol = new TableColumn<Fine, String>("Days over");
 	        overCol.setCellValueFactory(new PropertyValueFactory<>("daysOver"));
@@ -132,6 +136,7 @@ public class TransactionsController {
 	
 	@FXML
 	 public void initialize() {
+
 		setupTransactions();
 		setupFines();
 	 }    
