@@ -39,7 +39,8 @@ public class User extends Person {
 	 * @param copy Copy
 	 */
 	public void addBorrowedCopy(Copy copy) {
-		this.copiesList.add(copy);//TODO: Special updater required
+		this.copiesList.add(copy);
+		//Updater not needed as copy already updates the database.
 	}
 	
 	/**
@@ -55,7 +56,8 @@ public class User extends Person {
 	 * @param copy Copy
 	 */
 	public void removeBorrowedCopy(Copy copy) {
-		this.copiesList.remove(copy);//TODO: Special updater required
+		this.copiesList.remove(copy);
+		//Updater not needed as copy already updates the database.
 	}
 	
 	/**

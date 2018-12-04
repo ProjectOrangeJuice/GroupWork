@@ -4,7 +4,6 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-
 /**
  * 
  * @author Joe Wright
@@ -34,37 +33,40 @@ public class Copy {
 	 * Sets the borrow variable by inserting the values into the borrowrecords table, then updates the keeper column in the copies table
 	 * @param firstRequest 
 	 */
-	public void setBorrower(User firstRequest) { //This is a prepared statement. Much safer than creating the SQL string yourself
-
-		
-		this.borrower = firstRequest;
-		
-		try {
-			Connection conn = DBHelper.getConnection();
-			PreparedStatement pstmt = conn.prepareStatement("INSERT INTO borrowRecords (borrowId, copyId, userId, description)"
-					+ " VALUES ('?', '?', '?', '?')"); // "?" is a placeholder
-	            pstmt.setInt(1, 1);//Make sure you get the types correct (String, int..)
-	            pstmt.setInt(2, 1);
-	            pstmt.setInt(3, 1);
-	            pstmt.setString(4, "Brown hair, smells good");
-	            pstmt.executeUpdate();//This can return a value to tell you if it was successful.
-
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+	public void setBorrower(User user){
+		if (user != null) {
+			try {
+				Connection conn = DBHelper.getConnection();
+				PreparedStatement pstmt = conn.prepareStatement("INSERT INTO borrowRecords (borrowId, copyId, userId, description)"
+						+ " VALUES ('?','?','?')");
+	            pstmt.setInt(1, this.getCOPY_ID());
+	            pstmt.setString(2, user.getUsername());
+	            pstmt.setString(2, "Not sure what to put in description.");
+	            pstmt.executeUpdate();
+	            conn.close();
+			} catch (SQLException e) { 
+				System.out.println("Failed to add copy borrow to borrowRecoreds.");
+				e.printStackTrace();
+			}
 		}
 		
 		try {
 			Connection conn = DBHelper.getConnection();
-			PreparedStatement pstmt = conn.prepareStatement("UPDATE copies SET keeper = ?"); // "?" is a placeholder
-	            pstmt.setInt(1, 1);//Make sure you get the types correct (String, int..)
-	            pstmt.executeUpdate();//This can return a value to tell you if it was successful.
-
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+			PreparedStatement pstmt = conn.prepareStatement("UPDATE copies SET keeper = ? WHERE copyID = ?");
+			if (user == null) {
+				pstmt.setString(1, null);
+			} else {
+				pstmt.setString(1, user.getUsername());
+			}
+            pstmt.setInt(1, this.getCOPY_ID());
+            pstmt.executeUpdate();
+            conn.close();
+		} catch (SQLException e) { 
+			System.out.println("Failed to update copies database.");
 			e.printStackTrace();
 		}
 		
+		this.borrower = user; //Do this last just in case the queries haven't worked.
 	}
 	
 	
