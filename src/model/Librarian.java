@@ -37,8 +37,8 @@ public class Librarian extends Person{
 	 * @param employmentDate
 	 * @param staffNumber
 	 */
-	public Librarian (String userName, String firstName, String lastName, String phoneNumber, String address, String postcode, Image avatar, String employmentDate, int staffID) {
-		super(userName, firstName, lastName, phoneNumber, address, postcode, avatar);
+	public Librarian (String userName, String firstName, String lastName, String phoneNumber, String address, String postcode, String avatarPath, String employmentDate, int staffID) {
+		super(userName, firstName, lastName, phoneNumber, address, postcode, avatarPath);
 		this.staffID = staffID;
 		
 		Date date = null;

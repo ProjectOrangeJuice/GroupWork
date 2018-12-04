@@ -28,8 +28,8 @@ public class User extends Person {
 	 * @param avatar
 	 * @param accountBalance
 	 */
-	public User(String username, String firstName, String lastName, String phoneNumber, String address, String postcode, Image avatar, double accountBalance) {
-		super(username, firstName, lastName, phoneNumber, address, postcode, avatar);
+	public User(String username, String firstName, String lastName, String phoneNumber, String address, String postcode, String avatarPath, double accountBalance) {
+		super(username, firstName, lastName, phoneNumber, address, postcode, avatarPath);
 		this.accountBalance = accountBalance;
 	}
 	

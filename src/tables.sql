@@ -12,8 +12,8 @@ CREATE TABLE IF NOT EXISTS `users` (
 	PRIMARY KEY(`username`)
 );
 
-INSERT INTO `users` VALUES ('test','testname','testSecondName','12345','1 blabla street','ABC DEF','whatPath?','12');
-INSERT INTO `users` VALUES ('staff','teststaff','testSecondstaff','56789','2 blabla street','ABB DEE','whatPathAgain?','100');
+INSERT INTO `users` VALUES ('test','testname','testSecondName','12345','1 blabla street','ABC DEF','/SavedAvatars/Avatar1.png','12');
+INSERT INTO `users` VALUES ('staff','teststaff','testSecondstaff','56789','2 blabla street','ABB DEE','/SavedAvatars/Avatar1.png','100');
 
 DROP TABLE IF EXISTS `staff`;
 CREATE TABLE IF NOT EXISTS `staff` (

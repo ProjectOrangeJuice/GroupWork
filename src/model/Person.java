@@ -33,7 +33,7 @@ public abstract class Person {
 	private String postcode; 
 	
 	/**The persons chosen avatar image.*/
-	private Image avatar; 
+	private String avatarPath; 
 
 	/**
 	 * Creates a new Person object from the given arguments.
@@ -45,14 +45,14 @@ public abstract class Person {
 	 * @param postcode
 	 * @param avatar
 	 */
-	public Person(String username, String firstName, String lastName, String phoneNumber, String address, String postcode, Image avatar) {
+	public Person(String username, String firstName, String lastName, String phoneNumber, String address, String postcode, String avatarPath) {
 		this.username = username;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.phoneNumber = phoneNumber;
 		this.address = address;
 		this.postcode = postcode;
-		this.avatar = avatar;
+		this.avatarPath = avatarPath;
 	}
 	
 
@@ -153,8 +153,8 @@ public abstract class Person {
 	 * Returns the avatar the person has chosen.
 	 * @return avatar Image
 	 */
-	public Image getAvatar() {
-		return avatar;
+	public String getAvatar() {
+		return avatarPath;
 	}
 
 	/**
@@ -162,18 +162,8 @@ public abstract class Person {
 	 * @param avatar Image
 	 */
 	public void setAvatar(String avatarPath) {
-		this.avatar = loadAvatar(avatarPath);
+		this.avatarPath = avatarPath;
 		Person.updateDatabase("users",this.getUsername(), "avatarPath", avatarPath);
-	}
-	
-	public static Image loadAvatar(String avatarPath) {
-		try {
-			return new Image(avatarPath);
-		} catch (IllegalArgumentException e){
-			System.out.println("Failed to load image.");
-			return null;
-		}
-			
 	}
 	
 	//
@@ -214,7 +204,7 @@ public abstract class Person {
 
 					conn.close();
 					return new Librarian(usernameResult, firstnameResult, lastnameResult, 
-							telephoneResult, addressResult, postcodeResult, loadAvatar(pathResult),
+							telephoneResult, addressResult, postcodeResult, pathResult,
 							employmentDateResult, Integer.parseInt(staffIDResult));
 	            } else {
 
@@ -233,7 +223,7 @@ public abstract class Person {
 		            
 					conn.close();
 					return new User(usernameResult, firstnameResult, lastnameResult,
-							telephoneResult, addressResult, postcodeResult, loadAvatar(pathResult),
+							telephoneResult, addressResult, postcodeResult, pathResult,
 							Double.parseDouble(balanceResult));
 	            }
 				
