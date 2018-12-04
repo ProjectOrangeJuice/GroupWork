@@ -1,7 +1,9 @@
 package model;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -47,6 +49,33 @@ public class Transactions {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	
+	public static Transactions createTransactions(String username){
+		ArrayList<Payment> p = new ArrayList();
+		try {
+			Connection conn = DBHelper.getConnection(); //get the connection
+			PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM transactions WHERE username=?");
+			pstmt.setString(1,username);
+			ResultSet rs = pstmt.executeQuery(); //Your sql goes here
+			while(rs.next()) {
+				int a = rs.getInt("transactionId");
+				String b = rs.getString("username");
+				float c = rs.getFloat("paid");
+				String d = rs.getString("dateTime");
+				System.out.println(a + b + c + d);
+
+				p.add(new Payment(a,b,c,d));
+
+			}
+
+			return new Transactions(username,p);
+		} catch (SQLException e) {
+			e.printStackTrace();
+	}
+
+		return null;
 	}
 
 
