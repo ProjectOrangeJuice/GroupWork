@@ -57,7 +57,7 @@ public class TransactionsController {
     
 	@SuppressWarnings("unchecked")
 	private void setupFines() {
-		fines = Fine.createFines(user.getUsername());
+		fines = Fine.getFines(user.getUsername());
 		
 		
 
@@ -103,7 +103,7 @@ public class TransactionsController {
 	@SuppressWarnings("unchecked")
 	private void setupTransactions() {
 		
-		transactions = Transactions.createTransactions(user.getUsername());
+		transactions = Transactions.getTransactions(user.getUsername());
 		
 		
 		
