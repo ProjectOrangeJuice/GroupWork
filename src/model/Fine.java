@@ -95,13 +95,45 @@ public class Fine {
 		return fineId;
 	}
 
-	public static ArrayList<Fine> createFines(String username) {
+	public static ArrayList<Fine> getFines(String username) {
 		ArrayList<Fine> fi = new ArrayList();
 		try {
 			Connection conn = DBHelper.getConnection(); //get the connection
 			Statement stmt = conn.createStatement(); //prep a statement
 			PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM fines WHERE username=?");
 			pstmt.setString(1,username);
+			ResultSet rs = pstmt.executeQuery(); //Your sql goes here //Your sql goes here
+			while(rs.next()) {
+				int a = rs.getInt("fineID");
+				int b = rs.getInt("username");
+				int c = rs.getInt("rID");
+				int c2 = rs.getInt("daysOver");
+				float d = rs.getFloat("amount");
+				String e = rs.getString("dateTime");
+				int f  = rs.getInt("paid");
+				boolean f1;
+				if(f == 1) {
+					f1 = true;
+				}else {  f1 = false;}
+				fi.add(new Fine(d,e,b,c,c2,a,f1));
+				
+			} 
+			return fi;
+			
+			
+		} catch (SQLException e) { 
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	
+	public static ArrayList<Fine> getAllFines() {
+		ArrayList<Fine> fi = new ArrayList();
+		try {
+			Connection conn = DBHelper.getConnection(); //get the connection
+			Statement stmt = conn.createStatement(); //prep a statement
+			PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM fines");
 			ResultSet rs = pstmt.executeQuery(); //Your sql goes here //Your sql goes here
 			while(rs.next()) {
 				int a = rs.getInt("fineID");

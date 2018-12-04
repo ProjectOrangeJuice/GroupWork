@@ -52,7 +52,7 @@ public class Transactions {
 	}
 	
 	
-	public static Transactions createTransactions(String username){
+	public static Transactions getTransactions(String username){
 		ArrayList<Payment> p = new ArrayList();
 		try {
 			Connection conn = DBHelper.getConnection(); //get the connection
@@ -77,6 +77,8 @@ public class Transactions {
 
 		return null;
 	}
+	
+	
 
 
 
