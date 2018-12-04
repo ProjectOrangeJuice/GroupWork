@@ -166,9 +166,8 @@ public abstract class Person {
 		Person.updateDatabase(this.getUsername(), "avatarPath", avatarPath);
 	}
 	
-	//TEMPORARY
 	public static Image loadAvatar(String avatarPath) {
-		return null; //TODO: Make actual image loader for avatars.
+		return new Image(avatarPath);
 	}
 	
 	//
