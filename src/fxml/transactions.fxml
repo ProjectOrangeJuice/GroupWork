@@ -12,7 +12,7 @@
             <Font size="32.0" />
          </font>
       </Text>
-      <TextField fx:id="dateSearch" onKeyReleased="#transactionSearch" promptText="Search dates" />
+      <TextField fx:id="dateSearch" onKeyReleased="#transactionSearch" promptText="Search" />
       <SplitPane dividerPositions="0.5" prefHeight="200.0" prefWidth="200.0">
          <items>
             <SplitPane fx:id="transactionsSplit" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0">
