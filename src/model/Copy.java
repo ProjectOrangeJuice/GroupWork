@@ -14,8 +14,9 @@ public class Copy  implements Comparable<Copy>{
 	private Resource resource;
 	private User borrower;
 	private final int COPY_ID;
-	private int duration;
+	private int loanDuration;
 	private Date borrowDate;
+	private Date lastRenewal;
 	private Date dueDate;
 	
 	/**
@@ -28,13 +29,17 @@ public class Copy  implements Comparable<Copy>{
 		this.resource = resource;
 		this.borrower = borrower;
 		this.COPY_ID = copyID;
+		
+		loanDuration=7;
+		borrowDate=null;
+		lastRenewal=null;
+		dueDate=null;
 	}
     
 	/**
 	 * Sets the borrow variable by inserting the values into the borrowrecords table, then updates the keeper column in the copies table
 	 * @param firstRequest 
 	 */
-
 	public void setBorrower(User user){
 		if (user != null) {
 			try {
@@ -77,7 +82,7 @@ public class Copy  implements Comparable<Copy>{
 	 * @return duration
 	 */
 	public int getDuration(){
-		return duration;
+		return loanDuration;
 	}
 	
 	/**
@@ -98,16 +103,51 @@ public class Copy  implements Comparable<Copy>{
 		return COPY_ID;
 	}
 	
-	public void setDuration(int duration){
-		this.duration = duration;
+	public void setLoanDuration(int duration){
+		this.loanDuration = duration;
 	}
 	
 	public Date getDueDate() {
 		return dueDate;
 	}
 	
-	public void setDueDate(Date dueDate) {
-		this.dueDate=dueDate;
+	public boolean checkRenewal() {
+		if(dueDate==null) {
+			Date nextRenewal;
+			
+			if(lastRenewal!=null) {
+				nextRenewal=(Date)lastRenewal.clone();
+			} else {
+				nextRenewal=(Date)borrowDate.clone();
+			}
+			
+			nextRenewal.setDate(nextRenewal.getDate()+loanDuration);
+			Date today=new Date(System.currentTimeMillis());
+			
+			if(nextRenewal.before(today)) {
+				lastRenewal=nextRenewal;
+				return true;
+			} else {
+				return false;
+			}
+		} else {
+			return false;
+		}
+	}
+	
+	public void setDueDate() {
+		if(dueDate==null) {
+			Date afterBorrowDuration=(Date)borrowDate.clone();
+			afterBorrowDuration.setDate(afterBorrowDuration.getDate()+loanDuration);
+			Date today = new Date(System.currentTimeMillis());
+			
+			if(afterBorrowDuration.after(today)) {
+				dueDate=afterBorrowDuration;
+			} else {
+				today.setDate(today.getDate()+1);
+				dueDate=today;
+			}
+		}
 	}
 	
 	public Date getBorrowDate() {
@@ -115,11 +155,31 @@ public class Copy  implements Comparable<Copy>{
 	}
 	
 	public void setBorrowDate(Date borrowDate) {
-		this.borrowDate=borrowDate;
+		this.borrowDate = borrowDate;
 	}
 
 	public User getBorrower() {
 		return this.borrower;
+	}
+	
+	public boolean isBorrowed() {
+		return (borrower!=null);
+	}
+	
+	public Date getLastRenewal() {
+		return lastRenewal;
+	}
+	
+	public void resetDates() throws IllegalArgumentException {
+		if(borrower==null) {
+			borrowDate=null;
+			dueDate=null;
+			lastRenewal=null;
+		} else {
+			throw new IllegalStateException("You are trying to reset borrow,"+
+					" due and last renewal dates while this copy is still borrowed!");
+		}
+		
 	}
 	
 	public int compareTo(Copy otherCopy) {
@@ -133,5 +193,4 @@ public class Copy  implements Comparable<Copy>{
 			return 0;
 		}
 	}
-
 }

@@ -177,12 +177,14 @@ public abstract class Resource {
 			//there withdrawn copies.
 			returnedCopy.getBorrower().removeBorrowedCopy(returnedCopy);
 			returnedCopy.setBorrower(null);
+			returnedCopy.resetDates();
 		} 
 		/*If the are user in the queue, reserve this copy for the first user 
 		 * in the queue and take that person out of the queue.*/
 		else {
 			User firstRequest = userRequestQueue.peek();
 			returnedCopy.setBorrower(firstRequest);
+			returnedCopy.setBorrowDate(new Date(System.currentTimeMillis()));
 			userRequestQueue.dequeue();
 		}	
 	}
@@ -197,6 +199,7 @@ public abstract class Resource {
 		if(!freeCopies.isEmpty()) {
 			Copy copyToBorrow = freeCopies.removeFirst();
 			copyToBorrow.setBorrower(user);
+			copyToBorrow.setBorrowDate(new Date(System.currentTimeMillis()));
 			user.addBorrowedCopy(copyToBorrow);
 		} 
 		/*Else, add the user to the request queue and set the due date
@@ -205,7 +208,7 @@ public abstract class Resource {
 		else {
 			userRequestQueue.enqueue(user);
 			Copy firstCopy = noDueDateCopies.poll();
-			firstCopy.setDueDate(null);
+			firstCopy.setDueDate();
 		}
 	}
 
