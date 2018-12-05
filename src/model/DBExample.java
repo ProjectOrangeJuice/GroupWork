@@ -91,28 +91,48 @@ public class DBExample {
 		
 	}
 	
-	private static void testFreeCopiesDB() {
+	/*private static void testUserQueue() {
 		DVD laptop1=new DVD(1,"Bookie",1998,null,"George Lucas",200);
 		ArrayList<Copy> list = new ArrayList<>();
 		list.add(new Copy(laptop1,1,null));
 		list.add(new Copy(laptop1,2,null));
 		list.add(new Copy(laptop1,3,null));
 		
-		laptop1.addCopies(list);
+		//laptop1.addCopies(list);
 		
+<<<<<<< HEAD
+		laptop1.userRequestQueue.enqueue(new User("test",null,null,null,null,null,null,0));
+		laptop1.userRequestQueue.enqueue(new User("staff",null,null,null,null,null,null,0));
+		
+		QueueElement<User> current =laptop1.userRequestQueue.head;
+		while(current!=null) {
+			System.out.println(current.getElement().getUsername());
+			current=current.getNext();
+		}
+		laptop1.saveUserQueue();
+=======
 		//laptop1.saveFreeCopies();
+>>>>>>> refs/remotes/origin/master
 		
 		System.out.println("----Displaying free copies table----");
 		try {
 			Connection conn = DBHelper.getConnection(); //get the connection
 			Statement stmt = conn.createStatement(); //prep a statement
-			ResultSet rs = stmt.executeQuery("SELECT * FROM freeCopies"); //Your sql goes here
+			
+			ResultSet rs=stmt.executeQuery("SELECT * FROM userQueue WHERE rID="+laptop1.getUniqueID());
+	
 			while(rs.next()) {
+<<<<<<< HEAD
+				System.out.println("rID: "+rs.getString("rID")+" userName: "+rs.getString("userName"));
+			}
+			
+=======
 				System.out.println("copyID "+rs.getInt("copyID")+" rID " +rs.getInt("rID"));
 			} //Think of this a bit like the file reader for the games project
 				
 			System.out.println("Load free copies from database");
 			//laptop1.loadCopyList();
+>>>>>>> refs/remotes/origin/master
 			/*
 			System.out.println("Copy List:");
 			for(Copy c: laptop1.copyList) {
@@ -124,19 +144,19 @@ public class DBExample {
 			for(Copy c: laptop1.freeCopies) {
 				System.out.println(c.getCOPY_ID());
 			}*/
-		} catch (SQLException e) { //if your SQL is incorrect this will display it
+		/*} catch (SQLException e) { //if your SQL is incorrect this will display it
 			// TODO Auto-generated catch block
-			System.out.println(e.getMessage());
+			e.printStackTrace();
 		}
-	}
+	}*/
 	
 	public static void main(String[] args) {
 		DBHelper.forceUpdate();
 		displayResourceTable();
-		/*insertIntoResource();
+		insertIntoResource();
 		displayResourceTable();
 		removeAResource();
-		displayResourceTable();*/
+		displayResourceTable();
 		
 		//displaySubtitles();
 		//displayDVDs();
