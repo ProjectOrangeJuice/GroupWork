@@ -156,3 +156,4 @@ CREATE TABLE IF NOT EXISTS `userRequests` (
 INSERT INTO `userRequests` (rID,userName) VALUES (1,"Alexandru"); 
 INSERT INTO `userRequests` (rID,userName) VALUES (2,"test");
 COMMIT;
+

@@ -100,7 +100,7 @@ public class DBExample {
 		
 		//laptop1.addCopies(list);
 		
-		laptop1.userRequestQueue.enqueue(new User("test",null,null,null,null,null,null,0));
+		laptop1.userRequeststQueue.enqueue(new User("test",null,null,null,null,null,null,0));
 		laptop1.userRequestQueue.enqueue(new User("staff",null,null,null,null,null,null,0));
 		
 		QueueElement<User> current =laptop1.userRequestQueue.head;
