@@ -34,10 +34,10 @@ public class Copy {
 	 * Sets the borrow variable by inserting the values into the borrowrecords table, then updates the keeper column in the copies table
 	 * @param firstRequest 
 	 */
-	public void setBorrower(User firstRequest) { //This is a prepared statement. Much safer than creating the SQL string yourself
+	public void setBorrower(User borrower) { //This is a prepared statement. Much safer than creating the SQL string yourself
 
 		
-		this.borrower = firstRequest;
+		this.borrower = borrower;
 		
 		try {
 			Connection conn = DBHelper.getConnection();
