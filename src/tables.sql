@@ -149,12 +149,13 @@ DROP TABLE IF EXISTS `userRequests`;
 CREATE TABLE IF NOT EXISTS `userRequests` (
 	`rID` INTEGER,
 	`userName` TEXT,
+	`orderNumber` INTEGER,
 	PRIMARY KEY (userName,rID),
 	FOREIGN KEY (userName) REFERENCES `users` (`username`) ON UPDATE CASCADE ON DELETE CASCADE,
 	FOREIGN KEY (rID) REFERENCES `resource` (`rID`) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
-INSERT INTO `userRequests` (rID,userName) VALUES (1,"Alexandru"); 
-INSERT INTO `userRequests` (rID,userName) VALUES (2,"test");
+INSERT INTO `userRequests` (rID,userName) VALUES (1,"Alexandru",1); 
+INSERT INTO `userRequests` (rID,userName) VALUES (2,"test",2);
 COMMIT;
 

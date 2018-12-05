@@ -301,7 +301,7 @@ public abstract class Resource {
 		try {
 			Connection conn = DBHelper.getConnection();
 			Statement stmt = conn.createStatement();
-			ResultSet userRequests=stmt.executeQuery("SELECT * FROM userRequests WHERE rID="+uniqueID);
+			ResultSet userRequests=stmt.executeQuery("SELECT * FROM userRequests WHERE rID="+uniqueID+" ORDER BY orderNumber ASC");
 			
 			while(userRequests.next()) {
 				String userName = userRequests.getString("userName");
@@ -320,14 +320,16 @@ public abstract class Resource {
 			Connection conn = DBHelper.getConnection();
 			PreparedStatement pstmt=conn.prepareStatement("DELETE FROM userRequests");
 			pstmt.executeUpdate();
-			pstmt = conn.prepareStatement("INSERT INTO userRequests VALUES ("+uniqueID+",?)");
+			pstmt = conn.prepareStatement("INSERT INTO userRequests VALUES ("+uniqueID+",?,?)");
 			
+			int orderNr=1;
 			User current = orderedUsers.pollFirst();
 			while(current!=null) {
-				
 				pstmt.setString(1, current.getUsername());
+				pstmt.setInt(2, orderNr);
 				pstmt.executeUpdate();
 				current = orderedUsers.pollFirst();
+				orderNr++;
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
