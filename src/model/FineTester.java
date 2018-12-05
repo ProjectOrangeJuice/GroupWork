@@ -28,7 +28,7 @@ public class FineTester {
 				if(f == 1) {
 					f1 = true;
 				}else {  f1 = false;}
-				fi.add(new Fine(d,e,b,c,c2,a,f1));
+				//fi.add(new Fine(d,e,b,c,c2,a,f1));
 				
 			} 
 			

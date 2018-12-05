@@ -12,7 +12,7 @@ public class transactionsTester {
 	static Transactions t;
 	public static void main(String args[]) {
 		ArrayList<Payment> p = new ArrayList();
-		DBHelper.forceUpdate();
+		//DBHelper.forceUpdate();
 		try {
 			Connection conn = DBHelper.getConnection(); //get the connection
 			Statement stmt = conn.createStatement(); //prep a statement
@@ -35,7 +35,8 @@ public class transactionsTester {
 
 
 		//t.addPayment(new Payment(3,"1",400,"bla"));
-
+		
+		Payment.makePayment("test", 5, 1);
 		System.out.println("Over");
 
 

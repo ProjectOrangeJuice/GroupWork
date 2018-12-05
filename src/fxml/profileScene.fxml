@@ -23,7 +23,7 @@
    <center>
       <TabPane prefHeight="972.0" prefWidth="1920.0" BorderPane.alignment="CENTER">
         <tabs>
-          <Tab text="My Profile">
+          <Tab closable="false" text="My Profile">
                <content>
                   <BorderPane prefHeight="200.0" prefWidth="200.0">
                      <left>
@@ -144,7 +144,7 @@
                      </center>
                   </BorderPane>
                </content></Tab>
-          <Tab text="Library Resources">
+          <Tab closable="false" text="Library Resources">
                <content>
                   <AnchorPane prefHeight="200.0" prefWidth="200.0">
                      <children>
@@ -167,7 +167,7 @@
                      </children>
                   </AnchorPane>
                </content></Tab>
-            <Tab text="Untitled Tab">
+            <Tab closable="false" text="Transactions">
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" SplitPane.resizableWithParent="false"> 
                      <children>
