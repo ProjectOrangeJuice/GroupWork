@@ -100,7 +100,7 @@ public class DBExample {
 		
 		laptop1.addCopies(list);
 		
-		laptop1.saveFreeCopies();
+		//laptop1.saveFreeCopies();
 		
 		System.out.println("----Displaying free copies table----");
 		try {
@@ -112,7 +112,7 @@ public class DBExample {
 			} //Think of this a bit like the file reader for the games project
 				
 			System.out.println("Load free copies from database");
-			laptop1.loadCopyList();
+			//laptop1.loadCopyList();
 			/*
 			System.out.println("Copy List:");
 			for(Copy c: laptop1.copyList) {
@@ -141,7 +141,7 @@ public class DBExample {
 		//displaySubtitles();
 		//displayDVDs();
 		
-		testFreeCopiesDB();
+		//testFreeCopiesDB();
 	}
 
 }

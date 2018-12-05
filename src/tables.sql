@@ -12,8 +12,8 @@ CREATE TABLE IF NOT EXISTS `users` (
 	PRIMARY KEY(`username`)
 );
 
-INSERT INTO `users` VALUES ('test','testname','testSecondName','12345','1 blabla street','ABC DEF','whatPath?','12');
-INSERT INTO `users` VALUES ('staff','teststaff','testSecondstaff','56789','2 blabla street','ABB DEE','whatPathAgain?','100');
+INSERT INTO `users` VALUES ('test','testname','testSecondName','12345','1 blabla street','ABC DEF','/SavedAvatars/Avatar1.png','12');
+INSERT INTO `users` VALUES ('staff','teststaff','testSecondstaff','56789','2 blabla street','ABB DEE','/SavedAvatars/Avatar1.png','100');
 
 DROP TABLE IF EXISTS `staff`;
 CREATE TABLE IF NOT EXISTS `staff` (
@@ -33,39 +33,39 @@ CREATE TABLE IF NOT EXISTS `transactions` (
 	`dateTime`	TEXT,
 	FOREIGN KEY(`username`) REFERENCES `users`(`username`)
 );
-INSERT INTO `transactions` VALUES (1,1,5.0,"sometime");
-INSERT INTO `transactions` VALUES (2,1,10.0,"othertime");
+INSERT INTO `transactions` VALUES (1,'test',5.0,"sometime");
+INSERT INTO `transactions` VALUES (2,'test',10.0,"othertime");
 
 DROP TABLE IF EXISTS `system`;
 CREATE TABLE IF NOT EXISTS `system` (
 	`ver`	INTEGER
 );
-INSERT INTO `system` VALUES (3);
+INSERT INTO `system` VALUES (6);
 
 DROP TABLE IF EXISTS `resource`;
 CREATE TABLE IF NOT EXISTS `resource` (
 	`rID`	INTEGER PRIMARY KEY AUTOINCREMENT,
 	`title`	TEXT,
-	`year`  INTEGER
+	`year`  INTEGER,
+	`thumbnail`	TEXT
 );
-INSERT INTO `resource` VALUES (1,'Bookie',1998);
-INSERT INTO `resource` VALUES (2,'Laptop 1',2000);
-INSERT INTO `resource` VALUES (3,'Other book',2000);
+INSERT INTO `resource` VALUES (1,'Homo Deus',2017,'/graphics/homoDeus.png');
+INSERT INTO `resource` VALUES (2,'Iron Man',2008,'/graphics/ironMan.jpg');
 
 DROP TABLE IF EXISTS `fines`;
 CREATE TABLE IF NOT EXISTS `fines` (
 	`fineID`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
 	`username`	TEXT,
-	`copyID`	INTEGER,
+	`rID`	INTEGER,
 	`daysOver`	INTEGER,
 	`amount`	REAL,
 	`dateTime`	TEXT,
 	`paid`	INTEGER,
 	FOREIGN KEY(`username`) REFERENCES `users`(`username`),
-	FOREIGN KEY(`copyID`) REFERENCES `copies`(`copyID`)
+	FOREIGN KEY(`rID`) REFERENCES `copies`(`copyID`)
 );
-INSERT INTO `fines` VALUES (1,1,4,3,5.0,NULL,1);
-INSERT INTO `fines` VALUES (2,1,5,100,10.0,NULL,1);
+INSERT INTO `fines` VALUES (1,"test",1,3,5.0,'hi',1);
+INSERT INTO `fines` VALUES (2,"test",2,100,10.0,'always',1);
 
 DROP TABLE IF EXISTS `copies`;
 CREATE TABLE IF NOT EXISTS `copies` (
@@ -88,6 +88,9 @@ CREATE TABLE IF NOT EXISTS `book` (
 	PRIMARY KEY (rID),
 	FOREIGN KEY (rID) REFERENCES `resource`(`rID`) ON UPDATE CASCADE ON DELETE CASCADE
 );
+
+INSERT INTO `book` VALUES ('Yuval Noah Harari','Harvill Secker','Non-Fiction','978-191-070-187-4','English',1);
+
 DROP TABLE IF EXISTS `dvd`;
 CREATE TABLE IF NOT EXISTS `dvd` (
 	`director`	TEXT,
@@ -98,8 +101,7 @@ CREATE TABLE IF NOT EXISTS `dvd` (
 	FOREIGN KEY (rID) REFERENCES `resource`(`rID`) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
-INSERT INTO `dvd` VALUES ('George Lucas',200,'english',1);
-INSERT INTO `dvd` VALUES ('Kubrick',100,'russian',2);
+INSERT INTO `dvd` VALUES ('Jon Favreau',126,'english',2);
 
 drop table if exists `subtitles`;
 create table if not exists `subtitles` (
@@ -122,9 +124,6 @@ CREATE TABLE IF NOT EXISTS `laptop` (
 	PRIMARY KEY (rID),
 	FOREIGN KEY (rID) REFERENCES `resource`(`rID`) ON UPDATE CASCADE ON DELETE CASCADE
 );
-INSERT INTO `resource` VALUES (0,'Sapiens',1998);
-INSERT INTO `book` VALUES ('Noah', 'penguin books', 'non-fiction', '111222333', 'English', 0);
-
 
 INSERT INTO `copies` VALUES (1,1,NULL,NULL);
 INSERT INTO `copies` VALUES (2,1,NULL,NULL);
@@ -144,11 +143,4 @@ CREATE TABLE IF NOT EXISTS `borrowRecords` (
 	`description`	TEXT
 );
 
-DROP TABLE IF EXISTS `freeCopies`;
-CREATE TABLE IF NOT EXISTS `freeCopies` (
-	`copyID` INTEGER,
-	`rID` INTEGER,
-	PRIMARY KEY (copyID),
-	FOREIGN KEY (copyID) REFERENCES `copies` (`copyID`) ON UPDATE CASCADE ON DELETE CASCADE
-);
 COMMIT;

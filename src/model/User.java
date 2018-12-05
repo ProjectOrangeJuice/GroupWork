@@ -1,4 +1,8 @@
 package model;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import javafx.scene.image.Image;
 
@@ -28,8 +32,8 @@ public class User extends Person {
 	 * @param avatar
 	 * @param accountBalance
 	 */
-	public User(String username, String firstName, String lastName, String phoneNumber, String address, String postcode, Image avatar, double accountBalance) {
-		super(username, firstName, lastName, phoneNumber, address, postcode, avatar);
+	public User(String username, String firstName, String lastName, String phoneNumber, String address, String postcode, String avatarPath, double accountBalance) {
+		super(username, firstName, lastName, phoneNumber, address, postcode, avatarPath);
 		this.accountBalance = accountBalance;
 	}
 	
@@ -39,11 +43,8 @@ public class User extends Person {
 	 * @param copy Copy
 	 */
 	public void addBorrowedCopy(Copy copy) {
-		this.copiesList.add(copy);//TODO: Special updater required
-	}
-	
-	public void addBorrowedCopies(ArrayList<Copy> copyList) {
-		this.copiesList.addAll(copyList);
+		this.copiesList.add(copy);
+		//Updater not needed as copy already updates the database.
 	}
 	
 	/**
@@ -59,7 +60,8 @@ public class User extends Person {
 	 * @param copy Copy
 	 */
 	public void removeBorrowedCopy(Copy copy) {
-		this.copiesList.remove(copy);//TODO: Special updater required
+		this.copiesList.remove(copy);
+		//Updater not needed as copy already updates the database.
 	}
 	
 	/**
@@ -68,7 +70,7 @@ public class User extends Person {
 	 */
 	public void makePayment (double amount) {
 		this.accountBalance += amount;
-		Person.updateDatabase(this.getUsername(), "accountBalance", Double.toString(this.accountBalance));
+		Person.updateDatabase("users",this.getUsername(), "accountBalance", Double.toString(this.accountBalance));
 	}
 
 	/**
@@ -79,4 +81,21 @@ public class User extends Person {
 		return accountBalance;
 	}
 	
+	public void loadUserCopies() {
+		try {
+			Resource.loadDatabaseResources();
+			
+			Connection conn = DBHelper.getConnection();
+			PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM copies WHERE keeper = ?;");
+            pstmt.setString(1, this.getUsername());
+            ResultSet rs = pstmt.executeQuery();
+            
+            while(rs.next()) {
+            	this.copiesList.add(Resource.getResource(rs.getInt("rID")).getCopy(rs.getInt("copyID")));
+            }
+		} catch (SQLException e) { 
+			System.out.println("Failed to load copies into user.");
+			e.printStackTrace();
+		}
+	}
 }

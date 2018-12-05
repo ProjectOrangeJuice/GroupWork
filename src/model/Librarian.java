@@ -20,10 +20,10 @@ import javafx.scene.image.Image;
 public class Librarian extends Person{
 
 	/** The employment date of the librarian.*/
-	private Date employmentDate;
+	private final Date employmentDate;
 	
 	/** The librarian's staff ID.*/
-	private int staffID;
+	private final int staffID;
 	
 	/**
 	 * Create a new librarian user from the given arguments.
@@ -37,37 +37,34 @@ public class Librarian extends Person{
 	 * @param employmentDate
 	 * @param staffNumber
 	 */
-	public Librarian (String userName, String firstName, String lastName, String phoneNumber, String address, String postcode, Image avatar, String employmentDate, int staffID) {
-		super(userName, firstName, lastName, phoneNumber, address, postcode, avatar);
-		setEmploymentDate(employmentDate);
+	public Librarian (String userName, String firstName, String lastName, String phoneNumber, String address, String postcode, String avatarPath, String employmentDate, int staffID) {
+		super(userName, firstName, lastName, phoneNumber, address, postcode, avatarPath);
 		this.staffID = staffID;
-	}
-	
-	public void setEmploymentDate(String employmentDate) {
-		Date date;
+		
+		Date date = null;
 		try {
-			date = new SimpleDateFormat("dd/MM/YYYY").parse(employmentDate);
-			this.employmentDate = date;
+			date = new SimpleDateFormat("dd/MM/yyyy").parse(employmentDate);
 		} catch (ParseException e) {
-			e.printStackTrace();
-			this.employmentDate = null;
+			System.out.println("Failed to load date.");
+		} finally {
+			this.employmentDate = date;
 		}
-		Person.updateDatabase(this.getEmploymentDate().toString(), "employmentDate", employmentDate);
 	}
 	
 	//TEMP
-	//TODO: Remove.
+	//-----------------------------------------------------
+	//
+	//TODO: Remove after GUI.
 	public void createNewResources (Resource resource) {
 		// GUI METHOD
 	}
 	
-	/**
-	 * make changes to the resource
-	 * @param resource Things that needs to be change on the resource
-	 */
 	public void editResources (Resource resource) {
-		// This will interact with the GUI as well
+		// GUI METHOD
 	}
+	//
+	//-----------------------------------------------------
+	//
 	
 	/**
 	 * Loans a copy to the user
@@ -93,11 +90,6 @@ public class Librarian extends Person{
 	 */
 	public void authorizeFinePayment(User user, double amount) {
 		user.makePayment(amount);
-	}
-	
-	public void setStaffID (int staffID) {
-		this.staffID = staffID;
-		Person.updateDatabase(this.getUsername(), "staffID", Integer.toString(staffID));
 	}
 	
 	/**

@@ -7,6 +7,7 @@ import javafx.scene.image.Image;
 public class Main {
 
 	public static void main(String[] args) {
+		DBHelper.forceUpdate();
 		
 		ArrayList<String> languages = new ArrayList<String>();
 		
@@ -22,21 +23,28 @@ public class Main {
 		System.out.println(TheMartian.getUniqueID());
 		System.out.println(Interstellar.getUniqueID());
 		
-		DBHelper.forceUpdate();
+		System.out.println("---Librarian & User Tesing---");
 		
 		//Loading a Librarian example
-		Librarian testStaff = (Librarian)Librarian.loadPerson("Staff1");
+		Librarian testStaff = (Librarian)Librarian.loadPerson("staff");
 		System.out.println(testStaff.getUsername());
+		System.out.println(testStaff.getEmploymentDate());
 		
 		//Loading a User example
-		User testUser;
-		testUser = (User)User.loadPerson("Bobby");
-
+		User testUser = (User)User.loadPerson("test");
 		System.out.println(testUser.getUsername());
 		
 		System.out.println(testUser.getAccountBalance());
 		testUser.makePayment(2.66);
 		System.out.println(testUser.getAccountBalance());
+		
+		System.out.println("---Copy Testing---");
+		
+		Copy testCopy = new Copy(Sapiens, 5, null);
+		
+		System.out.println(testCopy.getBorrower());
+		testStaff.loanCopy(testCopy, testUser);
+		System.out.println(testCopy.getBorrower());
 
 	}
 }

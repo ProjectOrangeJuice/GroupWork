@@ -17,20 +17,24 @@ public class DVD extends Resource {
 		try {
 			Connection conn = DBHelper.getConnection(); //get the connection
 			Statement stmt = conn.createStatement(); //prep a statement
-			ResultSet rs = stmt.executeQuery("SELECT * FROM dvd");
+			ResultSet rs = stmt.executeQuery("SELECT resource.rID, resource.title, resource.year, resource.thumbnail,"
+					+ "director, runTime, language FROM dvd, resource WHERE dvd.rID = resource.rID");
 			
 			while(rs.next()) {
-				int resourceID = rs.getInt("rId");
-				ResultSet resourceData = stmt.executeQuery("SELECT title, year FROM resource WHERE rId="+resourceID);
-				ArrayList<String> subtitleLanguages = loadSubtitles(stmt, resourceID);
 				
-				resources.add(new DVD(rs.getInt("rID"), resourceData.getString("title"), 
-						resourceData.getInt("year"), null, rs.getString("director"), rs.getInt("runTime"), 
-						rs.getString("language"), subtitleLanguages));
+				//ArrayList<String> subtitleLanguages = loadSubtitles(stmt, rs.getInt("rID"));
+				
+				Image resourceImage = new Image(rs.getString("thumbnail"), true);
+				
+				resources.add(new DVD(rs.getInt("rID"), rs.getString("title"), rs.getInt("year"),
+						resourceImage, rs.getString("director"), rs.getInt("runTime"), rs.getString("language"), null)); //NEED TO FIX
+				
+				System.out.println("New DVD added!");
 			}
+			
 		} catch (SQLException e) { 
 			e.printStackTrace();
-		} 
+		}
 	}
 	
 	public DVD(int uniqueID, String title, int year, Image thumbnail, String director, int runtime, String language, ArrayList<String> subtitleLanguages) {

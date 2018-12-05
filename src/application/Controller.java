@@ -39,7 +39,7 @@ public class Controller {
 		}
 
 	}
-	
+
 	/**
 	 * Called when login button is clicked.
 	 */
@@ -47,7 +47,9 @@ public class Controller {
 	public void loginAction(MouseEvent event) {
 		
 		Person User1 = Person.loadPerson(usernameTextBox.getText());
+		
 		if(User1 != null) {
+			ScreenManager.currentUser = (Person) User1;
 			if(User1 instanceof User) {
 				changeScene(event, "/fxml/profileScene.fxml");
 			} else {

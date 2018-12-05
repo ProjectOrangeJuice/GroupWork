@@ -1,5 +1,6 @@
 package model;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -47,13 +48,11 @@ public abstract class Resource {
 	private static ArrayList<Resource> resources = new ArrayList<>();
 	
 	public static  ArrayList<Resource> loadDatabaseResources() {
-		
 		Book.loadDatabaseBooks(resources);
 		Laptop.loadDatabaseLaptops(resources);
 		DVD.loadDatabaseDVDs(resources);
 		
 		return resources;
-		
 	}
 	
 	protected static void updateDbValue(String tableName, int resourceId, String field, String data) {
@@ -66,22 +65,7 @@ public abstract class Resource {
 		}
 	}
 	
-	protected void loadCopyList() {
-		try {
-			Connection conn = DBHelper.getConnection(); //get the connection
-			Statement stmt = conn.createStatement(); //prep a statement
-			ResultSet rs = stmt.executeQuery("SELECT * FROM copies WHERE rID="+uniqueID); //Your sql goes here
-			copyList.clear();
-			
-			while(rs.next()) {
-				copyList.add(new Copy(this, rs.getInt("copyID"),null));
-			} 
-		} catch (SQLException e) { 
-			e.printStackTrace();
-		}
-	}
-	
-	protected void loadFreeCopiesList() {
+	/*private void loadFreeCopiesList() {
 		try {
 			Connection conn = DBHelper.getConnection(); //get the connection
 			Statement stmt = conn.createStatement(); //prep a statement
@@ -109,7 +93,7 @@ public abstract class Resource {
 		} catch (SQLException e) { 
 			e.printStackTrace();
 		}
-	}
+	}*/
 	
 	/**
 	 * Makes a new resource whose details are the given arguments.
@@ -132,7 +116,7 @@ public abstract class Resource {
 		userRequest = new Queue<User>();
 		
 		loadCopyList();
-		loadFreeCopiesList();
+		loadCopyPriorityQueue();
 	} 
 	
 	public void addCopy(Copy copy) {
@@ -144,7 +128,6 @@ public abstract class Resource {
 			Statement stmt = conn.createStatement(); //prep a statement
 			
 			stmt.executeUpdate("insert into copies values ("+copy.getCOPY_ID()+","+getUniqueID()+",null,null)");
-			stmt.executeUpdate("insert into freeCopies values("+copy.getCOPY_ID()+","+getUniqueID()+")");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -160,14 +143,13 @@ public abstract class Resource {
 				Statement stmt = conn.createStatement(); //prep a statement
 				
 				stmt.executeUpdate("insert into copies values ("+copy.getCOPY_ID()+","+getUniqueID()+",null,null)");
-				stmt.executeUpdate("insert into freeCopies values("+copy.getCOPY_ID()+","+getUniqueID()+")");
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
 		}
 	}
 	
-	public void saveFreeCopies() {
+	/*public void saveFreeCopies() {
 		try {
 			Connection conn = DBHelper.getConnection(); //get the connection
 			Statement stmt = conn.createStatement(); //prep a statement
@@ -178,7 +160,7 @@ public abstract class Resource {
 		} catch (SQLException e) { 
 			e.printStackTrace();
 		}
-	}
+	}*/
 	
 	/**This method ensures a returned copy is marked a free copy or that it is
 	 *  reserved for the user at the front of the request queue.
@@ -221,7 +203,7 @@ public abstract class Resource {
 		else {
 			userRequest.enqueue(user);
 			Copy firstCopy = noDueDateCopies.poll();
-			firstCopy.setDuration(null);
+			firstCopy.setDueDate(null);
 		}
 	}
 
@@ -253,8 +235,77 @@ public abstract class Resource {
 		this.year = year;
 	}
 	
+	public Copy getCopy(int copyID) {
+		for(Copy c: copyList) {
+			if(c.getCOPY_ID()==copyID) {
+				return c;
+			}
+		}
+		
+		return null;
+	}
+	
+	public static Resource getResource(int resourceID) {
+		for(Resource r: resources) {
+			if(r.getUniqueID()==resourceID) {
+				return r;
+			}
+		}
+		
+		return null;
+	}
+	
 	public String toString() {
 		return "Title: "+title + "\nID: " + uniqueID + "\nYear: " + year;
 	}
 	
+	private void loadCopyList() {
+		try {
+			Connection conn = DBHelper.getConnection(); //get the connection
+			Statement stmt = conn.createStatement(); //prep a statement
+			ResultSet rs = stmt.executeQuery("SELECT * FROM copies WHERE rID="+uniqueID); //Your sql goes here
+			copyList.clear();
+			freeCopies.clear();
+			
+			while(rs.next()) {
+				String userName=rs.getString("keeper");
+		
+				if(userName!=null) {
+					User borrower;
+					borrower=(User)Person.loadPerson(userName);
+					copyList.add(new Copy(this, rs.getInt("copyID"),borrower));
+				} else {
+					Copy freeCopy=new Copy(this, rs.getInt("copyID"),null);
+					freeCopies.add(freeCopy);
+				}
+			} 
+		} catch (SQLException e) { 
+			e.printStackTrace();
+		}
+	}
+	
+	private void loadCopyPriorityQueue() {
+		noDueDateCopies.clear();
+		
+		for(Copy c: copyList) {
+			if(c.getDueDate()==null && c.getBorrower()!=null) {
+				noDueDateCopies.add(c);
+			}
+		}
+	}
+	
+	/*public static void main(String args[]) {
+		Resource r1 = new Resource(1,"Eduroam sucks",2018,null);
+		Copy c1= new Copy(r1,1,null);
+		Copy c2 = new Copy(r1,2,null);
+		
+		c1.setBorrowDate(new Date(100));
+		c2.setBorrowDate(new Date(200));
+		
+		r1.noDueDateCopies.add(c1);
+		r1.noDueDateCopies.add(c2);
+		
+		System.out.println(r1.noDueDateCopies.poll().getCOPY_ID());
+		System.out.println(r1.noDueDateCopies.poll().getCOPY_ID());
+	}*/
 }
