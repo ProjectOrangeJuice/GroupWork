@@ -201,13 +201,13 @@ public class TransactionsController {
 	
 	@FXML
 	 public void initialize() {
-		isStaff = user instanceof Librarian;
-		System.out.println("Is staff? "+isStaff);
-		if(!isStaff) {
-		setupTransactions();
-		}else {
-			Resource.loadDatabaseResources(); // remove me later
-		}
-		setupFines();
+		//isStaff = user instanceof Librarian;
+		//System.out.println("Is staff? "+isStaff);
+		//if(!isStaff) {
+		//setupTransactions();
+		//}else {
+			//Resource.loadDatabaseResources(); // remove me later
+		//}
+		//setupFines();
 	 }    
 }

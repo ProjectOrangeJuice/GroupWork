@@ -43,16 +43,13 @@ public class ProfileController {
 	private Label fullnameLabel;
 	
 	@FXML
-	private Label ageLabel;
+	private Label phoneLabel;
 	
 	@FXML
-	private Label address1Label;
+	private Label addressLabel;
 	
 	@FXML
-	private Label address2Label;
-	
-	@FXML
-	private Label cityLabel;
+	private Label postcodeLabel;
 	
 	private int RES_IMG_WIDTH = 150;
 	private int RES_IMG_HEIGHT = 250;
@@ -96,11 +93,15 @@ public class ProfileController {
 		String fullname = ScreenManager.currentUser.getFirstName() + " "
 		+ ScreenManager.currentUser.getLastName();
 		String address = ScreenManager.currentUser.getAddress();
+		String postcode = ScreenManager.currentUser.getPostcode();
+		String phoneNumber = ScreenManager.currentUser.getPhoneNumber();
 		
 		//change text in labels to appropriate user information.
 		userLabel.setText(username);
 		fullnameLabel.setText(fullnameLabel.getText() + " " + fullname);
-		address1Label.setText(address1Label.getText() + " " + address);
+		addressLabel.setText(addressLabel.getText() + " " + address);
+		postcodeLabel.setText(postcodeLabel.getText() + " " + postcode);
+		phoneLabel.setText(phoneLabel.getText() + " " + phoneNumber);
 	}
 	
 	/**

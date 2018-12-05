@@ -56,10 +56,9 @@
                               <VBox prefHeight="605.0" prefWidth="262.0" spacing="10.0">
                                  <children>
                                     <Label fx:id="fullnameLabel" lineSpacing="10.0" text="Full name:" textFill="WHITE" />
-                                    <Label fx:id="ageLabel" text="Age: " textFill="WHITE" />
-                                    <Label fx:id="address1Label" text="Address 1:" textFill="WHITE" />
-                                    <Label fx:id="address2Label" text="Address 2:" textFill="WHITE" />
-                                    <Label fx:id="cityLabel" text="Town/City:" textFill="WHITE" />
+                                    <Label fx:id="phoneLabel" text="Phone Number: " textFill="WHITE" />
+                                    <Label fx:id="addressLabel" text="Address:" textFill="WHITE" />
+                                    <Label fx:id="postcodeLabel" text="Post Code:" textFill="WHITE" />
                                  </children>
                               </VBox>
                            </children>
