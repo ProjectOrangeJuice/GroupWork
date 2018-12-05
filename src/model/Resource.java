@@ -250,6 +250,10 @@ public abstract class Resource {
 		return null;
 	}
 	
+	public abstract int getDailyFineAmount();
+	
+	public abstract int getMaxFineAmount();
+	
 	public static Resource getResource(int resourceID) {
 		for(Resource r: resources) {
 			if(r.getUniqueID()==resourceID) {

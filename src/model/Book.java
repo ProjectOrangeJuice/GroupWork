@@ -8,6 +8,10 @@ import java.util.ArrayList;
 import javafx.scene.image.Image;
 
 public class Book extends Resource {
+	
+	private static final int MAX_FINE_AMOUNT=25;
+	private static final int DAILY_FINE_AMOUNT=2;
+	
 	private String author;
 	private String publisher;
 	private String genre;
@@ -136,5 +140,13 @@ public class Book extends Resource {
 	public void setLanguage(String language) {
 		this.language = language;
 		updateDbValue("book", this.uniqueID, "language", language);
+	}
+	
+	public int getDailyFineAmount() {
+		return DAILY_FINE_AMOUNT;
+	}
+	
+	public int getMaxFineAmount() {
+		return MAX_FINE_AMOUNT;
 	}
 }

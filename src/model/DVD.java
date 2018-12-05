@@ -8,6 +8,10 @@ import java.util.ArrayList;
 import javafx.scene.image.Image;
 
 public class DVD extends Resource {
+	
+	private static final int MAX_FINE_AMOUNT=25;
+	private static final int DAILY_FINE_AMOUNT=2;
+	
 	private String director;
 	private int runtime;
 	private String language;
@@ -96,6 +100,14 @@ public class DVD extends Resource {
 	public void setSubtitleLanguages(ArrayList<String> subtitleLanguages) {
 		this.subtitleLanguages = subtitleLanguages;
 		//TO-DO update subtitle languages
+	}
+	
+	public int getDailyFineAmount() {
+		return DAILY_FINE_AMOUNT;
+	}
+	
+	public int getMaxFineAmount() {
+		return MAX_FINE_AMOUNT;
 	}
 
 	private static ArrayList<String> loadSubtitles(Statement stmt, int dvdID) {
