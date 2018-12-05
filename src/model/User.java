@@ -98,4 +98,24 @@ public class User extends Person {
 			e.printStackTrace();
 		}
 	}
+	
+	public boolean hasOutstandingFines() {
+		try {
+			Connection conn = DBHelper.getConnection();
+			PreparedStatement pstmt = conn.prepareStatement("SELECT COUNT(*) FROM fines WHERE username = ? AND paid = 0;");
+            pstmt.setString(1, this.getUsername());
+            ResultSet rs = pstmt.executeQuery();
+            conn.close();
+            
+            if (rs.getInt(1) == 0) {
+            	return false;
+            } else {
+            	return true;
+            }
+            
+		} catch (SQLException e) { 
+			e.printStackTrace();
+		}
+		return false;
+	}
 }
