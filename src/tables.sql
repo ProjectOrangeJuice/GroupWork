@@ -12,6 +12,7 @@ CREATE TABLE IF NOT EXISTS `users` (
 	PRIMARY KEY(`username`)
 );
 
+INSERT INTO `users` VALUES ('Alexandru','Alex','Dascalu','079999999','3 irrelevant','SA2 8PP',NULL,'0');
 INSERT INTO `users` VALUES ('test','testname','testSecondName','12345','1 blabla street','ABC DEF','/SavedAvatars/Avatar1.png','12');
 INSERT INTO `users` VALUES ('staff','teststaff','testSecondstaff','56789','2 blabla street','ABB DEE','/SavedAvatars/Avatar1.png','100');
 
@@ -143,4 +144,15 @@ CREATE TABLE IF NOT EXISTS `borrowRecords` (
 	`description`	TEXT
 );
 
+DROP TABLE IF EXISTS `userRequests`;
+CREATE TABLE IF NOT EXISTS `userRequests` (
+	`rID` INTEGER,
+	`userName` TEXT,
+	PRIMARY KEY (userName,rID),
+	FOREIGN KEY (userName) REFERENCES `users` (`username`) ON UPDATE CASCADE ON DELETE CASCADE,
+	FOREIGN KEY (rID) REFERENCES `resource` (`rID`) ON UPDATE CASCADE ON DELETE CASCADE
+);
+
+INSERT INTO `userRequests` (rID,userName) VALUES (1,"Alexandru"); 
+INSERT INTO `userRequests` (rID,userName) VALUES (2,"test");
 COMMIT;

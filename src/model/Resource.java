@@ -1,6 +1,7 @@
 package model;
 import java.sql.Connection;
 import java.sql.Date;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -43,7 +44,7 @@ public abstract class Resource {
 	
 	/**A queue of user who have requested a copy of this resource but have not 
 	 * gotten one because there is no free copy.*/
-	private Queue<User> userRequest;
+	private Queue<User> userRequestQueue;
 	
 	private static ArrayList<Resource> resources = new ArrayList<>();
 	
@@ -113,10 +114,11 @@ public abstract class Resource {
 		copyList = new ArrayList<Copy>();
 		freeCopies = new LinkedList<Copy>();
 		noDueDateCopies = new PriorityQueue<Copy>();
-		userRequest = new Queue<User>();
+		userRequestQueue = new Queue<User>();
 		
 		loadCopyList();
 		loadCopyPriorityQueue();
+		loadUserQueue();
 	} 
 	
 	public void addCopy(Copy copy) {
@@ -168,7 +170,7 @@ public abstract class Resource {
 	public void processReturn(Copy returnedCopy) {
 		/*If the user request queue is empty, add the copy to the list of free 
 		 * copies and mark it as free.*/
-		if(userRequest.isEmpty()) {
+		if(userRequestQueue.isEmpty()) {
 			freeCopies.add(returnedCopy);
 			
 			//Gets the user that returned the copy and removes it from
@@ -179,9 +181,9 @@ public abstract class Resource {
 		/*If the are user in the queue, reserve this copy for the first user 
 		 * in the queue and take that person out of the queue.*/
 		else {
-			User firstRequest = userRequest.peek();
+			User firstRequest = userRequestQueue.peek();
 			returnedCopy.setBorrower(firstRequest);
-			userRequest.dequeue();
+			userRequestQueue.dequeue();
 		}	
 	}
 	
@@ -201,7 +203,7 @@ public abstract class Resource {
 		 * of the borrowed copy with no due date that has been borrowed
 		 * the longest.*/
 		else {
-			userRequest.enqueue(user);
+			userRequestQueue.enqueue(user);
 			Copy firstCopy = noDueDateCopies.poll();
 			firstCopy.setDueDate(null);
 		}
@@ -291,6 +293,45 @@ public abstract class Resource {
 			if(c.getDueDate()==null && c.getBorrower()!=null) {
 				noDueDateCopies.add(c);
 			}
+		}
+	}
+	
+	private void loadUserQueue() {
+		userRequestQueue.clean();
+		try {
+			Connection conn = DBHelper.getConnection();
+			Statement stmt = conn.createStatement();
+			ResultSet userRequests=stmt.executeQuery("SELECT * FROM userRequests WHERE rID="+uniqueID);
+			
+			while(userRequests.next()) {
+				String userName = userRequests.getString("userName");
+				User userWithRequest=(User)Person.loadPerson(userName);
+				userRequestQueue.enqueue(userWithRequest);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public void saveUserQueue() {
+		LinkedList<User> orderedUsers = userRequestQueue.getOrderedList();
+		try {
+			Connection conn = DBHelper.getConnection();
+			PreparedStatement pstmt=conn.prepareStatement("DELETE FROM userRequests");
+			pstmt.executeUpdate();
+			pstmt = conn.prepareStatement("INSERT INTO userRequests VALUES ("+uniqueID+",?)");
+			
+			User current = orderedUsers.pollFirst();
+			while(current!=null) {
+				
+				pstmt.setString(1, current.getUsername());
+				pstmt.executeUpdate();
+				current = orderedUsers.pollFirst();
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 	
