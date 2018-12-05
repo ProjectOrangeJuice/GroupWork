@@ -50,23 +50,24 @@ CREATE TABLE IF NOT EXISTS `resource` (
 	`year`  INTEGER,
 	`thumbnail`	TEXT
 );
-INSERT INTO `resource` VALUES (1,'Homo Deus',2017,'\graphics\homoDeus.png');
-INSERT INTO `resource` VALUES (2,'Iron Man',2008,'\graphics\ironMan.jpg');
+INSERT INTO `resource` VALUES (1,'Homo Deus',2017,'/graphics/homoDeus.png');
+INSERT INTO `resource` VALUES (2,'Iron Man',2008,'/graphics/ironMan.jpg');
+
 
 DROP TABLE IF EXISTS `fines`;
 CREATE TABLE IF NOT EXISTS `fines` (
 	`fineID`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
 	`username`	TEXT,
-	`copyID`	INTEGER,
+	`rID`	INTEGER,
 	`daysOver`	INTEGER,
 	`amount`	REAL,
 	`dateTime`	TEXT,
 	`paid`	INTEGER,
 	FOREIGN KEY(`username`) REFERENCES `users`(`username`),
-	FOREIGN KEY(`copyID`) REFERENCES `copies`(`copyID`)
+	FOREIGN KEY(`rID`) REFERENCES `resources`(`rID`)
 );
-INSERT INTO `fines` VALUES (1,"test",4,3,5.0,NULL,1);
-INSERT INTO `fines` VALUES (2,"test",5,100,10.0,NULL,1);
+INSERT INTO `fines` VALUES (1,"test",1,3,5.0,'hi',1);
+INSERT INTO `fines` VALUES (2,"test",2,100,10.0,'always',1);
 
 DROP TABLE IF EXISTS `copies`;
 CREATE TABLE IF NOT EXISTS `copies` (
