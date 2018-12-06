@@ -294,6 +294,11 @@ public abstract class Resource {
 		}
 	}
 	
+	public int getFreeCopies(){
+		int size = freeCopies.size();
+		return size;
+	}
+
 	/*public static void main(String args[]) {
 		Resource r1 = new Resource(1,"Eduroam sucks",2018,null);
 		Copy c1= new Copy(r1,1,null);
