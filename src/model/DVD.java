@@ -53,19 +53,10 @@ public class DVD extends Resource {
 		super(uniqueID, title, year, thumbnail);
 		this.director = director;
 		this.runtime = runtime;
+		
+		loadSubtitles();
 	}
 	
-	public void setTitle(String title) {
-		updateDbValue("dvd", this.uniqueID, "title", title);
-		super.setTitle(title);
-	}
-	
-	public void setYear(int year) {
-		String yearString = Integer.toString(year);
-		updateDbValue("dvd", this.uniqueID, "year", yearString);
-		super.setTitle(yearString);
-	}
-
 	public String getDirector() {
 		return director;
 	}
@@ -110,18 +101,18 @@ public class DVD extends Resource {
 		return MAX_FINE_AMOUNT;
 	}
 
-	private static ArrayList<String> loadSubtitles(Statement stmt, int dvdID) {
-		ArrayList<String> subtitleLanguages = new ArrayList<>();
+	private void loadSubtitles() {
+		subtitleLanguages.clear();
 		
 		try {
-			ResultSet subtitles = stmt.executeQuery("SELECT * FROM SUBTITLES WHERE rID="+dvdID);
+			Connection conn = DBHelper.getConnection(); //get the connection
+			Statement stmt = conn.createStatement(); //prep a statement
+			ResultSet subtitles = stmt.executeQuery("SELECT * FROM SUBTITLES WHERE rID="+uniqueID);
 			while(subtitles.next()) {
 				subtitleLanguages.add(subtitles.getString("subtitleLanguage"));
 			}
 		} catch (SQLException e) { 
 			e.printStackTrace();
 		} 
-		
-		return subtitleLanguages;
 	}
 }

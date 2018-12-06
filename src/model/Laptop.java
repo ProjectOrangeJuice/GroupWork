@@ -42,17 +42,6 @@ public class Laptop extends Resource {
 		this.OS = OS;
 	}
 	
-	public void setTitle(String title) {
-		updateDbValue("laptop", this.uniqueID, "title", title);
-		super.setTitle(title);
-	}
-	
-	public void setYear(int year) {
-		String yearString = Integer.toString(year);
-		updateDbValue("laptop", this.uniqueID, "year", yearString);
-		super.setTitle(yearString);
-	}
-
 	public String getManufacturer() {
 		return manufacturer;
 	}
