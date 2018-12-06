@@ -384,4 +384,13 @@ public abstract class Resource {
 		System.out.println(r1.noDueDateCopies.poll().getCOPY_ID());
 		System.out.println(r1.noDueDateCopies.poll().getCOPY_ID());
 	}*/
+	
+	
+	public boolean contains(String search) {
+		if(title.contains(search)) {
+			return true;
+		}else {
+			return false;
+		}
+	}
 }
