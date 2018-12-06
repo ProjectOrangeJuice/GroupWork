@@ -51,8 +51,8 @@ public class User extends Person {
 	 * Returns all copies that the user has currently withdrawn.
 	 * @return copiesList ArrayList
 	 */
-	public ArrayList getAllCopies () {
-		return this.copiesList;
+	public ArrayList<Copy> getBorrowedCopies () {
+		return copiesList;
 	}
 	
 	/**
@@ -60,7 +60,7 @@ public class User extends Person {
 	 * @param copy Copy
 	 */
 	public void removeBorrowedCopy(Copy copy) {
-		this.copiesList.remove(copy);
+		copiesList.remove(copy);
 		//Updater not needed as copy already updates the database.
 	}
 	
@@ -83,15 +83,13 @@ public class User extends Person {
 	
 	public void loadUserCopies() {
 		try {
-			Resource.loadDatabaseResources();
-			
 			Connection conn = DBHelper.getConnection();
-			PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM copies WHERE keeper = ?;");
-            pstmt.setString(1, this.getUsername());
+			PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM copies WHERE keeper = ?");
+            pstmt.setString(1, userName);
             ResultSet rs = pstmt.executeQuery();
             
             while(rs.next()) {
-            	this.copiesList.add(Resource.getResource(rs.getInt("rID")).getCopy(rs.getInt("copyID")));
+            	copiesList.add(Resource.getResource(rs.getInt("rID")).getCopy(rs.getInt("copyID")));
             }
 		} catch (SQLException e) { 
 			System.out.println("Failed to load copies into user.");
@@ -112,7 +110,6 @@ public class User extends Person {
             } else {
             	return true;
             }
-            
 		} catch (SQLException e) { 
 			e.printStackTrace();
 		}
