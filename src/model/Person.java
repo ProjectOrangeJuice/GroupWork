@@ -240,7 +240,7 @@ public abstract class Person {
 	protected static boolean updateDatabase(String table, String username, String column, String data) {
 		try {
 			Connection conn = DBHelper.getConnection();
-			PreparedStatement pstmt = conn.prepareStatement("UPDATE " + table + " SET " + column +" = ? WHERE username = ?;");
+			PreparedStatement pstmt = conn.prepareStatement("UPDATE " + table + " SET " + column +" = ? WHERE username = ?");
             pstmt.setString(1, data);
             pstmt.setString(2, username);
             if (pstmt.executeUpdate() == 1) {
