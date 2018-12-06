@@ -38,7 +38,7 @@ public class Copy implements Comparable<Copy>{
     
 	/**
 	 * Sets the borrow variable by inserting the values into the borrowrecords table, then updates the keeper column in the copies table
-	 * @param firstRequest 
+	 * @param user
 	 */
 	public void setBorrower(User user){
 		if (user != null) {
