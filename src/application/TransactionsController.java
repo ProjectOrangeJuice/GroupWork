@@ -140,6 +140,8 @@ public class TransactionsController {
 		// Traditional way to get the response value.
 		Optional<String> result = dialog.showAndWait();
 		if (result.isPresent()){
+			
+			if(Float.valueOf(result.get()) > 0.1 && Float.valueOf(result.get()) <= f.getAmount()) {
 		    System.out.println("paying.. " + result.get());
 		    if(Payment.makePayment(f.getUsername(), Float.valueOf(result.get()),f.getFineId(),(Float.valueOf(result.get()) == f.getAmount())) != null){
 		    	alertDone("Fine has been paid");
@@ -149,6 +151,9 @@ public class TransactionsController {
 		    }else {
 		    	alertDone("Fine was not able to be paid");
 		    }
+			}else {
+				alertDone("Value entered was wrong");
+			}
 		}
 
 		
