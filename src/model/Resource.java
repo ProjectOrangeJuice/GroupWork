@@ -17,7 +17,7 @@ import javafx.scene.image.Image;
  * the year it came out and a thumbnail image.
  * @author Kane Miles
  * @author Alexandru Dascalu
- * @version 1.0
+ * @version 1.5
  * */
 public abstract class Resource {
 	
@@ -46,14 +46,12 @@ public abstract class Resource {
 	 * gotten one because there is no free copy.*/
 	private Queue<User> userRequestQueue;
 	
-	private static ArrayList<Resource> resources = new ArrayList<>();
+	protected static ArrayList<Resource> resources = new ArrayList<>();
 	
-	public static  ArrayList<Resource> loadDatabaseResources() {
-		Book.loadDatabaseBooks(resources);
-		Laptop.loadDatabaseLaptops(resources);
-		DVD.loadDatabaseDVDs(resources);
-		
-		return resources;
+	public static  void loadDatabaseResources() {
+		Book.loadDatabaseBooks();
+		Laptop.loadDatabaseLaptops();
+		DVD.loadDatabaseDVDs();
 	}
 	
 	protected static void updateDbValue(String tableName, int resourceId, String field, String data) {

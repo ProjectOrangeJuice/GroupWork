@@ -22,7 +22,7 @@ public class Book extends Resource {
 	 * Method that loads the details of a book from the book table
 	 * @param resources
 	 */
-	public static void loadDatabaseBooks(ArrayList<Resource> resources) {
+	public static void loadDatabaseBooks() {
 		try {
 			
 			Connection conn = DBHelper.getConnection(); //get the connection

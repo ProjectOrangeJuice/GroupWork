@@ -16,7 +16,7 @@ public class Laptop extends Resource {
 	private String model;
 	private String OS;
 	
-	public static void loadDatabaseLaptops(ArrayList<Resource> resources) {
+	public static void loadDatabaseLaptops() {
 		try {
 			Connection conn = DBHelper.getConnection(); //get the connection
 			Statement stmt = conn.createStatement(); //prep a statement

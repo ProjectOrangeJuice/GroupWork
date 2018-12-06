@@ -17,7 +17,7 @@ public class DVD extends Resource {
 	private String language;
 	private ArrayList<String> subtitleLanguages;
 	
-	public static void loadDatabaseDVDs(ArrayList<Resource> resources) {
+	public static void loadDatabaseDVDs() {
 		try {
 			Connection conn = DBHelper.getConnection(); //get the connection
 			Statement stmt = conn.createStatement(); //prep a statement
