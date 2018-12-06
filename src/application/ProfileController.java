@@ -10,6 +10,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Tab;
@@ -25,6 +26,9 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
+import model.Book;
+import model.DVD;
+import model.Laptop;
 import model.Person;
 import model.Resource;
 
@@ -77,6 +81,15 @@ public class ProfileController {
 	
 	@FXML
 	private TabPane tabs;
+	
+	//check boxes
+	@FXML
+	private CheckBox dvdCheck;
+	@FXML
+	private CheckBox bookCheck;
+	@FXML
+	private CheckBox laptopCheck;
+	
 	
 	//may remove fixed size resource images
 	//when dealing with window resizing.
@@ -197,6 +210,27 @@ public class ProfileController {
 		return imagePane;
 	}
 	
+	
+	private boolean search(int i ) {
+		//get the resource
+		Resource r = resources.get(i);
+		String searchText = searchTextBox.getText();
+		
+		if(bookCheck.isSelected() && r instanceof Book) {
+			return r.contains(searchText);
+		}
+		if(dvdCheck.isSelected() && r instanceof DVD) {
+			return r.contains(searchText);
+		}
+		if(laptopCheck.isSelected() && r instanceof Laptop) {
+			return r.contains(searchText);
+		}
+		
+		return false;
+
+	}
+	
+	
 	/**
 	 * Loads resource images from Resource class, so that they can
 	 * be displayed within the UI.
@@ -213,7 +247,7 @@ public class ProfileController {
 		
 		//for each resource in resources array
 		for(int i = 0; i < resources.size(); i++) {
-			if(resources.get(i).contains(searchTextBox.getText())) {
+			if(search(i)) {
 			StackPane imagePane = createImage(i);
 			
 			//get last image in last resource HBox.

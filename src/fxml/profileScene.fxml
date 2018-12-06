@@ -348,9 +348,9 @@
                         </HBox>
                         <HBox>
                            <children>
-                              <CheckBox fx:id="dvdCheck" mnemonicParsing="false" text="DVD" />
-                              <CheckBox fx:id="bookCheck" mnemonicParsing="false" text="Book" />
-                              <CheckBox fx:id="dvdCheck" mnemonicParsing="false" text="DVD" />
+                              <CheckBox fx:id="dvdCheck" mnemonicParsing="false" selected="true" text="DVD" />
+                              <CheckBox fx:id="bookCheck" mnemonicParsing="false" selected="true" text="Book" />
+                              <CheckBox fx:id="laptopCheck" mnemonicParsing="false" selected="true" text="Laptop" />
                            </children>
                         </HBox>
                      </children>
