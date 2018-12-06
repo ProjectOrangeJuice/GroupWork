@@ -49,7 +49,7 @@ public class Controller {
 		Person User1 = Person.loadPerson(usernameTextBox.getText());
 		
 		if(User1 != null) {
-			ScreenManager.currentUser = (Person) User1;
+			ScreenManager.setCurrentUser((Person) User1);
 			if(User1 instanceof User) {
 				changeScene(event, "/fxml/profileScene.fxml");
 			} else {

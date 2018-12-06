@@ -36,7 +36,7 @@ public class TransactionsController {
 	private ArrayList<Fine> fines;
 	private TableView<Payment> tableTransaction = new TableView<>();
 	private TableView<Fine> tableFine = new TableView<>();
-	Person user = ScreenManager.currentUser;
+	Person user = ScreenManager.getCurrentUser();
 	private boolean isStaff = false;
 	@FXML
 	private TextField dateSearch;

@@ -46,9 +46,10 @@ public abstract class Resource {
 	 * gotten one because there is no free copy.*/
 	private Queue<User> userRequestQueue;
 	
-	private static ArrayList<Resource> resources = new ArrayList<>();
+	private static ArrayList<Resource> resources;
 	
 	public static  ArrayList<Resource> loadDatabaseResources() {
+		resources = new ArrayList<>();
 		Book.loadDatabaseBooks(resources);
 		Laptop.loadDatabaseLaptops(resources);
 		DVD.loadDatabaseDVDs(resources);

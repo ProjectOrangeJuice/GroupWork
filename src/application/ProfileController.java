@@ -9,7 +9,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
-import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
@@ -22,9 +21,8 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
+import model.Person;
 import model.Resource;
-import sun.security.tools.policytool.Resources;
-
 
 public class ProfileController {
 
@@ -66,7 +64,8 @@ public class ProfileController {
 	private final int COPY_IMG_WIDTH = 300;
 	private final int COPY_IMG_HEIGHT = 500;
 	
-	ArrayList<Resource> resources;
+	private Person currentUser;
+	private ArrayList<Resource> resources;
 
 	/**
 	 * Sets new scene on stage within program using fxml file provided.
@@ -100,12 +99,11 @@ public class ProfileController {
 	private void loadUserInformation() {
 		
 		//get all information in about user from ScreenManager class.
-		String username = ScreenManager.currentUser.getUsername();
-		String fullname = ScreenManager.currentUser.getFirstName() + " "
-		+ ScreenManager.currentUser.getLastName();
-		String address = ScreenManager.currentUser.getAddress();
-		String postcode = ScreenManager.currentUser.getPostcode();
-		String phoneNumber = ScreenManager.currentUser.getPhoneNumber();
+		String username = currentUser.getUsername();
+		String fullname = currentUser.getFirstName() + " " + currentUser.getLastName();
+		String address = currentUser.getAddress();
+		String postcode = currentUser.getPostcode();
+		String phoneNumber = currentUser.getPhoneNumber();
 		
 		//change text in labels to appropriate user information.
 		userLabel.setText(username);
@@ -118,7 +116,7 @@ public class ProfileController {
 	/**
 	 * Event handler that handles when a resource is clicked.
 	 */
-	final EventHandler<MouseEvent> handler = event -> {
+	final EventHandler<MouseEvent> enterHandler = event -> {
 		StackPane currentPane = (StackPane) event.getSource();
 		currentPane.getChildren().get(0).setOpacity(0.3);
 		currentPane.getChildren().get(1).setVisible(true);
@@ -127,7 +125,7 @@ public class ProfileController {
 	/**
 	 * Event handler that handles when a resource is clicked.
 	 */
-	final EventHandler<MouseEvent> handler2 = event -> {
+	final EventHandler<MouseEvent> exitHandler = event -> {
 		StackPane currentPane = (StackPane) event.getSource();
 		currentPane.getChildren().get(0).setOpacity(1);
 		currentPane.getChildren().get(1).setVisible(false);
@@ -140,7 +138,7 @@ public class ProfileController {
 		
 		Text resourceText = new Text();
 		resourceText.setFont(Font.font("Arial", 20));
-		resourceText.setText(resources.get(i).getUniqueID() + "\n" +
+		resourceText.setText("ID: " + resources.get(i).getUniqueID() + "\n" +
 		resources.get(i).getTitle() + "\n" + resources.get(i).getYear());
 		resourceText.setVisible(false);
 		resourceText.setTextAlignment(TextAlignment.CENTER);
@@ -170,6 +168,9 @@ public class ProfileController {
 		//load resources
 		resources = Resource.loadDatabaseResources();
 		
+		System.out.println(resources.size());
+		ScreenManager.setResources(resources);
+		
 		//for each resource in resources array
 		for(int i = 0; i < resources.size(); i++) {
 			
@@ -198,8 +199,8 @@ public class ProfileController {
 				latestHBox.getChildren().add(imagePane); //add new image to last HBox
 			}
 			
-			imagePane.setOnMouseEntered(handler);
-			imagePane.setOnMouseExited(handler2);
+			imagePane.setOnMouseEntered(enterHandler);
+			imagePane.setOnMouseExited(exitHandler);
 			
 		}
 		
@@ -207,6 +208,9 @@ public class ProfileController {
 
 	@FXML
 	 public void initialize() {
+		
+		currentUser = ScreenManager.getCurrentUser();
+		resources = ScreenManager.getResources();
 		
 		//change resources size on profile page.
 		scrollPane.setHvalue(0.5);
