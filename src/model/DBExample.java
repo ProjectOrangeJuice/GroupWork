@@ -145,11 +145,32 @@ public class DBExample {
 		displayResourceTable();
 		removeAResource();
 		displayResourceTable();
-		
+	
 		//displaySubtitles();
 		//displayDVDs();
 		
 		//testFreeCopiesDB();
 	}
 
+	
+	
+	private boolean checkUsername(String username) {
+		try {
+			Connection conn = DBHelper.getConnection();
+			PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM users WHERE username=?");
+	            pstmt.setString(1, username); 
+	            ResultSet rs = pstmt.executeQuery();
+	            if(rs.next()) {
+	            	return true;
+	            }else {
+	            	return false;
+	            }
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return false;
+	}
+	
 }
