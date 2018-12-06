@@ -23,11 +23,12 @@ public class Payment {
 		return amount;
 	}
 	
-	public static Payment makePayment(String username, float amount, int fine) {
+	public static Payment makePayment(String username, float amount, int fine, boolean full) {
 		Date date = new Date();
+		System.out.println("They are paying full? "+full);
 	     
 	      try {
-	    	  	ResultSet rs = updateFine(fine,amount);
+	    	  	ResultSet rs = updateFine(fine,amount,full);
 	    	  	if(rs.next()) {
 	    	  		int id = rs.getInt(1);
 	    	  		insertTransaction(username,amount,date.toString());
@@ -59,15 +60,24 @@ public class Payment {
 		pstmt2.executeUpdate(); //Your sql goes here
 	}
 	
-	private static ResultSet updateFine(int fine,float amount) throws SQLException {
+	private static ResultSet updateFine(int fine,float amount,boolean full) throws SQLException {
 		Date date = new Date();
 		Connection conn = DBHelper.getConnection(); //get the connection
-		PreparedStatement pstmt2 = conn.prepareStatement("UPDATE FINES set paid=1 WHERE fineId=? AND amount=?");
+		if(full) {
+		PreparedStatement pstmt2 = conn.prepareStatement("UPDATE FINES set paid=1, amount=0 WHERE fineId=? AND amount=?");
 		pstmt2.setInt(1,fine);
 		pstmt2.setFloat(2,amount);
 	
 		int updates = pstmt2.executeUpdate(); //Your sql goes here
 		return pstmt2.getGeneratedKeys();
+		}else {
+			PreparedStatement pstmt2 = conn.prepareStatement("UPDATE FINES set paid=0, amount=? WHERE fineId=?");
+			pstmt2.setInt(2,fine);
+			pstmt2.setFloat(1,amount);
+		
+			int updates = pstmt2.executeUpdate(); //Your sql goes here
+			return pstmt2.getGeneratedKeys();
+		}
 	}
 	
 

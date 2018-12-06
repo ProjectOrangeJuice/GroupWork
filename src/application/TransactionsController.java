@@ -18,6 +18,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.VBox;
@@ -130,15 +131,17 @@ public class TransactionsController {
 	
 	
 	private void confirmPay(Fine f) {
-		Alert alert = new Alert(AlertType.CONFIRMATION);
-		alert.setTitle("Confirmation Dialog");
-		alert.setHeaderText("Pay fine for "+f.getUsername()+"?");
-		alert.setContentText("For the amount of "+f.getAmount()+" due to "+f.getDaysOver()+" days late");
+		
+		TextInputDialog dialog = new TextInputDialog(String.valueOf(f.getAmount()));
+		dialog.setTitle("Confirm payment");
+		dialog.setHeaderText("Enter a value beween 1p and "+f.getAmount());
+		dialog.setContentText("Enter payment: ");
 
-		Optional<ButtonType> result = alert.showAndWait();
-		if (result.get() == ButtonType.OK){
-		    if(Payment.makePayment(f.getUsername(), f.getAmount(),f.getFineId()) != null){
-		    	alert.close();
+		// Traditional way to get the response value.
+		Optional<String> result = dialog.showAndWait();
+		if (result.isPresent()){
+		    System.out.println("paying.. " + result.get());
+		    if(Payment.makePayment(f.getUsername(), Float.valueOf(result.get()),f.getFineId(),(Float.valueOf(result.get()) == f.getAmount())) != null){
 		    	alertDone("Fine has been paid");
 		    	finesSplit.getItems().remove(tableFine);
 				tableFine = new TableView<>();
@@ -146,9 +149,9 @@ public class TransactionsController {
 		    }else {
 		    	alertDone("Fine was not able to be paid");
 		    }
-		} else {
-		    // ... user chose CANCEL or closed the dialog
 		}
+
+		
 	}
 	
 	private void alertDone(String text) {
