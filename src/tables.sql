@@ -41,7 +41,7 @@ DROP TABLE IF EXISTS `system`;
 CREATE TABLE IF NOT EXISTS `system` (
 	`ver`	INTEGER
 );
-INSERT INTO `system` VALUES (3);
+INSERT INTO `system` VALUES (7);
 
 DROP TABLE IF EXISTS `resource`;
 CREATE TABLE IF NOT EXISTS `resource` (
@@ -155,7 +155,6 @@ CREATE TABLE IF NOT EXISTS `userRequests` (
 	FOREIGN KEY (rID) REFERENCES `resource` (`rID`) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
-INSERT INTO `userRequests` (rID,userName) VALUES (1,"Alexandru",1); 
-INSERT INTO `userRequests` (rID,userName) VALUES (2,"test",2);
+INSERT INTO `userRequests` (rID,userName,orderNumber) VALUES (1,"Alexandru",1);
+INSERT INTO `userRequests` (rID,userName,orderNumber) VALUES (2,"test",2);
 COMMIT;
-
