@@ -226,7 +226,7 @@ public abstract class Person {
 	            }
 			} else {
 				conn.close();
-				throw new IllegalStateException("Either too many or not enough rows returned.");
+				//throw new IllegalStateException("Either too many or not enough rows returned.");
 			}
 			
 		//Catch most other errors!
