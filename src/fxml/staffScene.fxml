@@ -39,7 +39,6 @@
             </ImageView>
             <MenuButton id="imageMenu" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="25.0" style="-fx-background-color: #545454;" text="Change Profile Image" textAlignment="CENTER" textFill="WHITE">
                <items>
-                  <MenuItem mnemonicParsing="false" text="Upload Image" />
                   <MenuItem mnemonicParsing="false" text="Image Editor" />
                </items>
             </MenuButton>
@@ -109,21 +108,39 @@
                      <children>
                         <Pane prefHeight="100.0" prefWidth="804.0" VBox.vgrow="NEVER">
                            <children>
-                              <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" text="Edit" />
-                              <Button layoutX="14.0" layoutY="50.0" mnemonicParsing="false" text="Delete" />
-                              <Label layoutX="115.0" layoutY="18.0" text="Resource ID:" />
-                              <TextField layoutX="213.0" layoutY="14.0" promptText="ID" />
-                              <Label layoutX="424.0" layoutY="30.0" text="Result: -" />
+                              <Label layoutX="52.0" layoutY="35.0" text="Resource ID:" />
+                              <TextField layoutX="134.0" layoutY="31.0" promptText="ID" />
+                              <Label layoutX="681.0" layoutY="35.0" text="Result: -" />
                            </children>
                         </Pane>
-                        <Pane prefHeight="675.0" prefWidth="804.0" VBox.vgrow="SOMETIMES" />
+                        <Pane prefHeight="675.0" prefWidth="804.0" VBox.vgrow="SOMETIMES">
+                           <children>
+                              <Button layoutX="61.0" layoutY="25.0" mnemonicParsing="false" text="Delete" />
+                              <Button layoutX="60.0" layoutY="80.0" mnemonicParsing="false" text="Edit" />
+                           </children></Pane>
                      </children>
                   </VBox>
                </content>
             </TitledPane>
             <TitledPane animated="false" text="Manage Copies">
                <content>
-                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                  <VBox prefHeight="200.0" prefWidth="100.0">
+                     <children>
+                        <Pane prefHeight="100.0" prefWidth="804.0">
+                           <children>
+                              <Label layoutX="52.0" layoutY="35.0" text="Resource ID:" />
+                              <TextField layoutX="134.0" layoutY="31.0" promptText="ID" />
+                              <Label layoutX="681.0" layoutY="35.0" text="Result: -" />
+                           </children>
+                        </Pane>
+                        <Pane prefHeight="675.0" prefWidth="804.0">
+                           <children>
+                              <Button layoutX="61.0" layoutY="25.0" mnemonicParsing="false" text="Delete" />
+                              <Button layoutX="60.0" layoutY="80.0" mnemonicParsing="false" text="Edit" />
+                           </children>
+                        </Pane>
+                     </children>
+                  </VBox>
                </content>
             </TitledPane>
         </panes>
