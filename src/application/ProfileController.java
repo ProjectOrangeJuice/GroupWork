@@ -13,6 +13,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
@@ -82,6 +83,16 @@ public class ProfileController {
 		}
 
 	}
+	
+	@FXML  
+    void searchThis(KeyEvent event) {
+		System.out.println("I'm doing stuff");
+		vResourceBox.getChildren().clear();
+		HBox hbox = new HBox();
+		vResourceBox.getChildren().add(hbox);
+		loadResourceImages();
+	}
+	
 
 	/**
 	 * Called when logout link is clicked.
@@ -132,6 +143,9 @@ public class ProfileController {
 		
 	};
 	
+	
+	
+	
 	private StackPane createImage(int i) {
 		
 		StackPane imagePane = new StackPane();
@@ -175,7 +189,7 @@ public class ProfileController {
 		
 		//for each resource in resources array
 		for(int i = 0; i < resources.size(); i++) {
-			
+			if(resources.get(i).contains(searchTextBox.getText())) {
 			StackPane imagePane = createImage(i);
 			
 			//get last image in last resource HBox.
@@ -204,6 +218,7 @@ public class ProfileController {
 			imagePane.setOnMouseEntered(enterHandler);
 			imagePane.setOnMouseExited(exitHandler);
 			
+		}
 		}
 		
 	}
