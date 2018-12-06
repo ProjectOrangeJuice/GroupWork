@@ -17,7 +17,7 @@ import javafx.scene.image.Image;
  * the year it came out and a thumbnail image.
  * @author Kane Miles
  * @author Alexandru Dascalu
- * @version 1.0
+ * @version 1.5
  * */
 public abstract class Resource {
 	
@@ -46,15 +46,12 @@ public abstract class Resource {
 	 * gotten one because there is no free copy.*/
 	private Queue<User> userRequestQueue;
 	
-	private static ArrayList<Resource> resources;
+	protected static ArrayList<Resource> resources = new ArrayList<>();
 	
-	public static  ArrayList<Resource> loadDatabaseResources() {
-		resources = new ArrayList<>();
-		Book.loadDatabaseBooks(resources);
-		Laptop.loadDatabaseLaptops(resources);
-		DVD.loadDatabaseDVDs(resources);
-		
-		return resources;
+	public static  void loadDatabaseResources() {
+		Book.loadDatabaseBooks();
+		Laptop.loadDatabaseLaptops();
+		DVD.loadDatabaseDVDs();
 	}
 	
 	protected static void updateDbValue(String tableName, int resourceId, String field, String data) {
@@ -130,7 +127,7 @@ public abstract class Resource {
 			Connection conn = DBHelper.getConnection(); //get the connection
 			Statement stmt = conn.createStatement(); //prep a statement
 			
-			stmt.executeUpdate("insert into copies values ("+copy.getCOPY_ID()+","+getUniqueID()+",null,null)");
+			stmt.executeUpdate("insert into copies values ("+copy.getCopyID()+","+getUniqueID()+",null,null)");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -145,7 +142,7 @@ public abstract class Resource {
 				Connection conn = DBHelper.getConnection(); //get the connection
 				Statement stmt = conn.createStatement(); //prep a statement
 				
-				stmt.executeUpdate("insert into copies values ("+copy.getCOPY_ID()+","+getUniqueID()+",null,null)");
+				stmt.executeUpdate("insert into copies values ("+copy.getCopyID()+","+getUniqueID()+",null,null)");
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -178,12 +175,14 @@ public abstract class Resource {
 			//there withdrawn copies.
 			returnedCopy.getBorrower().removeBorrowedCopy(returnedCopy);
 			returnedCopy.setBorrower(null);
+			returnedCopy.resetDates();
 		} 
 		/*If the are user in the queue, reserve this copy for the first user 
 		 * in the queue and take that person out of the queue.*/
 		else {
 			User firstRequest = userRequestQueue.peek();
 			returnedCopy.setBorrower(firstRequest);
+			returnedCopy.setBorrowDate(new Date(System.currentTimeMillis()));
 			userRequestQueue.dequeue();
 		}	
 	}
@@ -198,6 +197,7 @@ public abstract class Resource {
 		if(!freeCopies.isEmpty()) {
 			Copy copyToBorrow = freeCopies.removeFirst();
 			copyToBorrow.setBorrower(user);
+			copyToBorrow.setBorrowDate(new Date(System.currentTimeMillis()));
 			user.addBorrowedCopy(copyToBorrow);
 		} 
 		/*Else, add the user to the request queue and set the due date
@@ -206,7 +206,7 @@ public abstract class Resource {
 		else {
 			userRequestQueue.enqueue(user);
 			Copy firstCopy = noDueDateCopies.poll();
-			firstCopy.setDueDate(null);
+			firstCopy.setDueDate();
 		}
 	}
 
@@ -240,13 +240,17 @@ public abstract class Resource {
 	
 	public Copy getCopy(int copyID) {
 		for(Copy c: copyList) {
-			if(c.getCOPY_ID()==copyID) {
+			if(c.getCopyID()==copyID) {
 				return c;
 			}
 		}
 		
 		return null;
 	}
+	
+	public abstract int getDailyFineAmount();
+	
+	public abstract int getMaxFineAmount();
 	
 	public static Resource getResource(int resourceID) {
 		for(Resource r: resources) {
@@ -260,6 +264,22 @@ public abstract class Resource {
 	
 	public String toString() {
 		return "Title: "+title + "\nID: " + uniqueID + "\nYear: " + year;
+	}
+	
+	/**
+	 * Returns a string with the unique ID and availability of each copy of 
+	 * this resource. The information of each copy is on each separate line.
+	 * @return A string where each line of the unique ID and availability 
+	 * of a copy of this resource.
+	 */
+	public String getCopyInformation() {
+		String copiesInfo="";
+		
+		for(Copy c: copyList) {
+			copiesInfo+=c.toString();
+		}
+		
+		return copiesInfo;
 	}
 	
 	private void loadCopyList() {
@@ -336,6 +356,18 @@ public abstract class Resource {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	/*
+	 * Gets the number of copies that this resource has, wether free or borrowed.
+	 * @return The nr of copies of this resource.
+	 */
+	public int getNrOfCopies() {
+		return copyList.size();
+	}
+	
+	public static ArrayList<Resource> getResources() {
+		return resources;
 	}
 	
 	/*public static void main(String args[]) {

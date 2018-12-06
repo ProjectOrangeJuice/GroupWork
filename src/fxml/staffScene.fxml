@@ -7,11 +7,16 @@
 <?import javafx.scene.control.MenuButton?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.control.ToolBar?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
@@ -34,7 +39,6 @@
             </ImageView>
             <MenuButton id="imageMenu" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="25.0" style="-fx-background-color: #545454;" text="Change Profile Image" textAlignment="CENTER" textFill="WHITE">
                <items>
-                  <MenuItem mnemonicParsing="false" text="Upload Image" />
                   <MenuItem mnemonicParsing="false" text="Image Editor" />
                </items>
             </MenuButton>
@@ -72,17 +76,71 @@
         <panes>
             <TitledPane animated="false" text="Copies Explorer">
                <content>
-                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                  <VBox prefHeight="200.0" prefWidth="100.0">
+                     <children>
+                        <ToolBar prefHeight="40.0" prefWidth="835.0">
+                          <items>
+                              <Label text="View: " />
+                            <Button mnemonicParsing="false" text="Overdue" />
+                              <Button mnemonicParsing="false" text="Requested" />
+                              <Label text="Search:" />
+                              <TextField promptText="CopyID" />
+                              <Button mnemonicParsing="false" text="History" />
+                          </items>
+                        </ToolBar>
+                        <Pane prefHeight="698.0" prefWidth="1323.0" VBox.vgrow="ALWAYS">
+                           <children>
+                              <TableView prefHeight="562.0" prefWidth="757.0">
+                                <columns>
+                                  <TableColumn prefWidth="75.0" text="C1" />
+                                  <TableColumn prefWidth="75.0" text="C2" />
+                                </columns>
+                              </TableView>
+                           </children>
+                        </Pane>
+                     </children>
+                  </VBox>
                </content>
             </TitledPane>
             <TitledPane animated="false" text="Manage Resources">
                <content>
-                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                  <VBox prefHeight="200.0" prefWidth="100.0">
+                     <children>
+                        <Pane prefHeight="100.0" prefWidth="804.0" VBox.vgrow="NEVER">
+                           <children>
+                              <Label layoutX="52.0" layoutY="35.0" text="Resource ID:" />
+                              <TextField layoutX="134.0" layoutY="31.0" promptText="ID" />
+                              <Label layoutX="681.0" layoutY="35.0" text="Result: -" />
+                           </children>
+                        </Pane>
+                        <Pane prefHeight="675.0" prefWidth="804.0" VBox.vgrow="SOMETIMES">
+                           <children>
+                              <Button layoutX="61.0" layoutY="25.0" mnemonicParsing="false" text="Delete" />
+                              <Button layoutX="60.0" layoutY="80.0" mnemonicParsing="false" text="Edit" />
+                           </children></Pane>
+                     </children>
+                  </VBox>
                </content>
             </TitledPane>
             <TitledPane animated="false" text="Manage Copies">
                <content>
-                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                  <VBox prefHeight="200.0" prefWidth="100.0">
+                     <children>
+                        <Pane prefHeight="100.0" prefWidth="804.0">
+                           <children>
+                              <Label layoutX="52.0" layoutY="35.0" text="Resource ID:" />
+                              <TextField layoutX="134.0" layoutY="31.0" promptText="ID" />
+                              <Label layoutX="681.0" layoutY="35.0" text="Result: -" />
+                           </children>
+                        </Pane>
+                        <Pane prefHeight="675.0" prefWidth="804.0">
+                           <children>
+                              <Button layoutX="61.0" layoutY="25.0" mnemonicParsing="false" text="Delete" />
+                              <Button layoutX="60.0" layoutY="80.0" mnemonicParsing="false" text="Edit" />
+                           </children>
+                        </Pane>
+                     </children>
+                  </VBox>
                </content>
             </TitledPane>
         </panes>

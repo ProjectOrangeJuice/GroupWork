@@ -8,11 +8,15 @@ import java.util.ArrayList;
 import javafx.scene.image.Image;
 
 public class Laptop extends Resource {
+	
+	private static final int MAX_FINE_AMOUNT=100;
+	private static final int DAILY_FINE_AMOUNT=10;
+	
 	private String manufacturer;
 	private String model;
 	private String OS;
 	
-	public static void loadDatabaseLaptops(ArrayList<Resource> resources) {
+	public static void loadDatabaseLaptops() {
 		try {
 			Connection conn = DBHelper.getConnection(); //get the connection
 			Statement stmt = conn.createStatement(); //prep a statement
@@ -74,5 +78,13 @@ public class Laptop extends Resource {
 	public void setOS(String OS) {
 		this.OS = OS;
 		updateDbValue("laptop", this.uniqueID, "OS", OS);
+	}
+	
+	public int getDailyFineAmount() {
+		return DAILY_FINE_AMOUNT;
+	}
+	
+	public int getMaxFineAmount() {
+		return MAX_FINE_AMOUNT;
 	}
 }

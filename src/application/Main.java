@@ -3,6 +3,7 @@ package application;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
+import model.DBHelper;
 import model.Resource;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -25,6 +26,11 @@ public class Main extends Application {
 	 */
 	@Override
 	public void start(Stage primaryStage) {
+		
+		//Check to see if the database ready
+		DBHelper.tableCheck();
+		Resource.loadDatabaseResources();
+		
 		try {
 			//create initial scene object.
 			Parent root = FXMLLoader.load(getClass().getResource("/fxml/loginScene.fxml"));

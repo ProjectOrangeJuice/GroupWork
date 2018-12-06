@@ -165,8 +165,10 @@ public class ProfileController {
 	 */
 	private void loadResourceImages() {
 		
-		//load resources
-		resources = Resource.loadDatabaseResources();
+		//get resources
+		
+		resources = Resource.getResources();
+				
 		
 		System.out.println(resources.size());
 		ScreenManager.setResources(resources);
