@@ -16,7 +16,7 @@ import javafx.scene.image.Image;
 public abstract class Person {
 	
 	/**The persons user name.*/
-	private final String username; 
+	protected final String userName; 
 	
 	/**The persons first name.*/
 	private String firstName; 
@@ -47,7 +47,7 @@ public abstract class Person {
 	 * @param avatar
 	 */
 	public Person(String username, String firstName, String lastName, String phoneNumber, String address, String postcode, String avatarPath) {
-		this.username = username;
+		this.userName = username;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.phoneNumber = phoneNumber;
@@ -62,7 +62,7 @@ public abstract class Person {
 	 * @return userName String
 	 */
 	public String getUsername() {
-		return username;
+		return userName;
 	}
 
 	/**
@@ -176,17 +176,17 @@ public abstract class Person {
 			//Declaring necessary variables
 			Connection conn = DBHelper.getConnection();
 			
-			PreparedStatement pstmt = conn.prepareStatement("SELECT COUNT(*) FROM users WHERE users.username = ?;");
+			PreparedStatement pstmt = conn.prepareStatement("SELECT COUNT(*) FROM users WHERE users.username = ?");
             pstmt.setString(1, userName);
             ResultSet rs = pstmt.executeQuery();
 			
 			if (rs.getInt(1) == 1) {
-				pstmt = conn.prepareStatement("SELECT COUNT (*) FROM staff WHERE username = ?;");
+				pstmt = conn.prepareStatement("SELECT COUNT (*) FROM staff WHERE username = ?");
 	            pstmt.setString(1, userName);
 	            rs = pstmt.executeQuery();
 	            
 	            if (rs.getInt(1) == 1) {
-	            	pstmt = conn.prepareStatement("SELECT * FROM users, staff WHERE users.username = staff.username and users.username = ?;");
+	            	pstmt = conn.prepareStatement("SELECT * FROM users, staff WHERE users.username = staff.username and users.username = ?");
 		            pstmt.setString(1, userName);
 		            rs = pstmt.executeQuery();
 		            
@@ -206,7 +206,7 @@ public abstract class Person {
 							employmentDateResult, Integer.parseInt(staffIDResult));
 	            } else {
 
-	            	pstmt = conn.prepareStatement("SELECT * FROM users WHERE username = ?;");
+	            	pstmt = conn.prepareStatement("SELECT * FROM users WHERE username = ?");
 		            pstmt.setString(1, userName);
 		            rs = pstmt.executeQuery();
 		            
@@ -226,7 +226,7 @@ public abstract class Person {
 	            }
 			} else {
 				conn.close();
-				throw new IllegalStateException("Either too many or not enough rows returned.");
+				//throw new IllegalStateException("Either too many or not enough rows returned.");
 			}
 			
 		//Catch most other errors!
