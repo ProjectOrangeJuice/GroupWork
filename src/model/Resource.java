@@ -366,6 +366,10 @@ public abstract class Resource {
 		return copyList.size();
 	}
 	
+	public static ArrayList<Resource> getResources() {
+		return resources;
+	}
+	
 	/*public static void main(String args[]) {
 		Resource r1 = new Resource(1,"Eduroam sucks",2018,null);
 		Copy c1= new Copy(r1,1,null);
