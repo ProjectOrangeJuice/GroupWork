@@ -129,7 +129,7 @@ public abstract class Resource {
 			Connection conn = DBHelper.getConnection(); //get the connection
 			Statement stmt = conn.createStatement(); //prep a statement
 			
-			stmt.executeUpdate("insert into copies values ("+copy.getCOPY_ID()+","+getUniqueID()+",null,null)");
+			stmt.executeUpdate("insert into copies values ("+copy.getCopyID()+","+getUniqueID()+",null,null)");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -144,7 +144,7 @@ public abstract class Resource {
 				Connection conn = DBHelper.getConnection(); //get the connection
 				Statement stmt = conn.createStatement(); //prep a statement
 				
-				stmt.executeUpdate("insert into copies values ("+copy.getCOPY_ID()+","+getUniqueID()+",null,null)");
+				stmt.executeUpdate("insert into copies values ("+copy.getCopyID()+","+getUniqueID()+",null,null)");
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -242,7 +242,7 @@ public abstract class Resource {
 	
 	public Copy getCopy(int copyID) {
 		for(Copy c: copyList) {
-			if(c.getCOPY_ID()==copyID) {
+			if(c.getCopyID()==copyID) {
 				return c;
 			}
 		}

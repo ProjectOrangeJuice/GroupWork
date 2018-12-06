@@ -9,11 +9,11 @@ import java.sql.SQLException;
  * @author Joe Wright
  *
  */
-public class Copy  implements Comparable<Copy>{
+public class Copy implements Comparable<Copy>{
 	
 	private Resource resource;
 	private User borrower;
-	private final int COPY_ID;
+	private final int copyID;
 	private int loanDuration;
 	private Date borrowDate;
 	private Date lastRenewal;
@@ -28,7 +28,7 @@ public class Copy  implements Comparable<Copy>{
 	public Copy(Resource resource, int copyID, User borrower) {
 		this.resource = resource;
 		this.borrower = borrower;
-		this.COPY_ID = copyID;
+		this.copyID = copyID;
 		
 		loanDuration=7;
 		borrowDate=null;
@@ -46,7 +46,7 @@ public class Copy  implements Comparable<Copy>{
 				Connection conn = DBHelper.getConnection();
 				PreparedStatement pstmt = conn.prepareStatement("INSERT INTO borrowRecords (borrowId, copyId, userId, description)"
 						+ " VALUES ('?','?','?')");
-	            pstmt.setInt(2, this.getCOPY_ID());
+	            pstmt.setInt(2, this.getCopyID());
 	            pstmt.setString(3, user.getUsername());
 	            pstmt.setString(4, "Not sure what to put in description.");
 	            pstmt.executeUpdate();
@@ -65,7 +65,7 @@ public class Copy  implements Comparable<Copy>{
 			} else {
 				pstmt.setString(1, user.getUsername());
 			}
-            pstmt.setInt(2, this.getCOPY_ID());
+            pstmt.setInt(2, this.getCopyID());
             pstmt.executeUpdate();
             conn.close();
 		} catch (SQLException e) { 
@@ -81,7 +81,7 @@ public class Copy  implements Comparable<Copy>{
 	 * Method that gets the duration variable
 	 * @return duration
 	 */
-	public int getDuration(){
+	public int getLoanDuration(){
 		return loanDuration;
 	}
 	
@@ -99,8 +99,8 @@ public class Copy  implements Comparable<Copy>{
 	 * @return COPY_ID
 	 * @author Joe Wright
 	 */
-	public int getCOPY_ID(){
-		return COPY_ID;
+	public int getCopyID(){
+		return copyID;
 	}
 	
 	public void setLoanDuration(int duration){
@@ -109,6 +109,21 @@ public class Copy  implements Comparable<Copy>{
 	
 	public Date getDueDate() {
 		return dueDate;
+	}
+	
+	public void setDueDate() {
+		if(dueDate==null) {
+			Date afterBorrowDuration=(Date)borrowDate.clone();
+			afterBorrowDuration.setDate(afterBorrowDuration.getDate()+loanDuration);
+			Date today = new Date(System.currentTimeMillis());
+			
+			if(afterBorrowDuration.after(today)) {
+				dueDate=afterBorrowDuration;
+			} else {
+				today.setDate(today.getDate()+1);
+				dueDate=today;
+			}
+		}
 	}
 	
 	public boolean checkRenewal() {
@@ -132,21 +147,6 @@ public class Copy  implements Comparable<Copy>{
 			}
 		} else {
 			return false;
-		}
-	}
-	
-	public void setDueDate() {
-		if(dueDate==null) {
-			Date afterBorrowDuration=(Date)borrowDate.clone();
-			afterBorrowDuration.setDate(afterBorrowDuration.getDate()+loanDuration);
-			Date today = new Date(System.currentTimeMillis());
-			
-			if(afterBorrowDuration.after(today)) {
-				dueDate=afterBorrowDuration;
-			} else {
-				today.setDate(today.getDate()+1);
-				dueDate=today;
-			}
 		}
 	}
 	
@@ -191,7 +191,7 @@ public class Copy  implements Comparable<Copy>{
 	 * viewing.
 	 */
 	public String toString() {
-		String copy="CopyID: "+COPY_ID+", Available: ";
+		String copy="CopyID: "+copyID+", Available: ";
 		
 		String available;
 		if(borrower==null) {
