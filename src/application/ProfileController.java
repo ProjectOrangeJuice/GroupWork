@@ -167,8 +167,10 @@ public class ProfileController {
 	 */
 	private void loadResourceImages() {
 		
-		//load resources
-		resources = Resource.loadDatabaseResources();
+		//get resources
+		
+		resources = Resource.getResources();
+				
 		
 		//for each resource in resources array
 		for(int i = 0; i < resources.size(); i++) {
