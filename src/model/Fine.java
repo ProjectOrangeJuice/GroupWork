@@ -173,7 +173,7 @@ public class Fine {
 	}
 	
 	public boolean containsUser(String search) {
-		if(this.getUsername().contains(search)) {
+		if(this.getUsername().toUpperCase().contains(search)) {
 			return true;
 		}else {
 			return false;
