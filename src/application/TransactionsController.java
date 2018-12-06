@@ -65,8 +65,7 @@ public class TransactionsController {
 			ffilteredList.setPredicate(s -> s.contains(dateSearch.getText()));
 			tfilteredList.setPredicate(s -> s.contains(dateSearch.getText()));
 		}
-
-        }
+    }
     
 	@SuppressWarnings("unchecked")
 	private void setupFines() {
@@ -76,16 +75,13 @@ public class TransactionsController {
 		}else {
 			fines = Fine.getFines(user.getUsername());
 		}
-		
-		
-		
 
          fdata = FXCollections.observableArrayList();
-	for (Fine f : fines) {
-		fdata.add(f);
-	}
+         for (Fine f : fines) {
+        	 fdata.add(f);
+         }
 	
-	ffilteredList = new FilteredList<>(fdata);
+         ffilteredList = new FilteredList<>(fdata);
 		
 		//create the table
 		 TableColumn<Fine, String> fineCol = new TableColumn<Fine, String>("Fine");
@@ -168,17 +164,10 @@ public class TransactionsController {
 	@SuppressWarnings("unchecked")
 	private void setupTransactions() {
 		
-		transactions = Transactions.getTransactions(user.getUsername());
-		
-		
-		
-
-        
-	for (Payment p : transactions.getPayments()) {
-		tdata.add(p);
-		
-		
-	}
+		transactions = Transactions.getTransactions(user.getUsername());    
+		for (Payment p : transactions.getPayments()) {
+			tdata.add(p);
+		}
 		
 		//create the table
 		 TableColumn<Payment, String> transCol = new TableColumn<Payment, String>("Transaction");

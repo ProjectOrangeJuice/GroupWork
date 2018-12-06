@@ -1,6 +1,7 @@
 package model;
 import java.sql.Connection;
 import java.sql.Date;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -16,7 +17,7 @@ import javafx.scene.image.Image;
  * the year it came out and a thumbnail image.
  * @author Kane Miles
  * @author Alexandru Dascalu
- * @version 1.0
+ * @version 1.5
  * */
 public abstract class Resource {
 	
@@ -43,16 +44,14 @@ public abstract class Resource {
 	
 	/**A queue of user who have requested a copy of this resource but have not 
 	 * gotten one because there is no free copy.*/
-	private Queue<User> userRequest;
+	private Queue<User> userRequestQueue;
 	
-	private static ArrayList<Resource> resources = new ArrayList<>();
+	protected static ArrayList<Resource> resources = new ArrayList<>();
 	
-	public static  ArrayList<Resource> loadDatabaseResources() {
-		Book.loadDatabaseBooks(resources);
-		Laptop.loadDatabaseLaptops(resources);
-		DVD.loadDatabaseDVDs(resources);
-		
-		return resources;
+	public static  void loadDatabaseResources() {
+		Book.loadDatabaseBooks();
+		Laptop.loadDatabaseLaptops();
+		DVD.loadDatabaseDVDs();
 	}
 	
 	protected static void updateDbValue(String tableName, int resourceId, String field, String data) {
@@ -113,10 +112,11 @@ public abstract class Resource {
 		copyList = new ArrayList<Copy>();
 		freeCopies = new LinkedList<Copy>();
 		noDueDateCopies = new PriorityQueue<Copy>();
-		userRequest = new Queue<User>();
+		userRequestQueue = new Queue<User>();
 		
 		loadCopyList();
 		loadCopyPriorityQueue();
+		loadUserQueue();
 	} 
 	
 	public void addCopy(Copy copy) {
@@ -127,7 +127,7 @@ public abstract class Resource {
 			Connection conn = DBHelper.getConnection(); //get the connection
 			Statement stmt = conn.createStatement(); //prep a statement
 			
-			stmt.executeUpdate("insert into copies values ("+copy.getCOPY_ID()+","+getUniqueID()+",null,null)");
+			stmt.executeUpdate("insert into copies values ("+copy.getCopyID()+","+getUniqueID()+",null,null)");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -142,7 +142,7 @@ public abstract class Resource {
 				Connection conn = DBHelper.getConnection(); //get the connection
 				Statement stmt = conn.createStatement(); //prep a statement
 				
-				stmt.executeUpdate("insert into copies values ("+copy.getCOPY_ID()+","+getUniqueID()+",null,null)");
+				stmt.executeUpdate("insert into copies values ("+copy.getCopyID()+","+getUniqueID()+",null,null)");
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -168,20 +168,22 @@ public abstract class Resource {
 	public void processReturn(Copy returnedCopy) {
 		/*If the user request queue is empty, add the copy to the list of free 
 		 * copies and mark it as free.*/
-		if(userRequest.isEmpty()) {
+		if(userRequestQueue.isEmpty()) {
 			freeCopies.add(returnedCopy);
 			
 			//Gets the user that returned the copy and removes it from
 			//there withdrawn copies.
 			returnedCopy.getBorrower().removeBorrowedCopy(returnedCopy);
 			returnedCopy.setBorrower(null);
+			returnedCopy.resetDates();
 		} 
 		/*If the are user in the queue, reserve this copy for the first user 
 		 * in the queue and take that person out of the queue.*/
 		else {
-			User firstRequest = userRequest.peek();
+			User firstRequest = userRequestQueue.peek();
 			returnedCopy.setBorrower(firstRequest);
-			userRequest.dequeue();
+			returnedCopy.setBorrowDate(new Date(System.currentTimeMillis()));
+			userRequestQueue.dequeue();
 		}	
 	}
 	
@@ -195,15 +197,16 @@ public abstract class Resource {
 		if(!freeCopies.isEmpty()) {
 			Copy copyToBorrow = freeCopies.removeFirst();
 			copyToBorrow.setBorrower(user);
+			copyToBorrow.setBorrowDate(new Date(System.currentTimeMillis()));
 			user.addBorrowedCopy(copyToBorrow);
 		} 
 		/*Else, add the user to the request queue and set the due date
 		 * of the borrowed copy with no due date that has been borrowed
 		 * the longest.*/
 		else {
-			userRequest.enqueue(user);
+			userRequestQueue.enqueue(user);
 			Copy firstCopy = noDueDateCopies.poll();
-			firstCopy.setDueDate(null);
+			firstCopy.setDueDate();
 		}
 	}
 
@@ -237,13 +240,17 @@ public abstract class Resource {
 	
 	public Copy getCopy(int copyID) {
 		for(Copy c: copyList) {
-			if(c.getCOPY_ID()==copyID) {
+			if(c.getCopyID()==copyID) {
 				return c;
 			}
 		}
 		
 		return null;
 	}
+	
+	public abstract int getDailyFineAmount();
+	
+	public abstract int getMaxFineAmount();
 	
 	public static Resource getResource(int resourceID) {
 		for(Resource r: resources) {
@@ -257,6 +264,22 @@ public abstract class Resource {
 	
 	public String toString() {
 		return "Title: "+title + "\nID: " + uniqueID + "\nYear: " + year;
+	}
+	
+	/**
+	 * Returns a string with the unique ID and availability of each copy of 
+	 * this resource. The information of each copy is on each separate line.
+	 * @return A string where each line of the unique ID and availability 
+	 * of a copy of this resource.
+	 */
+	public String getCopyInformation() {
+		String copiesInfo="";
+		
+		for(Copy c: copyList) {
+			copiesInfo+=c.toString();
+		}
+		
+		return copiesInfo;
 	}
 	
 	private void loadCopyList() {
@@ -294,11 +317,67 @@ public abstract class Resource {
 		}
 	}
 	
+<<<<<<< HEAD
 	public int getFreeCopies(){
 		int size = freeCopies.size();
 		return size;
 	}
 
+=======
+	private void loadUserQueue() {
+		userRequestQueue.clean();
+		try {
+			Connection conn = DBHelper.getConnection();
+			Statement stmt = conn.createStatement();
+			ResultSet userRequests=stmt.executeQuery("SELECT * FROM userRequests WHERE rID="+uniqueID+" ORDER BY orderNumber ASC");
+			
+			while(userRequests.next()) {
+				String userName = userRequests.getString("userName");
+				User userWithRequest=(User)Person.loadPerson(userName);
+				userRequestQueue.enqueue(userWithRequest);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public void saveUserQueue() {
+		LinkedList<User> orderedUsers = userRequestQueue.getOrderedList();
+		try {
+			Connection conn = DBHelper.getConnection();
+			PreparedStatement pstmt=conn.prepareStatement("DELETE FROM userRequests");
+			pstmt.executeUpdate();
+			pstmt = conn.prepareStatement("INSERT INTO userRequests VALUES ("+uniqueID+",?,?)");
+			
+			int orderNr=1;
+			User current = orderedUsers.pollFirst();
+			while(current!=null) {
+				pstmt.setString(1, current.getUsername());
+				pstmt.setInt(2, orderNr);
+				pstmt.executeUpdate();
+				current = orderedUsers.pollFirst();
+				orderNr++;
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	/*
+	 * Gets the number of copies that this resource has, wether free or borrowed.
+	 * @return The nr of copies of this resource.
+	 */
+	public int getNrOfCopies() {
+		return copyList.size();
+	}
+	
+	public static ArrayList<Resource> getResources() {
+		return resources;
+	}
+	
+>>>>>>> f78bdbe9f270778885fb89bd8aede37a577befc8
 	/*public static void main(String args[]) {
 		Resource r1 = new Resource(1,"Eduroam sucks",2018,null);
 		Copy c1= new Copy(r1,1,null);

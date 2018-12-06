@@ -9,7 +9,7 @@ import javafx.scene.image.ImageView;
 public class SavedAvatar extends Avatar {
     //The default size of a saved avatar.
     public static final double DEFAULT_SIZE = 400;
-    private Image Avatar; //The saved avatar, as JavaFX image.
+    private Image Avatar; //The saved avatar, as a JavaFX image.
 
     /**
      * Creates a saved avatar of default size.
@@ -36,9 +36,9 @@ public class SavedAvatar extends Avatar {
     }
 
     /**
-     * Gets the saved avatar, as JavaFX image.
+     * Gets the saved avatar, as a JavaFX image.
      *
-     * @return The saved avatar, as JavaFX image.
+     * @return The saved avatar, as a JavaFX image.
      */
     public Image getAvatar() {
         return Avatar;
@@ -64,7 +64,7 @@ public class SavedAvatar extends Avatar {
     }
 
     /**
-     * This should display a preset avatar.
+     * Displays a preset avatar.
      *
      * @param imageView The ImageView scene object the image is being displayed on.
      */

@@ -1,4 +1,8 @@
 package model;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.util.LinkedList;
 import java.util.NoSuchElementException;
 
 /**
@@ -112,5 +116,21 @@ public class Queue<E> {
 		} else {
 			System.out.println("The queue is empty.");
 		}
+	}
+	
+	public void clean() {
+		head=null;
+		tail=null;
+	}
+	
+	public LinkedList<E> getOrderedList() {	
+		LinkedList<E> orderedList = new LinkedList<E>();
+		QueueElement<E> current=head;
+		while(current!=null) {
+			orderedList.add(current.getElement());
+			current=current.getNext();
+		}
+		
+		return orderedList;
 	}
 }

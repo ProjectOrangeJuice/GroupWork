@@ -3,20 +3,27 @@ package application;
 
 import java.util.ArrayList;
 
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
+import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import model.Resource;
+import sun.security.tools.policytool.Resources;
 
 
 public class ProfileController {
@@ -43,22 +50,23 @@ public class ProfileController {
 	private Label fullnameLabel;
 	
 	@FXML
-	private Label ageLabel;
+	private Label phoneLabel;
 	
 	@FXML
-	private Label address1Label;
+	private Label addressLabel;
 	
 	@FXML
-	private Label address2Label;
+	private Label postcodeLabel;
 	
-	@FXML
-	private Label cityLabel;
+	//may remove fixed size resource images
+	//when dealing with window resizing.
+	private final int RES_IMG_WIDTH = 150;
+	private final int RES_IMG_HEIGHT = 250;
 	
-	private int RES_IMG_WIDTH = 150;
-	private int RES_IMG_HEIGHT = 250;
+	private final int COPY_IMG_WIDTH = 300;
+	private final int COPY_IMG_HEIGHT = 500;
 	
-	private int COPY_IMG_WIDTH = 300;
-	private int COPY_IMG_HEIGHT = 500;
+	ArrayList<Resource> resources;
 
 	/**
 	 * Sets new scene on stage within program using fxml file provided.
@@ -96,11 +104,61 @@ public class ProfileController {
 		String fullname = ScreenManager.currentUser.getFirstName() + " "
 		+ ScreenManager.currentUser.getLastName();
 		String address = ScreenManager.currentUser.getAddress();
+		String postcode = ScreenManager.currentUser.getPostcode();
+		String phoneNumber = ScreenManager.currentUser.getPhoneNumber();
 		
 		//change text in labels to appropriate user information.
 		userLabel.setText(username);
 		fullnameLabel.setText(fullnameLabel.getText() + " " + fullname);
-		address1Label.setText(address1Label.getText() + " " + address);
+		addressLabel.setText(addressLabel.getText() + " " + address);
+		postcodeLabel.setText(postcodeLabel.getText() + " " + postcode);
+		phoneLabel.setText(phoneLabel.getText() + " " + phoneNumber);
+	}
+	
+	/**
+	 * Event handler that handles when a resource is clicked.
+	 */
+	final EventHandler<MouseEvent> handler = event -> {
+		StackPane currentPane = (StackPane) event.getSource();
+		currentPane.getChildren().get(0).setOpacity(0.3);
+		currentPane.getChildren().get(1).setVisible(true);
+	};
+	
+	/**
+	 * Event handler that handles when a resource is clicked.
+	 */
+	final EventHandler<MouseEvent> handler2 = event -> {
+		StackPane currentPane = (StackPane) event.getSource();
+		currentPane.getChildren().get(0).setOpacity(1);
+		currentPane.getChildren().get(1).setVisible(false);
+		
+	};
+	
+	private StackPane createImage(int i) {
+		
+		StackPane imagePane = new StackPane();
+		
+		Text resourceText = new Text();
+		resourceText.setFont(Font.font("Arial", 20));
+		resourceText.setText(resources.get(i).getUniqueID() + "\n" +
+		resources.get(i).getTitle() + "\n" + resources.get(i).getYear());
+		resourceText.setVisible(false);
+		resourceText.setTextAlignment(TextAlignment.CENTER);
+		
+		//create new resource image to be added.
+		ImageView image = new ImageView();
+		image.setFitWidth(RES_IMG_WIDTH);
+		image.setFitHeight(RES_IMG_HEIGHT);
+		image.setImage(resources.get(i).getThumbnail());
+		
+		imagePane.getChildren().add(image);
+		imagePane.getChildren().add(resourceText);
+		
+		//set id of imagePane to it's index so it can be accessed
+		//within the event handler.
+		imagePane.setId(Integer.toString(i));
+		
+		return imagePane;
 	}
 	
 	/**
@@ -109,17 +167,15 @@ public class ProfileController {
 	 */
 	private void loadResourceImages() {
 		
-		//load resources
-		ArrayList<Resource> resources = Resource.loadDatabaseResources();
+		//get resources
+		
+		resources = Resource.getResources();
+				
 		
 		//for each resource in resources array
 		for(int i = 0; i < resources.size(); i++) {
 			
-			//create new resource image to be added.
-			ImageView image = new ImageView();
-			image.setFitWidth(RES_IMG_WIDTH);
-			image.setFitHeight(RES_IMG_HEIGHT);
-			image.setImage(resources.get(i).getThumbnail());
+			StackPane imagePane = createImage(i);
 			
 			//get last image in last resource HBox.
 			HBox latestHBox = (HBox) vResourceBox.getChildren().get(vResourceBox.getChildren().size() - 1);
@@ -135,14 +191,17 @@ public class ProfileController {
 					hResourceBox.setAlignment(Pos.TOP_CENTER);
 					hResourceBox.setSpacing(5);
 					//add image to new HBox
-					hResourceBox.getChildren().add(image);
+					hResourceBox.getChildren().add(imagePane);
 					vResourceBox.getChildren().add(hResourceBox);
 				} else {
-					latestHBox.getChildren().add(image); //add new image to last HBox
+					latestHBox.getChildren().add(imagePane); //add new image to last HBox
 				}
 			} else {
-				latestHBox.getChildren().add(image); //add new image to last HBox
+				latestHBox.getChildren().add(imagePane); //add new image to last HBox
 			}
+			
+			imagePane.setOnMouseEntered(handler);
+			imagePane.setOnMouseExited(handler2);
 			
 		}
 		

@@ -12,6 +12,7 @@ CREATE TABLE IF NOT EXISTS `users` (
 	PRIMARY KEY(`username`)
 );
 
+INSERT INTO `users` VALUES ('Alexandru','Alex','Dascalu','079999999','3 irrelevant','SA2 8PP',NULL,'0');
 INSERT INTO `users` VALUES ('test','testname','testSecondName','12345','1 blabla street','ABC DEF','/SavedAvatars/Avatar1.png','12');
 INSERT INTO `users` VALUES ('staff','teststaff','testSecondstaff','56789','2 blabla street','ABB DEE','/SavedAvatars/Avatar1.png','100');
 
@@ -40,7 +41,7 @@ DROP TABLE IF EXISTS `system`;
 CREATE TABLE IF NOT EXISTS `system` (
 	`ver`	INTEGER
 );
-INSERT INTO `system` VALUES (6);
+INSERT INTO `system` VALUES (7);
 
 DROP TABLE IF EXISTS `resource`;
 CREATE TABLE IF NOT EXISTS `resource` (
@@ -52,6 +53,7 @@ CREATE TABLE IF NOT EXISTS `resource` (
 INSERT INTO `resource` VALUES (1,'Homo Deus',2017,'/graphics/homoDeus.png');
 INSERT INTO `resource` VALUES (2,'Iron Man',2008,'/graphics/ironMan.jpg');
 
+
 DROP TABLE IF EXISTS `fines`;
 CREATE TABLE IF NOT EXISTS `fines` (
 	`fineID`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
@@ -62,7 +64,7 @@ CREATE TABLE IF NOT EXISTS `fines` (
 	`dateTime`	TEXT,
 	`paid`	INTEGER,
 	FOREIGN KEY(`username`) REFERENCES `users`(`username`),
-	FOREIGN KEY(`rID`) REFERENCES `copies`(`copyID`)
+	FOREIGN KEY(`rID`) REFERENCES `resources`(`rID`)
 );
 INSERT INTO `fines` VALUES (1,"test",1,3,5.0,'hi',1);
 INSERT INTO `fines` VALUES (2,"test",2,100,10.0,'always',1);
@@ -143,4 +145,16 @@ CREATE TABLE IF NOT EXISTS `borrowRecords` (
 	`description`	TEXT
 );
 
+DROP TABLE IF EXISTS `userRequests`;
+CREATE TABLE IF NOT EXISTS `userRequests` (
+	`rID` INTEGER,
+	`userName` TEXT,
+	`orderNumber` INTEGER,
+	PRIMARY KEY (userName,rID),
+	FOREIGN KEY (userName) REFERENCES `users` (`username`) ON UPDATE CASCADE ON DELETE CASCADE,
+	FOREIGN KEY (rID) REFERENCES `resource` (`rID`) ON UPDATE CASCADE ON DELETE CASCADE
+);
+
+INSERT INTO `userRequests` (rID,userName,orderNumber) VALUES (1,"Alexandru",1);
+INSERT INTO `userRequests` (rID,userName,orderNumber) VALUES (2,"test",2);
 COMMIT;

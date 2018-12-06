@@ -9,13 +9,14 @@ import java.sql.SQLException;
  * @author Joe Wright
  *
  */
-public class Copy  implements Comparable<Copy>{
+public class Copy implements Comparable<Copy>{
 	
 	private Resource resource;
 	private User borrower;
-	private final int COPY_ID;
-	private int duration;
+	private final int copyID;
+	private int loanDuration;
 	private Date borrowDate;
+	private Date lastRenewal;
 	private Date dueDate;
 	
 	/**
@@ -27,21 +28,25 @@ public class Copy  implements Comparable<Copy>{
 	public Copy(Resource resource, int copyID, User borrower) {
 		this.resource = resource;
 		this.borrower = borrower;
-		this.COPY_ID = copyID;
+		this.copyID = copyID;
+		
+		loanDuration=7;
+		borrowDate=null;
+		lastRenewal=null;
+		dueDate=null;
 	}
     
 	/**
 	 * Sets the borrow variable by inserting the values into the borrowrecords table, then updates the keeper column in the copies table
 	 * @param user
 	 */
-
 	public void setBorrower(User user){
 		if (user != null) {
 			try {
 				Connection conn = DBHelper.getConnection();
 				PreparedStatement pstmt = conn.prepareStatement("INSERT INTO borrowRecords (borrowId, copyId, userId, description)"
 						+ " VALUES ('?','?','?')");
-	            pstmt.setInt(2, this.getCOPY_ID());
+	            pstmt.setInt(2, this.getCopyID());
 	            pstmt.setString(3, user.getUsername());
 	            pstmt.setString(4, "Not sure what to put in description.");
 	            pstmt.executeUpdate();
@@ -60,7 +65,7 @@ public class Copy  implements Comparable<Copy>{
 			} else {
 				pstmt.setString(1, user.getUsername());
 			}
-            pstmt.setInt(2, this.getCOPY_ID());
+            pstmt.setInt(2, this.getCopyID());
             pstmt.executeUpdate();
             conn.close();
 		} catch (SQLException e) { 
@@ -76,8 +81,8 @@ public class Copy  implements Comparable<Copy>{
 	 * Method that gets the duration variable
 	 * @return duration
 	 */
-	public int getDuration(){
-		return duration;
+	public int getLoanDuration(){
+		return loanDuration;
 	}
 	
 	/**
@@ -94,20 +99,55 @@ public class Copy  implements Comparable<Copy>{
 	 * @return COPY_ID
 	 * @author Joe Wright
 	 */
-	public int getCOPY_ID(){
-		return COPY_ID;
+	public int getCopyID(){
+		return copyID;
 	}
 	
-	public void setDuration(int duration){
-		this.duration = duration;
+	public void setLoanDuration(int duration){
+		this.loanDuration = duration;
 	}
 	
 	public Date getDueDate() {
 		return dueDate;
 	}
 	
-	public void setDueDate(Date dueDate) {
-		this.dueDate=dueDate;
+	public void setDueDate() {
+		if(dueDate==null) {
+			Date afterBorrowDuration=(Date)borrowDate.clone();
+			afterBorrowDuration.setDate(afterBorrowDuration.getDate()+loanDuration);
+			Date today = new Date(System.currentTimeMillis());
+			
+			if(afterBorrowDuration.after(today)) {
+				dueDate=afterBorrowDuration;
+			} else {
+				today.setDate(today.getDate()+1);
+				dueDate=today;
+			}
+		}
+	}
+	
+	public boolean checkRenewal() {
+		if(dueDate==null) {
+			Date nextRenewal;
+			
+			if(lastRenewal!=null) {
+				nextRenewal=(Date)lastRenewal.clone();
+			} else {
+				nextRenewal=(Date)borrowDate.clone();
+			}
+			
+			nextRenewal.setDate(nextRenewal.getDate()+loanDuration);
+			Date today=new Date(System.currentTimeMillis());
+			
+			if(nextRenewal.before(today)) {
+				lastRenewal=nextRenewal;
+				return true;
+			} else {
+				return false;
+			}
+		} else {
+			return false;
+		}
 	}
 	
 	public Date getBorrowDate() {
@@ -115,11 +155,53 @@ public class Copy  implements Comparable<Copy>{
 	}
 	
 	public void setBorrowDate(Date borrowDate) {
-		this.borrowDate=borrowDate;
+		this.borrowDate = borrowDate;
 	}
 
 	public User getBorrower() {
 		return this.borrower;
+	}
+	
+	public boolean isBorrowed() {
+		return (borrower!=null);
+	}
+	
+	public Date getLastRenewal() {
+		return lastRenewal;
+	}
+	
+	public void resetDates() throws IllegalArgumentException {
+		if(borrower==null) {
+			borrowDate=null;
+			dueDate=null;
+			lastRenewal=null;
+		} else {
+			throw new IllegalStateException("You are trying to reset borrow,"+
+					" due and last renewal dates while this copy is still borrowed!");
+		}
+		
+	}
+	
+	/**
+	 * Returns a string representation of this copy suitable to display to any 
+	 * user browsing the library. For this reason, it only says the copy ID 
+	 * and whether it is available or not and leaves the rest of the 
+	 * information, which should not be publicly accessible.
+	 * @return Shortened representation of this copy suitable for public 
+	 * viewing.
+	 */
+	public String toString() {
+		String copy="CopyID: "+copyID+", Available: ";
+		
+		String available;
+		if(borrower==null) {
+			available="yes.";
+		} else {
+			available="no.";
+		}
+		
+		copy+=available+"\n";
+		return copy;
 	}
 	
 	public int compareTo(Copy otherCopy) {
@@ -133,5 +215,4 @@ public class Copy  implements Comparable<Copy>{
 			return 0;
 		}
 	}
-
 }

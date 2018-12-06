@@ -25,34 +25,34 @@ public class PresetAvatar extends Avatar {
     }
 
     /**
-     * Resets the selected preset profile image.
+     * Resets the selected preset avatar.
      *
-     * @param image The selected preset profile image.
+     * @param image The selected preset avatar.
      */
     public void setPresetAvatar(PresetAvatar image) {
         this.presetAvatar = image;
     }
 
     /**
-     * Gets the selected preset profile image.
+     * Gets the selected preset avatar.
      *
-     * @return The selected preset profile image.
+     * @return The selected preset avatar.
      */
     public PresetAvatar getPresetAvatar() {
         return presetAvatar;
     }
 
     /**
-     * Gets the selected preset profile image, as a JavaFX image.
+     * Gets the selected preset avatar, as a JavaFX image.
      *
-     * @return The selected preset profile image, as a JavaFX image.
+     * @return The selected preset avatar, as a JavaFX image.
      */
     public Image getAvatar() {
         return presetAvatar.getAvatar();
     }
 
     /**
-     * Converts a preset profile image to a string.
+     * Converts a preset avatar to a string.
      */
     public String toString() {
         String result = "";
