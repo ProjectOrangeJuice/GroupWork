@@ -27,9 +27,9 @@
 
 <BorderPane focusTraversable="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="400.0" minWidth="600.0" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.ProfileController">
    <center>
-      <TabPane prefHeight="972.0" prefWidth="1920.0" BorderPane.alignment="CENTER">
+      <TabPane fx:id="tabPane" prefHeight="972.0" prefWidth="1920.0" BorderPane.alignment="CENTER">
         <tabs>
-          <Tab closable="false" text="My Profile">
+          <Tab fx:id="userProfileTab" closable="false" text="My Profile">
                <content>
                   <BorderPane prefHeight="200.0" prefWidth="200.0">
                      <left>
@@ -150,7 +150,7 @@
                      </center>
                   </BorderPane>
                </content></Tab>
-          <Tab closable="false" text="Library Resources">
+          <Tab fx:id="resourcesTab" closable="false" text="Library Resources">
                <content>
                   <AnchorPane prefHeight="200.0" prefWidth="200.0">
                      <children>
@@ -173,7 +173,7 @@
                      </children>
                   </AnchorPane>
                </content></Tab>
-            <Tab closable="false" text="Transactions">
+            <Tab fx:id="transactionsTab" closable="false" text="Transactions">
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" SplitPane.resizableWithParent="false"> 
                      <children>
@@ -182,7 +182,7 @@
                   </AnchorPane>
               </content>
             </Tab>
-            <Tab text="Staff Profile">
+            <Tab fx:id="staffProfileTab" text="Staff Profile">
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
@@ -338,7 +338,7 @@
                   <HBox alignment="CENTER" layoutX="5.0" layoutY="5.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
                      <children>
                         <TextField id="searchBar" fx:id="searchTextBox" focusTraversable="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="0.0" minWidth="0.0" onKeyReleased="#searchThis" prefHeight="46.0" prefWidth="738.0" promptText="find a resource..." />
-                        <Button id="searchButton" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="45.0" prefWidth="55.0" style="-fx-background-color: #545454;" text="🔍" textFill="#2c2c2c">
+                        <Button id="searchButton" fx:id="searchBarButton" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#searchBarSwitch" prefHeight="45.0" prefWidth="55.0" style="-fx-background-color: #545454;" text="🔍" textFill="#2c2c2c">
                            <font>
                               <Font name="Lucida Bright Regular" size="20.0" />
                            </font>

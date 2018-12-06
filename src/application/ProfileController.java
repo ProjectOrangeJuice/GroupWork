@@ -1,6 +1,7 @@
 package application;
 
 
+import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 
 import javafx.event.EventHandler;
@@ -11,6 +12,8 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
@@ -57,6 +60,24 @@ public class ProfileController {
 	@FXML
 	private Label postcodeLabel;
 	
+	@FXML
+	private Label balanceLabel;
+	
+	@FXML
+	private Tab userProfileTab;
+	
+	@FXML
+	private Tab resourcesTab;
+	
+	@FXML
+	private Tab transactionTab;
+	
+	@FXML
+	private Tab staffProfileTab;
+	
+	@FXML
+	private TabPane tabPane;
+	
 	//may remove fixed size resource images
 	//when dealing with window resizing.
 	private final int RES_IMG_WIDTH = 150;
@@ -82,6 +103,11 @@ public class ProfileController {
 			e.printStackTrace();
 		}
 
+	}
+	
+	@FXML
+	private void searchBarSwitch (MouseEvent event) {
+		tabPane.getSelectionModel().select(2);
 	}
 	
 	@FXML  
@@ -142,8 +168,6 @@ public class ProfileController {
 		currentPane.getChildren().get(1).setVisible(false);
 		
 	};
-	
-	
 	
 	
 	private StackPane createImage(int i) {
