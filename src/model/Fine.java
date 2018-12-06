@@ -142,7 +142,7 @@ public class Fine {
 			while(rs.next()) {
 				int a = rs.getInt("fineID");
 				String b = rs.getString("username");
-				int c = rs.getInt("rID");
+				int c = rs.getInt("copyID");
 				int c2 = rs.getInt("daysOver");
 				float d = rs.getFloat("amount");
 				String e = rs.getString("dateTime");
