@@ -317,13 +317,6 @@ public abstract class Resource {
 		}
 	}
 	
-<<<<<<< HEAD
-	public int getFreeCopies(){
-		int size = freeCopies.size();
-		return size;
-	}
-
-=======
 	private void loadUserQueue() {
 		userRequestQueue.clean();
 		try {
@@ -377,7 +370,6 @@ public abstract class Resource {
 		return resources;
 	}
 	
->>>>>>> f78bdbe9f270778885fb89bd8aede37a577befc8
 	/*public static void main(String args[]) {
 		Resource r1 = new Resource(1,"Eduroam sucks",2018,null);
 		Copy c1= new Copy(r1,1,null);
