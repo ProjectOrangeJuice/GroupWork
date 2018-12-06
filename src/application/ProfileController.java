@@ -76,7 +76,7 @@ public class ProfileController {
 	private Tab staffProfileTab;
 	
 	@FXML
-	private TabPane tabPane;
+	private TabPane tabs;
 	
 	//may remove fixed size resource images
 	//when dealing with window resizing.
@@ -107,12 +107,12 @@ public class ProfileController {
 	
 	@FXML
 	private void searchBarSwitch (MouseEvent event) {
-		tabPane.getSelectionModel().select(2);
+		//tabPane.getSelectionModel().select(2);
 	}
 	
 	@FXML  
     void searchThis(KeyEvent event) {
-		System.out.println("I'm doing stuff");
+		tabs.getSelectionModel().select(resourcesTab);
 		vResourceBox.getChildren().clear();
 		HBox hbox = new HBox();
 		vResourceBox.getChildren().add(hbox);
