@@ -182,6 +182,28 @@ public class Copy  implements Comparable<Copy>{
 		
 	}
 	
+	/**
+	 * Returns a string representation of this copy suitable to display to any 
+	 * user browsing the library. For this reason, it only says the copy ID 
+	 * and whether it is available or not and leaves the rest of the 
+	 * information, which should not be publicly accessible.
+	 * @return Shortened representation of this copy suitable for public 
+	 * viewing.
+	 */
+	public String toString() {
+		String copy="CopyID: "+COPY_ID+", Available: ";
+		
+		String available;
+		if(borrower==null) {
+			available="yes.";
+		} else {
+			available="no.";
+		}
+		
+		copy+=available+"\n";
+		return copy;
+	}
+	
 	public int compareTo(Copy otherCopy) {
 		if(borrowDate.before(otherCopy.getBorrowDate())) {
 			return -1;

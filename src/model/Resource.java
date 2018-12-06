@@ -268,6 +268,22 @@ public abstract class Resource {
 		return "Title: "+title + "\nID: " + uniqueID + "\nYear: " + year;
 	}
 	
+	/**
+	 * Returns a string with the unique ID and availability of each copy of 
+	 * this resource. The information of each copy is on each separate line.
+	 * @return A string where each line of the unique ID and availability 
+	 * of a copy of this resource.
+	 */
+	public String getCopyInformation() {
+		String copiesInfo="";
+		
+		for(Copy c: copyList) {
+			copiesInfo+=c.toString();
+		}
+		
+		return copiesInfo;
+	}
+	
 	private void loadCopyList() {
 		try {
 			Connection conn = DBHelper.getConnection(); //get the connection
@@ -342,6 +358,14 @@ public abstract class Resource {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	/*
+	 * Gets the number of copies that this resource has, wether free or borrowed.
+	 * @return The nr of copies of this resource.
+	 */
+	public int getNrOfCopies() {
+		return copyList.size();
 	}
 	
 	/*public static void main(String args[]) {
