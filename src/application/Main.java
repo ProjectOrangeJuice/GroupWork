@@ -29,6 +29,7 @@ public class Main extends Application {
 		
 		//Check to see if the database ready
 		DBHelper.tableCheck();
+		Resource.loadDatabaseResources();
 		
 		try {
 			//create initial scene object.
