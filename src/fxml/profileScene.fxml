@@ -28,6 +28,46 @@
    <center>
       <TabPane fx:id="tabs" prefHeight="972.0" prefWidth="1920.0" BorderPane.alignment="CENTER">
         <tabs>
+          <Tab fx:id="resourcesTab" closable="false" text="Library Resources">
+               <content>
+                  <BorderPane>
+                     <center>
+                        <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                           <children>
+                              <ScrollPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <content>
+                                    <VBox fx:id="vResourceBox" prefHeight="976.0" prefWidth="1920.0" spacing="5.0">
+                                       <children>
+                                          <HBox prefHeight="100.0" spacing="5.0">
+                                             <VBox.margin>
+                                                <Insets />
+                                             </VBox.margin>
+                                          </HBox>
+                                       </children>
+                                    </VBox>
+                                 </content>
+                                 <padding>
+                                    <Insets right="15.0" />
+                                 </padding>
+                              </ScrollPane>
+                           </children>
+                        </AnchorPane>
+                     </center>
+                     <left>
+                        <AnchorPane style="-fx-background-color: #545454;" BorderPane.alignment="TOP_LEFT">
+                           <children>
+                              <VBox spacing="10.0" AnchorPane.leftAnchor="17.0" AnchorPane.rightAnchor="17.0" AnchorPane.topAnchor="20.0">
+                                 <children>
+                                    <CheckBox fx:id="dvdCheck" alignment="TOP_CENTER" mnemonicParsing="false" selected="true" text="DVD" textFill="WHITE" />
+                                    <CheckBox fx:id="bookCheck" mnemonicParsing="false" selected="true" text="Book" textAlignment="JUSTIFY" textFill="WHITE" />
+                                    <CheckBox fx:id="laptopCheck" mnemonicParsing="false" selected="true" text="Laptop" textFill="WHITE" />
+                                 </children>
+                              </VBox>
+                           </children>
+                        </AnchorPane>
+                     </left>
+                  </BorderPane>
+               </content></Tab>
           <Tab fx:id="userProfileTab" closable="false" text="My Profile">
                <content>
                   <BorderPane prefHeight="200.0" prefWidth="200.0">
@@ -117,46 +157,6 @@
                           </items>
                         </SplitPane>
                      </center>
-                  </BorderPane>
-               </content></Tab>
-          <Tab fx:id="resourcesTab" closable="false" text="Library Resources">
-               <content>
-                  <BorderPane>
-                     <center>
-                        <AnchorPane prefHeight="200.0" prefWidth="200.0">
-                           <children>
-                              <ScrollPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                 <content>
-                                    <VBox fx:id="vResourceBox" prefHeight="976.0" prefWidth="1920.0" spacing="5.0">
-                                       <children>
-                                          <HBox prefHeight="100.0" spacing="5.0">
-                                             <VBox.margin>
-                                                <Insets />
-                                             </VBox.margin>
-                                          </HBox>
-                                       </children>
-                                    </VBox>
-                                 </content>
-                                 <padding>
-                                    <Insets right="15.0" />
-                                 </padding>
-                              </ScrollPane>
-                           </children>
-                        </AnchorPane>
-                     </center>
-                     <left>
-                        <AnchorPane style="-fx-background-color: #545454;" BorderPane.alignment="TOP_LEFT">
-                           <children>
-                              <VBox spacing="10.0" AnchorPane.leftAnchor="17.0" AnchorPane.rightAnchor="17.0" AnchorPane.topAnchor="20.0">
-                                 <children>
-                                    <CheckBox fx:id="dvdCheck" alignment="TOP_CENTER" mnemonicParsing="false" selected="true" text="DVD" textFill="WHITE" />
-                                    <CheckBox fx:id="bookCheck" mnemonicParsing="false" selected="true" text="Book" textAlignment="JUSTIFY" textFill="WHITE" />
-                                    <CheckBox fx:id="laptopCheck" mnemonicParsing="false" selected="true" text="Laptop" textFill="WHITE" />
-                                 </children>
-                              </VBox>
-                           </children>
-                        </AnchorPane>
-                     </left>
                   </BorderPane>
                </content></Tab>
             <Tab fx:id="transactionsTab" closable="false" text="Transactions">
