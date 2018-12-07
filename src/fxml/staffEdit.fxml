@@ -25,7 +25,7 @@
                            <children>
                               <ImageView fx:id="profileImageView" fitHeight="140.0" fitWidth="161.0" layoutX="33.0" layoutY="45.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="@../../../../Downloads/http---www.eurogeosurveys.org-wp-content-uploads-2014-02-default_profile_pic.jpg" />
+                                    <Image url="@../Downloads/http---www.eurogeosurveys.org-wp-content-uploads-2014-02-default_profile_pic.jpg" />
                                  </image>
                               </ImageView>
                               <SplitMenuButton fx:id="changeProfileImageButton" layoutX="14.0" layoutY="207.0" mnemonicParsing="false" prefHeight="22.0" prefWidth="178.0" style="-fx-background-color: transparent;" text="Change Profile Image">
