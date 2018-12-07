@@ -268,14 +268,14 @@ public class ProfileController {
 	};
 	
 	
-	private StackPane createImage(int i, int width, int height) {
+	private StackPane createImage(Resource copyResource, int width, int height) {
 		
 		StackPane imagePane = new StackPane();
 		
 		Text resourceText = new Text();
 		resourceText.setFont(Font.font("Arial", 20));
-		resourceText.setText("ID: " + resources.get(i).getUniqueID() + "\n" +
-		resources.get(i).getTitle() + "\n" + resources.get(i).getYear());
+		resourceText.setText("ID: " + copyResource.getUniqueID() + "\n" +
+		copyResource.getTitle() + "\n" + copyResource.getYear());
 		resourceText.setVisible(false);
 		resourceText.setTextAlignment(TextAlignment.CENTER);
 		
@@ -283,14 +283,14 @@ public class ProfileController {
 		ImageView image = new ImageView();
 		image.setFitWidth(width);
 		image.setFitHeight(height);
-		image.setImage(resources.get(i).getThumbnail());
+		image.setImage(copyResource.getThumbnail());
 		
 		imagePane.getChildren().add(image);
 		imagePane.getChildren().add(resourceText);
 		
 		//set id of imagePane to it's index so it can be accessed
 		//within the event handler.
-		imagePane.setId(Integer.toString(i));
+		imagePane.setId(String.valueOf(copyResource.getUniqueID()));
 		
 		return imagePane;
 	}
@@ -323,8 +323,9 @@ public class ProfileController {
 			ArrayList<Copy> userCopies = ((User) currentUser).getBorrowedCopies();
 			
 			for(Copy currentCopy : userCopies) {
+				//System.out.println(currentCopy.getResource().getTitle());
 				Resource copyResource = currentCopy.getResource();
-				StackPane imagePane = createImage(copyResource.getUniqueID(), COPY_IMG_WIDTH, COPY_IMG_HEIGHT);
+				StackPane imagePane = createImage(copyResource, COPY_IMG_WIDTH, COPY_IMG_HEIGHT);
 				
 				Rectangle colorOverlay = new Rectangle();
 				colorOverlay.setFill(Color.LIGHTGREEN);
@@ -368,7 +369,7 @@ public class ProfileController {
 		//for each resource in resources array
 		for(int i = 0; i < resources.size(); i++) {
 			if(search(i)) {
-			StackPane imagePane = createImage(i, RES_IMG_WIDTH, RES_IMG_HEIGHT);
+			StackPane imagePane = createImage(resources.get(i), RES_IMG_WIDTH, RES_IMG_HEIGHT);
 			
 			//get last image in last resource HBox.
 			HBox latestHBox = (HBox) vResourceBox.getChildren().get(vResourceBox.getChildren().size() - 1);
