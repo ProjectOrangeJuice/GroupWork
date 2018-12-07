@@ -393,14 +393,7 @@
                <children>
                   <VBox alignment="CENTER" layoutX="5.0" layoutY="5.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
                      <children>
-                        <HBox alignment="CENTER" prefHeight="35.0" prefWidth="690.0">
-                           <children>
-                              <TextField id="searchBar" fx:id="searchTextBox" focusTraversable="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="0.0" minWidth="0.0" onKeyReleased="#searchThis" prefHeight="46.0" prefWidth="738.0" promptText="find a resource..." />
-                           </children>
-                           <opaqueInsets>
-                              <Insets />
-                           </opaqueInsets>
-                        </HBox>
+                        <TextField id="searchBar" fx:id="searchTextBox" focusTraversable="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="0.0" minWidth="0.0" onKeyReleased="#searchThis" prefHeight="46.0" prefWidth="738.0" promptText="find a resource..." />
                      </children>
                   </VBox>
                </children>
