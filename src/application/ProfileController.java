@@ -276,7 +276,6 @@ public class ProfileController {
 		resourceText.setFont(Font.font("Arial", 20));
 		resourceText.setText("ID: " + resources.get(i).getUniqueID() + "\n" +
 		resources.get(i).getTitle() + "\n" + resources.get(i).getYear());
-		System.out.println("iddd" + i);
 		resourceText.setVisible(false);
 		resourceText.setTextAlignment(TextAlignment.CENTER);
 		
