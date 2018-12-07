@@ -267,7 +267,7 @@ public class ProfileController {
 	}
 	
 	private void loadCopies() {
-		
+		if (ScreenManager.getCurrentUser() instanceof User) {
 		//get user copies that they're currently borrowing.
 		((User) currentUser).loadUserCopies();
 		ArrayList<Copy> userCopies = ((User) currentUser).getBorrowedCopies();
@@ -289,7 +289,7 @@ public class ProfileController {
 			imagePane.setOnMouseEntered(enterHandler);
 			imagePane.setOnMouseExited(exitHandler);
 		}
-		
+		}
 		//get user copies that they have requested.
 
 	}

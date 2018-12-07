@@ -139,7 +139,7 @@ public class DBExample {
 	}*/
 	
 	public static void main(String[] args) {
-		DBHelper.forceUpdate();
+		DBHelper.tableCheck();
 		displayResourceTable();
 		insertIntoResource();
 		displayResourceTable();
