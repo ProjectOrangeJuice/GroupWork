@@ -30,6 +30,7 @@ import model.Book;
 import model.Copy;
 import model.DVD;
 import model.Laptop;
+import model.Librarian;
 import model.Person;
 import model.Resource;
 import model.User;
@@ -262,19 +263,20 @@ public class ProfileController {
 	}
 	
 	private void loadCopies() {
-		
-		//get user copies.
-		((User) currentUser).loadUserCopies();
-		ArrayList<Copy> userCopies = ((User) currentUser).getBorrowedCopies();
-		
-		System.out.println("Size of array: " + userCopies.size());
-		for(Copy currentCopy : userCopies) {
-			Resource copyResource = currentCopy.getResource();
-			StackPane imagePane = createImage(copyResource.getUniqueID());
-			resourceImages.getChildren().add(imagePane);
+		if (ScreenManager.getCurrentUser() instanceof User) {
+			//get user copies.
+			((User) currentUser).loadUserCopies();
+			ArrayList<Copy> userCopies = ((User) currentUser).getBorrowedCopies();
 			
-			imagePane.setOnMouseEntered(enterHandler);
-			imagePane.setOnMouseExited(exitHandler);
+			System.out.println("Size of array: " + userCopies.size());
+			for(Copy currentCopy : userCopies) {
+				Resource copyResource = currentCopy.getResource();
+				StackPane imagePane = createImage(copyResource.getUniqueID());
+				resourceImages.getChildren().add(imagePane);
+				
+				imagePane.setOnMouseEntered(enterHandler);
+				imagePane.setOnMouseExited(exitHandler);
+			}
 		}
 
 	}
@@ -346,6 +348,11 @@ public class ProfileController {
 	//
 	// Staff: Copies Explorer
 	//
+	
+	@FXML
+	private void openProfileEditor(MouseEvent event) {
+		changeScene(event, "/fxml/StaffEdit.fxml");
+	}
 	
 	@FXML
 	private void displayOverdue() {
