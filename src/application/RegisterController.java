@@ -2,9 +2,10 @@ package application;
 
 import java.io.IOException;
 import java.net.URL;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 import javafx.event.ActionEvent;
@@ -14,14 +15,15 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
+import model.DBHelper;
 	
 	
 public class RegisterController {
@@ -47,7 +49,7 @@ public class RegisterController {
 	    private Label postCodeError;
 
 	    @FXML
-	    private RadioButton librarian;
+	    private CheckBox librarianCheckBox;
 
 	    @FXML
 	    private ImageView avatar;
@@ -77,12 +79,25 @@ public class RegisterController {
 	    private TextField username;
 	    
 	    @FXML
-	    private Pane pane;
-
+	    private TextField staffID;
 	    
-	    private String avatarPath = "/SavedAvatars/Avatar1.png";
+	    @FXML
+	    private TextField employmentDate;
+	    
+	    @FXML
+	    private Pane pane;
 	    
 	    private Pane rootPane;
+	    
+	    private String avatarPath = "/SavedAvatars/Avatar1.png";
+	    private String postCodeText = postCode.getText();
+	    private String usernameText = username.getText();
+	    private String addressText = address.getText();
+	    private String phoneNumberText = phoneNumber.getText();
+	    private String lastNameText = lastName.getText();
+	    private String firstNameText = firstName.getText();
+	    private String staffIDText = staffID.getText();
+	    private String employmentDateText = employmentDate.getText();
 	    
 	    /**
 	     * Empty Constructor.
@@ -94,7 +109,7 @@ public class RegisterController {
 	    /**
 	     * Loads an image for the avatar.
 	     */
-	    @Override
+	    //@Override
 	    public void initialize(URL location, ResourceBundle resources) {
 	        Image newAvatar = new Image(avatarPath);
 	        avatar.setImage(newAvatar);
@@ -125,7 +140,7 @@ public class RegisterController {
 	    }
 	    
 	    /**
-	     * Creates an account with the details provided if they are valid and opens navigation window with your new account log on.
+	     * Creates an account with the details provided if they are valid.
 	     * If there is a problem with the details displays error message indicating where the problem is.
 	     *
 	     * @param event event.
@@ -174,14 +189,20 @@ public class RegisterController {
 	        //if all text fields are valid create account.
 	        if (validateUsername() && validateFirstName() && validateLastName() && validatePhoneNumber()
 	                && validateAddess() && validatePostCode()) {
-	            createAccountAction(event);
+	        	if(isLibrarian(event)) {
+	        		insertIntoUser(event);
+	        		insertIntoLibrarian(event);
+	        	}
+	        	else {
+	            insertIntoUser(event);
+	            
 	        }
-	        
+	        }
 
 	    }
 
 		private boolean validatePostCode() {
-			String postCodeText = postCode.getText();
+			
 	        if (postCodeText.contains(" ")) {
 	        	return !(postCodeText.length() > 8 || postCodeText.length() <= 6);
 	        }
@@ -189,14 +210,12 @@ public class RegisterController {
 		}
 
 		private boolean validateAddess() {
-			String addressText = address.getText();
-
+			
 	        return !(addressText.length() > 20 || addressText.length() <= 0);
 		}
 
 		private boolean validatePhoneNumber() {
-			String phoneNumberText = phoneNumber.getText();
-
+			
 	        return !(phoneNumberText.length() > 11 || phoneNumberText.length() < 11 || !isNumeric(phoneNumberText));
 		}
 
@@ -211,21 +230,18 @@ public class RegisterController {
 	    }
 		
 		private boolean validateLastName() {
-			String lastNameText = lastName.getText();
-
+			
 	        return !(lastNameText.length() > 15 || lastNameText.length() <= 0);
 		}
 
 		private boolean validateFirstName() {
-			String firstNameText = firstName.getText();
-
+			
 	        return !(firstNameText.length() > 15 || firstNameText.length() <= 0);
 		}
 
 		private boolean validateUsername() {
-			String usernameText = username.getText();
-
-	        return !(usernameText.length() > 15 || usernameText.length() <= 0 || validateExistingUsers());
+			
+	        return !(usernameText.length() > 15 || usernameText.length() <= 0 || validateExistingUser(usernameText));
 		}
 	    
 		/**
@@ -233,32 +249,71 @@ public class RegisterController {
 	     *
 	     * @return true of username is valid.
 	     */
-	    public boolean validateExistingUsers() {
-	        String usernameText = username.getText();
-
-	        if (!usernameText.isEmpty()) {
-	            for (String username1 : ScreenManager.getAllUsernames()) {//create method
-	                if (usernameText.equals(username1)) {
-	                    return true;
-
-	                }
-	            }
-	        }
-	        return false;
+		private boolean validateExistingUser(String username) {
+			try {
+				Connection conn = DBHelper.getConnection();
+				PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM users WHERE username=?");
+		            pstmt.setString(1, username); 
+		            ResultSet rs = pstmt.executeQuery();
+		            if(rs.next()) {
+		            	return true;
+		            }else {
+		            	return false;
+		            }
+				
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return false;
+		}
+	    
+	    public boolean isLibrarian(ActionEvent event) {//show staffID box
+	    	boolean selected = librarianCheckBox.isSelected();
+	    	return selected;
 	    }
 	    
-	    public boolean isLibrarian() {
-	    	
-	    }
-	    
-	    /** Uses all the informatoin from the textfield and  the avatar that is being displayed and build account from it.
-	     *  Then logs the user into the system.
+	    /** Builds account in database using inputted info and chosen avatar.
+	     *  Then return user to login page.
 	     *
-	     *  @param event event.
+	     *  @param event
 	     */
-	    private void createAccountAction(ActionEvent event) {
+	    private void insertIntoUser(ActionEvent event) {
 	        
-	        //TODO code to add user to db
+	    	try {
+				Connection conn = DBHelper.getConnection();
+				PreparedStatement pstmt = conn.prepareStatement("INSERT INTO users VALUES (?,?,?,?,?,?,?,'0'");
+				pstmt.setString(1, usernameText);
+				pstmt.setString(2, firstNameText);
+				pstmt.setString(3, lastNameText);
+				pstmt.setString(4, phoneNumberText);
+				pstmt.setString(5, addressText);
+				pstmt.setString(6, postCodeText);
+				pstmt.setString(7, avatarPath);
+				pstmt.executeUpdate();//This can return a value to tell you if it was successful.
+
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+	    }
+	    
+	    private void insertIntoLibrarian(ActionEvent event) {
+	        
+	    	try {
+				Connection conn = DBHelper.getConnection();
+				PreparedStatement pstmt = conn.prepareStatement("INSERT INTO staff VALUES (?, staffId, employmentDate)");//make current date
+				pstmt.setString(1, usernameText);
+				pstmt.setString(2, staffIDText);
+				pstmt.setString(3, employmentDateText);
+				
+				pstmt.executeUpdate();//This can return a value to tell you if it was successful.
+
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 
 	    }
 	    
