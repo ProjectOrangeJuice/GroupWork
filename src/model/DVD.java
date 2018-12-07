@@ -48,8 +48,10 @@ public class DVD extends Resource {
 		
 		loadSubtitles();
 		
-		for(String subtitle: subtitleList) {
-			addSubtitle(subtitle);
+		if(subtitleList!=null) {
+			for(String subtitle: subtitleList) {
+				addSubtitle(subtitle);
+			}
 		}
 	}
 	
@@ -130,7 +132,6 @@ public class DVD extends Resource {
 		} else {
 			subtitleLanguages=new ArrayList<String>();
 		}
-		
 		
 		try {
 			Connection conn = DBHelper.getConnection(); //get the connection
