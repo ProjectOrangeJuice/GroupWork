@@ -123,8 +123,8 @@ public class ProfileController {
 	private final int RES_IMG_WIDTH = 150;
 	private final int RES_IMG_HEIGHT = 250;
 	
-	private final int COPY_IMG_WIDTH = 300;
-	private final int COPY_IMG_HEIGHT = 500;
+	private final int COPY_IMG_WIDTH = 195;
+	private final int COPY_IMG_HEIGHT = 325;
 	
 	private Person currentUser;
 	private ArrayList<Resource> resources;
@@ -280,7 +280,7 @@ public class ProfileController {
 			colorOverlay.setFill(Color.LIGHTGREEN);
 			colorOverlay.setWidth(COPY_IMG_WIDTH);
 			colorOverlay.setHeight(COPY_IMG_HEIGHT);
-			colorOverlay.setOpacity(0.7);
+			colorOverlay.setOpacity(0.5);
 			colorOverlay.setBlendMode(BlendMode.HARD_LIGHT);
 			imagePane.getChildren().add(colorOverlay);
 			
@@ -312,7 +312,7 @@ public class ProfileController {
 		//for each resource in resources array
 		for(int i = 0; i < resources.size(); i++) {
 			if(search(i)) {
-			StackPane imagePane = createImage(i, COPY_IMG_WIDTH, COPY_IMG_HEIGHT);
+			StackPane imagePane = createImage(i, RES_IMG_WIDTH, RES_IMG_HEIGHT);
 			
 			//get last image in last resource HBox.
 			HBox latestHBox = (HBox) vResourceBox.getChildren().get(vResourceBox.getChildren().size() - 1);
