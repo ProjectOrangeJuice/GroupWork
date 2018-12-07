@@ -3,10 +3,7 @@ package application;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -62,7 +59,7 @@ public class StaffEdit {
     @FXML
     private Button cancelButton;
     
-    private Librarian currentLibrarian;
+    private Person currentUser;
     
     /**
 	 * Sets new scene on stage within program using fxml file provided.
@@ -88,20 +85,23 @@ public class StaffEdit {
     @FXML
     void saveEditedProfile(MouseEvent event) {
     	try {
-			Connection conn = model.DBHelper.getConnection();
-			PreparedStatement pstmt = conn.prepareStatement("UPDATE users SET firstName = ?, "
-					+ "+ lastName = ?, telephone = ?, address = ?, postcode = ?, avatarPath = ?,"
-					+ "staffID = ?, employmentDate = ?  WHERE username = ?");
-			pstmt.setString(1, currentLibrarian.getFirstName());
-			pstmt.setString(2, currentLibrarian.getLastName());
-			pstmt.setString(3, currentLibrarian.getPhoneNumber());
-			pstmt.setString(4, currentLibrarian.getAddress());
-			pstmt.setString(5, currentLibrarian.getPostcode());
-			pstmt.setString(6, currentLibrarian.getAvatar());
-			pstmt.setInt(7, currentLibrarian.getStaffID());
-			
-			SimpleDateFormat sdfr = new SimpleDateFormat("dd/MMM/yyyy");
-			pstmt.setString(8, sdfr.format(currentLibrarian.getEmploymentDate()));
+    		if (currentUser instanceof Librarian) {
+    			Librarian currentStaff = (Librarian) currentUser;
+    			Connection conn = model.DBHelper.getConnection();
+    			PreparedStatement pstmt = conn.prepareStatement("UPDATE users SET firstName = ?, "
+    					+ "+ lastName = ?, telephone = ?, address = ?, postcode = ?, avatarPath = ?,"
+    					+ "staffID = ?, employmentDate = ?  WHERE username = ?");
+    			pstmt.setString(1, currentStaff.getFirstName());
+    			pstmt.setString(2, currentStaff.getLastName());
+    			pstmt.setString(3, currentStaff.getPhoneNumber());
+    			pstmt.setString(4, currentStaff.getAddress());
+    			pstmt.setString(5, currentStaff.getPostcode());
+    			pstmt.setString(6, currentStaff.getAvatar());
+    			pstmt.setInt(7, currentStaff.getStaffID());
+    			
+    			SimpleDateFormat sdfr = new SimpleDateFormat("dd/MMM/yyyy");
+    			pstmt.setString(8, sdfr.format(currentStaff.getEmploymentDate()));
+    		}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -109,26 +109,29 @@ public class StaffEdit {
     }
     
     public void loadStaffInformation() {
-    	SimpleDateFormat sdfr = new SimpleDateFormat("dd/MMM/yyyy");
-    	//get all information in about user from ScreenManager class.
-    	String username = currentLibrarian.getUsername();
-    	String firstname = currentLibrarian.getFirstName();
-    	String lastname = currentLibrarian.getLastName();
-    	String address = currentLibrarian.getAddress();
-    	String postcode = currentLibrarian.getPostcode();
-    	String phoneNumber = currentLibrarian.getPhoneNumber();
-    	int staffID = currentLibrarian.getStaffID();
-    	String employmentDate = sdfr.format(currentLibrarian.getEmploymentDate());
-    	
-    	//change text to text field for staff to edit
-    	usernameText.setText(username);
-    	firstnameText.setText(firstnameText.getText() + " " + firstname);
-    	lastnameText.setText(lastnameText.getText() + " " + lastname);
-    	phoneNumberText.setText(phoneNumberText.getText() + " " + phoneNumber);
-    	addressText.setText(addressText.getText() + " " + address);
-    	postcodeText.setText(postcodeText.getText() + " " + postcode);
-    	staffIDText.setText(staffIDText.getText() + " " + staffID);
-    	employmentDateText.setText(employmentDateText.getText() + " " + employmentDate);
+    	if (currentUser instanceof Librarian) {
+    		Librarian currentStaff = (Librarian) currentUser;
+    		SimpleDateFormat sdfr = new SimpleDateFormat("dd/MMM/yyyy");
+	    	//get all information in about user from ScreenManager class.
+	    	String username = currentStaff.getUsername();
+	    	String firstname = currentStaff.getFirstName();
+	    	String lastname = currentStaff.getLastName();
+	    	String address = currentStaff.getAddress();
+	    	String postcode = currentStaff.getPostcode();
+	    	String phoneNumber = currentStaff.getPhoneNumber();
+	    	int staffID = currentStaff.getStaffID();
+	    	String employmentDate = sdfr.format(currentStaff.getEmploymentDate());
+	    	
+	    	//change text to text field for staff to edit
+	    	usernameText.setText(username);
+	    	firstnameText.setText(firstnameText.getText() + " " + firstname);
+	    	lastnameText.setText(lastnameText.getText() + " " + lastname);
+	    	phoneNumberText.setText(phoneNumberText.getText() + " " + phoneNumber);
+	    	addressText.setText(addressText.getText() + " " + address);
+	    	postcodeText.setText(postcodeText.getText() + " " + postcode);
+	    	staffIDText.setText(staffIDText.getText() + " " + staffID);
+	    	employmentDateText.setText(employmentDateText.getText() + " " + employmentDate);
+    	}
     }
 
 }
