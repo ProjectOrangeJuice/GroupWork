@@ -3,7 +3,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 
 /**
@@ -143,10 +142,10 @@ public class Fine {
 	public static ArrayList<Fine> getFines(String username) {
 		ArrayList<Fine> fines = new ArrayList<Fine>();
 		try {
-			Connection connection = DBHelper.getConnection(); //get the connection
+			Connection connection = DBHelper.getConnection(); 
 			PreparedStatement statement = connection.prepareStatement("SELECT * FROM fines WHERE username=?");
 			statement.setString(1,username);
-			ResultSet results = statement.executeQuery(); //Your sql goes here //Your sql goes here
+			ResultSet results = statement.executeQuery(); 
 			while(results.next()) {
 				boolean finePaid;
 				if( results.getInt("paid")== 1) {
@@ -181,9 +180,9 @@ public class Fine {
 	public static ArrayList<Fine> getFines() {
 		ArrayList<Fine> fines = new ArrayList<Fine>();
 		try {
-			Connection connection = DBHelper.getConnection(); //get the connection
+			Connection connection = DBHelper.getConnection(); 
 			PreparedStatement statement = connection.prepareStatement("SELECT * FROM fines");
-			ResultSet results = statement.executeQuery(); //Your sql goes here //Your sql goes here
+			ResultSet results = statement.executeQuery(); 
 			while(results.next()) {
 				boolean finePaid;
 				if( results.getInt("paid")== 1) {
