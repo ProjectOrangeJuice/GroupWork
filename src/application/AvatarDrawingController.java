@@ -219,12 +219,9 @@ public class AvatarDrawingController implements Initializable {
             convertToFile(fileName, path);
 
             //Update system and database with new avatar.
-            user.setAvatar(createSavedAvatar(fileName));
-            DBExample u = new DBExample();
-            u.updateAvatar(user,
-                    "/SavedAvatars/"
-                            + fileName);
-
+            SavedAvatar newAvatar = createSavedAvatar(fileName);
+            user.setAvatar("/SavedAvatars/" + fileName);
+            
         } else {
             //Create file name.
             fileName = System.currentTimeMillis() + ".png";

@@ -161,6 +161,8 @@ public class ProfileController {
 		addressLabel.setText(addressLabel.getText() + " " + address);
 		postcodeLabel.setText(postcodeLabel.getText() + " " + postcode);
 		phoneLabel.setText(phoneLabel.getText() + " " + phoneNumber);
+		
+		//TODO: Add special loader here for unique attributes of user/staff
 	}
 	
 	/**

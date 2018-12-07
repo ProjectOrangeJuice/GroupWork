@@ -82,12 +82,12 @@ public class User extends Person {
 	}
 	
 	
-	public static boolean  addBalance(String username, float value) {
+	public static boolean addBalance(String username, float value) { //TODO: Talk to oliver, since makePayment is 12 lines above...
 		Connection conn;
 		try {
 			conn = DBHelper.getConnection();
 		
-		PreparedStatement pstmt2 = conn.prepareStatement("UPDATE users set accountBalance= accountBalance + ? WHERE username=?");
+		PreparedStatement pstmt2 = conn.prepareStatement("UPDATE users set accountBalance = accountBalance + ? WHERE username=?");
 		pstmt2.setFloat(1,value);
 		pstmt2.setString(2,username);
 	
@@ -98,7 +98,7 @@ public class User extends Person {
 			e.printStackTrace();
 		} //get the connection
 		return false;
-	}
+	} 
 	
 	public void loadUserCopies() {
 		try {
