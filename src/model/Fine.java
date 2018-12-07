@@ -12,7 +12,7 @@ import java.util.ArrayList;
  */
 public class Fine {
 
-	private float amount;
+	private double amount;
 	private String dateTime;
 	private int resource;
 	private int daysOver;
@@ -30,7 +30,7 @@ public class Fine {
 	 * @param fineId The fineId in the database.
 	 * @param isPaid If the fine has been paid fully.
 	 */
-	public Fine(float amount, String dateTime,String user, int resource,
+	public Fine(double amount, String dateTime,String user, int resource,
 			int daysOver, int fineId, boolean isPaid ) {
 		this.amount = amount;
 		this.username = user;
@@ -157,7 +157,7 @@ public class Fine {
 	 * Get the amount owed from this fine.
 	 * @return The amount owed.
 	 */
-	public float getAmount() {
+	public double getAmount() {
 		return amount;
 	}
 
