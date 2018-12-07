@@ -90,7 +90,7 @@
                         </VBox>
                      </left>
                      <center>
-                        <SplitPane dividerPositions="0.5" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0" scaleShape="false" BorderPane.alignment="CENTER">
+                        <SplitPane dividerPositions="0.41786447638603696" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0" scaleShape="false" BorderPane.alignment="CENTER">
                           <items>
                             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
                                  <children>
