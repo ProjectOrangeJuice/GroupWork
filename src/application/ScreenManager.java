@@ -31,12 +31,5 @@ public class ScreenManager {
 	public static void setResources(ArrayList<Resource> resources) {
 		ScreenManager.resources = resources;
 	}
-	
-	public static void setCurrentLibrarian(Librarian currentLibrarian) {
-		ScreenManager.currentLibrarian = currentLibrarian;
-	}
-	public static Librarian getCurrentLibrarian() {
-		return currentLibrarian;
-	}
 
 }

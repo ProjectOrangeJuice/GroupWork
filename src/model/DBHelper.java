@@ -10,13 +10,13 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 /**
 * Contains helper methods for the database.
-* @author Oliver Harris
+* @author Oliver Harris.
 *
 */
 public class DBHelper {
 
 	private static int VERSION = 8; // Version number for database
-	private static String LINK = "jdbc:sqlite:test.db"; // database connection string
+	private static String LINK = "jdbc:sqlite:test.db"; //database connection string
 	private static String SQL = "src/tables.sql"; // database connection string
 
 
@@ -28,11 +28,11 @@ public class DBHelper {
 	*/
 	private static ResultSet selectKnown(String sql) throws SQLException{
 
-		Connection conn = getConnection();
-		Statement stmt = conn.createStatement();
-		ResultSet rs = stmt.executeQuery(sql);
+		Connection connection = getConnection();
+		Statement statement = connection.createStatement();
+		ResultSet results = statement.executeQuery(sql);
 
-		return rs;
+		return results;
 	}
 
 	/** 
@@ -42,14 +42,13 @@ public class DBHelper {
 	* @throws SQLException. Unable to connect to database.
 	*/
 	public static Connection getConnection(boolean keyCheck) throws SQLException{
-		// SQLite connection string
-		Connection conn = null;
+		Connection connection = null;
 
-		conn = DriverManager.getConnection(LINK); //no foreign key checks
+		connection = DriverManager.getConnection(LINK); //no foreign key checks
 		if(keyCheck) {
-			conn.createStatement().execute("PRAGMA foreign_keys = ON");
+			connection.createStatement().execute("PRAGMA foreign_keys = ON");
 		}
-		return conn;
+		return connection;
 	}
 	
 	/**
@@ -67,20 +66,20 @@ public class DBHelper {
 	private static void createTables() {
 
 		try {
-			InputStream in = new FileInputStream(SQL);// Opens up the file
+			InputStream input = new FileInputStream(SQL);// Opens up the file
 
-			Scanner s = new Scanner(in);
-			s.useDelimiter(";");// Each statement is split with ";"
-			Statement stmt = null;
+			Scanner scanner = new Scanner(input);
+			scanner.useDelimiter(";");// Each statement is split with ";"
+			Statement statement = null;
 
-			Connection conn = getConnection(false); // Get the connection without foreign key checks
-			stmt = conn.createStatement();
-			while (s.hasNext()) {
-				String line = s.next();
+			Connection connection = getConnection(false); //Connection without foreign key checks
+			statement = connection.createStatement();
+			while (scanner.hasNext()) {
+				String line = scanner.next();
 
 				if (line.trim().length() > 0) {
 					try {
-						stmt.execute(line);
+						statement.execute(line);
 					}
 					catch(SQLException e){ //Error on the SQL table.
 						System.out.println(line);
@@ -104,12 +103,12 @@ public class DBHelper {
 	*/
 	public static void tableCheck() {
 		try {
-			ResultSet rs = selectKnown("SELECT ver FROM system");
-			if(rs.next()) {
-				int ver = rs.getInt("ver");
-				rs.close();
-				System.out.println("Table is at "+ver+" program is at "+VERSION);
-				if(ver != VERSION) {
+			ResultSet results = selectKnown("SELECT ver FROM system");
+			if(results.next()) {
+				int DBVer = results.getInt("ver");
+				results.close();
+				System.out.println("Table is at "+DBVer+" program is at "+VERSION);
+				if(DBVer != VERSION) {
 					createTables();
 					System.out.println("Updating database");
 				}
