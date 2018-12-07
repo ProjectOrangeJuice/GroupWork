@@ -27,6 +27,7 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import model.Book;
+import model.Copy;
 import model.DVD;
 import model.Laptop;
 import model.Person;
@@ -244,6 +245,20 @@ public class ProfileController {
 		}
 		
 		return false;
+
+	}
+	
+	private void loadCopies() {
+		
+		//get user copies.
+		((User) currentUser).loadUserCopies();
+		ArrayList<Copy> userCopies = ((User) currentUser).getBorrowedCopies();
+		
+		for(Copy currentCopy : userCopies) {
+			Resource copyResource = currentCopy.getResource();
+			StackPane image = createImage(copyResource.getUniqueID());
+			resourceImages.getChildren().add(image);
+		}
 
 	}
 	
