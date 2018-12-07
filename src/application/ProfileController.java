@@ -1,7 +1,5 @@
 package application;
 
-
-import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 
 import javafx.event.EventHandler;
@@ -10,11 +8,13 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
+import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
@@ -48,7 +48,7 @@ public class ProfileController {
 	private TextField searchTextBox;
 	
 	@FXML
-	private Controller loginController;
+	private Controller TextField;
 	
 	@FXML
 	private Label userLabel;
@@ -86,6 +86,12 @@ public class ProfileController {
 	@FXML
 	private Label accountBalance;
 	
+	@FXML
+	private Button userEditProfileButton;
+	
+	@FXML
+	private Button staffEditProfileButton;
+	
 	//check boxes
 	@FXML
 	private CheckBox dvdCheck;
@@ -94,10 +100,17 @@ public class ProfileController {
 	@FXML
 	private CheckBox laptopCheck;
 	
-	//Staff
-	//@FXML
-	//private Button 
-	
+	//Copies Explorer
+	@FXML
+	private Button staffOverdueFilter;
+	@FXML
+	private Button staffRequestedFilter;
+	@FXML
+	private Button staffHistoryFind;
+	@FXML
+	private TextField staffCopyIDField;
+	@FXML
+	private TableView staffCopiesExplorerTable;
 	
 	//may remove fixed size resource images
 	//when dealing with window resizing.
@@ -293,7 +306,7 @@ public class ProfileController {
 			imagePane.setOnMouseExited(exitHandler);
 			
 		}
-		}
+	}
 		
 	}
 
@@ -314,5 +327,15 @@ public class ProfileController {
 		loadUserInformation();
 	
 	 }
+	
+	//
+	// Staff: Copies Explorer
+	//
+	
+	@FXML
+	private void displayOverdue() {
+		
+	}
+	
 
 }

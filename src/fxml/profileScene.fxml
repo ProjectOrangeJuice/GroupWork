@@ -278,7 +278,7 @@
                                                 <ToolBar prefHeight="40.0" prefWidth="835.0">
                                                    <items>
                                                       <Label text="View: " />
-                                                      <Button fx:id="staffOverdueFilter" mnemonicParsing="false" text="Overdue" />
+                                                      <Button fx:id="staffOverdueFilter" mnemonicParsing="false" onAction="#displayOverdue" text="Overdue" />
                                                       <Button fx:id="staffRequestedFilter" mnemonicParsing="false" text="Requested" />
                                                       <Label text="Search:" />
                                                       <TextField fx:id="staffCopyIDField" promptText="CopyID" />
@@ -349,7 +349,7 @@
                                                    <children>
                                                       <Label layoutX="51.0" layoutY="23.0" text="Selected User:" />
                                                       <Button fx:id="staffUserDeleteButton" layoutX="354.0" layoutY="19.0" mnemonicParsing="false" text="Delete" />
-                                                      <Label fx:id="selectedUserLabel" layoutX="154.0" layoutY="23.0" text="-" />
+                                                      <Label fx:id="selectedUserLabel" layoutX="207.0" layoutY="23.0" text="-" />
                                                    </children>
                                                 </Pane>
                                                 <Pane prefHeight="675.0" prefWidth="804.0">
