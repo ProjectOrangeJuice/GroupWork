@@ -140,11 +140,11 @@ public class CopyController {
 
 		}
 		
-	/*	 if(ScreenManager.currentResource.getFreeCopies() == 0){
+		 if(ScreenManager.currentResource.getNrOfCopies() == 0){
 			copytext.setText("All Copies are currently being borrowed.");
 		}else{
-			copytext.setText(Integer.toString(ScreenManager.currentResource.getFreeCopies()));
-		}*/
+			copytext.setText(Integer.toString(ScreenManager.currentResource.getNrOfCopies()));
+		}
 
 	}
 
