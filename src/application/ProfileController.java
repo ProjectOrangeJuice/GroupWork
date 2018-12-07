@@ -431,6 +431,7 @@ public class ProfileController {
 		changeScene(event,"/fxml/StaffEdit.fxml");
 	}
 	
+	@FXML
 	private void openAvatarEditor(MouseEvent event) {
 		System.out.println("Launch avatar editor.");
 		changeScene(event,"/fxml/drawAvatar.fxml");

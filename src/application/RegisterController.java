@@ -369,6 +369,6 @@ public class RegisterController {
 	    public void setRootPane(Pane pane) {
 	        this.rootPane = pane;
 	    }
-	    
+	    //TODO open system explorer to select avatar
 	}
 
