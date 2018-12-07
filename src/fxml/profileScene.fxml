@@ -26,7 +26,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane focusTraversable="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="400.0" minWidth="600.0" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.ProfileController">
+<BorderPane focusTraversable="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="400.0" minWidth="600.0" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.ProfileController">
    <center>
       <TabPane fx:id="tabs" prefHeight="972.0" prefWidth="1920.0" BorderPane.alignment="CENTER">
         <tabs>
@@ -278,16 +278,16 @@
                                                 <ToolBar prefHeight="40.0" prefWidth="835.0">
                                                    <items>
                                                       <Label text="View: " />
-                                                      <Button mnemonicParsing="false" text="Overdue" />
-                                                      <Button mnemonicParsing="false" text="Requested" />
+                                                      <Button fx:id="staffOverdueFilter" mnemonicParsing="false" text="Overdue" />
+                                                      <Button fx:id="staffRequestedFilter" mnemonicParsing="false" text="Requested" />
                                                       <Label text="Search:" />
-                                                      <TextField promptText="CopyID" />
-                                                      <Button mnemonicParsing="false" text="History" />
+                                                      <TextField fx:id="staffCopyIDField" promptText="CopyID" />
+                                                      <Button fx:id="staffHistoryFind" mnemonicParsing="false" text="History" />
                                                    </items>
                                                 </ToolBar>
                                                 <Pane prefHeight="698.0" prefWidth="1323.0" VBox.vgrow="ALWAYS">
                                                    <children>
-                                                      <TableView prefHeight="562.0" prefWidth="757.0">
+                                                      <TableView fx:id="staffCopiesExplorerTable" prefHeight="824.0" prefWidth="967.0">
                                                          <columns>
                                                             <TableColumn prefWidth="75.0" text="C1" />
                                                             <TableColumn prefWidth="75.0" text="C2" />
@@ -347,14 +347,14 @@
                                              <children>
                                                 <Pane prefHeight="75.0" prefWidth="1566.0">
                                                    <children>
-                                                      <Label layoutX="51.0" layoutY="23.0" text="Username:" />
-                                                      <TextField layoutX="131.0" layoutY="19.0" promptText="ID" />
-                                                      <Button layoutX="309.0" layoutY="19.0" mnemonicParsing="false" text="Delete" />
+                                                      <Label layoutX="51.0" layoutY="23.0" text="Selected User:" />
+                                                      <Button fx:id="staffUserDeleteButton" layoutX="354.0" layoutY="19.0" mnemonicParsing="false" text="Delete" />
+                                                      <Label fx:id="selectedUserLabel" layoutX="154.0" layoutY="23.0" text="-" />
                                                    </children>
                                                 </Pane>
                                                 <Pane prefHeight="675.0" prefWidth="804.0">
                                                    <children>
-                                                      <TableView prefHeight="614.0" prefWidth="1357.0">
+                                                      <TableView fx:id="staffUsersTable" prefHeight="614.0" prefWidth="1357.0">
                                                         <columns>
                                                           <TableColumn prefWidth="75.0" text="C1" />
                                                           <TableColumn prefWidth="75.0" text="C2" />

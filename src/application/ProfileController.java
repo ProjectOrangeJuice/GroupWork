@@ -94,6 +94,10 @@ public class ProfileController {
 	@FXML
 	private CheckBox laptopCheck;
 	
+	//Staff
+	//@FXML
+	//private Button 
+	
 	
 	//may remove fixed size resource images
 	//when dealing with window resizing.
