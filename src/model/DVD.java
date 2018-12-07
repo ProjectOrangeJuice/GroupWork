@@ -136,7 +136,7 @@ public class DVD extends Resource {
 		try {
 			Connection conn = DBHelper.getConnection(); //get the connection
 			Statement stmt = conn.createStatement(); //prep a statement
-			ResultSet subtitles = stmt.executeQuery("SELECT * FROM SUBTITLES WHERE rID="+uniqueID);
+			ResultSet subtitles = stmt.executeQuery("SELECT * FROM SUBTITLES WHERE dvdID="+uniqueID);
 			while(subtitles.next()) {
 				subtitleLanguages.add(subtitles.getString("subtitleLanguage"));
 			}
