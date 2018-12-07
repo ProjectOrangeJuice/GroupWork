@@ -47,14 +47,15 @@ public class Payment {
 
 	     
 	      try {
+	    	  if(User.checkBalance(username,amount)) {
 	    	  	ResultSet results = updateFine(fine,amount,full);
 	    	  	if(results.next()) {
 	    	  		int id = results.getInt(1);
 	    	  		insertTransaction(username,amount,date.toString());
-	    	  		
+	    	  		User.reduceBalance(username, amount);
 	    	  		return new Payment(id,username,amount,date.toString());
 	    	  		
-	    	  		
+	    	  	}
 	    	  	}else {
 	    	  		return null;
 	    	  	}
@@ -65,6 +66,10 @@ public class Payment {
 		}
 	      return null;
 	}
+
+	
+	
+	
 
 	
 	/**
