@@ -41,12 +41,17 @@ public class DVD extends Resource {
 		}
 	}
 	
-	public DVD(int uniqueID, String title, int year, Image thumbnail, String director, int runtime, String language, ArrayList<String> subtitleLanguages) {
+	public DVD(int uniqueID, String title, int year, Image thumbnail, String director, int runtime, String language, ArrayList<String> subtitleList) {
 		super(uniqueID, title, year, thumbnail);
 		this.director = director;
 		this.runtime = runtime;
 		this.language = language;
-		this.subtitleLanguages = subtitleLanguages;
+		
+		loadSubtitles();
+		
+		for(String subtitle: subtitleList) {
+			addSubtitle(subtitle);
+		}
 	}
 	
 	public DVD(int uniqueID, String title, int year, Image thumbnail, String director, int runtime) {
@@ -84,13 +89,32 @@ public class DVD extends Resource {
 		updateDbValue("dvd", this.uniqueID, "language", language);
 	}
 
-	public ArrayList<String> getSubtitleLanguages() {
-		return subtitleLanguages;
+	public String getSubtitleLanguages() {
+		String result="";
+		
+		for(String s: subtitleLanguages) {
+			result+=s+"\n";
+		}
+		
+		return result;
 	}
 
-	public void setSubtitleLanguages(ArrayList<String> subtitleLanguages) {
-		this.subtitleLanguages = subtitleLanguages;
-		//TO-DO update subtitle languages
+	public void addSubtitle(String language) {
+		//go through the list and make sure the language is not in there already
+		for(String s: subtitleLanguages) {
+			if(s.equals(language)) {
+				return;
+			}
+		}
+		
+		subtitleLanguages.add(language);
+		try {
+			Connection conn = DBHelper.getConnection(); //get the connection
+			Statement stmt = conn.createStatement(); //prep a statement
+			stmt.executeUpdate("INSERT INTO subtitles VALUES ("+uniqueID+","+language+")");
+		} catch (SQLException e) { 
+			e.printStackTrace();
+		}
 	}
 	
 	public int getDailyFineAmount() {
