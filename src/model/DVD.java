@@ -4,7 +4,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-
 import javafx.scene.image.Image;
 
 public class DVD extends Resource {
@@ -126,7 +125,12 @@ public class DVD extends Resource {
 	}
 
 	private void loadSubtitles() {
-		subtitleLanguages.clear();
+		if(subtitleLanguages!=null) {
+			subtitleLanguages.clear();
+		} else {
+			subtitleLanguages=new ArrayList<String>();
+		}
+		
 		
 		try {
 			Connection conn = DBHelper.getConnection(); //get the connection
