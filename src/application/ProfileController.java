@@ -7,6 +7,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
+import javafx.scene.CacheHint;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -288,6 +289,10 @@ public class ProfileController {
 		image.setFitWidth(width);
 		image.setFitHeight(height);
 		image.setImage(copyResource.getThumbnail());
+		
+		image.setCache(true);
+		image.setCacheHint(CacheHint.SCALE); // <-- hint
+		image.setSmooth(true);
 		
 		imagePane.getChildren().add(image);
 		imagePane.getChildren().add(resourceText);
