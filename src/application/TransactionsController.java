@@ -1,5 +1,6 @@
 package application;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Optional;
 
@@ -9,6 +10,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -21,6 +23,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import model.DBHelper;
 import model.Fine;
@@ -196,6 +199,20 @@ public class TransactionsController {
 		
 	}
 	
+	private void setupBalance() {
+		 	Pane newLoadedPane;
+			try {
+				newLoadedPane = FXMLLoader.load(getClass().getResource("/fxml/staffBalance.fxml"));
+				transactionsSplit.getItems().add(newLoadedPane);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		 	
+
+		
+	}
+	
 	@FXML
 	 public void initialize() {
 		isStaff = user instanceof Librarian;
@@ -204,6 +221,7 @@ public class TransactionsController {
 		setupTransactions();
 		}else {
 			Resource.loadDatabaseResources(); // remove me later
+			setupBalance();
 		}
 		setupFines();
 	 }    
