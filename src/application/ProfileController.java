@@ -7,6 +7,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
+import javafx.scene.CacheHint;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -248,8 +249,12 @@ public class ProfileController {
 	
 	final EventHandler<MouseEvent> clickHandler = event -> {
 		
-		int resourceId = Integer.parseInt((((StackPane) event.getSource()).getId()));
-		ScreenManager.setCurrentResource(resources.get(resourceId));
+		//find the resource that was clicked.
+		for(Resource resource : resources) {
+			if(resource.getUniqueID() == Integer.parseInt(((StackPane) event.getSource()).getId())) {
+				ScreenManager.setCurrentResource(resource);
+			}
+		}
 		
 		try {
 			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/copyScene.fxml"));
@@ -284,6 +289,10 @@ public class ProfileController {
 		image.setFitWidth(width);
 		image.setFitHeight(height);
 		image.setImage(copyResource.getThumbnail());
+		
+		image.setCache(true);
+		image.setCacheHint(CacheHint.SCALE); // <-- hint
+		image.setSmooth(true);
 		
 		imagePane.getChildren().add(image);
 		imagePane.getChildren().add(resourceText);
@@ -322,9 +331,9 @@ public class ProfileController {
 			((User) currentUser).loadUserCopies();
 			ArrayList<Copy> userCopies = ((User) currentUser).getBorrowedCopies();
 			
-			for(Copy currentCopy : userCopies) {
+			for(int i = 0 ; i < userCopies.size() ; i++) {
 				//System.out.println(currentCopy.getResource().getTitle());
-				Resource copyResource = currentCopy.getResource();
+				Resource copyResource = userCopies.get(i).getResource();
 				StackPane imagePane = createImage(copyResource, COPY_IMG_WIDTH, COPY_IMG_HEIGHT);
 				
 				Rectangle colorOverlay = new Rectangle();
@@ -339,6 +348,7 @@ public class ProfileController {
 				
 				imagePane.setOnMouseEntered(enterHandler);
 				imagePane.setOnMouseExited(exitHandler);
+				imagePane.setOnMouseClicked(clickHandler);
 			}
 		}
 		//get user copies that they have requested.

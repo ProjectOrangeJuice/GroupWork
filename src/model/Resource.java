@@ -202,8 +202,9 @@ public abstract class Resource {
 	/**Ensures a copy is loaned to the given user if there are available 
 	 * copies, else it adds the user to the request queue.
 	 * @param user The user that wants to borrow a copy of this resource.
+	 * @return If the user has the copy or is in the queue (false)
 	 */
-	public void loanToUser(User user) {	
+	public boolean loanToUser(User user) {	
 		/*If there are free copies, mark a copy as borrowed and reserve 
 		 * it for the user.*/
 		if(!freeCopies.isEmpty()) {
@@ -211,6 +212,7 @@ public abstract class Resource {
 			copyToBorrow.setBorrower(user);
 			copyToBorrow.setBorrowDate(new Date());
 			user.addBorrowedCopy(copyToBorrow);
+			return true;
 		} 
 		/*Else, add the user to the request queue and set the due date
 		 * of the borrowed copy with no due date that has been borrowed
@@ -219,6 +221,7 @@ public abstract class Resource {
 			userRequestQueue.enqueue(user);
 			Copy firstCopy = noDueDateCopies.poll();
 			firstCopy.setDueDate();
+			return false;
 		}
 	}
 

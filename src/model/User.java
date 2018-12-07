@@ -83,6 +83,12 @@ public class User extends Person {
 	
 	
 	
+	/**
+	 * Reduces the users balance.
+	 * @param username The username in the database.
+	 * @param amount The amount to reduce by.
+	 * @throws SQLException The database could not update.
+	 */
 	public static void reduceBalance(String username, double amount) throws SQLException {
 		Connection connection = DBHelper.getConnection(); 
 		PreparedStatement statement = connection.prepareStatement("UPDATE users set accountBalance = accountBalance - ? WHERE username=?");
@@ -92,6 +98,13 @@ public class User extends Person {
 		statement.executeUpdate(); 
 	}
 	
+	/**
+	 * Checks the users balance
+	 * @param username The username in the database.
+	 * @param amount The amount to check it exceeds.
+	 * @return If the user has enough in their balance.
+	 * @throws SQLException The database was unable to check.
+	 */
 	public static boolean checkBalance(String username, double amount) throws SQLException {
 		Connection connection = DBHelper.getConnection(); 
 		PreparedStatement statement = connection.prepareStatement("SELECT accountBalance FROM users where username=?");
