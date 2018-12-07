@@ -62,13 +62,6 @@
                            </children>
                         </AnchorPane>
                      </center>
-                     <left>
-                        <AnchorPane style="-fx-background-color: #545454;" BorderPane.alignment="TOP_LEFT">
-                           <children>
-                              <VBox spacing="10.0" AnchorPane.leftAnchor="17.0" AnchorPane.rightAnchor="17.0" AnchorPane.topAnchor="20.0" />
-                           </children>
-                        </AnchorPane>
-                     </left>
                   </BorderPane>
                </content></Tab>
           <Tab fx:id="userProfileTab" closable="false" text="My Profile">
