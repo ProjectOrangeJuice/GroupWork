@@ -144,10 +144,9 @@ public class Fine {
 		ArrayList<Fine> fines = new ArrayList<Fine>();
 		try {
 			Connection connection = DBHelper.getConnection(); //get the connection
-			Statement statement = connection.createStatement(); //prep a statement
-			PreparedStatement pstmt = connection.prepareStatement("SELECT * FROM fines WHERE username=?");
-			pstmt.setString(1,username);
-			ResultSet results = pstmt.executeQuery(); //Your sql goes here //Your sql goes here
+			PreparedStatement statement = connection.prepareStatement("SELECT * FROM fines WHERE username=?");
+			statement.setString(1,username);
+			ResultSet results = statement.executeQuery(); //Your sql goes here //Your sql goes here
 			while(results.next()) {
 				boolean finePaid;
 				if( results.getInt("paid")== 1) {
@@ -183,9 +182,8 @@ public class Fine {
 		ArrayList<Fine> fines = new ArrayList<Fine>();
 		try {
 			Connection connection = DBHelper.getConnection(); //get the connection
-			Statement statement = connection.createStatement(); //prep a statement
-			PreparedStatement pstmt = connection.prepareStatement("SELECT * FROM fines");
-			ResultSet results = pstmt.executeQuery(); //Your sql goes here //Your sql goes here
+			PreparedStatement statement = connection.prepareStatement("SELECT * FROM fines");
+			ResultSet results = statement.executeQuery(); //Your sql goes here //Your sql goes here
 			while(results.next()) {
 				boolean finePaid;
 				if( results.getInt("paid")== 1) {
