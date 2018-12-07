@@ -64,14 +64,14 @@ public class Payment {
 		Date date = new Date();
 		Connection conn = DBHelper.getConnection(); //get the connection
 		if(full) {
-		PreparedStatement pstmt2 = conn.prepareStatement("UPDATE FINES set paid=1, amount=0 WHERE fineId=? AND amount=?");
+		PreparedStatement pstmt2 = conn.prepareStatement("UPDATE fines set paid=1, amount=0 WHERE fineId=? AND amount=?");
 		pstmt2.setInt(1,fine);
 		pstmt2.setFloat(2,amount);
 	
 		int updates = pstmt2.executeUpdate(); //Your sql goes here
 		return pstmt2.getGeneratedKeys();
 		}else {
-			PreparedStatement pstmt2 = conn.prepareStatement("UPDATE FINES set paid=0, amount=? WHERE fineId=?");
+			PreparedStatement pstmt2 = conn.prepareStatement("UPDATE fines set paid=0, amount=? WHERE fineId=?");
 			pstmt2.setInt(2,fine);
 			pstmt2.setFloat(1,amount);
 		
