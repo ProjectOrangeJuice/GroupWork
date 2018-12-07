@@ -341,6 +341,31 @@
                                           </VBox>
                                        </content>
                                     </TitledPane>
+                                    <TitledPane animated="false" text="Manage Users">
+                                       <content>
+                                          <VBox prefHeight="200.0" prefWidth="100.0">
+                                             <children>
+                                                <Pane prefHeight="75.0" prefWidth="1566.0">
+                                                   <children>
+                                                      <Label layoutX="51.0" layoutY="23.0" text="Username:" />
+                                                      <TextField layoutX="131.0" layoutY="19.0" promptText="ID" />
+                                                      <Button layoutX="309.0" layoutY="19.0" mnemonicParsing="false" text="Delete" />
+                                                   </children>
+                                                </Pane>
+                                                <Pane prefHeight="675.0" prefWidth="804.0">
+                                                   <children>
+                                                      <TableView prefHeight="614.0" prefWidth="1357.0">
+                                                        <columns>
+                                                          <TableColumn prefWidth="75.0" text="C1" />
+                                                          <TableColumn prefWidth="75.0" text="C2" />
+                                                        </columns>
+                                                      </TableView>
+                                                   </children>
+                                                </Pane>
+                                             </children>
+                                          </VBox>
+                                       </content>
+                                    </TitledPane>
                                  </panes>
                               </Accordion>
                            </center>
