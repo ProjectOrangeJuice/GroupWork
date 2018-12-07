@@ -24,7 +24,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane focusTraversable="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="400.0" minWidth="600.0" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.ProfileController">
+<BorderPane focusTraversable="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="400.0" minWidth="600.0" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.ProfileController">
    <center>
       <TabPane fx:id="tabs" prefHeight="972.0" prefWidth="1920.0" BorderPane.alignment="CENTER">
         <tabs>
@@ -168,7 +168,7 @@
                   </AnchorPane>
               </content>
             </Tab>
-            <Tab fx:id="staffProfileTab" text="Staff Profile">
+            <Tab fx:id="staffProfileTab" closable="false" text="Staff Profile">
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
@@ -199,9 +199,9 @@
                                           <Label fx:id="fullnameLabel1" lineSpacing="10.0" text="Full name:" textFill="WHITE" />
                                           <Label fx:id="phoneLabel1" text="Phone Number: " textFill="WHITE" />
                                           <Label fx:id="addressLabel1" text="Address:" textFill="WHITE" />
-                                          <Label fx:id="postcodeLabel2" text="Post Code:" textFill="WHITE" />
-                                          <Label fx:id="postcodeLabel1" text="Employment Date:" textFill="WHITE" />
-                                          <Label fx:id="postcodeLabel11" text="Staff ID:" textFill="WHITE" />
+                                          <Label fx:id="postcodeLabel1" text="Post Code:" textFill="WHITE" />
+                                          <Label fx:id="dateLabel1" text="Employment Date:" textFill="WHITE" />
+                                          <Label fx:id="staffIDLabel1" text="Staff ID:" textFill="WHITE" />
                                           <Button fx:id="staffEditProfileButton" alignment="CENTER" mnemonicParsing="false" onMouseClicked="#openProfileEditor" text="Edit Profile">
                                              <VBox.margin>
                                                 <Insets left="100.0" />
