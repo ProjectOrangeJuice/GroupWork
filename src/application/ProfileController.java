@@ -242,12 +242,16 @@ public class ProfileController {
 	};
 	
 	final EventHandler<MouseEvent> clickHandler = event -> {
+		
+		int resourceId = Integer.parseInt((((StackPane) event.getSource()).getId()));
+		ScreenManager.setCurrentResource(Resource.getResource(resourceId));
+		
 		try {
 			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/copyScene.fxml"));
             Parent root1 = (Parent) fxmlLoader.load();
             Stage stage = new Stage();
             stage.initModality(Modality.APPLICATION_MODAL);
-            stage.initStyle(StageStyle.UNDECORATED);
+            //stage.initStyle(StageStyle.UNDECORATED);
             stage.setTitle("Resource Information");
             stage.setScene(new Scene(root1));  
             stage.show();

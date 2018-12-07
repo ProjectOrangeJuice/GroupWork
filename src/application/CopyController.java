@@ -106,6 +106,7 @@ public class CopyController {
 		centertextarea.appendText("uniqueID: " + Integer.toString(uniqueId) + "title: " + title + "year: " + Integer.toString(year));
 
 		if (ScreenManager.currentResource instanceof Book) {
+			ScreenManager.currentBook = (Book) ScreenManager.currentResource;
 			String author = ScreenManager.currentBook.getAuthor();
 			String publisher = ScreenManager.currentBook.getPublisher();
 			String genre = ScreenManager.currentBook.getGenre();
@@ -116,6 +117,7 @@ public class CopyController {
 			+ language);
 			
 		} else if (ScreenManager.currentResource instanceof Laptop) {
+			ScreenManager.currentLaptop = (Laptop) ScreenManager.currentResource;
 			String manufacturer = ScreenManager.currentLaptop.getManufacturer();
 			String model = ScreenManager.currentLaptop.getModel();
 			String OS = ScreenManager.currentLaptop.getOS();
@@ -123,6 +125,7 @@ public class CopyController {
 			centertextarea.appendText("manufacturer: " + manufacturer + "model: " + model + "OS: " + OS);
 			
 		} else if (ScreenManager.currentResource instanceof DVD) {
+			ScreenManager.currentDVD = (DVD) ScreenManager.currentResource;
 			String director = ScreenManager.currentDVD.getDirector();
 			int runtime = ScreenManager.currentDVD.getRuntime();
 			String language = ScreenManager.currentDVD.getDirector();
@@ -148,6 +151,7 @@ public class CopyController {
 			ImageView resourceimage = new ImageView();
 			resourceimage.setFitWidth(RES_IMG_WIDTH);
 			resourceimage.setFitHeight(RES_IMG_HEIGHT);
+			System.out.println(ScreenManager.currentResource.getThumbnail());
 			resourceimage.setImage(ScreenManager.currentResource.getThumbnail());
 	}
 	
