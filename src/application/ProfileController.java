@@ -369,8 +369,8 @@ public class ProfileController {
 	
 	@FXML
 	private void openProfileEditor(MouseEvent event) {
+		System.out.println("Launch staff editing profile.");
 		changeScene(event,"/fxml/StaffEdit.fxml");
 	}
-	
 
 }
