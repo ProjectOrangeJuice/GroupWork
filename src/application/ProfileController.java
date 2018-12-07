@@ -132,6 +132,7 @@ public class ProfileController {
 		tabs.getSelectionModel().select(resourcesTab);
 		vResourceBox.getChildren().clear();
 		HBox hbox = new HBox();
+		hbox.setSpacing(5);
 		vResourceBox.getChildren().add(hbox);
 		loadResourceImages();
 	}
@@ -273,7 +274,6 @@ public class ProfileController {
 				- RES_IMG_WIDTH) / RES_IMG_WIDTH) {
 					//create new HBox below last HBox
 					HBox hResourceBox = new HBox();
-					hResourceBox.setAlignment(Pos.TOP_CENTER);
 					hResourceBox.setSpacing(5);
 					//add image to new HBox
 					hResourceBox.getChildren().add(imagePane);

@@ -174,9 +174,9 @@
                                  <content>
                                     <VBox fx:id="vResourceBox" prefHeight="976.0" prefWidth="1920.0" spacing="5.0">
                                        <children>
-                                          <HBox alignment="TOP_CENTER" prefHeight="100.0" spacing="5.0">
+                                          <HBox prefHeight="100.0" spacing="5.0">
                                              <VBox.margin>
-                                                <Insets top="5.0" />
+                                                <Insets />
                                              </VBox.margin>
                                           </HBox>
                                        </children>
@@ -190,7 +190,7 @@
                         </AnchorPane>
                      </center>
                      <left>
-                        <AnchorPane prefHeight="976.0" prefWidth="98.0" style="-fx-background-color: #545454;" BorderPane.alignment="TOP_LEFT">
+                        <AnchorPane style="-fx-background-color: #545454;" BorderPane.alignment="TOP_LEFT">
                            <children>
                               <VBox spacing="10.0" AnchorPane.leftAnchor="17.0" AnchorPane.rightAnchor="17.0" AnchorPane.topAnchor="20.0">
                                  <children>
