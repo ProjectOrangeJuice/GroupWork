@@ -113,6 +113,11 @@ public class ProfileController {
 	@FXML
 	private Button staffEditProfileButton;
 	
+	@FXML
+	private Button staffEditAvatar;
+	@FXML
+	private Button userEditAvatar;
+	
 	//check boxes
 	@FXML
 	private CheckBox dvdCheck;
@@ -423,6 +428,11 @@ public class ProfileController {
 	private void openProfileEditor(MouseEvent event) {
 		System.out.println("Launch staff editing profile.");
 		changeScene(event,"/fxml/StaffEdit.fxml");
+	}
+	
+	private void openAvatarEditor(MouseEvent event) {
+		System.out.println("Launch avatar editor.");
+		changeScene(event,"/fxml/drawAvatar.fxml");
 	}
 
 }
