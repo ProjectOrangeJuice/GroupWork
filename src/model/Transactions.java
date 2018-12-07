@@ -79,26 +79,7 @@ public class Transactions {
 		return payments;
 	}
 
-	/**
-	 * Add a payment.
-	 * @param payment The payment object.
-	 */
-	public void addPayment(Payment payment) {
-		payments.add(payment);
-		String dateTimeStamp = new SimpleDateFormat(DATE_FORMAT).format(new Date());
-		try {
-			Connection connection = DBHelper.getConnection();
-			PreparedStatement statement = connection.prepareStatement("INSERT "
-					+ "INTO transactions (username,paid,dateTime) VALUES (?,?,?)");
-	            statement.setString(1, username);
-	            statement.setDouble(2, payment.getAmount());
-	            statement.setString(3, dateTimeStamp);
-	            statement.executeUpdate();
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-	}
+	
 	
 	
 	
