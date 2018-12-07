@@ -267,10 +267,14 @@ public class ProfileController {
 		((User) currentUser).loadUserCopies();
 		ArrayList<Copy> userCopies = ((User) currentUser).getBorrowedCopies();
 		
+		System.out.println("Size of array: " + userCopies.size());
 		for(Copy currentCopy : userCopies) {
 			Resource copyResource = currentCopy.getResource();
-			StackPane image = createImage(copyResource.getUniqueID());
-			resourceImages.getChildren().add(image);
+			StackPane imagePane = createImage(copyResource.getUniqueID());
+			resourceImages.getChildren().add(imagePane);
+			
+			imagePane.setOnMouseEntered(enterHandler);
+			imagePane.setOnMouseExited(exitHandler);
 		}
 
 	}
@@ -336,10 +340,6 @@ public class ProfileController {
 		loadCopies();
 		
 		scrollPane.setHvalue(0.5);
-		for(Node resource : resourceImages.getChildren()) {
-			((ImageView) resource).setFitWidth(COPY_IMG_WIDTH);
-			((ImageView) resource).setFitHeight(COPY_IMG_HEIGHT);
-		}
 	
 	 }
 	
