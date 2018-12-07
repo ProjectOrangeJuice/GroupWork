@@ -70,11 +70,8 @@ public class Fine {
 						results.getInt("daysOver"),
 						results.getInt("fineID"),
 						finePaid));
-		
 			} 
 			return fines;
-			
-			
 		} catch (SQLException e) { 
 			e.printStackTrace();
 		}
@@ -97,7 +94,7 @@ public class Fine {
 				boolean finePaid;
 				if( results.getInt("paid")== 1) {
 					finePaid = true;
-				}else {  
+				} else {  
 					finePaid = false;
 					}
 				
@@ -108,19 +105,13 @@ public class Fine {
 						results.getInt("daysOver"),
 						results.getInt("fineID"),
 						finePaid));
-				
 			} 
 			return fines;
-			
-			
 		} catch (SQLException e) { 
 			e.printStackTrace();
 		}
 		return null;
 	}
-
-	
-	
 	
 	/**
 	 * Return if the fine has been fully paid.
@@ -129,7 +120,6 @@ public class Fine {
 	public boolean isPaid() {
 		return isPaid;
 	}
-
 
 	/**
 	 * Change if the fine has been paid.
@@ -145,13 +135,10 @@ public class Fine {
 			pstmt.setInt(1, paidInt); 
 			pstmt.setInt(2, fineId); 
 			pstmt.executeUpdate();
-			
-
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}
-
 
 	/**
 	 * Get the amount owed from this fine.
@@ -161,7 +148,6 @@ public class Fine {
 		return amount;
 	}
 
-
 	/**
 	 * Get the  date and time this fine was made.
 	 * @return The date and time stamp.
@@ -169,7 +155,6 @@ public class Fine {
 	public String getDateTime() {
 		return dateTime;
 	}
-
 
 	/**
 	 * Get the resource that caused this fine.
@@ -196,7 +181,6 @@ public class Fine {
 
 	}
 
-
 	/**
 	 * Get the number of days the fine is over due.
 	 * @return The number of days it is overdue.
@@ -204,7 +188,6 @@ public class Fine {
 	public int getDaysOver() {
 		return daysOver;
 	}
-
 
 	/**
 	 * Get the fines database id.
@@ -214,8 +197,6 @@ public class Fine {
 		return fineId;
 	}
 
-	
-
 	/**
 	 * Check if this fine contains a value in the date time stamp.
 	 * @param search The value to check against.
@@ -224,7 +205,7 @@ public class Fine {
 	public boolean contains(String search) {
 		if(this.getDateTime().contains(search)) {
 			return true;
-		}else {
+		} else {
 			return false;
 		}
 	}
@@ -241,5 +222,4 @@ public class Fine {
 			return false;
 		}
 	}
-
 }

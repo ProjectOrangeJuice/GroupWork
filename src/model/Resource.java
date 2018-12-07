@@ -402,7 +402,7 @@ public abstract class Resource {
 		
 		if(title.toUpperCase().contains(search.toUpperCase())) {
 			return true;
-		}else {
+		} else {
 			return false;
 		}
 	}
