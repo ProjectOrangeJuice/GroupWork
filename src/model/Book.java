@@ -31,7 +31,6 @@ public class Book extends Resource {
 					+ "genre, ISBN, language FROM book, resource WHERE book.rID = resource.rID"); //Your sql goes here
 			
 			while(rs.next()) {
-				
 				Image resourceImage = new Image(rs.getString("thumbnail"), true);
 				
 				resources.add(new Book(rs.getInt("rID"), rs.getString("title"), 

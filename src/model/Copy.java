@@ -1,8 +1,10 @@
 package model;
 import java.sql.Connection;
-import java.sql.Date;
+import java.util.Date;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 /**
  * 
@@ -19,18 +21,30 @@ public class Copy implements Comparable<Copy>{
 	private Date lastRenewal;
 	private Date dueDate;
 	
+	public Copy(Resource resource, int copyID, User borrower, int loanDuration, 
+			Date borrowDate, Date lastRenewal, Date dueDate) {
+		this.resource = resource;
+		this.borrower = borrower;
+		this.copyID = copyID;
+		
+		this.loanDuration=loanDuration;
+		this.borrowDate=borrowDate;
+		this.lastRenewal=lastRenewal;
+		this.dueDate=dueDate;
+	}
+	
 	/**
 	 * Class Constructor
 	 * @param resource
 	 * @param copyID
 	 * @param borrower
 	 */
-	public Copy(Resource resource, int copyID, User borrower) {
+	public Copy(Resource resource, int copyID, User borrower, int loanDuration) {
 		this.resource = resource;
 		this.borrower = borrower;
 		this.copyID = copyID;
 		
-		loanDuration=7;
+		this.loanDuration=loanDuration;
 		borrowDate=null;
 		lastRenewal=null;
 		dueDate=null;
