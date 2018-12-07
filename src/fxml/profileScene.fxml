@@ -49,11 +49,6 @@
                                     <Image url="@../graphics/defaultImage.png" />
                                  </image>
                               </ImageView>
-                              <MenuButton id="imageMenu" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="25.0" style="-fx-background-color: #545454;" text="Change Profile Image" textAlignment="CENTER" textFill="WHITE">
-                                 <items>
-                                    <MenuItem mnemonicParsing="false" text="Image Editor" />
-                                 </items>
-                              </MenuButton>
                               <Separator prefWidth="200.0">
                                  <VBox.margin>
                                     <Insets bottom="10.0" top="15.0" />
@@ -195,13 +190,17 @@
                         </AnchorPane>
                      </center>
                      <left>
-                        <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" spacing="10.0" BorderPane.alignment="CENTER">
+                        <AnchorPane prefHeight="976.0" prefWidth="98.0" style="-fx-background-color: #545454;" BorderPane.alignment="TOP_LEFT">
                            <children>
-                              <CheckBox fx:id="dvdCheck" mnemonicParsing="false" selected="true" text="DVD" />
-                              <CheckBox fx:id="bookCheck" mnemonicParsing="false" selected="true" text="Book" />
-                              <CheckBox fx:id="laptopCheck" mnemonicParsing="false" selected="true" text="Laptop" />
+                              <VBox spacing="10.0" AnchorPane.leftAnchor="17.0" AnchorPane.rightAnchor="17.0" AnchorPane.topAnchor="20.0">
+                                 <children>
+                                    <CheckBox fx:id="dvdCheck" alignment="TOP_CENTER" mnemonicParsing="false" selected="true" text="DVD" textFill="WHITE" />
+                                    <CheckBox fx:id="bookCheck" mnemonicParsing="false" selected="true" text="Book" textAlignment="JUSTIFY" textFill="WHITE" />
+                                    <CheckBox fx:id="laptopCheck" mnemonicParsing="false" selected="true" text="Laptop" textFill="WHITE" />
+                                 </children>
+                              </VBox>
                            </children>
-                        </VBox>
+                        </AnchorPane>
                      </left>
                   </BorderPane>
                </content></Tab>
