@@ -7,7 +7,7 @@ import javafx.scene.image.Image;
 public class Main {
 
 	public static void main(String[] args) {
-		DBHelper.forceUpdate();
+		//DBHelper.forceUpdate();
 		
 		ArrayList<String> languages = new ArrayList<String>();
 		
