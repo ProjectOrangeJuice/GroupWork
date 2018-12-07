@@ -19,8 +19,6 @@ public class Transactions {
 	private ArrayList<Payment> payments;
 	private final String DATE_FORMAT = "yyyy.MM.dd.HH.mm.ss";
 
-
-
 	/**
 	 * Constructor for transactions.
 	 * @param username The username this transaction object is for.
@@ -29,9 +27,7 @@ public class Transactions {
 	public Transactions(String username, ArrayList<Payment> payments) {
 		this.username = username;
 		this.payments = payments;
-
 	}
-	
 	
 	/**
 	 * Generate the transactions object for a username.
@@ -51,7 +47,6 @@ public class Transactions {
 						results.getString("username"),
 						results.getFloat("paid"),
 						results.getString("dateTime")));
-
 			}
 			return new Transactions(username,payments);
 		} catch (SQLException e) {
@@ -68,8 +63,6 @@ public class Transactions {
 	public String getUsername() {
 		return username;
 	}
-
-	
 
 	/**
 	 * Get the list of payments this user has.
@@ -99,8 +92,4 @@ public class Transactions {
 			e.printStackTrace();
 		}
 	}
-	
-	
-	
-	
 }

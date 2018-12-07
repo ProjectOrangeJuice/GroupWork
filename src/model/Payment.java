@@ -32,7 +32,6 @@ public class Payment {
 		this.dateTime = dateTime;
 	}
 	
-	
 	/**
 	 * Make a payment.
 	 * @param username The username the fine belongs to.
@@ -44,28 +43,22 @@ public class Payment {
 	public static Payment makePayment(String username, double amount, int fine,
 			boolean full) {
 		Date date = new Date();
-
-	     
-	      try {
-	    	  	ResultSet results = updateFine(fine,amount,full);
+		
+		try {
+			ResultSet results = updateFine(fine,amount,full);
 	    	  	if(results.next()) {
 	    	  		int id = results.getInt(1);
 	    	  		insertTransaction(username,amount,date.toString());
 	    	  		
 	    	  		return new Payment(id,username,amount,date.toString());
-	    	  		
-	    	  		
-	    	  	}else {
+	    	  	} else {
 	    	  		return null;
 	    	  	}
-				
-				
 			} catch (SQLException e) {
 				e.printStackTrace();
-		}
+			}
 	      return null;
 	}
-
 	
 	/**
 	 * Add payment to transaction database.
@@ -99,15 +92,16 @@ public class Payment {
 	private static ResultSet updateFine(int fine,double amount,boolean full) 
 			throws SQLException {
 		Connection connection = DBHelper.getConnection(); 
+		
 		if(full) {
-		PreparedStatement statement = connection.prepareStatement("UPDATE fines "
-				+ "set paid=1, amount=0 WHERE fineId=? AND amount=?");
-		statement.setInt(1,fine);
-		statement.setDouble(2,amount);
-	
-		statement.executeUpdate(); 
-		return statement.getGeneratedKeys();
-		}else {
+			PreparedStatement statement = connection.prepareStatement("UPDATE fines "
+					+ "set paid=1, amount=0 WHERE fineId=? AND amount=?");
+			statement.setInt(1,fine);
+			statement.setDouble(2,amount);
+		
+			statement.executeUpdate(); 
+			return statement.getGeneratedKeys();
+		} else {
 			PreparedStatement statement = connection.prepareStatement("UPDATE "
 					+ "fines set paid=0, amount=? WHERE fineId=?");
 			statement.setInt(2,fine);
@@ -126,9 +120,6 @@ public class Payment {
 		return amount;
 	}
 	
-	
-	
-
 	/**
 	 * The date and time the payment was made.
 	 * @return The date time stamp.
@@ -137,7 +128,6 @@ public class Payment {
 		return dateTime;
 	}
 
-	
 	/**
 	 * Get the database transaction id.
 	 * @return The transaction id.
