@@ -248,8 +248,12 @@ public class ProfileController {
 	
 	final EventHandler<MouseEvent> clickHandler = event -> {
 		
-		int resourceId = Integer.parseInt((((StackPane) event.getSource()).getId()));
-		ScreenManager.setCurrentResource(resources.get(resourceId));
+		//find the resource that was clicked.
+		for(Resource resource : resources) {
+			if(resource.getUniqueID() == Integer.parseInt(((StackPane) event.getSource()).getId())) {
+				ScreenManager.setCurrentResource(resource);
+			}
+		}
 		
 		try {
 			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/copyScene.fxml"));
@@ -268,7 +272,7 @@ public class ProfileController {
 	};
 	
 	
-	private StackPane createImage(Resource copyResource, int index, int width, int height) {
+	private StackPane createImage(Resource copyResource, int width, int height) {
 		
 		StackPane imagePane = new StackPane();
 		
@@ -290,7 +294,7 @@ public class ProfileController {
 		
 		//set id of imagePane to it's index so it can be accessed
 		//within the event handler.
-		imagePane.setId(String.valueOf(index));
+		imagePane.setId(String.valueOf(copyResource.getUniqueID()));
 		
 		return imagePane;
 	}
@@ -325,7 +329,7 @@ public class ProfileController {
 			for(int i = 0 ; i < userCopies.size() ; i++) {
 				//System.out.println(currentCopy.getResource().getTitle());
 				Resource copyResource = userCopies.get(i).getResource();
-				StackPane imagePane = createImage(copyResource, i, COPY_IMG_WIDTH, COPY_IMG_HEIGHT);
+				StackPane imagePane = createImage(copyResource, COPY_IMG_WIDTH, COPY_IMG_HEIGHT);
 				
 				Rectangle colorOverlay = new Rectangle();
 				colorOverlay.setFill(Color.LIGHTGREEN);
@@ -339,6 +343,7 @@ public class ProfileController {
 				
 				imagePane.setOnMouseEntered(enterHandler);
 				imagePane.setOnMouseExited(exitHandler);
+				imagePane.setOnMouseClicked(clickHandler);
 			}
 		}
 		//get user copies that they have requested.
@@ -369,7 +374,7 @@ public class ProfileController {
 		//for each resource in resources array
 		for(int i = 0; i < resources.size(); i++) {
 			if(search(i)) {
-			StackPane imagePane = createImage(resources.get(i), i, RES_IMG_WIDTH, RES_IMG_HEIGHT);
+			StackPane imagePane = createImage(resources.get(i), RES_IMG_WIDTH, RES_IMG_HEIGHT);
 			
 			//get last image in last resource HBox.
 			HBox latestHBox = (HBox) vResourceBox.getChildren().get(vResourceBox.getChildren().size() - 1);
