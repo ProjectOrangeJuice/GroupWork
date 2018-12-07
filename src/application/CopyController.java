@@ -5,6 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
@@ -57,7 +58,7 @@ public class CopyController {
 	private Button closewindow;
 	
 	@FXML
-	private TextField copytext;
+	private Label copytext;
 	
 	private Resource currentResource;
 
@@ -103,7 +104,7 @@ public class CopyController {
 		String title = ScreenManager.currentResource.getTitle();
 		int year = ScreenManager.currentResource.getYear();
 		
-		centertextarea.appendText("uniqueID: " + Integer.toString(uniqueId) + "title: " + title + "year: " + Integer.toString(year));
+		centertextarea.appendText("uniqueID: " + Integer.toString(uniqueId) + "\ntitle: " + title + "\nyear: " + Integer.toString(year));
 
 		if (ScreenManager.currentResource instanceof Book) {
 			ScreenManager.currentBook = (Book) ScreenManager.currentResource;
@@ -113,7 +114,7 @@ public class CopyController {
 			String ISBN = ScreenManager.currentBook.getISBN();
 			String language = ScreenManager.currentBook.getLanguage();
 			
-			centertextarea.appendText("author: " + author + "publisher: " + publisher + "genre: " + genre + "ISBN: " + ISBN + "language: "
+			centertextarea.appendText("\nauthor: " + author + "\npublisher: " + publisher + "\ngenre: " + genre + "\nISBN: " + ISBN + "\nlanguage: "
 			+ language);
 			
 		} else if (ScreenManager.currentResource instanceof Laptop) {
@@ -122,7 +123,7 @@ public class CopyController {
 			String model = ScreenManager.currentLaptop.getModel();
 			String OS = ScreenManager.currentLaptop.getOS();
 			
-			centertextarea.appendText("manufacturer: " + manufacturer + "model: " + model + "OS: " + OS);
+			centertextarea.appendText("\nmanufacturer: " + manufacturer + "\nmodel: " + model + "\nOS: " + OS);
 			
 		} else if (ScreenManager.currentResource instanceof DVD) {
 			ScreenManager.currentDVD = (DVD) ScreenManager.currentResource;
@@ -130,7 +131,7 @@ public class CopyController {
 			int runtime = ScreenManager.currentDVD.getRuntime();
 			String language = ScreenManager.currentDVD.getDirector();
 			
-			centertextarea.appendText("director: " + director + "runtime: " + Integer.toString(runtime) + "language: " + language);
+			centertextarea.appendText("\ndirector: " + director + "\nruntime: " + Integer.toString(runtime) + "\nlanguage: " + language);
 
 		}
 		
@@ -148,7 +149,6 @@ public class CopyController {
 	 */
 	private void loadResourceImage() {
 			// create new resource image to be added.
-			ImageView resourceimage = new ImageView();
 			resourceimage.setFitWidth(RES_IMG_WIDTH);
 			resourceimage.setFitHeight(RES_IMG_HEIGHT);
 			resourceimage.setImage(ScreenManager.currentResource.getThumbnail());
