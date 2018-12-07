@@ -31,6 +31,7 @@ import model.DVD;
 import model.Laptop;
 import model.Person;
 import model.Resource;
+import model.User;
 
 public class ProfileController {
 
@@ -81,6 +82,9 @@ public class ProfileController {
 	
 	@FXML
 	private TabPane tabs;
+	
+	@FXML
+	private Label accountBalance;
 	
 	//check boxes
 	@FXML
@@ -163,6 +167,12 @@ public class ProfileController {
 		phoneLabel.setText(phoneLabel.getText() + " " + phoneNumber);
 		
 		//TODO: Add special loader here for unique attributes of user/staff
+		if(currentUser instanceof User) {
+			Double userBalance = ((User) currentUser).getAccountBalance();
+			accountBalance.setText("£" + Double.toString(userBalance));
+		} else {
+			accountBalance.setText("null");
+		}
 	}
 	
 	/**
