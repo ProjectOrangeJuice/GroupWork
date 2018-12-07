@@ -31,6 +31,35 @@ public class Transactions {
 		this.payments = payments;
 
 	}
+	
+	
+	/**
+	 * Generate the transactions object for a username.
+	 * @param username  The username in the database.
+	 * @return The transactions the user has.
+	 */
+	public static Transactions getTransactions(String username){
+		ArrayList<Payment> payments = new ArrayList<Payment>();
+		try {
+			Connection connection = DBHelper.getConnection(); 
+			PreparedStatement statement = connection.prepareStatement("SELECT * "
+					+ "FROM transactions WHERE username=?");
+			statement.setString(1,username);
+			ResultSet results = statement.executeQuery(); 
+			while(results.next()) {
+				payments.add(new Payment(results.getInt("transactionId"),
+						results.getString("username"),
+						results.getFloat("paid"),
+						results.getString("dateTime")));
+
+			}
+			return new Transactions(username,payments);
+		} catch (SQLException e) {
+			e.printStackTrace();
+	}
+
+		return null;
+	}
 
 	/**
 	 * Gets the username.
@@ -72,32 +101,6 @@ public class Transactions {
 	}
 	
 	
-	/**
-	 * Generate the transactions object for a username.
-	 * @param username  The username in the database.
-	 * @return The transactions the user has.
-	 */
-	public static Transactions getTransactions(String username){
-		ArrayList<Payment> payments = new ArrayList<Payment>();
-		try {
-			Connection connection = DBHelper.getConnection(); 
-			PreparedStatement statement = connection.prepareStatement("SELECT * FROM "
-					+ "transactions WHERE username=?");
-			statement.setString(1,username);
-			ResultSet results = statement.executeQuery(); 
-			while(results.next()) {
-				payments.add(new Payment(results.getInt("transactionId"),
-						results.getString("username"),
-						results.getFloat("paid"),
-						results.getString("dateTime")));
-
-			}
-			return new Transactions(username,payments);
-		} catch (SQLException e) {
-			e.printStackTrace();
-	}
-
-		return null;
-	}
+	
 	
 }
