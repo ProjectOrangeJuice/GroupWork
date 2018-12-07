@@ -124,13 +124,13 @@ public class StaffEdit {
 	    	
 	    	//change text to text field for staff to edit
 	    	usernameText.setText(username);
-	    	firstnameText.setText(firstnameText.getText() + " " + firstname);
-	    	lastnameText.setText(lastnameText.getText() + " " + lastname);
-	    	phoneNumberText.setText(phoneNumberText.getText() + " " + phoneNumber);
-	    	addressText.setText(addressText.getText() + " " + address);
-	    	postcodeText.setText(postcodeText.getText() + " " + postcode);
-	    	staffIDText.setText(staffIDText.getText() + " " + staffID);
-	    	employmentDateText.setText(employmentDateText.getText() + " " + employmentDate);
+	    	firstnameText.setText(firstname);
+	    	lastnameText.setText(lastname);
+	    	phoneNumberText.setText(phoneNumber);
+	    	addressText.setText(address);
+	    	postcodeText.setText(postcode);
+	    	staffIDText.setText(Integer.toString(staffID));
+	    	employmentDateText.setText(employmentDate);
     	}
     }
 
