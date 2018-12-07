@@ -332,7 +332,7 @@ public class ProfileController {
 			ArrayList<Copy> userCopies = ((User) currentUser).getBorrowedCopies();
 			
 			for(int i = 0 ; i < userCopies.size() ; i++) {
-				//System.out.println(currentCopy.getResource().getTitle());
+				System.out.println(userCopies.get(i).getResource().getTitle());
 				Resource copyResource = userCopies.get(i).getResource();
 				StackPane imagePane = createImage(copyResource, COPY_IMG_WIDTH, COPY_IMG_HEIGHT);
 				

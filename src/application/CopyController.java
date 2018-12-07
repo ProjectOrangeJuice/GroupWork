@@ -1,5 +1,6 @@
 package application;
 
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -94,7 +95,7 @@ public class CopyController {
 	 */
 	@FXML
 	public void closeWindow(MouseEvent event) {
-		changeScene(event, "/fxml/profileScene.fxml");
+		//Platform.exit();
 	}
 
 	/**
