@@ -58,6 +58,15 @@ CREATE TABLE IF NOT EXISTS `resource` (
 );
 INSERT INTO `resource` VALUES (1,'Homo Deus',2017,'/graphics/homoDeus.png');
 INSERT INTO `resource` VALUES (2,'Iron Man',2008,'/graphics/ironMan.jpg');
+INSERT INTO `resource` VALUES (3,'The Winter Soldier',2014,'/graphics/winterSoldier.jpg');
+INSERT INTO `resource` VALUES (4,'Thor',2011,'/graphics/thor.jpg');
+INSERT INTO `resource` VALUES (5,'Creed 2',2018,'/graphics/creed2.jpg');
+INSERT INTO `resource` VALUES (6,'Creed',2015,'/graphics/creed.jpg');
+INSERT INTO `resource` VALUES (7,'The Martian',2015,'/graphics/theMartian.jpg');
+INSERT INTO `resource` VALUES (8,'Sapiens',2015,'/graphics/sapiens.jpg');
+INSERT INTO `resource` VALUES (9,'Waking Gods',2015,'/graphics/wakingGods.jpg');
+INSERT INTO `resource` VALUES (10,'American Gods',2015,'/graphics/americanGods.jpg');
+INSERT INTO `resource` VALUES (11,'Iron Man 3',2013,'/graphics/ironMan3.jpg');
 
 
 DROP TABLE IF EXISTS `fines`;
@@ -101,6 +110,10 @@ CREATE TABLE IF NOT EXISTS `book` (
 );
 
 INSERT INTO `book` VALUES ('Yuval Noah Harari','Harvill Secker','Non-Fiction','978-191-070-187-4','English',1);
+INSERT INTO `book` VALUES ('Andy Weir','Harvill Secker','Fiction','978-191-070-187-5','English',7);
+INSERT INTO `book` VALUES ('Yuval Noah Harari','Harvill Secker','Non-Fiction','978-191-070-187-5','English',8);
+INSERT INTO `book` VALUES ('Unknown Author','Harvill Secker','Fiction','978-191-070-187-6','English',9);
+INSERT INTO `book` VALUES ('Neil Gaimen','Harvill Secker','Fiction','978-191-070-187-7','English',10);
 
 DROP TABLE IF EXISTS `dvd`;
 CREATE TABLE IF NOT EXISTS `dvd` (
@@ -113,6 +126,11 @@ CREATE TABLE IF NOT EXISTS `dvd` (
 );
 
 INSERT INTO `dvd` VALUES ('Jon Favreau',126,'english',2);
+INSERT INTO `dvd` VALUES ('Jon Favreau',126,'english',3);
+INSERT INTO `dvd` VALUES ('Jon Favreau',126,'english',4);
+INSERT INTO `dvd` VALUES ('Jon Favreau',126,'english',5);
+INSERT INTO `dvd` VALUES ('Jon Favreau',126,'english',6);
+INSERT INTO `dvd` VALUES ('Jon Favreau',126,'english',11);
 
 drop table if exists `subtitles`;
 create table if not exists `subtitles` (
