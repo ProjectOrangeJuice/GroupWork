@@ -35,6 +35,7 @@ import model.Book;
 import model.Copy;
 import model.DVD;
 import model.Laptop;
+import model.Librarian;
 import model.Person;
 import model.Resource;
 import model.User;
@@ -58,21 +59,31 @@ public class ProfileController {
 	
 	@FXML
 	private Label userLabel;
-	
 	@FXML
 	private Label fullnameLabel;
-	
 	@FXML
 	private Label phoneLabel;
-	
 	@FXML
 	private Label addressLabel;
-	
 	@FXML
 	private Label postcodeLabel;
-	
 	@FXML
 	private Label balanceLabel;
+	
+	@FXML
+	private Label userLabel1;
+	@FXML
+	private Label fullnameLabel1;
+	@FXML
+	private Label phoneLabel1;
+	@FXML
+	private Label addressLabel1;
+	@FXML
+	private Label postcodeLabel1;
+	@FXML
+	private Label dateLabel1;
+	@FXML
+	private Label staffIDLabel1;
 	
 	@FXML
 	private Tab userProfileTab;
@@ -175,27 +186,35 @@ public class ProfileController {
 	 * it can be displayed within the UI.
 	 */
 	private void loadUserInformation() {
-		
-		//get all information in about user from ScreenManager class.
-		String username = currentUser.getUsername();
-		String fullname = currentUser.getFirstName() + " " + currentUser.getLastName();
-		String address = currentUser.getAddress();
-		String postcode = currentUser.getPostcode();
-		String phoneNumber = currentUser.getPhoneNumber();
-		
-		//change text in labels to appropriate user information.
-		userLabel.setText(username);
-		fullnameLabel.setText(fullnameLabel.getText() + " " + fullname);
-		addressLabel.setText(addressLabel.getText() + " " + address);
-		postcodeLabel.setText(postcodeLabel.getText() + " " + postcode);
-		phoneLabel.setText(phoneLabel.getText() + " " + phoneNumber);
-		
-		//TODO: Add special loader here for unique attributes of user/staff
-		if(currentUser instanceof User) {
+		if (ScreenManager.getCurrentUser() instanceof User) {
+			//get all information in about user from ScreenManager class.
+			String username = currentUser.getUsername();
+			String fullname = currentUser.getFirstName() + " " + currentUser.getLastName();
+			String address = currentUser.getAddress();
+			String postcode = currentUser.getPostcode();
+			String phoneNumber = currentUser.getPhoneNumber();
+			
+			//change text in labels to appropriate user information.
+			userLabel.setText(username);
+			fullnameLabel.setText(fullnameLabel.getText() + " " + fullname);
+			addressLabel.setText(addressLabel.getText() + " " + address);
+			postcodeLabel.setText(postcodeLabel.getText() + " " + postcode);
+			phoneLabel.setText(phoneLabel.getText() + " " + phoneNumber);
+			
 			Double userBalance = ((User) currentUser).getAccountBalance();
 			accountBalance.setText("£" + Double.toString(userBalance));
-		} else {
-			accountBalance.setText("null");
+		}else {
+			//get all information in about user from ScreenManager class.
+			Librarian staff = (Librarian) currentUser;
+			String fullname = staff.getFirstName() + " " + staff.getLastName();
+			
+			userLabel1.setText(staff.getUsername());
+			fullnameLabel1.setText(fullnameLabel1.getText() + " " + fullname);
+			addressLabel1.setText(addressLabel1.getText() + " " + staff.getAddress());
+			phoneLabel1.setText(phoneLabel1.getText() + " " + staff.getPhoneNumber());
+			postcodeLabel1.setText(postcodeLabel1.getText() + " " + staff.getPostcode());
+			dateLabel1.setText(dateLabel1.getText() + " " + staff.getEmploymentDate());
+			staffIDLabel1.setText(staffIDLabel1.getText() + " " + staff.getStaffID());
 		}
 	}
 	
@@ -268,27 +287,28 @@ public class ProfileController {
 	
 	private void loadCopies() {
 		if (ScreenManager.getCurrentUser() instanceof User) {
-		//get user copies that they're currently borrowing.
-		((User) currentUser).loadUserCopies();
-		ArrayList<Copy> userCopies = ((User) currentUser).getBorrowedCopies();
-		
-		for(Copy currentCopy : userCopies) {
-			Resource copyResource = currentCopy.getResource();
-			StackPane imagePane = createImage(copyResource.getUniqueID(), COPY_IMG_WIDTH, COPY_IMG_HEIGHT);
 			
-			Rectangle colorOverlay = new Rectangle();
-			colorOverlay.setFill(Color.LIGHTGREEN);
-			colorOverlay.setWidth(COPY_IMG_WIDTH);
-			colorOverlay.setHeight(COPY_IMG_HEIGHT);
-			colorOverlay.setOpacity(0.5);
-			colorOverlay.setBlendMode(BlendMode.HARD_LIGHT);
-			imagePane.getChildren().add(colorOverlay);
+			//get user copies that they're currently borrowing.
+			((User) currentUser).loadUserCopies();
+			ArrayList<Copy> userCopies = ((User) currentUser).getBorrowedCopies();
 			
-			resourceImages.getChildren().add(imagePane);
-			
-			imagePane.setOnMouseEntered(enterHandler);
-			imagePane.setOnMouseExited(exitHandler);
-		}
+			for(Copy currentCopy : userCopies) {
+				Resource copyResource = currentCopy.getResource();
+				StackPane imagePane = createImage(copyResource.getUniqueID(), COPY_IMG_WIDTH, COPY_IMG_HEIGHT);
+				
+				Rectangle colorOverlay = new Rectangle();
+				colorOverlay.setFill(Color.LIGHTGREEN);
+				colorOverlay.setWidth(COPY_IMG_WIDTH);
+				colorOverlay.setHeight(COPY_IMG_HEIGHT);
+				colorOverlay.setOpacity(0.5);
+				colorOverlay.setBlendMode(BlendMode.HARD_LIGHT);
+				imagePane.getChildren().add(colorOverlay);
+				
+				resourceImages.getChildren().add(imagePane);
+				
+				imagePane.setOnMouseEntered(enterHandler);
+				imagePane.setOnMouseExited(exitHandler);
+			}
 		}
 		//get user copies that they have requested.
 
