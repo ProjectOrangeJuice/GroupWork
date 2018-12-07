@@ -113,6 +113,8 @@ public class RegisterController {
 	    public void initialize(URL location, ResourceBundle resources) {
 	        Image newAvatar = new Image(avatarPath);
 	        avatar.setImage(newAvatar);
+	        staffID.setVisible(false);
+	        employmentDate.setVisible(false);
 	    }
 	    
 	    /**
@@ -270,6 +272,10 @@ public class RegisterController {
 	    
 	    public boolean isLibrarian(ActionEvent event) {//show staffID box
 	    	boolean selected = librarianCheckBox.isSelected();
+	    	if(librarianCheckBox.isSelected()) {
+	    		staffID.setVisible(true);
+		        employmentDate.setVisible(true);
+	    	}
 	    	return selected;
 	    }
 	    
@@ -307,7 +313,6 @@ public class RegisterController {
 				pstmt.setString(1, usernameText);
 				pstmt.setString(2, staffIDText);
 				pstmt.setString(3, employmentDateText);
-				
 				pstmt.executeUpdate();//This can return a value to tell you if it was successful.
 
 			} catch (SQLException e) {
