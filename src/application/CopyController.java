@@ -151,7 +151,6 @@ public class CopyController {
 			ImageView resourceimage = new ImageView();
 			resourceimage.setFitWidth(RES_IMG_WIDTH);
 			resourceimage.setFitHeight(RES_IMG_HEIGHT);
-			System.out.println(ScreenManager.currentResource.getThumbnail());
 			resourceimage.setImage(ScreenManager.currentResource.getThumbnail());
 	}
 	

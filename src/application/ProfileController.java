@@ -244,7 +244,7 @@ public class ProfileController {
 	final EventHandler<MouseEvent> clickHandler = event -> {
 		
 		int resourceId = Integer.parseInt((((StackPane) event.getSource()).getId()));
-		ScreenManager.setCurrentResource(Resource.getResource(resourceId));
+		ScreenManager.setCurrentResource(resources.get(resourceId));
 		
 		try {
 			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/copyScene.fxml"));
@@ -271,6 +271,7 @@ public class ProfileController {
 		resourceText.setFont(Font.font("Arial", 20));
 		resourceText.setText("ID: " + resources.get(i).getUniqueID() + "\n" +
 		resources.get(i).getTitle() + "\n" + resources.get(i).getYear());
+		System.out.println("iddd" + i);
 		resourceText.setVisible(false);
 		resourceText.setTextAlignment(TextAlignment.CENTER);
 		
