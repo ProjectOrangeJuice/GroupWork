@@ -60,6 +60,9 @@ public class CopyController {
 	@FXML
 	private Label copytext;
 	
+	@FXML
+	private Label resourceName;
+	
 	private Resource currentResource;
 
 	private int RES_IMG_WIDTH = 200;
@@ -103,6 +106,8 @@ public class CopyController {
 		int uniqueId = ScreenManager.currentResource.getUniqueID();
 		String title = ScreenManager.currentResource.getTitle();
 		int year = ScreenManager.currentResource.getYear();
+		
+		resourceName.setText(title);
 		
 		centertextarea.appendText("uniqueID: " + Integer.toString(uniqueId) + "\ntitle: " + title + "\nyear: " + Integer.toString(year));
 
@@ -165,6 +170,7 @@ public class CopyController {
 		
 		loadResourceImage();
 		loadResourceInformation();
+		
 	
 	 }
 
