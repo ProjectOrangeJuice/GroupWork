@@ -17,6 +17,7 @@ public class Transactions {
 
 	private String username;
 	private ArrayList<Payment> payments;
+	private static String DATE_FORMAT = "yyyy.MM.dd.HH.mm.ss";
 
 
 
@@ -55,7 +56,7 @@ public class Transactions {
 	 */
 	public void addPayment(Payment payment) {
 		payments.add(payment);
-		String dateTimeStamp = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date());
+		String dateTimeStamp = new SimpleDateFormat(DATE_FORMAT).format(new Date());
 		try {
 			Connection connection = DBHelper.getConnection();
 			PreparedStatement statement = connection.prepareStatement("INSERT "
