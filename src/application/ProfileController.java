@@ -341,7 +341,13 @@ public class ProfileController {
 	 * be displayed within the UI.
 	 */
 	private void loadResourceImages() {
-		
+		if (ScreenManager.getCurrentUser() instanceof Librarian) {
+			staffProfileTab.setDisable(false);
+			userProfileTab.setDisable(true);
+		} else {
+			staffProfileTab.setDisable(true);
+			userProfileTab.setDisable(false);
+		}
 		//get resources
 		
 		resources = Resource.getResources();
