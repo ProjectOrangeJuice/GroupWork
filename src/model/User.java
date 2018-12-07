@@ -82,7 +82,7 @@ public class User extends Person {
 	}
 	
 	
-	public static boolean addBalance(String username, float value) { //TODO: Talk to oliver, since makePayment is 12 lines above...
+	public static boolean addBalance(String username, float value) {
 		Connection conn;
 		try {
 			conn = DBHelper.getConnection();
@@ -91,12 +91,11 @@ public class User extends Person {
 		pstmt2.setFloat(1,value);
 		pstmt2.setString(2,username);
 	
-		int updates = pstmt2.executeUpdate(); //Your sql goes here
+		int updates = pstmt2.executeUpdate();
 		return (updates >= 1);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} //get the connection
+		}
 		return false;
 	} 
 	
