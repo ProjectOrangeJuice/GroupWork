@@ -62,7 +62,6 @@ public class StaffEdit {
     @FXML
     private Button cancelButton;
     
-    private Person currentUser;
     private Librarian currentLibrarian;
     
     /**

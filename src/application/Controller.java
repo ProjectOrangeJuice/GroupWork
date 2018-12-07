@@ -53,7 +53,7 @@ public class Controller {
 			if(User1 instanceof User) {
 				changeScene(event, "/fxml/profileScene.fxml");
 			} else {
-				changeScene(event, "/fxml/staffScene.fxml");
+				changeScene(event, "/fxml/profileScene.fxml");
 			}
 		} else {
 			errorLabel.setText("User cannot be found.");
