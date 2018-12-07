@@ -16,12 +16,17 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.effect.BlendMode;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
@@ -30,7 +35,6 @@ import model.Book;
 import model.Copy;
 import model.DVD;
 import model.Laptop;
-import model.Librarian;
 import model.Person;
 import model.Resource;
 import model.User;
@@ -215,7 +219,7 @@ public class ProfileController {
 	};
 	
 	
-	private StackPane createImage(int i) {
+	private StackPane createImage(int i, int width, int height) {
 		
 		StackPane imagePane = new StackPane();
 		
@@ -228,8 +232,8 @@ public class ProfileController {
 		
 		//create new resource image to be added.
 		ImageView image = new ImageView();
-		image.setFitWidth(RES_IMG_WIDTH);
-		image.setFitHeight(RES_IMG_HEIGHT);
+		image.setFitWidth(width);
+		image.setFitHeight(height);
 		image.setImage(resources.get(i).getThumbnail());
 		
 		imagePane.getChildren().add(image);
@@ -263,21 +267,30 @@ public class ProfileController {
 	}
 	
 	private void loadCopies() {
-		if (ScreenManager.getCurrentUser() instanceof User) {
-			//get user copies.
-			((User) currentUser).loadUserCopies();
-			ArrayList<Copy> userCopies = ((User) currentUser).getBorrowedCopies();
+		
+		//get user copies that they're currently borrowing.
+		((User) currentUser).loadUserCopies();
+		ArrayList<Copy> userCopies = ((User) currentUser).getBorrowedCopies();
+		
+		for(Copy currentCopy : userCopies) {
+			Resource copyResource = currentCopy.getResource();
+			StackPane imagePane = createImage(copyResource.getUniqueID(), COPY_IMG_WIDTH, COPY_IMG_HEIGHT);
 			
-			System.out.println("Size of array: " + userCopies.size());
-			for(Copy currentCopy : userCopies) {
-				Resource copyResource = currentCopy.getResource();
-				StackPane imagePane = createImage(copyResource.getUniqueID());
-				resourceImages.getChildren().add(imagePane);
-				
-				imagePane.setOnMouseEntered(enterHandler);
-				imagePane.setOnMouseExited(exitHandler);
-			}
+			Rectangle colorOverlay = new Rectangle();
+			colorOverlay.setFill(Color.LIGHTGREEN);
+			colorOverlay.setWidth(COPY_IMG_WIDTH);
+			colorOverlay.setHeight(COPY_IMG_HEIGHT);
+			colorOverlay.setOpacity(0.7);
+			colorOverlay.setBlendMode(BlendMode.HARD_LIGHT);
+			imagePane.getChildren().add(colorOverlay);
+			
+			resourceImages.getChildren().add(imagePane);
+			
+			imagePane.setOnMouseEntered(enterHandler);
+			imagePane.setOnMouseExited(exitHandler);
 		}
+		
+		//get user copies that they have requested.
 
 	}
 	
@@ -299,7 +312,7 @@ public class ProfileController {
 		//for each resource in resources array
 		for(int i = 0; i < resources.size(); i++) {
 			if(search(i)) {
-			StackPane imagePane = createImage(i);
+			StackPane imagePane = createImage(i, COPY_IMG_WIDTH, COPY_IMG_HEIGHT);
 			
 			//get last image in last resource HBox.
 			HBox latestHBox = (HBox) vResourceBox.getChildren().get(vResourceBox.getChildren().size() - 1);
@@ -348,11 +361,6 @@ public class ProfileController {
 	//
 	// Staff: Copies Explorer
 	//
-	
-	@FXML
-	private void openProfileEditor(MouseEvent event) {
-		changeScene(event, "/fxml/StaffEdit.fxml");
-	}
 	
 	@FXML
 	private void displayOverdue() {
