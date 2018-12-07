@@ -8,43 +8,63 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+/**
+ * Holds all the transactions for a user.
+ * @author Oliver Harris
+ *
+ */
 public class Transactions {
 
 	private String username;
 	private ArrayList<Payment> payments;
+	private static String DATE_FORMAT = "yyyy.MM.dd.HH.mm.ss";
 
 
 
+	/**
+	 * Constructor for transactions.
+	 * @param username The username this transaction object is for.
+	 * @param payments The payments this user has done.
+	 */
 	public Transactions(String username, ArrayList<Payment> payments) {
 		this.username = username;
 		this.payments = payments;
 
 	}
 
+	/**
+	 * Gets the username.
+	 * @return username.
+	 */
 	public String getUsername() {
 		return username;
 	}
 
-	public void setUsername(String username) {
-		this.username = username;
-	}
+	
 
+	/**
+	 * Get the list of payments this user has.
+	 * @return ArrayList of payments.
+	 */
 	public ArrayList<Payment> getPayments() {
 		return payments;
 	}
 
+	/**
+	 * Add a payment.
+	 * @param payment The payment object.
+	 */
 	public void addPayment(Payment payment) {
 		payments.add(payment);
-		String stamp = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date());
+		String dateTimeStamp = new SimpleDateFormat(DATE_FORMAT).format(new Date());
 		try {
-			Connection conn = DBHelper.getConnection();
-			PreparedStatement pstmt = conn.prepareStatement("INSERT INTO transactions (username,paid,dateTime) VALUES (?,?,?)");
-	            pstmt.setString(1, username);
-	            pstmt.setFloat(2, payment.getAmount());
-	            pstmt.setString(3, stamp);
-	            pstmt.executeUpdate();
-
-
+			Connection connection = DBHelper.getConnection();
+			PreparedStatement statement = connection.prepareStatement("INSERT "
+					+ "INTO transactions (username,paid,dateTime) VALUES (?,?,?)");
+	            statement.setString(1, username);
+	            statement.setFloat(2, payment.getAmount());
+	            statement.setString(3, dateTimeStamp);
+	            statement.executeUpdate();
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -52,25 +72,27 @@ public class Transactions {
 	}
 	
 	
+	/**
+	 * Generate the transactions object for a username.
+	 * @param username  The username in the database.
+	 * @return The transactions the user has.
+	 */
 	public static Transactions getTransactions(String username){
-		ArrayList<Payment> p = new ArrayList();
+		ArrayList<Payment> payments = new ArrayList<Payment>();
 		try {
-			Connection conn = DBHelper.getConnection(); //get the connection
-			PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM transactions WHERE username=?");
-			pstmt.setString(1,username);
-			ResultSet rs = pstmt.executeQuery(); //Your sql goes here
-			while(rs.next()) {
-				int a = rs.getInt("transactionId");
-				String b = rs.getString("username");
-				float c = rs.getFloat("paid");
-				String d = rs.getString("dateTime");
-				System.out.println(a + b + c + d);
-
-				p.add(new Payment(a,b,c,d));
+			Connection connection = DBHelper.getConnection(); 
+			PreparedStatement statement = connection.prepareStatement("SELECT * FROM "
+					+ "transactions WHERE username=?");
+			statement.setString(1,username);
+			ResultSet results = statement.executeQuery(); 
+			while(results.next()) {
+				payments.add(new Payment(results.getInt("transactionId"),
+						results.getString("username"),
+						results.getFloat("paid"),
+						results.getString("dateTime")));
 
 			}
-
-			return new Transactions(username,p);
+			return new Transactions(username,payments);
 		} catch (SQLException e) {
 			e.printStackTrace();
 	}
@@ -78,12 +100,4 @@ public class Transactions {
 		return null;
 	}
 	
-	
-
-
-
-
-
-
-
 }
