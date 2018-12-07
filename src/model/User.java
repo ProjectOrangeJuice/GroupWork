@@ -82,13 +82,38 @@ public class User extends Person {
 	}
 	
 	
-	public static boolean addBalance(String username, float value) {
+	
+	public static void reduceBalance(String username, double amount) throws SQLException {
+		Connection connection = DBHelper.getConnection(); 
+		PreparedStatement statement = connection.prepareStatement("UPDATE users set accountBalance = accountBalance - ? WHERE username=?");
+		statement.setString(1,username);
+		statement.setDouble(2,amount);
+		
+		statement.executeUpdate(); 
+	}
+	
+	public static boolean checkBalance(String username, double amount) throws SQLException {
+		Connection connection = DBHelper.getConnection(); 
+		PreparedStatement statement = connection.prepareStatement("SELECT accountBalance FROM users where username=?");
+		statement.setString(1,username);
+		ResultSet results = statement.executeQuery(); 
+		if(results.next()) {
+			return results.getDouble("accountBalance") >= amount;
+				
+			
+		}
+		
+		return false;
+	}
+	
+	
+	public static boolean addBalance(String username, double value) {
 		Connection conn;
 		try {
 			conn = DBHelper.getConnection();
 		
 		PreparedStatement pstmt2 = conn.prepareStatement("UPDATE users set accountBalance = accountBalance + ? WHERE username=?");
-		pstmt2.setFloat(1,value);
+		pstmt2.setDouble(1,value);
 		pstmt2.setString(2,username);
 	
 		int updates = pstmt2.executeUpdate();
