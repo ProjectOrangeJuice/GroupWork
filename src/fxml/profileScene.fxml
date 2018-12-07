@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Accordion?>
 <?import javafx.scene.control.Button?>
@@ -24,7 +30,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane focusTraversable="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="400.0" minWidth="600.0" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.ProfileController">
+<BorderPane focusTraversable="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="400.0" minWidth="600.0" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.ProfileController">
    <center>
       <TabPane fx:id="tabs" prefHeight="972.0" prefWidth="1920.0" BorderPane.alignment="CENTER">
         <tabs>
@@ -44,6 +50,9 @@
                                              </VBox.margin>
                                           </HBox>
                                        </children>
+                                       <padding>
+                                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                       </padding>
                                     </VBox>
                                  </content>
                                  <padding>
@@ -53,19 +62,6 @@
                            </children>
                         </AnchorPane>
                      </center>
-                     <left>
-                        <AnchorPane style="-fx-background-color: #545454;" BorderPane.alignment="TOP_LEFT">
-                           <children>
-                              <VBox spacing="10.0" AnchorPane.leftAnchor="17.0" AnchorPane.rightAnchor="17.0" AnchorPane.topAnchor="20.0">
-                                 <children>
-                                    <CheckBox fx:id="dvdCheck" alignment="TOP_CENTER" mnemonicParsing="false" selected="true" text="DVD" textFill="WHITE" />
-                                    <CheckBox fx:id="bookCheck" mnemonicParsing="false" selected="true" text="Book" textAlignment="JUSTIFY" textFill="WHITE" />
-                                    <CheckBox fx:id="laptopCheck" mnemonicParsing="false" selected="true" text="Laptop" textFill="WHITE" />
-                                 </children>
-                              </VBox>
-                           </children>
-                        </AnchorPane>
-                     </left>
                   </BorderPane>
                </content></Tab>
           <Tab fx:id="userProfileTab" closable="false" text="My Profile">
@@ -162,7 +158,7 @@
                </content></Tab>
             <Tab fx:id="transactionsTab" closable="false" text="Transactions">
               <content>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" SplitPane.resizableWithParent="false">
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" SplitPane.resizableWithParent="false"> 
                      <children>
                         <fx:include fx:id="child" source="transactions.fxml" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                      </children>
@@ -320,15 +316,6 @@
                                           </VBox>
                                        </content>
                                     </TitledPane>
-                                    <TitledPane prefHeight="200.0" prefWidth="200.0" text="checkout">
-                                       <content>
-                                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" SplitPane.resizableWithParent="false">
-                                              <children>
-                                                 <fx:include fx:id="child" source="checkout.fxml" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                                              </children>
-                                           </AnchorPane>
-                                       </content>
-                                    </TitledPane>
                                  </panes>
                               </Accordion>
                            </center>
@@ -352,13 +339,32 @@
                   </Label>
                </children>
             </AnchorPane>
-            <AnchorPane maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="0.0" minWidth="0.0" prefHeight="73.0" prefWidth="700.0" HBox.hgrow="ALWAYS">
+            <AnchorPane maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="0.0" minWidth="0.0" prefHeight="73.0" prefWidth="1612.0" HBox.hgrow="ALWAYS">
                <children>
-                  <VBox alignment="CENTER" layoutX="5.0" layoutY="5.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
+                  <VBox alignment="CENTER" layoutX="285.0" layoutY="14.0" AnchorPane.bottomAnchor="13.0" AnchorPane.leftAnchor="285.0" AnchorPane.rightAnchor="285.0" AnchorPane.topAnchor="14.0">
                      <children>
                         <TextField id="searchBar" fx:id="searchTextBox" focusTraversable="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="0.0" minWidth="0.0" onKeyReleased="#searchThis" prefHeight="46.0" prefWidth="738.0" promptText="find a resource..." />
                      </children>
                   </VBox>
+                  <HBox alignment="CENTER" layoutX="1045.0" layoutY="26.0" prefHeight="17.0" prefWidth="233.0" spacing="10.0" AnchorPane.bottomAnchor="26.0" AnchorPane.leftAnchor="1045.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="26.0">
+                     <children>
+                        <CheckBox fx:id="bookCheck" mnemonicParsing="false" selected="true" text="Book" textAlignment="JUSTIFY" textFill="WHITE">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </CheckBox>
+                        <CheckBox fx:id="laptopCheck" mnemonicParsing="false" selected="true" text="Laptop" textFill="WHITE">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </CheckBox>
+                        <CheckBox fx:id="dvdCheck" mnemonicParsing="false" selected="true" text="DVD" textFill="WHITE">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </CheckBox>
+                     </children>
+                  </HBox>
                </children>
             </AnchorPane>
             <AnchorPane maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="0.0" minWidth="0.0" prefHeight="73.0" prefWidth="610.0" HBox.hgrow="ALWAYS">
