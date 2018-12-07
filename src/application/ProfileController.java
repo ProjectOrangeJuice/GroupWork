@@ -1,5 +1,6 @@
 package application;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import javafx.event.EventHandler;
@@ -8,6 +9,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
@@ -30,7 +32,9 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import model.Book;
 import model.Copy;
 import model.DVD;
@@ -237,6 +241,23 @@ public class ProfileController {
 		
 	};
 	
+	final EventHandler<MouseEvent> clickHandler = event -> {
+		try {
+			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/copyScene.fxml"));
+            Parent root1 = (Parent) fxmlLoader.load();
+            Stage stage = new Stage();
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.initStyle(StageStyle.UNDECORATED);
+            stage.setTitle("Resource Information");
+            stage.setScene(new Scene(root1));  
+            stage.show();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	};
+	
 	
 	private StackPane createImage(int i, int width, int height) {
 		
@@ -320,7 +341,13 @@ public class ProfileController {
 	 * be displayed within the UI.
 	 */
 	private void loadResourceImages() {
-		
+		if (ScreenManager.getCurrentUser() instanceof Librarian) {
+			staffProfileTab.setDisable(false);
+			userProfileTab.setDisable(true);
+		} else {
+			staffProfileTab.setDisable(true);
+			userProfileTab.setDisable(false);
+		}
 		//get resources
 		
 		resources = Resource.getResources();
@@ -358,6 +385,7 @@ public class ProfileController {
 			
 			imagePane.setOnMouseEntered(enterHandler);
 			imagePane.setOnMouseExited(exitHandler);
+			imagePane.setOnMouseClicked(clickHandler);
 			
 		}
 	}
