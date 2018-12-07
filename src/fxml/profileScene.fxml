@@ -87,7 +87,7 @@
                                     <Image url="@../graphics/defaultImage.png" />
                                  </image>
                               </ImageView>
-                              <Button fx:id="userEditAvatar" mnemonicParsing="false" text="Edit Avatar" />
+                              <Button fx:id="userEditAvatar" mnemonicParsing="false" onMouseClicked="#openAvatarEditor" text="Edit Avatar" />
                               <Separator prefWidth="200.0">
                                  <VBox.margin>
                                     <Insets bottom="10.0" top="15.0" />
@@ -190,7 +190,7 @@
                                           <Image url="@../graphics/defaultImage.png" />
                                        </image>
                                     </ImageView>
-                                    <Button fx:id="staffEditAvatar" mnemonicParsing="false" text="Edit Avatar" />
+                                    <Button fx:id="staffEditAvatar" mnemonicParsing="false" onMouseClicked="#openAvatarEditor" text="Edit Avatar" />
                                     <Separator prefWidth="200.0">
                                        <VBox.margin>
                                           <Insets bottom="10.0" top="15.0" />
