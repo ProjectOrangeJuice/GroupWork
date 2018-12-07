@@ -330,16 +330,16 @@ public class ProfileController {
 		
 		currentUser = ScreenManager.getCurrentUser();
 		resources = ScreenManager.getResources();
+				
+		loadResourceImages();
+		loadUserInformation();
+		loadCopies();
 		
-		//change resources size on profile page.
 		scrollPane.setHvalue(0.5);
 		for(Node resource : resourceImages.getChildren()) {
 			((ImageView) resource).setFitWidth(COPY_IMG_WIDTH);
 			((ImageView) resource).setFitHeight(COPY_IMG_HEIGHT);
 		}
-				
-		loadResourceImages();
-		loadUserInformation();
 	
 	 }
 	
