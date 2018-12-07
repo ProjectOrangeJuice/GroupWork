@@ -367,5 +367,10 @@ public class ProfileController {
 		
 	}
 	
+	@FXML
+	private void openProfileEditor(MouseEvent event) {
+		changeScene(event,"/fxml/StaffEdit.fxml");
+	}
+	
 
 }
