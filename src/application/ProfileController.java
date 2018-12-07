@@ -268,7 +268,7 @@ public class ProfileController {
 	};
 	
 	
-	private StackPane createImage(Resource copyResource, int width, int height) {
+	private StackPane createImage(Resource copyResource, int index, int width, int height) {
 		
 		StackPane imagePane = new StackPane();
 		
@@ -290,7 +290,7 @@ public class ProfileController {
 		
 		//set id of imagePane to it's index so it can be accessed
 		//within the event handler.
-		imagePane.setId(String.valueOf(copyResource.getUniqueID()));
+		imagePane.setId(String.valueOf(index));
 		
 		return imagePane;
 	}
@@ -322,10 +322,10 @@ public class ProfileController {
 			((User) currentUser).loadUserCopies();
 			ArrayList<Copy> userCopies = ((User) currentUser).getBorrowedCopies();
 			
-			for(Copy currentCopy : userCopies) {
+			for(int i = 0 ; i < userCopies.size() ; i++) {
 				//System.out.println(currentCopy.getResource().getTitle());
-				Resource copyResource = currentCopy.getResource();
-				StackPane imagePane = createImage(copyResource, COPY_IMG_WIDTH, COPY_IMG_HEIGHT);
+				Resource copyResource = userCopies.get(i).getResource();
+				StackPane imagePane = createImage(copyResource, i, COPY_IMG_WIDTH, COPY_IMG_HEIGHT);
 				
 				Rectangle colorOverlay = new Rectangle();
 				colorOverlay.setFill(Color.LIGHTGREEN);
@@ -369,7 +369,7 @@ public class ProfileController {
 		//for each resource in resources array
 		for(int i = 0; i < resources.size(); i++) {
 			if(search(i)) {
-			StackPane imagePane = createImage(resources.get(i), RES_IMG_WIDTH, RES_IMG_HEIGHT);
+			StackPane imagePane = createImage(resources.get(i), i, RES_IMG_WIDTH, RES_IMG_HEIGHT);
 			
 			//get last image in last resource HBox.
 			HBox latestHBox = (HBox) vResourceBox.getChildren().get(vResourceBox.getChildren().size() - 1);
