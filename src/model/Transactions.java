@@ -17,7 +17,7 @@ public class Transactions {
 
 	private String username;
 	private ArrayList<Payment> payments;
-	private static String DATE_FORMAT = "yyyy.MM.dd.HH.mm.ss";
+	private final String DATE_FORMAT = "yyyy.MM.dd.HH.mm.ss";
 
 
 
@@ -91,7 +91,7 @@ public class Transactions {
 			PreparedStatement statement = connection.prepareStatement("INSERT "
 					+ "INTO transactions (username,paid,dateTime) VALUES (?,?,?)");
 	            statement.setString(1, username);
-	            statement.setFloat(2, payment.getAmount());
+	            statement.setDouble(2, payment.getAmount());
 	            statement.setString(3, dateTimeStamp);
 	            statement.executeUpdate();
 

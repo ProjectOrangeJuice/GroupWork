@@ -14,7 +14,7 @@ import java.util.Date;
 public class Payment {
 	private int transactionId;
 	private String username;
-	private float amount;
+	private double amount;
 	private String dateTime;
 
 	/**
@@ -24,7 +24,7 @@ public class Payment {
 	 * @param amount The amount paid.
 	 * @param dateTime The date time stamp.
 	 */
-	public Payment(int transactionId, String username, float amount, 
+	public Payment(int transactionId, String username, double amount, 
 			String dateTime) {
 		this.transactionId = transactionId;
 		this.username = username;
@@ -41,7 +41,7 @@ public class Payment {
 	 * @param full If the fine is being paid in full.
 	 * @return The payment object.
 	 */
-	public static Payment makePayment(String username, float amount, int fine,
+	public static Payment makePayment(String username, double amount, int fine,
 			boolean full) {
 		Date date = new Date();
 
@@ -74,14 +74,14 @@ public class Payment {
 	 * @param date The date it was paid.
 	 * @throws SQLException The database did not update.
 	 */
-	private static void insertTransaction(String username, float amount, 
+	private static void insertTransaction(String username, double amount, 
 			String date) throws SQLException {
 
 		Connection connection = DBHelper.getConnection(); 
 		PreparedStatement statement = connection.prepareStatement("INSERT INTO "
 				+ "transactions(username,paid,dateTime) VALUES (?,?,?) ");
 		statement.setString(1,username);
-		statement.setFloat(2,amount);
+		statement.setDouble(2,amount);
 		statement.setString(3, date);
 		
 		statement.executeUpdate(); 
@@ -96,14 +96,14 @@ public class Payment {
 	 * @return The fineId from the database.
 	 * @throws SQLException The database did not update.
 	 */
-	private static ResultSet updateFine(int fine,float amount,boolean full) 
+	private static ResultSet updateFine(int fine,double amount,boolean full) 
 			throws SQLException {
 		Connection connection = DBHelper.getConnection(); 
 		if(full) {
 		PreparedStatement statement = connection.prepareStatement("UPDATE fines "
 				+ "set paid=1, amount=0 WHERE fineId=? AND amount=?");
 		statement.setInt(1,fine);
-		statement.setFloat(2,amount);
+		statement.setDouble(2,amount);
 	
 		statement.executeUpdate(); 
 		return statement.getGeneratedKeys();
@@ -111,7 +111,7 @@ public class Payment {
 			PreparedStatement statement = connection.prepareStatement("UPDATE "
 					+ "fines set paid=0, amount=? WHERE fineId=?");
 			statement.setInt(2,fine);
-			statement.setFloat(1,amount);
+			statement.setDouble(1,amount);
 		
 			statement.executeUpdate(); 
 			return statement.getGeneratedKeys();
@@ -122,7 +122,7 @@ public class Payment {
 	 * Get the amount paid.
 	 * @return The amount paid.
 	 */
-	public float getAmount() {
+	public double getAmount() {
 		return amount;
 	}
 	
