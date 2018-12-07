@@ -51,21 +51,6 @@ public class Librarian extends Person{
 		}
 	}
 	
-	//TEMP
-	//-----------------------------------------------------
-	//
-	//TODO: Remove after GUI.
-	public void createNewResources (Resource resource) {
-		// GUI METHOD
-	}
-	
-	public void editResources (Resource resource) {
-		// GUI METHOD
-	}
-	//
-	//-----------------------------------------------------
-	//
-	
 	/**
 	 * Loans a copy to the user
 	 * @param copy Copy that a user has loaned

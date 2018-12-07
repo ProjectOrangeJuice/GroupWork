@@ -1,6 +1,5 @@
 package application;
 
-
 import java.util.ArrayList;
 
 import javafx.event.EventHandler;
@@ -9,21 +8,36 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
+import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.effect.BlendMode;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
+import model.Book;
+import model.Copy;
+import model.DVD;
+import model.Laptop;
 import model.Person;
 import model.Resource;
+import model.User;
 
 public class ProfileController {
 
@@ -40,7 +54,7 @@ public class ProfileController {
 	private TextField searchTextBox;
 	
 	@FXML
-	private Controller loginController;
+	private Controller TextField;
 	
 	@FXML
 	private Label userLabel;
@@ -57,13 +71,60 @@ public class ProfileController {
 	@FXML
 	private Label postcodeLabel;
 	
+	@FXML
+	private Label balanceLabel;
+	
+	@FXML
+	private Tab userProfileTab;
+	
+	@FXML
+	private Tab resourcesTab;
+	
+	@FXML
+	private Tab transactionTab;
+	
+	@FXML
+	private Tab staffProfileTab;
+	
+	@FXML
+	private TabPane tabs;
+	
+	@FXML
+	private Label accountBalance;
+	
+	@FXML
+	private Button userEditProfileButton;
+	
+	@FXML
+	private Button staffEditProfileButton;
+	
+	//check boxes
+	@FXML
+	private CheckBox dvdCheck;
+	@FXML
+	private CheckBox bookCheck;
+	@FXML
+	private CheckBox laptopCheck;
+	
+	//Copies Explorer
+	@FXML
+	private Button staffOverdueFilter;
+	@FXML
+	private Button staffRequestedFilter;
+	@FXML
+	private Button staffHistoryFind;
+	@FXML
+	private TextField staffCopyIDField;
+	@FXML
+	private TableView staffCopiesExplorerTable;
+	
 	//may remove fixed size resource images
 	//when dealing with window resizing.
 	private final int RES_IMG_WIDTH = 150;
 	private final int RES_IMG_HEIGHT = 250;
 	
-	private final int COPY_IMG_WIDTH = 300;
-	private final int COPY_IMG_HEIGHT = 500;
+	private final int COPY_IMG_WIDTH = 195;
+	private final int COPY_IMG_HEIGHT = 325;
 	
 	private Person currentUser;
 	private ArrayList<Resource> resources;
@@ -84,11 +145,17 @@ public class ProfileController {
 
 	}
 	
+	@FXML
+	private void searchBarSwitch (MouseEvent event) {
+		//tabPane.getSelectionModel().select(2);
+	}
+	
 	@FXML  
     void searchThis(KeyEvent event) {
-		System.out.println("I'm doing stuff");
+		tabs.getSelectionModel().select(resourcesTab);
 		vResourceBox.getChildren().clear();
 		HBox hbox = new HBox();
+		hbox.setSpacing(5);
 		vResourceBox.getChildren().add(hbox);
 		loadResourceImages();
 	}
@@ -122,6 +189,14 @@ public class ProfileController {
 		addressLabel.setText(addressLabel.getText() + " " + address);
 		postcodeLabel.setText(postcodeLabel.getText() + " " + postcode);
 		phoneLabel.setText(phoneLabel.getText() + " " + phoneNumber);
+		
+		//TODO: Add special loader here for unique attributes of user/staff
+		if(currentUser instanceof User) {
+			Double userBalance = ((User) currentUser).getAccountBalance();
+			accountBalance.setText("£" + Double.toString(userBalance));
+		} else {
+			accountBalance.setText("null");
+		}
 	}
 	
 	/**
@@ -144,9 +219,7 @@ public class ProfileController {
 	};
 	
 	
-	
-	
-	private StackPane createImage(int i) {
+	private StackPane createImage(int i, int width, int height) {
 		
 		StackPane imagePane = new StackPane();
 		
@@ -159,8 +232,8 @@ public class ProfileController {
 		
 		//create new resource image to be added.
 		ImageView image = new ImageView();
-		image.setFitWidth(RES_IMG_WIDTH);
-		image.setFitHeight(RES_IMG_HEIGHT);
+		image.setFitWidth(width);
+		image.setFitHeight(height);
 		image.setImage(resources.get(i).getThumbnail());
 		
 		imagePane.getChildren().add(image);
@@ -172,6 +245,55 @@ public class ProfileController {
 		
 		return imagePane;
 	}
+	
+	
+	private boolean search(int i ) {
+		//get the resource
+		Resource r = resources.get(i);
+		String searchText = searchTextBox.getText();
+		
+		if(bookCheck.isSelected() && r instanceof Book) {
+			return r.contains(searchText);
+		}
+		if(dvdCheck.isSelected() && r instanceof DVD) {
+			return r.contains(searchText);
+		}
+		if(laptopCheck.isSelected() && r instanceof Laptop) {
+			return r.contains(searchText);
+		}
+		
+		return false;
+
+	}
+	
+	private void loadCopies() {
+		if (ScreenManager.getCurrentUser() instanceof User) {
+		//get user copies that they're currently borrowing.
+		((User) currentUser).loadUserCopies();
+		ArrayList<Copy> userCopies = ((User) currentUser).getBorrowedCopies();
+		
+		for(Copy currentCopy : userCopies) {
+			Resource copyResource = currentCopy.getResource();
+			StackPane imagePane = createImage(copyResource.getUniqueID(), COPY_IMG_WIDTH, COPY_IMG_HEIGHT);
+			
+			Rectangle colorOverlay = new Rectangle();
+			colorOverlay.setFill(Color.LIGHTGREEN);
+			colorOverlay.setWidth(COPY_IMG_WIDTH);
+			colorOverlay.setHeight(COPY_IMG_HEIGHT);
+			colorOverlay.setOpacity(0.5);
+			colorOverlay.setBlendMode(BlendMode.HARD_LIGHT);
+			imagePane.getChildren().add(colorOverlay);
+			
+			resourceImages.getChildren().add(imagePane);
+			
+			imagePane.setOnMouseEntered(enterHandler);
+			imagePane.setOnMouseExited(exitHandler);
+		}
+		}
+		//get user copies that they have requested.
+
+	}
+	
 	
 	/**
 	 * Loads resource images from Resource class, so that they can
@@ -189,8 +311,8 @@ public class ProfileController {
 		
 		//for each resource in resources array
 		for(int i = 0; i < resources.size(); i++) {
-			if(resources.get(i).contains(searchTextBox.getText())) {
-			StackPane imagePane = createImage(i);
+			if(search(i)) {
+			StackPane imagePane = createImage(i, RES_IMG_WIDTH, RES_IMG_HEIGHT);
 			
 			//get last image in last resource HBox.
 			HBox latestHBox = (HBox) vResourceBox.getChildren().get(vResourceBox.getChildren().size() - 1);
@@ -203,7 +325,6 @@ public class ProfileController {
 				- RES_IMG_WIDTH) / RES_IMG_WIDTH) {
 					//create new HBox below last HBox
 					HBox hResourceBox = new HBox();
-					hResourceBox.setAlignment(Pos.TOP_CENTER);
 					hResourceBox.setSpacing(5);
 					//add image to new HBox
 					hResourceBox.getChildren().add(imagePane);
@@ -219,7 +340,7 @@ public class ProfileController {
 			imagePane.setOnMouseExited(exitHandler);
 			
 		}
-		}
+	}
 		
 	}
 
@@ -228,17 +349,28 @@ public class ProfileController {
 		
 		currentUser = ScreenManager.getCurrentUser();
 		resources = ScreenManager.getResources();
-		
-		//change resources size on profile page.
-		scrollPane.setHvalue(0.5);
-		for(Node resource : resourceImages.getChildren()) {
-			((ImageView) resource).setFitWidth(COPY_IMG_WIDTH);
-			((ImageView) resource).setFitHeight(COPY_IMG_HEIGHT);
-		}
 				
 		loadResourceImages();
 		loadUserInformation();
+		loadCopies();
+		
+		scrollPane.setHvalue(0.5);
 	
 	 }
+	
+	//
+	// Staff: Copies Explorer
+	//
+	
+	@FXML
+	private void displayOverdue() {
+		
+	}
+	
+	@FXML
+	private void openProfileEditor(MouseEvent event) {
+		System.out.println("Launch staff editing profile.");
+		changeScene(event,"/fxml/StaffEdit.fxml");
+	}
 
 }

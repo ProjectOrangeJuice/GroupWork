@@ -9,101 +9,106 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 /**
-* @author Oliver Harris
+* Contains helper methods for the database.
+* @author Oliver Harris.
 *
 */
 public class DBHelper {
 
-	private static int VERSION = 7; // Version number for database
-	private static String LINK = "jdbc:sqlite:test.db"; // database connection string
+	private static int VERSION = 8; // Version number for database
+	private static String LINK = "jdbc:sqlite:test.db"; //database connection string
 	private static String SQL = "src/tables.sql"; // database connection string
 
 
-	/** Execute a simple SQL command.
-	 * @param sql to execute
-	 * @return ResultSet from the database table
-	 * @throws SQLException
-	 */
+	/** 
+	* Execute a simple SQL command.
+	* @param sql The sql to execute.
+	* @return ResultSet The results from the database.
+	* @throws SQLException. Unable to execute the query given.
+	*/
 	private static ResultSet selectKnown(String sql) throws SQLException{
 
-		Connection conn = getConnection();
-		Statement stmt = conn.createStatement();
-		ResultSet rs = stmt.executeQuery(sql);
+		Connection connection = getConnection();
+		Statement statement = connection.createStatement();
+		ResultSet results = statement.executeQuery(sql);
 
-		return rs;
+		return results;
 	}
 
-	/** Get the database connection
-	 * @return Connection to database
-	 * @throws SQLException
-	 */
+	/** 
+	* Get the connection for the database.
+	* @param keyCheck. True if the database should check foreign keys.
+	* @return Connection The connection to database.
+	* @throws SQLException. Unable to connect to database.
+	*/
 	public static Connection getConnection(boolean keyCheck) throws SQLException{
-        // SQLite connection string
-        Connection conn = null;
+		Connection connection = null;
 
-        conn = DriverManager.getConnection(LINK);
-        if(keyCheck) {
-        	conn.createStatement().execute("PRAGMA foreign_keys = ON");
-        }
-        return conn;
-    }
-
+		connection = DriverManager.getConnection(LINK); //no foreign key checks
+		if(keyCheck) {
+			connection.createStatement().execute("PRAGMA foreign_keys = ON");
+		}
+		return connection;
+	}
+	
+	/**
+	 * Get the connection for the database
+	 * @return Connection. The connection with foreign key enabled.
+	 * @throws SQLException. Unable to connect to database.
+	 */
 	public static Connection getConnection() throws SQLException{
 		return getConnection(true);
 	}
 
 	/**
-	 * Create the tables in the database using the SQL file
-	 */
+	* Create the tables in the database using the SQL file.
+	*/
 	private static void createTables() {
 
 		try {
-			InputStream in = new FileInputStream(SQL);// Opens up the file
+			InputStream input = new FileInputStream(SQL);// Opens up the file
 
-			Scanner s = new Scanner(in);
-			s.useDelimiter(";");// Each statement is split with ";"
-			Statement st = null;
+			Scanner scanner = new Scanner(input);
+			scanner.useDelimiter(";");// Each statement is split with ";"
+			Statement statement = null;
 
-			Connection conn = getConnection(false); // Opens the database
-			st = conn.createStatement();
-			while (s.hasNext()) {
-				String line = s.next();
+			Connection connection = getConnection(false); //Connection without foreign key checks
+			statement = connection.createStatement();
+			while (scanner.hasNext()) {
+				String line = scanner.next();
 
 				if (line.trim().length() > 0) {
 					try {
-						st.execute(line);
+						statement.execute(line);
 					}
-					catch(SQLException e)
-					{
+					catch(SQLException e){ //Error on the SQL table.
 						System.out.println(line);
-						e.printStackTrace();
+						e.printStackTrace();//The tables.sql is incorrect
 					}
 				}
 			}
 		} catch (SQLException e) {
-			// Error in the text file
+			// Error in the tables.sql
 			e.printStackTrace();
 
 		} catch (FileNotFoundException e) {
 			// File not found
 			e.printStackTrace();
-		} finally {
-
-		}
+		} 
 
 	}
 
 	/**
-	 * Checks the table to see if it is an older version. If it is it will recreate the database using createTables()
-	 */
+	* Checks if the database is the correct version.
+	*/
 	public static void tableCheck() {
 		try {
-		ResultSet rs = selectKnown("SELECT ver FROM system");
-			if(rs.next()) {
-				int ver = rs.getInt("ver");
-				rs.close();
-				System.out.println("Table is at "+ver+" program is at "+VERSION);
-				if(ver != VERSION) {
+			ResultSet results = selectKnown("SELECT ver FROM system");
+			if(results.next()) {
+				int DBVer = results.getInt("ver");
+				results.close();
+				System.out.println("Table is at "+DBVer+" program is at "+VERSION);
+				if(DBVer != VERSION) {
 					createTables();
 					System.out.println("Updating database");
 				}
@@ -118,12 +123,5 @@ public class DBHelper {
 		}
 	}
 
-	/**
-	 * Public method for createTables()
-	 */
-	public static void forceUpdate() {
-
-		createTables();
-
-	}
+	
 }

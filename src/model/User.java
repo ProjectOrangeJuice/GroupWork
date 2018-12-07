@@ -81,6 +81,24 @@ public class User extends Person {
 		return accountBalance;
 	}
 	
+	
+	public static boolean addBalance(String username, float value) {
+		Connection conn;
+		try {
+			conn = DBHelper.getConnection();
+		
+		PreparedStatement pstmt2 = conn.prepareStatement("UPDATE users set accountBalance = accountBalance + ? WHERE username=?");
+		pstmt2.setFloat(1,value);
+		pstmt2.setString(2,username);
+	
+		int updates = pstmt2.executeUpdate();
+		return (updates >= 1);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return false;
+	} 
+	
 	public void loadUserCopies() {
 		try {
 			Connection conn = DBHelper.getConnection();

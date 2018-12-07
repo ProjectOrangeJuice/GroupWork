@@ -64,6 +64,16 @@ public abstract class Resource {
 		}
 	}
 	
+	protected static void updateDbValue(String tableName, int resourceId, String field, int data) {
+		try {
+			Connection conn = DBHelper.getConnection(); //get the connection
+			Statement stmt = conn.createStatement(); //prep a statement
+			stmt.executeQuery("update " + tableName + " set " + field + " = " + data + " where rID = " + resourceId); //Your sql goes here
+		} catch (SQLException e) { 
+			e.printStackTrace();
+		}
+	}
+	
 	/*private void loadFreeCopiesList() {
 		try {
 			Connection conn = DBHelper.getConnection(); //get the connection
@@ -227,6 +237,7 @@ public abstract class Resource {
 	}
 
 	public void setTitle(String title) {
+		updateDbValue("resource", uniqueID, "title", title);
 		this.title = title;
 	}
 
@@ -235,6 +246,7 @@ public abstract class Resource {
 	}
 
 	public void setYear(int year) {
+		updateDbValue("resource", uniqueID, "year", year);
 		this.year = year;
 	}
 	

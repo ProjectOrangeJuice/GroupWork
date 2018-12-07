@@ -6,59 +6,67 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-/**This class represents a fine. Holding all the information about the fine
+/**
+ * This class represents a fine. Holding all the information about the fine
  * @author Oliver Harris
  *
  */
 public class Fine {
 
 	private float amount;
-	private String stamp;
+	private String dateTime;
 	private int resource;
 	private int daysOver;
 	private int fineId;
 	private String username;
-	private boolean paid;
+	private boolean isPaid;
 
 
 	/**
-	 * @param amount
-	 * @param stamp timestamp
-	 * @param user who owns this fine
-	 * @param resource the resource that caused this fine
-	 * @param daysOver days over due
-	 * @param fineId
-	 * @param paid
+	 * @param amount The amount owed.
+	 * @param dateTime The date and time stamp.
+	 * @param user The user who owns this fine.
+	 * @param resource The resource that caused this fine.
+	 * @param daysOver Number of days over due.
+	 * @param fineId The fineId in the database.
+	 * @param isPaid If the fine has been paid fully.
 	 */
-	public Fine(float amount, String stamp,String user, int resource, int daysOver, int fineId, boolean paid ) {
+	public Fine(float amount, String dateTime,String user, int resource,
+			int daysOver, int fineId, boolean isPaid ) {
 		this.amount = amount;
 		this.username = user;
-		this.stamp = stamp;
+		this.dateTime = dateTime;
 		this.resource = resource;
 		this.daysOver = daysOver;
 		this.fineId = fineId;
-		this.paid = paid;
+		this.isPaid = isPaid;
 	}
 
 
+	/**
+	 * Return if the fine has been fully paid.
+	 * @return If it has been paid.
+	 */
 	public boolean isPaid() {
-		return paid;
+		return isPaid;
 	}
 
 
-	public void setPaid(boolean paid) {
-		this.paid = paid;
+	/**
+	 * Change if the fine has been paid.
+	 * @param isPaid 
+	 */
+	public void setPaid(boolean isPaid) {
+		this.isPaid = isPaid;
 		try {
-			Connection conn = DBHelper.getConnection();
-			int paidInt = paid ? 1 : 0;
-			PreparedStatement pstmt = conn.prepareStatement("UPDATE fines set paid = ? WHERE fineId = ?");
+			Connection connection = DBHelper.getConnection();
+			int paidInt = isPaid ? 1 : 0; //replace true with 1, 0 with false
+			PreparedStatement pstmt = connection.prepareStatement("UPDATE fines "
+					+ "set paid = ? WHERE fineId = ?");
 			pstmt.setInt(1, paidInt); 
 			pstmt.setInt(2, fineId); 
-			int updates = pstmt.executeUpdate();
-			if(updates != 1) {
-				System.out.println("Updating of paid failed. Either too many or none updated (It updated "+updates+")");
-			}
-
+			pstmt.executeUpdate();
+			
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -66,63 +74,98 @@ public class Fine {
 	}
 
 
+	/**
+	 * Get the amount owed from this fine.
+	 * @return The amount owed.
+	 */
 	public float getAmount() {
 		return amount;
 	}
 
 
-	public String getStamp() {
-		return stamp;
+	/**
+	 * Get the  date and time this fine was made.
+	 * @return The date and time stamp.
+	 */
+	public String getDateTime() {
+		return dateTime;
 	}
 
 
+	/**
+	 * Get the resource that caused this fine.
+	 * @return The resource id.
+	 */
 	public int getResource() {
 		return resource;
 	}
 	
+	/**
+	 * Get the username that owns this fine.
+	 * @return The username.
+	 */
 	public String getUsername() {
 		return username;
 	}
 	
+	/**
+	 * Get the resource name.
+	 * @return the resource name.
+	 */
 	public String getResourceName() {
 		return Resource.getResource(resource).getTitle();
 
 	}
 
 
+	/**
+	 * Get the number of days the fine is over due.
+	 * @return The number of days it is overdue.
+	 */
 	public int getDaysOver() {
 		return daysOver;
 	}
 
 
+	/**
+	 * Get the fines database id.
+	 * @return The fine id.
+	 */
 	public int getFineId() {
 		return fineId;
 	}
 
+	/**
+	 * Generate the fines for a user.
+	 * @param username The username to find the fines for.
+	 * @return The ArrayList of fines for the username.
+	 */
 	public static ArrayList<Fine> getFines(String username) {
-		ArrayList<Fine> fi = new ArrayList<Fine>();
+		ArrayList<Fine> fines = new ArrayList<Fine>();
 		try {
-			Connection conn = DBHelper.getConnection(); //get the connection
-			Statement stmt = conn.createStatement(); //prep a statement
-			PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM fines WHERE username=?");
+			Connection connection = DBHelper.getConnection(); //get the connection
+			Statement statement = connection.createStatement(); //prep a statement
+			PreparedStatement pstmt = connection.prepareStatement("SELECT * FROM fines WHERE username=?");
 			pstmt.setString(1,username);
-			ResultSet rs = pstmt.executeQuery(); //Your sql goes here //Your sql goes here
-			while(rs.next()) {
-				int a = rs.getInt("fineID");
-				String b = rs.getString("username");
-				int c = rs.getInt("rID");
-				int c2 = rs.getInt("daysOver");
-				float d = rs.getFloat("amount");
-				String e = rs.getString("dateTime");
-				int f  = rs.getInt("paid");
-				boolean f1;
-				if(f == 1) {
-					f1 = true;
-				}else {  f1 = false;}
-				fi.add(new Fine(d,e,b,c,c2,a,f1));
+			ResultSet results = pstmt.executeQuery(); //Your sql goes here //Your sql goes here
+			while(results.next()) {
+				boolean finePaid;
+				if( results.getInt("paid")== 1) {
+					finePaid = true;
+				}else {  
+					finePaid = false;
+					}
 				
+				fines.add(new Fine(results.getFloat("amount"),
+						results.getString("dateTime"),
+						results.getString("username"),
+						results.getInt("rID"),
+						results.getInt("daysOver"),
+						results.getInt("fineID"),
+						finePaid));
+		
 			} 
-			return fi;
+			return fines;
 			
 			
 		} catch (SQLException e) { 
@@ -132,29 +175,35 @@ public class Fine {
 	}
 	
 	
+	/**
+	 * Get all the fines in the database.
+	 * @return The ArrayList of all fines.
+	 */
 	public static ArrayList<Fine> getFines() {
-		ArrayList<Fine> fi = new ArrayList<Fine>();
+		ArrayList<Fine> fines = new ArrayList<Fine>();
 		try {
-			Connection conn = DBHelper.getConnection(); //get the connection
-			Statement stmt = conn.createStatement(); //prep a statement
-			PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM fines");
-			ResultSet rs = pstmt.executeQuery(); //Your sql goes here //Your sql goes here
-			while(rs.next()) {
-				int a = rs.getInt("fineID");
-				String b = rs.getString("username");
-				int c = rs.getInt("copyID");
-				int c2 = rs.getInt("daysOver");
-				float d = rs.getFloat("amount");
-				String e = rs.getString("dateTime");
-				int f  = rs.getInt("paid");
-				boolean f1;
-				if(f == 1) {
-					f1 = true;
-				}else {  f1 = false;}
-				fi.add(new Fine(d,e,b,c,c2,a,f1));
+			Connection connection = DBHelper.getConnection(); //get the connection
+			Statement statement = connection.createStatement(); //prep a statement
+			PreparedStatement pstmt = connection.prepareStatement("SELECT * FROM fines");
+			ResultSet results = pstmt.executeQuery(); //Your sql goes here //Your sql goes here
+			while(results.next()) {
+				boolean finePaid;
+				if( results.getInt("paid")== 1) {
+					finePaid = true;
+				}else {  
+					finePaid = false;
+					}
+				
+				fines.add(new Fine(results.getFloat("amount"),
+						results.getString("dateTime"),
+						results.getString("username"),
+						results.getInt("rID"),
+						results.getInt("daysOver"),
+						results.getInt("fineID"),
+						finePaid));
 				
 			} 
-			return fi;
+			return fines;
 			
 			
 		} catch (SQLException e) { 
@@ -164,14 +213,24 @@ public class Fine {
 	}
 
 
+	/**
+	 * Check if this fine contains a value in the date time stamp.
+	 * @param search The value to check against.
+	 * @return If this fine contains the search value.
+	 */
 	public boolean contains(String search) {
-		if(this.getStamp().contains(search)) {
+		if(this.getDateTime().contains(search)) {
 			return true;
 		}else {
 			return false;
 		}
 	}
 	
+	/**
+	 * Check if this fine contains a value in the username.
+	 * @param search The value to check against.
+	 * @return If this fine contains the search value.
+	 */
 	public boolean containsUser(String search) {
 		if(this.getUsername().toUpperCase().contains(search)) {
 			return true;

@@ -4,7 +4,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-
 import javafx.scene.image.Image;
 
 public class DVD extends Resource {
@@ -41,31 +40,29 @@ public class DVD extends Resource {
 		}
 	}
 	
-	public DVD(int uniqueID, String title, int year, Image thumbnail, String director, int runtime, String language, ArrayList<String> subtitleLanguages) {
+	public DVD(int uniqueID, String title, int year, Image thumbnail, String director, int runtime, String language, ArrayList<String> subtitleList) {
 		super(uniqueID, title, year, thumbnail);
 		this.director = director;
 		this.runtime = runtime;
 		this.language = language;
-		this.subtitleLanguages = subtitleLanguages;
+		
+		loadSubtitles();
+		
+		if(subtitleList!=null) {
+			for(String subtitle: subtitleList) {
+				addSubtitle(subtitle);
+			}
+		}
 	}
 	
 	public DVD(int uniqueID, String title, int year, Image thumbnail, String director, int runtime) {
 		super(uniqueID, title, year, thumbnail);
 		this.director = director;
 		this.runtime = runtime;
+		
+		loadSubtitles();
 	}
 	
-	public void setTitle(String title) {
-		updateDbValue("dvd", this.uniqueID, "title", title);
-		super.setTitle(title);
-	}
-	
-	public void setYear(int year) {
-		String yearString = Integer.toString(year);
-		updateDbValue("dvd", this.uniqueID, "year", yearString);
-		super.setTitle(yearString);
-	}
-
 	public String getDirector() {
 		return director;
 	}
@@ -93,13 +90,32 @@ public class DVD extends Resource {
 		updateDbValue("dvd", this.uniqueID, "language", language);
 	}
 
-	public ArrayList<String> getSubtitleLanguages() {
-		return subtitleLanguages;
+	public String getSubtitleLanguages() {
+		String result="";
+		
+		for(String s: subtitleLanguages) {
+			result+=s+"\n";
+		}
+		
+		return result;
 	}
 
-	public void setSubtitleLanguages(ArrayList<String> subtitleLanguages) {
-		this.subtitleLanguages = subtitleLanguages;
-		//TO-DO update subtitle languages
+	public void addSubtitle(String language) {
+		//go through the list and make sure the language is not in there already
+		for(String s: subtitleLanguages) {
+			if(s.equals(language)) {
+				return;
+			}
+		}
+		
+		subtitleLanguages.add(language);
+		try {
+			Connection conn = DBHelper.getConnection(); //get the connection
+			Statement stmt = conn.createStatement(); //prep a statement
+			stmt.executeUpdate("INSERT INTO subtitles VALUES ("+uniqueID+","+language+")");
+		} catch (SQLException e) { 
+			e.printStackTrace();
+		}
 	}
 	
 	public int getDailyFineAmount() {
@@ -110,18 +126,22 @@ public class DVD extends Resource {
 		return MAX_FINE_AMOUNT;
 	}
 
-	private static ArrayList<String> loadSubtitles(Statement stmt, int dvdID) {
-		ArrayList<String> subtitleLanguages = new ArrayList<>();
+	private void loadSubtitles() {
+		if(subtitleLanguages!=null) {
+			subtitleLanguages.clear();
+		} else {
+			subtitleLanguages=new ArrayList<String>();
+		}
 		
 		try {
-			ResultSet subtitles = stmt.executeQuery("SELECT * FROM SUBTITLES WHERE rID="+dvdID);
+			Connection conn = DBHelper.getConnection(); //get the connection
+			Statement stmt = conn.createStatement(); //prep a statement
+			ResultSet subtitles = stmt.executeQuery("SELECT * FROM SUBTITLES WHERE dvdID="+uniqueID);
 			while(subtitles.next()) {
 				subtitleLanguages.add(subtitles.getString("subtitleLanguage"));
 			}
 		} catch (SQLException e) { 
 			e.printStackTrace();
 		} 
-		
-		return subtitleLanguages;
 	}
 }

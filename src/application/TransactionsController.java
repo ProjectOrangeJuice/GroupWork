@@ -1,5 +1,6 @@
 package application;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Optional;
 
@@ -9,6 +10,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -18,8 +20,10 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import model.DBHelper;
 import model.Fine;
@@ -130,15 +134,19 @@ public class TransactionsController {
 	
 	
 	private void confirmPay(Fine f) {
-		Alert alert = new Alert(AlertType.CONFIRMATION);
-		alert.setTitle("Confirmation Dialog");
-		alert.setHeaderText("Pay fine for "+f.getUsername()+"?");
-		alert.setContentText("For the amount of "+f.getAmount()+" due to "+f.getDaysOver()+" days late");
+		
+		TextInputDialog dialog = new TextInputDialog(String.valueOf(f.getAmount()));
+		dialog.setTitle("Confirm payment");
+		dialog.setHeaderText("Enter a value beween 1p and "+f.getAmount());
+		dialog.setContentText("Enter payment: ");
 
-		Optional<ButtonType> result = alert.showAndWait();
-		if (result.get() == ButtonType.OK){
-		    if(Payment.makePayment(f.getUsername(), f.getAmount(),f.getFineId()) != null){
-		    	alert.close();
+		// Traditional way to get the response value.
+		Optional<String> result = dialog.showAndWait();
+		if (result.isPresent()){
+			
+			if(Float.valueOf(result.get()) > 0.1 && Float.valueOf(result.get()) <= f.getAmount()) {
+		    System.out.println("paying.. " + result.get());
+		    if(Payment.makePayment(f.getUsername(), Float.valueOf(result.get()),f.getFineId(),(Float.valueOf(result.get()) == f.getAmount())) != null){
 		    	alertDone("Fine has been paid");
 		    	finesSplit.getItems().remove(tableFine);
 				tableFine = new TableView<>();
@@ -146,9 +154,12 @@ public class TransactionsController {
 		    }else {
 		    	alertDone("Fine was not able to be paid");
 		    }
-		} else {
-		    // ... user chose CANCEL or closed the dialog
+			}else {
+				alertDone("Value entered was wrong");
+			}
 		}
+
+		
 	}
 	
 	private void alertDone(String text) {
@@ -188,6 +199,20 @@ public class TransactionsController {
 		
 	}
 	
+	private void setupBalance() {
+		 	Pane newLoadedPane;
+			try {
+				newLoadedPane = FXMLLoader.load(getClass().getResource("/fxml/staffBalance.fxml"));
+				transactionsSplit.getItems().add(newLoadedPane);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		 	
+
+		
+	}
+	
 	@FXML
 	 public void initialize() {
 		isStaff = user instanceof Librarian;
@@ -196,6 +221,7 @@ public class TransactionsController {
 		setupTransactions();
 		}else {
 			Resource.loadDatabaseResources(); // remove me later
+			setupBalance();
 		}
 		setupFines();
 	 }    

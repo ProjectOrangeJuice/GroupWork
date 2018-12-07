@@ -12,9 +12,14 @@ CREATE TABLE IF NOT EXISTS `users` (
 	PRIMARY KEY(`username`)
 );
 
-INSERT INTO `users` VALUES ('Alexandru','Alex','Dascalu','079999999','3 irrelevant','SA2 8PP',NULL,'0');
-INSERT INTO `users` VALUES ('test','testname','testSecondName','12345','1 blabla street','ABC DEF','/SavedAvatars/Avatar1.png','12');
-INSERT INTO `users` VALUES ('staff','teststaff','testSecondstaff','56789','2 blabla street','ABB DEE','/SavedAvatars/Avatar1.png','100');
+INSERT INTO `users` VALUES ('Alexandru','Alex','Dascalu','079999999','3 Maple Street','SA2 8PP','/SavedAvatars/Avatar1.png','0');
+INSERT INTO `users` VALUES ('Manny','Jake','Manford','0108097352','6 Main Street','SA2 GFY','/SavedAvatars/Avatar1.png','0');
+INSERT INTO `users` VALUES ('Steveo','Steve','Jamerson','0108035473','17 Lil Line','SA2 HRU','/SavedAvatars/Avatar1.png','0');
+INSERT INTO `users` VALUES ('Queeny','McNiel','Nelson','0108037642','45 Avenue Drive','SA2 HFY','/SavedAvatars/Avatar1.png','0');
+INSERT INTO `users` VALUES ('Jackie','Janet','Smith','0108034627','16 Cramford Way','SA2 I9L','/SavedAvatars/Avatar1.png','0');
+
+INSERT INTO `users` VALUES ('Helper1','Carl','Walker','0108098743','7 Low Street','SA2 HFS','/SavedAvatars/Avatar1.png','0');
+INSERT INTO `users` VALUES ('Manager1','Ben','Dover','0108034738','9 High street','SA2 IFA','/SavedAvatars/Avatar1.png','0');
 
 DROP TABLE IF EXISTS `staff`;
 CREATE TABLE IF NOT EXISTS `staff` (
@@ -24,7 +29,8 @@ CREATE TABLE IF NOT EXISTS `staff` (
 	FOREIGN KEY(`username`) REFERENCES `users`(`username`)
 );
 
-INSERT INTO `staff` VALUES ('staff','6237','03/11/2000');
+INSERT INTO `staff` VALUES ('Helper1','1','03/11/2018');
+INSERT INTO `staff` VALUES ('Manager1','2','21/02/2016');
 
 DROP TABLE IF EXISTS `transactions`;
 CREATE TABLE IF NOT EXISTS `transactions` (
@@ -41,7 +47,7 @@ DROP TABLE IF EXISTS `system`;
 CREATE TABLE IF NOT EXISTS `system` (
 	`ver`	INTEGER
 );
-INSERT INTO `system` VALUES (7);
+INSERT INTO `system` VALUES (8);
 
 DROP TABLE IF EXISTS `resource`;
 CREATE TABLE IF NOT EXISTS `resource` (
@@ -74,7 +80,10 @@ CREATE TABLE IF NOT EXISTS `copies` (
 	`copyID`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
 	`rID`	INTEGER NOT NULL,
 	`keeper`	TEXT,
-	`date`	TEXT,
+	loanDuration INTEGER,
+	borrowDate TEXT,
+	lastRenewal TEXT,
+	dueDate TEXT,
 	FOREIGN KEY(`keeper`) REFERENCES `users`(`username`),
 	FOREIGN KEY(`rID`) REFERENCES `resource`(`rID`)
 );
@@ -127,16 +136,10 @@ CREATE TABLE IF NOT EXISTS `laptop` (
 	FOREIGN KEY (rID) REFERENCES `resource`(`rID`) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
-INSERT INTO `copies` VALUES (1,1,NULL,NULL);
-INSERT INTO `copies` VALUES (2,1,NULL,NULL);
-INSERT INTO `copies` VALUES (3,1,NULL,NULL);
-INSERT INTO `copies` VALUES (4,1,NULL,NULL);
-INSERT INTO `copies` VALUES (5,2,NULL,NULL);
-INSERT INTO `copies` VALUES (6,2,NULL,NULL);
-INSERT INTO `copies` VALUES (7,2,NULL,NULL);
-INSERT INTO `copies` VALUES (8,2,NULL,NULL);
-INSERT INTO `copies` VALUES (9,3,NULL,NULL);
-INSERT INTO `copies` VALUES (10,3,NULL,NULL);
+INSERT INTO `copies` VALUES (1,1,'Manny',7,NULL,NULL,NULL);
+INSERT INTO `copies` VALUES (2,1,NULL,7,NULL,NULL,NULL);
+INSERT INTO `copies` VALUES (3,2,NULL,7,NULL,NULL,NULL);
+INSERT INTO `copies` VALUES (4,2,NULL,7,NULL,NULL,NULL);
 DROP TABLE IF EXISTS `borrowRecords`;
 CREATE TABLE IF NOT EXISTS `borrowRecords` (
 	`borrowId`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
@@ -156,5 +159,5 @@ CREATE TABLE IF NOT EXISTS `userRequests` (
 );
 
 INSERT INTO `userRequests` (rID,userName,orderNumber) VALUES (1,"Alexandru",1);
-INSERT INTO `userRequests` (rID,userName,orderNumber) VALUES (2,"test",2);
+INSERT INTO `userRequests` (rID,userName,orderNumber) VALUES (2,"Manny",2);
 COMMIT;

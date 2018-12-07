@@ -5,6 +5,7 @@ package application;
 
 import java.util.ArrayList;
 
+import model.Librarian;
 import model.Person;
 import model.Resource;
 
@@ -16,6 +17,8 @@ public class ScreenManager {
 	
 	private static Person currentUser;
 	private static ArrayList<Resource> resources;
+	private static Librarian currentLibrarian;
+	
 	public static Person getCurrentUser() {
 		return currentUser;
 	}
@@ -28,7 +31,5 @@ public class ScreenManager {
 	public static void setResources(ArrayList<Resource> resources) {
 		ScreenManager.resources = resources;
 	}
-	
-	
 
 }

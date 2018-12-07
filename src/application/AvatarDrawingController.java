@@ -219,12 +219,9 @@ public class AvatarDrawingController implements Initializable {
             convertToFile(fileName, path);
 
             //Update system and database with new avatar.
-            user.setAvatar(createSavedAvatar(fileName));
-            DBExample u = new DBExample();
-            u.updateAvatar(user,
-                    "/SavedAvatars/"
-                            + fileName);
-
+            SavedAvatar newAvatar = createSavedAvatar(fileName);
+            user.setAvatar("/SavedAvatars/" + fileName);
+            
         } else {
             //Create file name.
             fileName = System.currentTimeMillis() + ".png";
@@ -303,7 +300,7 @@ public class AvatarDrawingController implements Initializable {
         //Returns to profile page.
         if (!registerPrevController) {
             ProfileController ProfileController = new ProfileController();
-            ProfileController.loadUserInformation(username);
+            ProfileController.loadUserInformation(username); //TODO: James: Fix
 
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource("/fxml/profileScene.fxml"));
 
@@ -317,7 +314,7 @@ public class AvatarDrawingController implements Initializable {
             RegisterController registerController = new RegisterController();
             //If user has created an image, get the file path.
             if (!customDrawingFileLocation.equals("")) {
-                registerController.setAvatarImagePath(customDrawingFileLocation);
+                registerController.setAvatarImagePath(customDrawingFileLocation); //TODO: James: Fix
             }
 
             //Load up register page with the new saved avatar.

@@ -83,20 +83,6 @@ public class Book extends Resource {
 		this.publisher = publisher;
 	}
 	
-	/**
-	 * 
-	 */
-	public void setTitle(String title) {
-		updateDbValue("book", this.uniqueID, "title", title);
-		super.setTitle(title);
-	}
-	
-	public void setYear(int year) {
-		String yearString = Integer.toString(year);
-		updateDbValue("book", this.uniqueID, "year", yearString);
-		super.setTitle(yearString);
-	}
-
 	public String getGenre() {
 		return genre;
 	}
