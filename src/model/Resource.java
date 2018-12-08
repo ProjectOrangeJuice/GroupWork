@@ -547,7 +547,51 @@ public abstract class Resource {
 		
 		System.out.println(r1.noDueDateCopies.poll().getCOPY_ID());
 		System.out.println(r1.noDueDateCopies.poll().getCOPY_ID());*/
+		/*
+		loadDatabaseResources();
 		
+		Resource winter=null;
+		
+		for(Resource r: resources) {
+			if(r.getUniqueID()==3) {
+				winter=r;
+				break;
+			}
+		}
+		
+		Copy copy=null;
+		for(Copy c: winter.getCopies()) {
+			if(c.getCopyID()==1) {
+				copy=c;
+				break;
+			}
+		}
+		
+		try {
+			Connection conn = DBHelper.getConnection(); //get the connection
+			Statement stmt = conn.createStatement(); //prep a statement
+			ResultSet rs = stmt.executeQuery("SELECT * FROM copies where copyID=1"); //Your sql goes here
+			while(rs.next()) {
+				System.out.println("loan duration "+rs.getInt("loanDuration"));
+			} //Think of this a bit like the file reader for the games project
+		} catch (SQLException e) { //if your SQL is incorrect this will display it
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		copy.setLoanDuration(7);
+		System.out.println("bor");
+		try {
+			Connection conn = DBHelper.getConnection(); //get the connection
+			Statement stmt = conn.createStatement(); //prep a statement
+			ResultSet rs = stmt.executeQuery("SELECT * FROM copies where copyID=1"); //Your sql goes here
+			while(rs.next()) {
+				System.out.println("loan duration "+rs.getInt("loanDuration"));
+			} //Think of this a bit like the file reader for the games project
+		} catch (SQLException e) { //if your SQL is incorrect this will display it
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}*/
 		/*DBHelper.tableCheck();
 		
 		Laptop l = new Laptop(1,"VX15", 2017,null,"Acer","Aspire","Windows");
