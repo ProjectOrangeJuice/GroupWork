@@ -24,7 +24,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane focusTraversable="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="400.0" minWidth="600.0" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.ProfileController">
+<BorderPane focusTraversable="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="400.0" minWidth="600.0" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.ProfileController">
    <center>
       <TabPane fx:id="tabs" prefHeight="972.0" prefWidth="1920.0" BorderPane.alignment="CENTER">
         <tabs>
@@ -288,7 +288,7 @@
                                           </VBox>
                                        </content>
                                     </TitledPane>
-                                    <TitledPane animated="false" text="Manage Users">
+                                    <TitledPane animated="false" onMouseClicked="#loadUsersTable" text="Manage Users">
                                        <content>
                                           <VBox prefHeight="200.0" prefWidth="100.0">
                                              <children>
@@ -301,10 +301,16 @@
                                                 </Pane>
                                                 <Pane prefHeight="675.0" prefWidth="804.0">
                                                    <children>
-                                                      <TableView fx:id="staffUsersTable" prefHeight="614.0" prefWidth="1357.0">
+                                                      <TableView fx:id="staffUsersTable" layoutX="54.0" prefHeight="614.0" prefWidth="936.0">
                                                         <columns>
-                                                          <TableColumn prefWidth="75.0" text="C1" />
-                                                          <TableColumn prefWidth="75.0" text="C2" />
+                                                          <TableColumn editable="false" prefWidth="75.0" text="Username" />
+                                                          <TableColumn prefWidth="93.0" text="Firstname" />
+                                                            <TableColumn editable="false" prefWidth="97.0" text="Lastname" />
+                                                            <TableColumn editable="false" prefWidth="109.0" text="Telephone" />
+                                                            <TableColumn editable="false" prefWidth="148.0" text="Address" />
+                                                            <TableColumn editable="false" prefWidth="123.0" text="Postcode" />
+                                                            <TableColumn editable="false" prefWidth="144.0" text="Avatar Path" />
+                                                            <TableColumn editable="false" prefWidth="146.0" text="Account Balance" />
                                                         </columns>
                                                       </TableView>
                                                    </children>
