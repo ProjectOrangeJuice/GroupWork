@@ -265,6 +265,32 @@ public abstract class Resource {
 			
 			noDueDateCopies.add(copyToBorrow);
 			user.addBorrowedCopy(copyToBorrow);
+			
+			try {
+				Connection dbConnection = DBHelper.getConnection();
+				PreparedStatement sqlStatement=dbConnection.prepareStatement
+						("DELETE FROM copies WHERE copyID="+copyToBorrow.getCopyID());
+				sqlStatement.executeUpdate();
+				
+				SimpleDateFormat normalDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+				sqlStatement = dbConnection.prepareStatement("INSERT INTO copies VALUES(?,?,?,?,?,?,?)");
+				sqlStatement.setInt(2, uniqueID);
+				
+					sqlStatement.setInt(1, copyToBorrow.getCopyID());
+					
+					String userName = null;
+					if(copyToBorrow.getBorrower()!=null) {
+						userName = copyToBorrow.getBorrower().getUsername();
+					
+					sqlStatement.setString(3, userName);
+					sqlStatement.setInt(4, copyToBorrow.getLoanDuration());
+					sqlStatement.setString(5, normalDateFormat.format(copyToBorrow.getBorrowDate()));
+					sqlStatement.setString(6, normalDateFormat.format(copyToBorrow.getLastRenewal()));
+					sqlStatement.setString(7, normalDateFormat.format(copyToBorrow.getDueDate()));
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 			return true;
 		} 
 		/*Else, add the user to the request queue and set the due date
@@ -520,6 +546,7 @@ public abstract class Resource {
 			PreparedStatement sqlStatement = dbConnection.prepareStatement("INSERT INTO requestsToApprove VALUES (?,?)");
 			sqlStatement.setInt(1, uniqueID);
 			sqlStatement.setString(2,requester.getUsername());
+			sqlStatement.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
