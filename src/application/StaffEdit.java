@@ -108,7 +108,7 @@ public class StaffEdit {
     		PreparedStatement pstmt1 = conn.prepareStatement("UPDATE staff SET staffID = ?, employmentDate = ?  WHERE username = ?");
     		pstmt1.setInt(1, Integer.parseInt(staffIDText.getText()));
     			
-    		SimpleDateFormat sdfr = new SimpleDateFormat("dd/MMM/yyyy");
+    		SimpleDateFormat sdfr = new SimpleDateFormat("dd/MM/yyyy");
    			pstmt1.setString(2, sdfr.format(employmentDateText.getText()));
     			
    			pstmt1.executeUpdate();
@@ -124,7 +124,7 @@ public class StaffEdit {
     public void loadStaffInformation() {
     	if (currentUser instanceof Librarian) {
     		Librarian currentStaff = (Librarian) currentUser;
-    		SimpleDateFormat sdfr = new SimpleDateFormat("dd/MMM/yyyy");
+    		SimpleDateFormat sdfr = new SimpleDateFormat("dd/MM/yyyy");
 	    	//get all information in about user from ScreenManager class.
 	    	String username = currentStaff.getUsername();
 	    	String firstname = currentStaff.getFirstName();
