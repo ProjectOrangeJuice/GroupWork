@@ -508,7 +508,7 @@ public class ProfileController {
 	
 	@FXML
 	private void displayAll() {
-		System.out.println("Display Overdue!");
+		System.out.println("Display All!");
 	}
 	
 	@FXML
@@ -518,17 +518,17 @@ public class ProfileController {
 	
 	@FXML
 	private void displayRequested() {
-		System.out.println("Display Overdue!");
+		System.out.println("Display Requested!");
 	}
 	
 	@FXML
 	private void displayHistory() {
-		System.out.println("Display Overdue!");
+		System.out.println("Display History!");
 	}
 	
 	@FXML
 	private void returnCopy() {
-		System.out.println("Display Overdue!");
+		System.out.println("Return copy!");
 	}
 	
 	@FXML
