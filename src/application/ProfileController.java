@@ -161,6 +161,12 @@ public class ProfileController {
 	@FXML
 	private VBox leftVbox;
 	
+	//Avatars
+	@FXML
+	private ImageView staffAvatarView;
+	@FXML
+	private ImageView userAvatarView;
+	
 	//may remove fixed size resource images
 	//when dealing with window resizing.
 	private final int RES_IMG_WIDTH = 150;
@@ -225,6 +231,7 @@ public class ProfileController {
 			String address = currentUser.getAddress();
 			String postcode = currentUser.getPostcode();
 			String phoneNumber = currentUser.getPhoneNumber();
+			String avatarPath = currentUser.getAvatar();
 			
 			//change text in labels to appropriate user information.
 			userLabel.setText(username);
@@ -234,11 +241,14 @@ public class ProfileController {
 			phoneLabel.setText(phoneLabel.getText() + " " + phoneNumber);
 			
 			Double userBalance = ((User) currentUser).getAccountBalance();
-			accountBalance.setText("Â£" + Double.toString(userBalance));
+			accountBalance.setText("£" + Double.toString(userBalance));
+			
+			userAvatarView.setImage(new Image(avatarPath));
 		}else {
 			//get all information in about user from ScreenManager class.
 			Librarian staff = (Librarian) currentUser;
 			String fullname = staff.getFirstName() + " " + staff.getLastName();
+			String avatarPath = currentUser.getAvatar();
 			
 			userLabel1.setText(staff.getUsername());
 			fullnameLabel1.setText(fullnameLabel1.getText() + " " + fullname);
@@ -247,6 +257,8 @@ public class ProfileController {
 			postcodeLabel1.setText(postcodeLabel1.getText() + " " + staff.getPostcode());
 			dateLabel1.setText(dateLabel1.getText() + " " + staff.getEmploymentDate());
 			staffIDLabel1.setText(staffIDLabel1.getText() + " " + staff.getStaffID());
+			
+			staffAvatarView.setImage(new Image(avatarPath));
 		}
 	}
 	

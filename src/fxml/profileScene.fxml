@@ -72,7 +72,7 @@
                                     <Insets bottom="10.0" />
                                  </VBox.margin>
                               </Label>
-                              <ImageView id="usernameImage" fitHeight="262.0" fitWidth="262.0" layoutX="305.0" layoutY="70.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="70.0" AnchorPane.leftAnchor="305.0" AnchorPane.rightAnchor="305.0" AnchorPane.topAnchor="70.0">
+                              <ImageView id="usernameImage" fx:id="userAvatarView" fitHeight="262.0" fitWidth="262.0" layoutX="305.0" layoutY="70.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="70.0" AnchorPane.leftAnchor="305.0" AnchorPane.rightAnchor="305.0" AnchorPane.topAnchor="70.0">
                                  <image>
                                     <Image url="@../graphics/defaultImage.png" />
                                  </image>
@@ -164,7 +164,7 @@
                                           <Insets bottom="10.0" />
                                        </VBox.margin>
                                     </Label>
-                                    <ImageView id="usernameImage" fitHeight="262.0" fitWidth="262.0" layoutX="305.0" layoutY="70.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="70.0" AnchorPane.leftAnchor="305.0" AnchorPane.rightAnchor="305.0" AnchorPane.topAnchor="70.0">
+                                    <ImageView id="usernameImage" fx:id="staffAvatarView" fitHeight="262.0" fitWidth="262.0" layoutX="305.0" layoutY="70.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="70.0" AnchorPane.leftAnchor="305.0" AnchorPane.rightAnchor="305.0" AnchorPane.topAnchor="70.0">
                                        <image>
                                           <Image url="@../graphics/defaultImage.png" />
                                        </image>
