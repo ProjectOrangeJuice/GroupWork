@@ -588,7 +588,7 @@ public class ProfileController {
 				break;
 				
 			case "all":
-				staffCopiesExplorerTable.getItems().clear();
+				staffCopiesExplorerTable.getItems().clear(); //Temp
 		}
 		
 	}
@@ -629,7 +629,7 @@ public class ProfileController {
 			System.out.println("No user selected!");
 		} else {
 			System.out.println("Delete User: " + selectedUserLabel.getText());
-			//Delete user
+			//TODO: Delete user sql
 			selectedUserLabel.setText("-");
 			staffUsersTable.getItems().clear();
 			loadUsersTable(null);
