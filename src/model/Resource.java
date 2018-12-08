@@ -147,10 +147,17 @@ public abstract class Resource {
 		freeCopies.addFirst(copy);
 		
 		try {
-			Connection conn = DBHelper.getConnection(); //get the connection
-			Statement stmt = conn.createStatement(); //prep a statement
 			
-			stmt.executeUpdate("insert into copies values ("+copy.getCopyID()+","+getUniqueID()+",null,null)");
+			Connection connection = DBHelper.getConnection(); //get the connection
+			PreparedStatement statement = connection.prepareStatement("INSERT INTO copies(copyId,rID) VALUES (?,?)");
+			statement.setInt(1,copy.getCopyID());
+			statement.setInt(2,getUniqueID());
+			statement.executeUpdate(); 
+			
+			//Connection conn = DBHelper.getConnection(); //get the connection
+			//Statement stmt = conn.createStatement(); //prep a statement
+			
+			//stmt.executeUpdate("insert into copies(copyID,rID values ("+copy.getCopyID()+","+getUniqueID()+")");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
