@@ -24,7 +24,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane focusTraversable="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="400.0" minWidth="600.0" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.ProfileController">
+<BorderPane focusTraversable="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="400.0" minWidth="600.0" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.ProfileController">
    <center>
       <TabPane fx:id="tabs" prefHeight="972.0" prefWidth="1920.0" BorderPane.alignment="CENTER">
         <tabs>
@@ -105,7 +105,7 @@
                                                 <Font size="45.0" />
                                              </font>
                                           </Label>
-                                          <Button fx:id="userEditProfileButton" mnemonicParsing="false" text="Edit Profile">
+                                          <Button fx:id="userEditProfileButton" mnemonicParsing="false" onMouseClicked="#openProfileEditor" text="Edit Profile">
                                              <VBox.margin>
                                                 <Insets top="20.0" />
                                              </VBox.margin>
@@ -213,7 +213,8 @@
                                                       <Button fx:id="staffRequestedFilter" mnemonicParsing="false" text="Requested" />
                                                       <Label text="Search:" />
                                                       <TextField fx:id="staffCopyIDField" promptText="CopyID" />
-                                                      <Button fx:id="staffHistoryFind" mnemonicParsing="false" text="History" />
+                                                      <Button fx:id="staffHistoryFind" mnemonicParsing="false" text="Copy History" />
+                                                      <Button fx:id="staffReturnCopyButton" mnemonicParsing="false" text="Return Copy" />
                                                    </items>
                                                 </ToolBar>
                                                 <Pane prefHeight="698.0" prefWidth="1323.0" VBox.vgrow="ALWAYS">
@@ -232,48 +233,6 @@
                                           </VBox>
                                        </content>
                                     </TitledPane>
-                                    <TitledPane animated="false" text="Manage Resources">
-                                       <content>
-                                          <VBox prefHeight="200.0" prefWidth="100.0">
-                                             <children>
-                                                <Pane prefHeight="100.0" prefWidth="804.0" VBox.vgrow="NEVER">
-                                                   <children>
-                                                      <Label layoutX="52.0" layoutY="35.0" text="Resource ID:" />
-                                                      <TextField layoutX="134.0" layoutY="31.0" promptText="ID" />
-                                                      <Label layoutX="681.0" layoutY="35.0" text="Result: -" />
-                                                   </children>
-                                                </Pane>
-                                                <Pane prefHeight="675.0" prefWidth="804.0" VBox.vgrow="SOMETIMES">
-                                                   <children>
-                                                      <Button layoutX="61.0" layoutY="25.0" mnemonicParsing="false" text="Delete" />
-                                                      <Button layoutX="60.0" layoutY="80.0" mnemonicParsing="false" text="Edit" />
-                                                   </children>
-                                                </Pane>
-                                             </children>
-                                          </VBox>
-                                       </content>
-                                    </TitledPane>
-                                    <TitledPane animated="false" text="Manage Copies">
-                                       <content>
-                                          <VBox prefHeight="200.0" prefWidth="100.0">
-                                             <children>
-                                                <Pane prefHeight="100.0" prefWidth="804.0">
-                                                   <children>
-                                                      <Label layoutX="52.0" layoutY="35.0" text="Resource ID:" />
-                                                      <TextField layoutX="134.0" layoutY="31.0" promptText="ID" />
-                                                      <Label layoutX="681.0" layoutY="35.0" text="Result: -" />
-                                                   </children>
-                                                </Pane>
-                                                <Pane prefHeight="675.0" prefWidth="804.0">
-                                                   <children>
-                                                      <Button layoutX="61.0" layoutY="25.0" mnemonicParsing="false" text="Delete" />
-                                                      <Button layoutX="60.0" layoutY="80.0" mnemonicParsing="false" text="Edit" />
-                                                   </children>
-                                                </Pane>
-                                             </children>
-                                          </VBox>
-                                       </content>
-                                    </TitledPane>
                                     <TitledPane animated="false" onMouseClicked="#loadUsersTable" text="Manage Users">
                                        <content>
                                           <VBox prefHeight="200.0" prefWidth="100.0">
@@ -281,7 +240,7 @@
                                                 <Pane prefHeight="75.0" prefWidth="1566.0">
                                                    <children>
                                                       <Label layoutX="51.0" layoutY="23.0" text="Selected User:" />
-                                                      <Button fx:id="staffUserDeleteButton" layoutX="354.0" layoutY="19.0" mnemonicParsing="false" text="Delete" />
+                                                      <Button fx:id="staffUserDeleteButton" layoutX="354.0" layoutY="19.0" mnemonicParsing="false" onMouseClicked="#userDeleteButton" text="Delete" />
                                                       <Label fx:id="selectedUserLabel" layoutX="207.0" layoutY="23.0" text="-" />
                                                    </children>
                                                 </Pane>
