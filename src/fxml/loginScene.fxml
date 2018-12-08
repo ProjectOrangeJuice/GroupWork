@@ -40,7 +40,7 @@
                         <Insets top="20.0" />
                      </VBox.margin>
                   </Label>
-                  <Button fx:id="registerButton" alignment="CENTER" layoutX="108.0" layoutY="280.0" mnemonicParsing="false" onAction="#registerAction" onMouseReleased="#loginAction" style="-fx-background-color: #0099ff;" text="Register" textFill="WHITE" />
+                  <Button fx:id="registerButton" alignment="CENTER" layoutX="108.0" layoutY="280.0" mnemonicParsing="false" onMouseClicked="#registerAction" onMouseReleased="#loginAction" style="-fx-background-color: #0099ff;" text="Register" textFill="WHITE" />
                </children>
             </VBox>
          </children>

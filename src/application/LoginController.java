@@ -70,9 +70,10 @@ public class LoginController {
 	}
 	
 	@FXML
-	public void registerAction() {
-		//TODO: Remove printer after development
+	public void registerAction(MouseEvent event) {
 		System.out.println("Register button pressed.");
+		changeScene(event,"/fxml/registerScene.fxml");
+		
 	}
 	
 	@FXML
