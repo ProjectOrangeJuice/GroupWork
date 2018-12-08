@@ -450,23 +450,35 @@ public abstract class Resource {
 			
 			SimpleDateFormat normalDateFormat = new SimpleDateFormat("dd/MM/yyyy");
 			sqlStatement = dbConnection.prepareStatement("INSERT INTO copies VALUES(?,?,?,?,?,?,?)");
-			sqlStatement.setInt(2, uniqueID);
+			
 			
 			sqlStatement.setInt(1, copy.getCopyID());
-				
+			sqlStatement.setInt(2, uniqueID);
+			sqlStatement.setInt(4, copy.getLoanDuration());
+			sqlStatement.setString(5, formatDate(copy.getBorrowDate(),normalDateFormat));
+			sqlStatement.setString(6, formatDate(copy.getLastRenewal(),normalDateFormat));
+			sqlStatement.setString(7, formatDate(copy.getDueDate(),normalDateFormat));
+			
 			String userName = null;
 			if(copy.getBorrower()!=null) {
 				userName = copy.getBorrower().getUsername();
+				sqlStatement.setString(3, userName);
+			} else {
+				sqlStatement.setString(3, null);
 				
-			sqlStatement.setString(3, userName);
-			sqlStatement.setInt(4, copy.getLoanDuration());
-			sqlStatement.setString(5, normalDateFormat.format(copy.getBorrowDate()));
-			sqlStatement.setString(6, normalDateFormat.format(copy.getLastRenewal()));
-			sqlStatement.setString(7, normalDateFormat.format(copy.getDueDate()));
-			sqlStatement.executeUpdate();
 			}
+			
+			sqlStatement.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
+		}
+	}
+	
+	private String formatDate(Date date, SimpleDateFormat dateFormater) {
+		if(date==null) {
+			return null;
+		} else {
+			return dateFormater.format(date);
 		}
 	}
 	

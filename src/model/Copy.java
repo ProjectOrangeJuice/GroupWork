@@ -204,7 +204,7 @@ public class Copy implements Comparable<Copy>{
 		this.borrowDate = borrowDate;
 		
 		SimpleDateFormat normalDateFormat = new SimpleDateFormat("dd/MM/yyyy");
-		//updateDBValue(copyID,"borrowDate", normalDateFormat.format(borrowDate));
+		updateDBValue(copyID,"borrowDate", normalDateFormat.format(borrowDate));
 	}
 
 	public User getBorrower() {
