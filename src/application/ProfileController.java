@@ -68,7 +68,7 @@ public class ProfileController {
 	private TextField searchTextBox;
 	
 	@FXML
-	private Controller TextField;
+	private LoginController TextField;
 	
 	@FXML
 	private Label userLabel;
