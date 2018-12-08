@@ -55,8 +55,7 @@ public class CopyController {
 	@FXML
 	private Button requestbutt;
 
-	@FXML
-	private Button closewindow;
+
 	
 	@FXML
 	private Label copytext;
@@ -87,16 +86,7 @@ public class CopyController {
 
 	}
 
-	/**
-	 * Called when close button is clicked.
-	 * 
-	 * @param event
-	 *            Passed when mouse event occurs
-	 */
-	@FXML
-	public void closeWindow(MouseEvent event) {
-		//Platform.exit();
-	}
+
 
 	/**
 	 * Loads resource information from Screen Manager class, so that it can be
@@ -144,7 +134,7 @@ public class CopyController {
 		 if(ScreenManager.currentResource.getNrOfCopies() == 0){
 			copytext.setText("All Copies are currently being borrowed.");
 		}else{
-			copytext.setText(Integer.toString(ScreenManager.currentResource.getNrOfCopies()));
+			copytext.setText("Copies free: " +Integer.toString(ScreenManager.currentResource.getNrOfCopies()));
 		}
 
 	}
@@ -162,13 +152,27 @@ public class CopyController {
 	
 	@FXML
 	public void requestCopy(MouseEvent event) {
-		ScreenManager.currentResource.loanToUser((User)ScreenManager.getCurrentUser());
+		ScreenManager.currentResource.addPendingRequest((User) ScreenManager.getCurrentUser());
+		//ScreenManager.currentResource.loanToUser((User)ScreenManager.getCurrentUser());
+	}
+	
+	
+	private void checkIfBorrowed() {
+		User user = (User) ScreenManager.getCurrentUser();
+	
+		if(user.isBorrowing(ScreenManager.currentResource)){
+
+			requestbutt.setDisable(true);
+		}
 	}
 	
 	@FXML
 	 public void initialize() {
-		
-		
+		if(ScreenManager.getCurrentUser() instanceof User) {
+		checkIfBorrowed();
+		}else {
+			requestbutt.disableProperty();
+		}
 		loadResourceImage();
 		loadResourceInformation();
 		

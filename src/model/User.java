@@ -168,4 +168,14 @@ public class User extends Person {
 		}
 		return false;
 	}
+	
+	
+	public boolean isBorrowing(Resource resource) {
+		for(Copy copy : getBorrowedCopies()) {
+			if(copy.getResource() == resource) {
+				return true;
+			}
+		}
+		return false;
+	}
 }
