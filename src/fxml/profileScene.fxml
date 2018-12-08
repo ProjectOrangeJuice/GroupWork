@@ -242,6 +242,8 @@
                                                       <Label layoutX="51.0" layoutY="23.0" text="Selected User:" />
                                                       <Button fx:id="staffUserDeleteButton" layoutX="354.0" layoutY="19.0" mnemonicParsing="false" onMouseClicked="#userDeleteButton" text="Delete" />
                                                       <Label fx:id="selectedUserLabel" layoutX="207.0" layoutY="23.0" text="-" />
+                                                      <Button fx:id="staffAddBalanceButton" layoutX="416.0" layoutY="19.0" mnemonicParsing="false" onMouseClicked="#userAddFundsButton" text="Adds Funds:" />
+                                                      <TextField fx:id="staffAmountField" layoutX="509.0" layoutY="19.0" promptText="0.0" />
                                                    </children>
                                                 </Pane>
                                                 <Pane prefHeight="675.0" prefWidth="804.0">
