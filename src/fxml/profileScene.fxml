@@ -24,7 +24,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane focusTraversable="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="400.0" minWidth="600.0" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.ProfileController">
+<BorderPane focusTraversable="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="400.0" minWidth="600.0" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.ProfileController">
    <center>
       <TabPane fx:id="tabs" prefHeight="972.0" prefWidth="1920.0" BorderPane.alignment="CENTER">
         <tabs>
@@ -105,7 +105,7 @@
                                                 <Font size="45.0" />
                                              </font>
                                           </Label>
-                                          <Button fx:id="userEditProfileButton" mnemonicParsing="false" text="Edit Profile">
+                                          <Button fx:id="userEditProfileButton" mnemonicParsing="false" onMouseClicked="#openProfileEditor" text="Edit Profile">
                                              <VBox.margin>
                                                 <Insets top="20.0" />
                                              </VBox.margin>
@@ -281,7 +281,7 @@
                                                 <Pane prefHeight="75.0" prefWidth="1566.0">
                                                    <children>
                                                       <Label layoutX="51.0" layoutY="23.0" text="Selected User:" />
-                                                      <Button fx:id="staffUserDeleteButton" layoutX="354.0" layoutY="19.0" mnemonicParsing="false" text="Delete" />
+                                                      <Button fx:id="staffUserDeleteButton" layoutX="354.0" layoutY="19.0" mnemonicParsing="false" onMouseClicked="#userDeleteButton" text="Delete" />
                                                       <Label fx:id="selectedUserLabel" layoutX="207.0" layoutY="23.0" text="-" />
                                                    </children>
                                                 </Pane>
