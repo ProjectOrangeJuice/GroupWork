@@ -301,18 +301,7 @@
                                                 </Pane>
                                                 <Pane prefHeight="675.0" prefWidth="804.0">
                                                    <children>
-                                                      <TableView fx:id="staffUsersTable" layoutX="54.0" prefHeight="614.0" prefWidth="936.0">
-                                                        <columns>
-                                                          <TableColumn editable="false" prefWidth="75.0" text="Username" />
-                                                          <TableColumn prefWidth="93.0" text="Firstname" />
-                                                            <TableColumn editable="false" prefWidth="97.0" text="Lastname" />
-                                                            <TableColumn editable="false" prefWidth="109.0" text="Telephone" />
-                                                            <TableColumn editable="false" prefWidth="148.0" text="Address" />
-                                                            <TableColumn editable="false" prefWidth="123.0" text="Postcode" />
-                                                            <TableColumn editable="false" prefWidth="144.0" text="Avatar Path" />
-                                                            <TableColumn editable="false" prefWidth="146.0" text="Account Balance" />
-                                                        </columns>
-                                                      </TableView>
+                                                      <TableView fx:id="staffUsersTable" layoutX="54.0" onMouseClicked="#userTableClicked" prefHeight="614.0" prefWidth="936.0" />
                                                    </children>
                                                 </Pane>
                                              </children>
