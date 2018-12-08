@@ -95,28 +95,30 @@ public class StaffEdit {
     @FXML
     void saveEditedProfile(MouseEvent event) {
     	try {
-    		if (currentUser instanceof Librarian) {
-    			Librarian currentStaff = (Librarian) currentUser;
-    			Connection conn = model.DBHelper.getConnection();
-    			PreparedStatement pstmt = conn.prepareStatement("UPDATE users SET firstName = ?, "
-    					+ "+ lastName = ?, telephone = ?, address = ?, postcode = ?, avatarPath = ?,"
-    					+ "+ staffID = ?, employmentDate = ?  WHERE username = ?");
-    			pstmt.setString(1, currentStaff.getFirstName());
-    			pstmt.setString(2, currentStaff.getLastName());
-    			pstmt.setString(3, currentStaff.getPhoneNumber());
-    			pstmt.setString(4, currentStaff.getAddress());
-    			pstmt.setString(5, currentStaff.getPostcode());
-    			pstmt.setString(6, currentStaff.getAvatar());
-    			pstmt.setInt(7, currentStaff.getStaffID());
+    		Connection conn = model.DBHelper.getConnection();
+    		PreparedStatement pstmt = conn.prepareStatement("UPDATE users SET firstName = ?, lastName = ?, telephone = ?, address = ?, postcode = ? WHERE username = ?");
+    		pstmt.setString(1, firstnameText.getText());
+   			pstmt.setString(2, lastnameText.getText());
+   			pstmt.setString(3, phoneNumberText.getText());
+   			pstmt.setString(4, addressText.getText());
+   			pstmt.setString(5, postcodeText.getText());
     			
-    			SimpleDateFormat sdfr = new SimpleDateFormat("dd/MMM/yyyy");
-    			pstmt.setString(8, sdfr.format(currentStaff.getEmploymentDate()));
-    		}
-    		changeScene(event, "/fxml/profileScene.fxml");
+    		pstmt.executeUpdate();
+    		
+    		PreparedStatement pstmt1 = conn.prepareStatement("UPDATE staff SET staffID = ?, employmentDate = ?  WHERE username = ?");
+    		pstmt1.setInt(1, Integer.parseInt(staffIDText.getText()));
+    			
+    		SimpleDateFormat sdfr = new SimpleDateFormat("dd/MMM/yyyy");
+   			pstmt1.setString(2, sdfr.format(employmentDateText.getText()));
+    			
+   			pstmt1.executeUpdate();
+   			
+   			conn.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+    	changeScene(event, "/fxml/profileScene.fxml");
     }
     
     public void loadStaffInformation() {
