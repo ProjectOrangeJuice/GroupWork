@@ -138,7 +138,22 @@ public class Copy implements Comparable<Copy>{
 	}
 	
 	public void setLoanDuration(int duration){
-		updateDBValue(copyID,"loanDuration", duration);
+		System.out.println("Duration given is" +duration);
+		Connection connection;
+		try {
+			connection = DBHelper.getConnection();
+		
+		//updateDBValue(copyID,"loanDuration", duration);
+		PreparedStatement statement = connection.prepareStatement("UPDATE copies "
+				+ "set loanDuration=? WHERE copyID=? ");
+		statement.setInt(1,duration);
+		statement.setInt(2,copyID);
+	
+		statement.executeUpdate(); 
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
 		this.loanDuration = duration;
 	}
 	
