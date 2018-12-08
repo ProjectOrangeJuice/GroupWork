@@ -346,7 +346,7 @@ public abstract class Resource {
 		return copiesInfo;
 	}
 	
-	private void loadCopyList() {
+	public void loadCopyList() {
 		try {
 			Connection dbConnection = DBHelper.getConnection(); //get the connection
 			Statement sqlStatement = dbConnection.createStatement(); //prep a statement

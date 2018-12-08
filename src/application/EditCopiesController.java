@@ -41,17 +41,11 @@ public class EditCopiesController {
 	
 	
 	private void setupCopy() {
-		copies = ScreenManager.currentResource.getCopies();
-		System.out.println("Current is "+ScreenManager.currentResource.getUniqueID());
-		System.out.println(copies.size());
+		
+		
 		
 
-		copyData = FXCollections.observableArrayList();
-		for (Copy copy : copies) {
-			System.out.println("has found: "+copy.getCopyID());
-			copyData.add(copy);
-		}
-
+		repop();
 		
 
 		//create the table
@@ -84,6 +78,20 @@ public class EditCopiesController {
 
 	}
 	
+	
+	private void repop() {
+		ScreenManager.currentResource.loadCopyList();
+		copies = ScreenManager.currentResource.getCopies();
+		copyData = FXCollections.observableArrayList();
+		for (Copy copy : copies) {
+		
+			copyData.add(copy);
+		}
+		
+		copiesTable.setItems(copyData);
+
+	}
+	
 	@FXML
 	private void addCopy(ActionEvent event) {
 		String duration = loanDur.getText();
@@ -99,9 +107,9 @@ public class EditCopiesController {
 			int id = makeId();
 			Copy copy = new Copy(ScreenManager.getCurrentResource(),id,null,Integer.parseInt(duration));
 			ScreenManager.getCurrentResource().addCopy(copy);
-			System.out.println("Copy.. "+copy.getCopyID());
-			copiesTable = new TableView<>();
-			setupCopy();
+			System.out.println("Copy.. "+copy.getLoanDuration());
+			
+			repop();
 		}
 	}
 
@@ -150,8 +158,9 @@ public class EditCopiesController {
 		if(goAhead) {
 			int durationNumber = Integer.parseInt(duration);
 			copy.setLoanDuration(durationNumber);
-			copiesTable = new TableView<>();
-			setupCopy();
+			System.out.println("Duration is being set to: "+durationNumber);
+			System.out.println("Copy.. "+copy.getLoanDuration());
+			repop();
 		}
 		
 	}
