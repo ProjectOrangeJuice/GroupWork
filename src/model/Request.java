@@ -10,14 +10,14 @@ public class Request {
 
 	private String username;
 	private Resource resource;
-	private int orderNumber;
+
 	private String resourceName;
 	
-	public Request(String username, Resource resource, int orderNumber) {
+	public Request(String username, Resource resource) {
 		this.username = username;
 		this.resource = resource;
 		this.resourceName = resource.getTitle(); 
-		this.orderNumber = orderNumber;
+	
 	}
 	
 	
@@ -26,7 +26,7 @@ public class Request {
 		try {
 			Connection connection = DBHelper.getConnection(); 
 			PreparedStatement statement = connection.prepareStatement("SELECT * "
-					+ "FROM userRequests");
+					+ "FROM requestsToApprove");
 			ResultSet results = statement.executeQuery(); 
 			while(results.next()) {
 				
@@ -34,7 +34,7 @@ public class Request {
 				if(tempResource != null) {
 					//resource exits
 					requests.add(new Request(results.getString("username"),
-							tempResource,results.getInt("rID")));
+							tempResource));
 				}//otherwise do nothing. Should warn user
 				
 				
@@ -61,9 +61,7 @@ public class Request {
 		return resource;
 	}
 	
-	public int getOrderNumber() {
-		return orderNumber;
-	}
+
 	
 	public boolean contains(String search) {
 		
