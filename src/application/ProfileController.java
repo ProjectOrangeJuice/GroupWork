@@ -1,8 +1,14 @@
 package application;
 
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -39,6 +45,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import model.Book;
 import model.Copy;
+import model.DBHelper;
 import model.DVD;
 import model.Laptop;
 import model.Librarian;
@@ -61,7 +68,7 @@ public class ProfileController {
 	private TextField searchTextBox;
 	
 	@FXML
-	private Controller TextField;
+	private LoginController TextField;
 	
 	@FXML
 	private Label userLabel;
@@ -139,6 +146,8 @@ public class ProfileController {
 	private TextField staffCopyIDField;
 	@FXML
 	private TableView staffCopiesExplorerTable;
+	@FXML
+	private TableView staffUsersTable;
 	
 	@FXML
 	private VBox leftVbox;
@@ -297,14 +306,7 @@ public class ProfileController {
 		image.setCache(true);
 		image.setCacheHint(CacheHint.SCALE);
 		image.setSmooth(true);
-		
-		/*ImageView labelImage = new ImageView();
-		labelImage.setFitWidth(width);
-		
-		labelImage.setImage(new Image("/graphics/borrowed.png"));
-		labelImage.setPreserveRatio(true);
-		labelImage.set*/
-		
+	
 		imagePane.getChildren().add(image);
 		imagePane.getChildren().add(resourceText);
 		//imagePane.getChildren().add(labelImage);
@@ -337,7 +339,7 @@ public class ProfileController {
 	}
 	
 	private void loadCopies() {
-		if (ScreenManager.getCurrentUser() instanceof User) {
+		if (currentUser instanceof User) {
 			
 			//get user copies that they're currently borrowing.
 			((User) currentUser).loadUserCopies();
@@ -346,15 +348,14 @@ public class ProfileController {
 			for(int i = 0 ; i < userCopies.size() ; i++) {
 				System.out.println(userCopies.get(i).getResource().getTitle());
 				Resource copyResource = userCopies.get(i).getResource();
+				
 				StackPane imagePane = createImage(copyResource, COPY_IMG_WIDTH, COPY_IMG_HEIGHT);
 				
-				Rectangle colorOverlay = new Rectangle();
-				colorOverlay.setFill(Color.LIGHTGREEN);
-				colorOverlay.setWidth(COPY_IMG_WIDTH);
-				colorOverlay.setHeight(COPY_IMG_HEIGHT);
-				colorOverlay.setOpacity(0.5);
-				colorOverlay.setBlendMode(BlendMode.HARD_LIGHT);
-				imagePane.getChildren().add(colorOverlay);
+				ImageView labelImage = new ImageView();
+				labelImage.setFitWidth(COPY_IMG_WIDTH);
+				labelImage.setImage(new Image("/graphics/borrowed.png"));
+				labelImage.setPreserveRatio(true);
+				imagePane.getChildren().add(labelImage);
 				
 				resourceImages.getChildren().add(imagePane);
 				
@@ -423,6 +424,28 @@ public class ProfileController {
 	}
 		
 	}
+	
+	@FXML
+	private void loadRequested() {
+		
+		if(currentUser instanceof User) {
+			ArrayList<Resource> requestedResources = ((User) currentUser).getRequestedResources();
+			System.out.println("request size: " + requestedResources.size());
+			for(Resource request : requestedResources) {
+				
+				StackPane imagePane = createImage(request, COPY_IMG_WIDTH, COPY_IMG_HEIGHT);
+				
+				ImageView labelImage = new ImageView();
+				labelImage.setFitWidth(COPY_IMG_WIDTH);
+				labelImage.setImage(new Image("/graphics/requested.png"));
+				labelImage.setPreserveRatio(true);
+				imagePane.getChildren().add(labelImage);
+				
+				resourceImages.getChildren().add(imagePane);
+				
+			}
+		}
+	}
 
 	@FXML
 	 public void initialize() {
@@ -433,6 +456,7 @@ public class ProfileController {
 		loadResourceImages();
 		loadUserInformation();
 		loadCopies();
+		loadRequested();
 		
 		scrollPane.setHvalue(0.5);
 	
@@ -457,6 +481,31 @@ public class ProfileController {
 	private void openAvatarEditor(MouseEvent event) {
 		System.out.println("Launch avatar editor.");
 		changeScene(event,"/fxml/drawAvatar.fxml");
+	}
+	
+	@FXML
+	private void loadUsersTable(MouseEvent event) {
+		ObservableList<Person> usersList = FXCollections.observableArrayList();
+		try {
+			Connection conn = DBHelper.getConnection();
+			PreparedStatement pstmt = conn.prepareStatement("SELECT username FROM users");
+            ResultSet rs = pstmt.executeQuery();
+            
+            while(rs.next()) {
+            	usersList.add(Person.loadPerson(rs.getString(1)));
+            }
+            
+            //staffUsersTable.
+            //Not finished yet.
+            //TODO:
+            // - Load columns here
+            // - Load datainto table here
+            
+		} catch (SQLException e) { 
+			System.out.println("Error: Failed to load users from Database.");
+			e.printStackTrace();
+		}
+		
 	}
 
 }
