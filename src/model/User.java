@@ -111,11 +111,8 @@ public class User extends Person {
 		statement.setString(1,username);
 		ResultSet results = statement.executeQuery(); 
 		if(results.next()) {
-			return results.getDouble("accountBalance") >= amount;
-				
-			
+			return results.getDouble("accountBalance") >= amount;	
 		}
-		
 		return false;
 	}
 	

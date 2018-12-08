@@ -167,6 +167,15 @@ CREATE TABLE IF NOT EXISTS `borrowRecords` (
 	`description`	TEXT
 );
 
+DROP TABLE IF EXISTS `requestsToApprove`;
+CREATE TABLE IF NOT EXISTS `requestsToApprove` (
+	`rID` INTEGER,
+	`userName` TEXT,
+	PRIMARY KEY (userName,rID),
+	FOREIGN KEY (userName) REFERENCES `users` (`username`) ON UPDATE CASCADE ON DELETE CASCADE,
+	FOREIGN KEY (rID) REFERENCES `resource` (`rID`) ON UPDATE CASCADE ON DELETE CASCADE
+);
+
 DROP TABLE IF EXISTS `userRequests`;
 CREATE TABLE IF NOT EXISTS `userRequests` (
 	`rID` INTEGER,

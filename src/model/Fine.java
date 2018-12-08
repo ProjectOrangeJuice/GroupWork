@@ -20,7 +20,6 @@ public class Fine {
 	private String username;
 	private boolean isPaid;
 
-
 	/**
 	 * @param amount The amount owed.
 	 * @param dateTime The date and time stamp.
@@ -40,7 +39,6 @@ public class Fine {
 		this.fineId = fineId;
 		this.isPaid = isPaid;
 	}
-
 
 	/**
 	 * Generate the fines for a user.

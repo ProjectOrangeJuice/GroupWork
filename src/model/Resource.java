@@ -372,7 +372,6 @@ public abstract class Resource {
 				userRequestQueue.enqueue(userWithRequest);
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -380,22 +379,21 @@ public abstract class Resource {
 	public void saveUserQueue() {
 		LinkedList<User> orderedUsers = userRequestQueue.getOrderedList();
 		try {
-			Connection conn = DBHelper.getConnection();
-			PreparedStatement pstmt=conn.prepareStatement("DELETE FROM userRequests");
-			pstmt.executeUpdate();
-			pstmt = conn.prepareStatement("INSERT INTO userRequests VALUES ("+uniqueID+",?,?)");
+			Connection dbConnection = DBHelper.getConnection();
+			PreparedStatement sqlStatement=dbConnection.prepareStatement("DELETE FROM userRequests");
+			sqlStatement.executeUpdate();
+			sqlStatement = dbConnection.prepareStatement("INSERT INTO userRequests VALUES ("+uniqueID+",?,?)");
 			
 			int orderNr=1;
 			User current = orderedUsers.pollFirst();
 			while(current!=null) {
-				pstmt.setString(1, current.getUsername());
-				pstmt.setInt(2, orderNr);
-				pstmt.executeUpdate();
+				sqlStatement.setString(1, current.getUsername());
+				sqlStatement.setInt(2, orderNr);
+				sqlStatement.executeUpdate();
 				current = orderedUsers.pollFirst();
 				orderNr++;
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -424,7 +422,6 @@ public abstract class Resource {
 				sqlStatement.setString(7, normalDateFormat.format(copy.getDueDate()));
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -458,7 +455,6 @@ public abstract class Resource {
 	
 	
 	public boolean contains(String search) {
-		
 		if(title.toUpperCase().contains(search.toUpperCase())) {
 			return true;
 		} else {

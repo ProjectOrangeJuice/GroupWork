@@ -45,7 +45,6 @@ public class Payment {
 			boolean full) {
 		Date date = new Date();
 
-	     
 	      try {
 	    	  if(User.checkBalance(username,amount)) {
 	    	  	ResultSet results = updateFine(fine,amount,full);
@@ -54,13 +53,10 @@ public class Payment {
 	    	  		insertTransaction(username,amount,date.toString());
 	    	  		User.reduceBalance(username, amount);
 	    	  		return new Payment(id,username,amount,date.toString());
-	    	  		
-	    	  	}
-	    	  	}else {
+	    	  		}
+	    	  	} else {
 	    	  		return null;
 	    	  	}
-				
-				
 			} catch (SQLException e) {
 				e.printStackTrace();
 		}
