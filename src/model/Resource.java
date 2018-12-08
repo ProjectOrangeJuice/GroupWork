@@ -48,6 +48,8 @@ public abstract class Resource {
 	 * gotten one because there is no free copy.*/
 	private Queue<User> userRequestQueue;
 	
+	private ArrayList<User> pendingRequests;
+	
 	protected static ArrayList<Resource> resources = new ArrayList<>();
 	
 	public static  void loadDatabaseResources() {
@@ -125,6 +127,7 @@ public abstract class Resource {
 		freeCopies = new LinkedList<Copy>();
 		noDueDateCopies = new PriorityQueue<Copy>();
 		userRequestQueue = new Queue<User>();
+		pendingRequests = new ArrayList<User>();
 		
 		loadCopyList();
 		loadCopyPriorityQueue();
@@ -376,6 +379,23 @@ public abstract class Resource {
 		}
 	}
 	
+	private void loadPendingRequests() {
+		pendingRequests.clear();
+		try {
+			Connection dbConnection = DBHelper.getConnection();
+			Statement sqlStatement = dbConnection.createStatement();
+			ResultSet userRequests=sqlStatement.executeQuery("SELECT * FROM requestsToApprove WHERE rID="+uniqueID);
+			
+			while(userRequests.next()) {
+				String userName = userRequests.getString("userName");
+				User userWithRequest=(User)Person.loadPerson(userName);
+				userRequestQueue.enqueue(userWithRequest);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	public void saveUserQueue() {
 		LinkedList<User> orderedUsers = userRequestQueue.getOrderedList();
 		try {
@@ -436,6 +456,23 @@ public abstract class Resource {
 	
 	public static ArrayList<Resource> getResources() {
 		return resources;
+	}
+	
+	public ArrayList<User> getPendingRequests() {
+		return pendingRequests;
+	}
+	
+	public void addPendingRequest(User requester) {
+		pendingRequests.add(requester);
+		
+		try {
+			Connection dbConnection = DBHelper.getConnection();
+			PreparedStatement sqlStatement = dbConnection.prepareStatement("INSERT INTO requestsToApprove VALUES (?,?)");
+			sqlStatement.setInt(1, uniqueID);
+			sqlStatement.setString(2,requester.getUsername());
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	/*public static void main(String args[]) {
