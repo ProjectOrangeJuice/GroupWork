@@ -464,11 +464,12 @@ public class ProfileController {
 		
 		currentUser = ScreenManager.getCurrentUser();
 		resources = ScreenManager.getResources();
-				
+		
 		loadResourceImages();
 		loadUserInformation();
 		loadCopies();
 		loadRequested();
+		loadTables();
 		
 		scrollPane.setHvalue(0.5);
 	
@@ -499,6 +500,32 @@ public class ProfileController {
 	// Manage Users Tab
 	//
 	
+	private void loadTables() {
+		TableColumn<Fine, String> usernameCol = new TableColumn<Fine, String>("Username");
+        usernameCol.setCellValueFactory(new PropertyValueFactory<>("username"));
+		
+		TableColumn<Fine, String> firstnameCol = new TableColumn<Fine, String>("Firstname");
+		firstnameCol.setCellValueFactory(new PropertyValueFactory<>("firstName"));
+		
+		TableColumn<Fine, String> lastnameCol = new TableColumn<Fine, String>("Lastname");
+		lastnameCol.setCellValueFactory(new PropertyValueFactory<>("lastName"));
+		
+		TableColumn<Fine, String> telephoneCol = new TableColumn<Fine, String>("Telephone");
+		telephoneCol.setCellValueFactory(new PropertyValueFactory<>("telephone"));
+		
+		TableColumn<Fine, String> addressCol = new TableColumn<Fine, String>("Address");
+		addressCol.setCellValueFactory(new PropertyValueFactory<>("address"));
+
+		TableColumn<Fine, String> postcodeCol = new TableColumn<Fine, String>("Postcode");
+		postcodeCol.setCellValueFactory(new PropertyValueFactory<>("postcode"));
+		
+		TableColumn<Fine, String> avatarCol = new TableColumn<Fine, String>("Avatar Path");
+		avatarCol.setCellValueFactory(new PropertyValueFactory<>("avatarPath"));
+		
+		TableColumn<Fine, String> accountBalanceCol = new TableColumn<Fine, String>("accountBalance");
+		accountBalanceCol.setCellValueFactory(new PropertyValueFactory<>("accountBalance"));
+	}
+	
 	@FXML
 	private void loadUsersTable(MouseEvent event) {
 		ObservableList<Person> usersList = FXCollections.observableArrayList();
@@ -511,35 +538,6 @@ public class ProfileController {
             	usersList.add(Person.loadPerson(rs.getString(1)));
             }
             
-            TableColumn<Fine, String> usernameCol = new TableColumn<Fine, String>("Username");
-            usernameCol.setCellValueFactory(new PropertyValueFactory<>("username"));
-    		
-    		TableColumn<Fine, String> firstnameCol = new TableColumn<Fine, String>("Firstname");
-    		firstnameCol.setCellValueFactory(new PropertyValueFactory<>("firstName"));
-    		
-    		TableColumn<Fine, String> lastnameCol = new TableColumn<Fine, String>("Lastname");
-    		lastnameCol.setCellValueFactory(new PropertyValueFactory<>("lastName"));
-    		
-    		TableColumn<Fine, String> telephoneCol = new TableColumn<Fine, String>("Telephone");
-    		telephoneCol.setCellValueFactory(new PropertyValueFactory<>("telephone"));
-    		
-    		TableColumn<Fine, String> addressCol = new TableColumn<Fine, String>("Address");
-    		addressCol.setCellValueFactory(new PropertyValueFactory<>("address"));
-
-    		TableColumn<Fine, String> postcodeCol = new TableColumn<Fine, String>("Postcode");
-    		postcodeCol.setCellValueFactory(new PropertyValueFactory<>("postcode"));
-    		
-    		TableColumn<Fine, String> avatarCol = new TableColumn<Fine, String>("Avatar Path");
-    		avatarCol.setCellValueFactory(new PropertyValueFactory<>("avatarPath"));
-    		
-    		TableColumn<Fine, String> accountBalanceCol = new TableColumn<Fine, String>("accountBalance");
-    		accountBalanceCol.setCellValueFactory(new PropertyValueFactory<>("accountBalance"));
-            
-            //staffUsersTable.
-            //Not finished yet.
-            //TODO:
-            // - Load columns here
-            // - Load data into table here
             
 		} catch (SQLException e) { 
 			System.out.println("Error: Failed to load users from Database.");

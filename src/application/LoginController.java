@@ -70,6 +70,12 @@ public class LoginController {
 	}
 	
 	@FXML
+	public void registerAction() {
+		//TODO: Remove printer after development
+		System.out.println("Register button pressed.");
+	}
+	
+	@FXML
 	public void initialize() {
 		
 	 }    
