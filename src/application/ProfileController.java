@@ -152,6 +152,8 @@ public class ProfileController {
 	@FXML
 	private Button staffReturnCopy;
 	@FXML
+	private Button staffApproveCopy;
+	@FXML
 	private TextField staffCopyIDField;
 	@FXML
 	private TableView staffCopiesExplorerTable;
@@ -529,6 +531,11 @@ public class ProfileController {
 	@FXML
 	private void returnCopy() {
 		System.out.println("Return copy!");
+	}
+	
+	@FXML
+	private void approveCopy() {
+		System.out.println("Approve copy!");
 	}
 	
 	@FXML
