@@ -20,6 +20,7 @@ import javafx.scene.control.TabPane;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.effect.BlendMode;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
@@ -291,11 +292,19 @@ public class ProfileController {
 		image.setImage(copyResource.getThumbnail());
 		
 		image.setCache(true);
-		image.setCacheHint(CacheHint.SCALE); // <-- hint
+		image.setCacheHint(CacheHint.SCALE);
 		image.setSmooth(true);
+		
+		/*ImageView labelImage = new ImageView();
+		labelImage.setFitWidth(width);
+		
+		labelImage.setImage(new Image("/graphics/borrowed.png"));
+		labelImage.setPreserveRatio(true);
+		labelImage.set*/
 		
 		imagePane.getChildren().add(image);
 		imagePane.getChildren().add(resourceText);
+		//imagePane.getChildren().add(labelImage);
 		
 		//set id of imagePane to it's index so it can be accessed
 		//within the event handler.
