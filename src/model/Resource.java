@@ -23,6 +23,8 @@ import javafx.scene.image.Image;
  * */
 public abstract class Resource {
 	
+	private static final long MILLISECONDS_IN_DAY = 1000 * 60 * 60 * 24;
+	
 	/**A unique number that identifies this resource.*/
 	protected final int uniqueID;
 	
@@ -181,6 +183,8 @@ public abstract class Resource {
 	 *  reserved for the user at the front of the request queue.
 	 *  @param returnedCopy The copy being returned.*/
 	public void processReturn(Copy returnedCopy) {
+		applyFines(returnedCopy);
+		
 		/*If the user request queue is empty, add the copy to the list of free 
 		 * copies and mark it as free.*/
 		if(userRequestQueue.isEmpty()) {
@@ -205,6 +209,38 @@ public abstract class Resource {
 			firstRequest.addBorrowedCopy(returnedCopy);
 			userRequestQueue.dequeue();
 		}	
+	}
+	
+	private void applyFines(Copy copyToBeReturned) {
+		Date today =  new Date();
+		Date dueDate = copyToBeReturned.getDueDate();
+		
+		int daysOverDue = (int)((today.getTime()-dueDate.getTime())/MILLISECONDS_IN_DAY);
+		if(daysOverDue>0) {
+			int amount = daysOverDue * getDailyFineAmount();
+			
+			if(amount > getMaxFineAmount()) {
+				amount = getMaxFineAmount();
+			}
+			
+			try {
+				Connection dbConnection = DBHelper.getConnection();
+				PreparedStatement sqlStatement=dbConnection.prepareStatement("INSERT INTO fines (userName,rID,daysOver,amount,dateTime,paid) VALUES (?,?,?,?,?,?)");
+				
+				sqlStatement.setString(1, copyToBeReturned.getBorrower().getUsername());
+				sqlStatement.setInt(2, uniqueID);
+				sqlStatement.setInt(3, daysOverDue);
+				sqlStatement.setDouble(4, amount);
+				
+				SimpleDateFormat normalDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+				sqlStatement.setString(5, normalDateFormat.format(today));
+				sqlStatement.setInt(6, 0);
+				
+				sqlStatement.executeUpdate();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 	
 	/**Ensures a copy is loaned to the given user if there are available 
@@ -484,8 +520,8 @@ public abstract class Resource {
 		}
 	}
 	
-	/*public static void main(String args[]) {
-		Resource r1 = new Resource(1,"Eduroam sucks",2018,null);
+	//public static void main(String args[]) {
+		/*Resource r1 = new Resource(1,"Eduroam sucks",2018,null);
 		Copy c1= new Copy(r1,1,null);
 		Copy c2 = new Copy(r1,2,null);
 		
@@ -496,9 +532,54 @@ public abstract class Resource {
 		r1.noDueDateCopies.add(c2);
 		
 		System.out.println(r1.noDueDateCopies.poll().getCOPY_ID());
-		System.out.println(r1.noDueDateCopies.poll().getCOPY_ID());
-	}*/
-	
+		System.out.println(r1.noDueDateCopies.poll().getCOPY_ID());*/
+		
+		/*DBHelper.tableCheck();
+		
+		Laptop l = new Laptop(1,"VX15", 2017,null,"Acer","Aspire","Windows");
+		Book b = new Book(2,"Great Expectations", 1880, null, "CharlesDickens", "Wanker");
+		DVD d =  new DVD(3,"Iron Man", 2008, null, "Favreau", 200);
+		
+		User user = new User("Alexandru", "Alex","Dasc","0777777777","902 Kilvey", "SA2 8PU", null,0);
+		Copy test =  new Copy(b, 1, user, 7);
+		
+		test.setDueDate(new Date(118,11,2));
+		
+		System.out.println("----Displaying resource table----");
+		try {
+			Connection conn = DBHelper.getConnection(); //get the connection
+			Statement stmt = conn.createStatement(); //prep a statement
+			ResultSet rs = stmt.executeQuery("SELECT * FROM fines"); //Your sql goes here
+			while(rs.next()) {
+				System.out.println("ID: "+rs.getInt("fineId")+" username: " +rs.getString("username") //The index is either a number of the name
+				+ " rID: "+rs.getInt("rID")+" daysOver: "+rs.getInt("daysOver")+
+				" amount: "+rs.getDouble("amount")+" date and time: "+
+				rs.getString("dateTime")+" paid: "+rs.getInt("paid"));
+			} //Think of this a bit like the file reader for the games project
+		} catch (SQLException e) { //if your SQL is incorrect this will display it
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		l.applyFines(test);
+		
+		System.out.println("----Displaying resource table----");
+		try {
+			Connection conn = DBHelper.getConnection(); //get the connection
+			Statement stmt = conn.createStatement(); //prep a statement
+			ResultSet rs = stmt.executeQuery("SELECT * FROM fines"); //Your sql goes here
+			while(rs.next()) {
+				System.out.println("ID: "+rs.getInt("fineId")+" username: " +rs.getString("username") //The index is either a number of the name
+				+ " rID: "+rs.getInt("rID")+" daysOver: "+rs.getInt("daysOver")+
+				" amount: "+rs.getDouble("amount")+" date and time: "+
+				rs.getString("dateTime")+" paid: "+rs.getInt("paid"));
+			} //Think of this a bit like the file reader for the games project
+		} catch (SQLException e) { //if your SQL is incorrect this will display it
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	*/
 	
 	public boolean contains(String search) {
 		if(title.toUpperCase().contains(search.toUpperCase())) {

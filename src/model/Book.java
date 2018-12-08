@@ -58,7 +58,9 @@ public class Book extends Resource {
 	 * @param ISBN
 	 * @param language
 	 */
-	public Book (int uniqueID, String title, int year, Image thumbnail, String author, String publisher, String genre, String ISBN, String language) {
+	public Book (int uniqueID, String title, int year, Image thumbnail, 
+			String author, String publisher, String genre, String ISBN, 
+			String language) {
 		super(uniqueID, title, year, thumbnail);
 		this.author = author;
 		this.publisher = publisher;
