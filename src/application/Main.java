@@ -23,6 +23,7 @@ public class Main extends Application {
 	
 	/**
 	 * Initialises stage object and shows login scene on start-up.
+	 * @param primary stage the main screen
 	 */
 	@Override
 	public void start(Stage primaryStage) {
@@ -46,7 +47,7 @@ public class Main extends Application {
 			e.printStackTrace();
 		}
 	}
-	
+	//main method that launches the application
 	public static void main(String[] args) {
 		launch(args);
 	}
