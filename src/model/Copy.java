@@ -24,22 +24,28 @@ public class Copy implements Comparable<Copy>{
 	
 	private static void updateDBValue(int copyID, String field, String data) {
 		try {
-			Connection connectionToDB = DBHelper.getConnection(); //get the connection
-			Statement sqlStatement = connectionToDB.createStatement(); //prep a statement
-			sqlStatement.executeUpdate("update copies set " + field + " = " + data + " where copyID =" + copyID); //Your sql goes here
-		} catch (SQLException e) { 
+			Connection connectionToDB = DBHelper.getConnection();
+			PreparedStatement sqlStatement = connectionToDB.prepareStatement("UPDATE copies "
+					+ "set "+field+" = ? WHERE copyID=?");
+			sqlStatement.setString(1,data);
+			sqlStatement.setInt(2,copyID);
+			sqlStatement.executeUpdate(); 
+		} catch (SQLException e) {
 			e.printStackTrace();
-		}
+		} 
 	}
 	
 	private static void updateDBValue(int copyID, String field, int data) {
 		try {
-			Connection connectionToDB = DBHelper.getConnection(); //get the connection
-			Statement sqlStatement = connectionToDB.createStatement(); //prep a statement
-			sqlStatement.executeUpdate("update copies set " + field + " = " + data + " where copyID =" + copyID); //Your sql goes here
-		} catch (SQLException e) { 
+			Connection connectionToDB = DBHelper.getConnection();
+			PreparedStatement sqlStatement = connectionToDB.prepareStatement("UPDATE copies "
+					+ "set "+field+" = ? WHERE copyID=?");
+			sqlStatement.setInt(1,data);
+			sqlStatement.setInt(2,copyID);
+			sqlStatement.executeUpdate(); 
+		} catch (SQLException e) {
 			e.printStackTrace();
-		}
+		} 
 	}
 	
 	public Copy(Resource resource, int copyID, User borrower, int loanDuration, 
