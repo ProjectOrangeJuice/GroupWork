@@ -42,6 +42,7 @@ public class LoginController {
 
 	/**
 	 * Called when login button is clicked.
+	 * @param the event of the button being clicked
 	 */
 	@FXML
 	public void loginAction(MouseEvent event) {
@@ -63,12 +64,17 @@ public class LoginController {
 	
 	/**
 	 * Called when log out link is clicked.
+	 * @param the event of the link being clicked
 	 */
 	@FXML
 	public void logoutAction(MouseEvent event) {
 		changeScene(event, "/fxml/loginScene.fxml");
 	}
 	
+	/**
+	 * changes to the register screen when button is clicked
+	 * @param event the button being clicked
+	 */
 	@FXML
 	public void registerAction(MouseEvent event) {
 		System.out.println("Register button pressed.");
