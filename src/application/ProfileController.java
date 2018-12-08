@@ -501,32 +501,32 @@ public class ProfileController {
 	//
 	
 	private void loadTables() {
-		TableColumn<Fine, String> usernameCol = new TableColumn<Fine, String>("Username");
+		TableColumn<Person, String> usernameCol = new TableColumn<Person, String>("Username");
         usernameCol.setCellValueFactory(new PropertyValueFactory<>("username"));
 		
-		TableColumn<Fine, String> firstnameCol = new TableColumn<Fine, String>("Firstname");
+		TableColumn<Person, String> firstnameCol = new TableColumn<Person, String>("Firstname");
 		firstnameCol.setCellValueFactory(new PropertyValueFactory<>("firstName"));
 		
-		TableColumn<Fine, String> lastnameCol = new TableColumn<Fine, String>("Lastname");
+		TableColumn<Person, String> lastnameCol = new TableColumn<Person, String>("Lastname");
 		lastnameCol.setCellValueFactory(new PropertyValueFactory<>("lastName"));
 		
-		TableColumn<Fine, String> telephoneCol = new TableColumn<Fine, String>("Telephone");
+		TableColumn<Person, Integer> telephoneCol = new TableColumn<Person, Integer>("Telephone");
 		telephoneCol.setCellValueFactory(new PropertyValueFactory<>("telephone"));
 		
-		TableColumn<Fine, String> addressCol = new TableColumn<Fine, String>("Address");
+		TableColumn<Person, String> addressCol = new TableColumn<Person, String>("Address");
 		addressCol.setCellValueFactory(new PropertyValueFactory<>("address"));
 
-		TableColumn<Fine, String> postcodeCol = new TableColumn<Fine, String>("Postcode");
+		TableColumn<Person, String> postcodeCol = new TableColumn<Person, String>("Postcode");
 		postcodeCol.setCellValueFactory(new PropertyValueFactory<>("postcode"));
 		
-		TableColumn<Fine, String> avatarCol = new TableColumn<Fine, String>("Avatar Path");
+		TableColumn<Person, String> avatarCol = new TableColumn<Person, String>("Avatar Path");
 		avatarCol.setCellValueFactory(new PropertyValueFactory<>("avatarPath"));
 		
-		TableColumn<Fine, String> accountBalanceCol = new TableColumn<Fine, String>("accountBalance");
+		TableColumn<Person, String> accountBalanceCol = new TableColumn<Person, String>("accountBalance");
 		accountBalanceCol.setCellValueFactory(new PropertyValueFactory<>("accountBalance"));
 		
-		staffUsersTable.getColumns().addAll(usernameCol,firstnameCol,lastnameCol,telephoneCol,addressCol,postcodeCol,avatarCol,accountBalanceCol);
-		
+		staffUsersTable.getColumns().addAll(usernameCol,firstnameCol,lastnameCol,
+				telephoneCol,addressCol,postcodeCol,avatarCol,accountBalanceCol);
 		
 	}
 	
