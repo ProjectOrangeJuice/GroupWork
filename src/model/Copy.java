@@ -59,7 +59,7 @@ public class Copy implements Comparable<Copy>{
 			try {
 				Connection conn = DBHelper.getConnection();
 				PreparedStatement pstmt = conn.prepareStatement("INSERT INTO borrowRecords (copyId, username, description)"
-						+ " VALUES ('?','?','?')");
+						+ " VALUES (?,?,?)");
 	            pstmt.setInt(1, getCopyID());
 	            pstmt.setString(2, user.getUsername());
 	            pstmt.setString(3, "Not sure what to put in description.");
