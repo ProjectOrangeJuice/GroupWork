@@ -1,8 +1,14 @@
 package application;
 
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -39,6 +45,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import model.Book;
 import model.Copy;
+import model.DBHelper;
 import model.DVD;
 import model.Laptop;
 import model.Librarian;
@@ -139,6 +146,8 @@ public class ProfileController {
 	private TextField staffCopyIDField;
 	@FXML
 	private TableView staffCopiesExplorerTable;
+	@FXML
+	private TableView staffUsersTable;
 	
 	//may remove fixed size resource images
 	//when dealing with window resizing.
@@ -454,6 +463,31 @@ public class ProfileController {
 	private void openAvatarEditor(MouseEvent event) {
 		System.out.println("Launch avatar editor.");
 		changeScene(event,"/fxml/drawAvatar.fxml");
+	}
+	
+	@FXML
+	private void loadUsersTable(MouseEvent event) {
+		ObservableList<Person> usersList = FXCollections.observableArrayList();
+		try {
+			Connection conn = DBHelper.getConnection();
+			PreparedStatement pstmt = conn.prepareStatement("SELECT username FROM users");
+            ResultSet rs = pstmt.executeQuery();
+            
+            while(rs.next()) {
+            	usersList.add(Person.loadPerson(rs.getString(1)));
+            }
+            
+            //staffUsersTable.
+            //Not finished yet.
+            //TODO:
+            // - Load columns here
+            // - Load datainto table here
+            
+		} catch (SQLException e) { 
+			System.out.println("Error: Failed to load users from Database.");
+			e.printStackTrace();
+		}
+		
 	}
 
 }
