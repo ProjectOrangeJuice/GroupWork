@@ -55,6 +55,29 @@ public class User extends Person {
 		return copiesList;
 	}
 	
+	public ArrayList<Resource> getRequestedResources () {
+		
+		ArrayList<Resource> requestedResource = new ArrayList<Resource>();
+		
+		try {
+			Connection conn = DBHelper.getConnection();
+			PreparedStatement pstmt = conn.prepareStatement("SELECT rID FROM userRequests WHERE userName = ?");
+            pstmt.setString(1, this.getUsername());
+            ResultSet rs = pstmt.executeQuery();
+            
+            while(rs.next()) {
+            	requestedResource.add(Resource.getResource(rs.getInt("rID")));
+            }
+            
+		} catch (SQLException e) { 
+			System.out.println("Cannot find requested requested resources.");
+			e.printStackTrace();
+		}
+		
+		return requestedResource;
+		
+	}
+	
 	/**
 	 * Removes a copy from the list of copies withdrawn.
 	 * @param copy Copy

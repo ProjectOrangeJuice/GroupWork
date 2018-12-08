@@ -33,6 +33,14 @@ public class StaffBalanceController {
 	@FXML
 	void accountAdd(ActionEvent event) {
 		String username = accountUser.getText();
+		boolean goAhead = true;
+		try{
+			Float.valueOf(accountValue.getText());
+		}catch(NumberFormatException e) {
+			alertDone("Invalid input");
+			goAhead = false;
+		}
+		if(goAhead) {
 		float balance = Float.valueOf(accountValue.getText());
 		if(balance > MIN_VALUE && balance < MAX_VALUE) {
 			if(User.addBalance(username,balance)) {
@@ -43,6 +51,7 @@ public class StaffBalanceController {
 			
 		}else {
 			alertDone("Values out of range!");
+		}
 		}
 		
 	}

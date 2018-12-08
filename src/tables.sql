@@ -47,7 +47,7 @@ DROP TABLE IF EXISTS `system`;
 CREATE TABLE IF NOT EXISTS `system` (
 	`ver`	INTEGER
 );
-INSERT INTO `system` VALUES (8);
+INSERT INTO `system` VALUES (11);
 
 DROP TABLE IF EXISTS `resource`;
 CREATE TABLE IF NOT EXISTS `resource` (
@@ -79,7 +79,7 @@ CREATE TABLE IF NOT EXISTS `fines` (
 	`dateTime`	TEXT,
 	`paid`	INTEGER,
 	FOREIGN KEY(`username`) REFERENCES `users`(`username`),
-	FOREIGN KEY(`rID`) REFERENCES `resources`(`rID`)
+	FOREIGN KEY(`rID`) REFERENCES `resource`(`rID`)
 );
 INSERT INTO `fines` VALUES (1,"test",1,3,5.0,'hi',1);
 INSERT INTO `fines` VALUES (2,"test",2,100,10.0,'always',1);

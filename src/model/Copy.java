@@ -140,6 +140,11 @@ public class Copy implements Comparable<Copy>{
 		}
 	}
 	
+	/*
+	public void setDueDate(Date d) {
+		dueDate=d;
+	}*/
+	
 	public boolean checkRenewal() {
 		if(dueDate==null) {
 			Date nextRenewal;
