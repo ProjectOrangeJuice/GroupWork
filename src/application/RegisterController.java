@@ -79,7 +79,10 @@ public class RegisterController {
 	    private TextField username;
 	    
 	    @FXML
-	    private TextField staffID;
+	    private TextField staffId;
+	    
+	    @FXML
+	    private Label staffIdError;
 	    
 	    @FXML
 	    private TextField employmentDate;
@@ -96,7 +99,7 @@ public class RegisterController {
 	    private String phoneNumberText = phoneNumber.getText();
 	    private String lastNameText = lastName.getText();
 	    private String firstNameText = firstName.getText();
-	    private String staffIDText = staffID.getText();
+	    private String staffIdText = staffId.getText();
 	    private String employmentDateText = employmentDate.getText();
 	    
 	    /**
@@ -113,7 +116,7 @@ public class RegisterController {
 	    public void initialize(URL location, ResourceBundle resources) {
 	        Image newAvatar = new Image(avatarPath);
 	        avatar.setImage(newAvatar);
-	        staffID.setVisible(false);
+	        staffId.setVisible(false);
 	        employmentDate.setVisible(false);
 	    }
 	    
@@ -176,7 +179,7 @@ public class RegisterController {
 	            phoneNumberError.setTextFill(Paint.valueOf("RED"));
 	        }
 
-	        if (validateAddess()) {
+	        if (validateAddress()) {
 	            addressError.setTextFill(Paint.valueOf("transparent"));
 	        } else {
 	            addressError.setTextFill(Paint.valueOf("RED"));
@@ -187,13 +190,21 @@ public class RegisterController {
 	        } else {
 	            postCodeError.setTextFill(Paint.valueOf("RED"));
 	        }
+	        
+	        if (validateStaffId()) {
+	            staffIdError.setTextFill(Paint.valueOf("transparent"));
+	        } else {
+	        	staffIdError.setTextFill(Paint.valueOf("RED"));
+	        }
 
 	        //if all text fields are valid create account.
 	        if (validateUsername() && validateFirstName() && validateLastName() && validatePhoneNumber()
-	                && validateAddess() && validatePostCode()) {
+	                && validateAddress() && validatePostCode()) {
 	        	if(isLibrarian(event)) {
+	        		if(validateStaffId()) {
 	        		insertIntoUser(event);
 	        		insertIntoLibrarian(event);
+	        	}
 	        	}
 	        	else {
 	            insertIntoUser(event);
@@ -211,9 +222,9 @@ public class RegisterController {
 	        return !(postCodeText.length() > 7 || postCodeText.length() <= 5);
 		}
 
-		private boolean validateAddess() {
+		private boolean validateAddress() {
 			
-	        return !(addressText.length() > 20 || addressText.length() <= 0);
+	        return !(addressText.length() > 1000 || addressText.length() <= 0);
 		}
 
 		private boolean validatePhoneNumber() {
@@ -249,7 +260,7 @@ public class RegisterController {
 		/**
 	     * Validates if the username already exists in the database.
 	     *
-	     * @return true of username is valid.
+	     * @return true if username is valid.
 	     */
 		private boolean validateExistingUser(String username) {
 			try {
@@ -269,11 +280,40 @@ public class RegisterController {
 			}
 			return false;
 		}
+		
+		private boolean validateStaffId() {
+			
+	        return !(staffIdText.length() > 2 || staffIdText.length() < 2 || validateExistingStaffId(staffIdText));
+		}
 	    
-	    public boolean isLibrarian(ActionEvent event) {//show staffID box
+		/**
+	     * Validates if the staffId already exists in the database.
+	     *
+	     * @return true if staffId is valid.
+	     */
+		private boolean validateExistingStaffId(String staffId) {
+			try {
+				Connection conn = DBHelper.getConnection();
+				PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM staff WHERE staffId=?");
+		            pstmt.setString(1, staffId); 
+		            ResultSet rs = pstmt.executeQuery();
+		            if(rs.next()) {
+		            	return true;
+		            }else {
+		            	return false;
+		            }
+				
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return false;
+		}
+	    
+	    public boolean isLibrarian(ActionEvent event) {//show staffId box
 	    	boolean selected = librarianCheckBox.isSelected();
 	    	if(librarianCheckBox.isSelected()) {
-	    		staffID.setVisible(true);
+	    		staffId.setVisible(true);
 		        employmentDate.setVisible(true);
 	    	}
 	    	return selected;
@@ -288,7 +328,7 @@ public class RegisterController {
 	        
 	    	try {
 				Connection conn = DBHelper.getConnection();
-				PreparedStatement pstmt = conn.prepareStatement("INSERT INTO users VALUES (?,?,?,?,?,?,?,'0'");
+				PreparedStatement pstmt = conn.prepareStatement("INSERT INTO users VALUES (?,?,?,?,?,?,?,0");
 				pstmt.setString(1, usernameText);
 				pstmt.setString(2, firstNameText);
 				pstmt.setString(3, lastNameText);
@@ -311,7 +351,7 @@ public class RegisterController {
 				Connection conn = DBHelper.getConnection();
 				PreparedStatement pstmt = conn.prepareStatement("INSERT INTO staff VALUES (?, staffId, employmentDate)");//make current date
 				pstmt.setString(1, usernameText);
-				pstmt.setString(2, staffIDText);
+				pstmt.setString(2, staffIdText);
 				pstmt.setString(3, employmentDateText);
 				pstmt.executeUpdate();//This can return a value to tell you if it was successful.
 
@@ -369,6 +409,8 @@ public class RegisterController {
 	    public void setRootPane(Pane pane) {
 	        this.rootPane = pane;
 	    }
+	    
+	    
 	    //TODO open system explorer to select avatar
 	}
 
