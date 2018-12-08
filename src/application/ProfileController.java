@@ -202,7 +202,7 @@ public class ProfileController {
 			phoneLabel.setText(phoneLabel.getText() + " " + phoneNumber);
 			
 			Double userBalance = ((User) currentUser).getAccountBalance();
-			accountBalance.setText("£" + Double.toString(userBalance));
+			accountBalance.setText("ï¿½" + Double.toString(userBalance));
 		}else {
 			//get all information in about user from ScreenManager class.
 			Librarian staff = (Librarian) currentUser;

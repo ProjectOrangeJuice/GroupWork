@@ -10,10 +10,12 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.SplitMenuButton;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import model.Librarian;
 import model.Person;
@@ -48,7 +50,7 @@ public class StaffEdit {
     private TextField employmentDateText;
 
     @FXML
-    private Label phoneNumberText;
+    private TextField phoneNumberText;
 
     @FXML
     private TextField lastnameText1;
@@ -60,6 +62,14 @@ public class StaffEdit {
     private Button cancelButton;
     
     private Person currentUser;
+    
+    private Pane rootPane;
+    
+    private ScrollPane scrollPane;
+    
+    public void setRootPane(Pane pane) {
+    	this.rootPane = pane;
+    }
     
     /**
 	 * Sets new scene on stage within program using fxml file provided.
@@ -90,7 +100,7 @@ public class StaffEdit {
     			Connection conn = model.DBHelper.getConnection();
     			PreparedStatement pstmt = conn.prepareStatement("UPDATE users SET firstName = ?, "
     					+ "+ lastName = ?, telephone = ?, address = ?, postcode = ?, avatarPath = ?,"
-    					+ "staffID = ?, employmentDate = ?  WHERE username = ?");
+    					+ "+ staffID = ?, employmentDate = ?  WHERE username = ?");
     			pstmt.setString(1, currentStaff.getFirstName());
     			pstmt.setString(2, currentStaff.getLastName());
     			pstmt.setString(3, currentStaff.getPhoneNumber());
@@ -102,6 +112,7 @@ public class StaffEdit {
     			SimpleDateFormat sdfr = new SimpleDateFormat("dd/MMM/yyyy");
     			pstmt.setString(8, sdfr.format(currentStaff.getEmploymentDate()));
     		}
+    		changeScene(event, "/fxml/profileScene.fxml");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -133,5 +144,15 @@ public class StaffEdit {
 	    	employmentDateText.setText(employmentDate);
     	}
     }
+    
+    @FXML
+	 public void initialize() {
+		
+		currentUser = ScreenManager.getCurrentUser();
+				
+		loadStaffInformation();
+	
+	
+	 }
 
 }
