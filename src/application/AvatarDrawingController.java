@@ -291,7 +291,23 @@ public class AvatarDrawingController implements Initializable {
     }
 
     /**
-     * Returns to the controller page when the "Back" button is pressed.
+	 * Sets new scene on stage within program using fxml file provided.
+	 * @param sceneFXML 
+	 */
+	public void changeScene(ActionEvent event, String sceneFXML) {
+		try {
+			//create new scene object
+			Parent root = FXMLLoader.load(getClass().getResource(sceneFXML));
+			Stage stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
+			stage.getScene().setRoot(root);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+	}
+    
+    /**
+     * Returns to the profile page when the "Back" button is pressed.
      *
      * @param event event.
      * @throws IOException Thrown if Profile.fxml can't be loaded.
@@ -300,20 +316,7 @@ public class AvatarDrawingController implements Initializable {
     public void onBackAction(ActionEvent event) throws IOException {
         //Returns to profile page.
         if (!registerPrevController) {
-        	
-            //builds a new stage
-	        Stage primaryStage = new Stage();
-
-	        Parent root = FXMLLoader.load(getClass().getResource("../fxml/ProfileScene.fxml"));
-
-	        Scene scene = new Scene(root);
-
-	        primaryStage.setTitle("Profile");
-	        primaryStage.setScene(scene);
-	        primaryStage.show();
-
-	        // Hides the old window
-	        ((Node) (event.getSource())).getScene().getWindow().hide();
+        	changeScene(event, "/fxml/profileScene.fxml");
         } else {
             RegisterController registerController = new RegisterController();
             //If user has created an image, get the file path.
@@ -322,10 +325,7 @@ public class AvatarDrawingController implements Initializable {
             }
 
             //Load up register page with the new saved avatar.
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource("/fxml/RegisterScene.fxml"));
-            fxmlLoader.setController(registerController);
-            rootPane.getChildren().clear(); //clear old scene.
-            rootPane.getChildren().add(fxmlLoader.load());
+            changeScene(event, "/fxml/registerScene.fxml");
         }
     }
 

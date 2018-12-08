@@ -68,7 +68,7 @@ public class ProfileController {
 	private TextField searchTextBox;
 	
 	@FXML
-	private Controller TextField;
+	private LoginController TextField;
 	
 	@FXML
 	private Label userLabel;
@@ -149,6 +149,9 @@ public class ProfileController {
 	@FXML
 	private TableView staffUsersTable;
 	
+	@FXML
+	private VBox leftVbox;
+	
 	//may remove fixed size resource images
 	//when dealing with window resizing.
 	private final int RES_IMG_WIDTH = 150;
@@ -222,7 +225,7 @@ public class ProfileController {
 			phoneLabel.setText(phoneLabel.getText() + " " + phoneNumber);
 			
 			Double userBalance = ((User) currentUser).getAccountBalance();
-			accountBalance.setText("�" + Double.toString(userBalance));
+			accountBalance.setText("£" + Double.toString(userBalance));
 		}else {
 			//get all information in about user from ScreenManager class.
 			Librarian staff = (Librarian) currentUser;
