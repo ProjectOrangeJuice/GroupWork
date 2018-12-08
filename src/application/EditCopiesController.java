@@ -111,7 +111,7 @@ public class EditCopiesController {
 		int n = 0;
 		while(!goAhead) {
 			n = rand.nextInt(5000) + 1;
-			checkId(n);
+			goAhead = checkId(n);
 		}
 		return n;
 		
@@ -121,7 +121,7 @@ public class EditCopiesController {
 		try {
 			Connection connection = DBHelper.getConnection(); 
 			PreparedStatement statement = connection.prepareStatement("SELECT * "
-					+ "FROM copies WHERE copyId=?");
+					+ "FROM copies WHERE copyID=?");
 			statement.setInt(1,id);
 			ResultSet results = statement.executeQuery(); 
 			if(results.next()) {
