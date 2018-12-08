@@ -209,12 +209,13 @@
                                                 <ToolBar prefHeight="40.0" prefWidth="835.0">
                                                    <items>
                                                       <Label text="View: " />
-                                                      <Button fx:id="staffOverdueFilter" mnemonicParsing="false" onAction="#displayOverdue" text="Overdue" />
+                                                      <Button fx:id="staffAllFilter" mnemonicParsing="false" text="All" />
+                                                      <Button mnemonicParsing="false" onAction="#displayOverdue" text="Overdue" />
                                                       <Button fx:id="staffRequestedFilter" mnemonicParsing="false" text="Requested" />
                                                       <Label text="Search:" />
                                                       <TextField fx:id="staffCopyIDField" promptText="CopyID" />
                                                       <Button fx:id="staffHistoryFind" mnemonicParsing="false" text="Copy History" />
-                                                      <Button fx:id="staffReturnCopyButton" mnemonicParsing="false" text="Return Copy" />
+                                                      <Button fx:id="staffReturnCopy" mnemonicParsing="false" text="Return Copy" />
                                                    </items>
                                                 </ToolBar>
                                                 <Pane prefHeight="698.0" prefWidth="1323.0" VBox.vgrow="ALWAYS">

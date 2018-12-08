@@ -73,6 +73,7 @@ public class ProfileController {
 	@FXML
 	private LoginController TextField;
 	
+	//User Profile
 	@FXML
 	private Label userLabel;
 	@FXML
@@ -86,6 +87,7 @@ public class ProfileController {
 	@FXML
 	private Label balanceLabel;
 	
+	//Staff Profile
 	@FXML
 	private Label userLabel1;
 	@FXML
@@ -145,6 +147,10 @@ public class ProfileController {
 	private Button staffRequestedFilter;
 	@FXML
 	private Button staffHistoryFind;
+	@FXML
+	private Button staffAllFilter;
+	@FXML
+	private Button staffReturnCopy;
 	@FXML
 	private TextField staffCopyIDField;
 	@FXML
@@ -492,14 +498,37 @@ public class ProfileController {
 		scrollPane.setHvalue(0.5);
 	
 	 }
+	//
+	//Staff Profile -----------------------------------------------------------
+	//
 	
 	//
 	// Staff: Copies Explorer
 	//
 	
 	@FXML
+	private void displayAll() {
+		System.out.println("Display Overdue!");
+	}
+	
+	@FXML
 	private void displayOverdue() {
-		
+		System.out.println("Display Overdue!");
+	}
+	
+	@FXML
+	private void displayRequested() {
+		System.out.println("Display Overdue!");
+	}
+	
+	@FXML
+	private void displayHistory() {
+		System.out.println("Display Overdue!");
+	}
+	
+	@FXML
+	private void returnCopy() {
+		System.out.println("Display Overdue!");
 	}
 	
 	@FXML
