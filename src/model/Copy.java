@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
 
 /**
  * 
@@ -13,13 +14,33 @@ import java.sql.Statement;
  */
 public class Copy implements Comparable<Copy>{
 	
-	private Resource resource;
+	private final Resource resource;
 	private User borrower;
 	private final int copyID;
 	private int loanDuration;
 	private Date borrowDate;
 	private Date lastRenewal;
 	private Date dueDate;
+	
+	private static void updateDBValue(int copyID, String field, String data) {
+		try {
+			Connection connectionToDB = DBHelper.getConnection(); //get the connection
+			Statement sqlStatement = connectionToDB.createStatement(); //prep a statement
+			sqlStatement.executeQuery("update copies set " + field + " = " + data + " where copyID =" + copyID); //Your sql goes here
+		} catch (SQLException e) { 
+			e.printStackTrace();
+		}
+	}
+	
+	private static void updateDBValue(int copyID, String field, int data) {
+		try {
+			Connection conn = DBHelper.getConnection(); //get the connection
+			Statement stmt = conn.createStatement(); //prep a statement
+			stmt.executeQuery("update copies set " + field + " = " + data + " where rID = " + copyID); //Your sql goes here
+		} catch (SQLException e) { 
+			e.printStackTrace();
+		}
+	}
 	
 	public Copy(Resource resource, int copyID, User borrower, int loanDuration, 
 			Date borrowDate, Date lastRenewal, Date dueDate) {
@@ -118,6 +139,7 @@ public class Copy implements Comparable<Copy>{
 	}
 	
 	public void setLoanDuration(int duration){
+		updateDBValue(copyID,"loanDuration", duration);
 		this.loanDuration = duration;
 	}
 	
@@ -137,6 +159,9 @@ public class Copy implements Comparable<Copy>{
 				today.setDate(today.getDate()+1);
 				dueDate=today;
 			}
+			
+			SimpleDateFormat normalDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+			updateDBValue(copyID,"dueDate",normalDateFormat.format(dueDate));
 		}
 	}
 	
@@ -160,6 +185,9 @@ public class Copy implements Comparable<Copy>{
 			
 			if(nextRenewal.before(today)) {
 				lastRenewal=nextRenewal;
+				
+				SimpleDateFormat normalDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+				updateDBValue(copyID,"lastRenewal", normalDateFormat.format(lastRenewal));
 				return true;
 			} else {
 				return false;
@@ -175,6 +203,9 @@ public class Copy implements Comparable<Copy>{
 	
 	public void setBorrowDate(Date borrowDate) {
 		this.borrowDate = borrowDate;
+		
+		SimpleDateFormat normalDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+		updateDBValue(copyID,"borrowDate", normalDateFormat.format(borrowDate));
 	}
 
 	public User getBorrower() {
@@ -194,6 +225,10 @@ public class Copy implements Comparable<Copy>{
 			borrowDate=null;
 			dueDate=null;
 			lastRenewal=null;
+			
+			updateDBValue(copyID,"borrowDate",null);
+			updateDBValue(copyID,"dueDate",null);
+			updateDBValue(copyID,"lastRenewal",null);
 		} else {
 			throw new IllegalStateException("You are trying to reset borrow,"+
 					" due and last renewal dates while this copy is still borrowed!");
