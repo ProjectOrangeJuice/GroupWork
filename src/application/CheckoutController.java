@@ -115,11 +115,7 @@ if (result.get() == ButtonType.OK){
 		
 		
 
-		//create the table
-		TableColumn<Request, String> orderCol = 
-				new TableColumn<Request, String>("Order");
-		orderCol.setCellValueFactory(new PropertyValueFactory<>("orderNumber"));
-
+		
 		TableColumn<Request, String> userCol = 
 				new TableColumn<Request, String>("User");
 		userCol.setCellValueFactory(new PropertyValueFactory<>("username"));
@@ -142,7 +138,7 @@ if (result.get() == ButtonType.OK){
 			return row ;
 		});
 		
-		tableRequest.getColumns().addAll(orderCol,userCol,resourceCol);
+		tableRequest.getColumns().addAll(userCol,resourceCol);
 		tableRequest.autosize();
 		checkoutVbox.getChildren().add(tableRequest);
 
