@@ -20,10 +20,13 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 import model.DBHelper;
+import model.Person;
+import model.User;
 	
 	
 public class RegisterController {
@@ -361,9 +364,10 @@ public class RegisterController {
 			}
 
 	    }
+		
 	    
-	    /**
-	     * Opens avatar drawing page.
+		/**
+	     * Opens custom drawing window. Lets the user draw an icon.
 	     *
 	     * @param event event.
 	     * @throws IOException io exception.
@@ -372,7 +376,7 @@ public class RegisterController {
 	    void customDrawingAction(ActionEvent event) throws IOException {
 	        AvatarDrawingController avatarDrawingController = new AvatarDrawingController(pane, true);
 
-	        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource("/fxml/drawAvatar.fxml"));
+	        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource("co/uk/artatawe/gui/CustomProfileImagePage.fxml"));
 	        fxmlLoader.setController(avatarDrawingController); //sets controller manually.
 
 	        try {

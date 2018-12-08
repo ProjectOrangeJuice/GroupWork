@@ -16,7 +16,7 @@ import model.Librarian;
 import model.Person;
 import model.User;
 
-public class Controller {
+public class LoginController {
 	
 	@FXML
 	private TextField usernameTextBox;
@@ -72,11 +72,6 @@ public class Controller {
 	@FXML
 	public void initialize() {
 		
-	}
-	
-	@FXML
-	private void registerButtonClicked(MouseEvent event) {
-		System.out.println("Launch register!");
-	}
+	 }    
 
 }

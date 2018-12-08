@@ -1,10 +1,14 @@
 package application;
 
+import java.io.IOException;
+
 import javafx.application.Platform;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
@@ -14,6 +18,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import model.Book;
 import model.DVD;
@@ -55,6 +60,8 @@ public class CopyController {
 	@FXML
 	private Button requestbutt;
 
+	@FXML
+	private VBox leftVbox;
 
 	
 	@FXML
@@ -166,12 +173,35 @@ public class CopyController {
 		}
 	}
 	
+	private void setupStaffButtons() {
+		Button editCopies = new Button("Edit copies");
+		editCopies.setOnAction(e -> {
+			try {
+				FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/editCopies.fxml"));
+	            Parent root1 = (Parent) fxmlLoader.load();
+	            Stage stage = new Stage();
+	            stage.initModality(Modality.APPLICATION_MODAL);
+	            //stage.initStyle(StageStyle.UNDECORATED);
+	            stage.setTitle("Copies");
+	            stage.setScene(new Scene(root1));  
+	            stage.show();
+			} catch (IOException e2) {
+				// TODO Auto-generated catch block
+				e2.printStackTrace();
+			}
+		});
+		Button editResource = new Button("Edit resource");
+		leftVbox.getChildren().addAll(editCopies,editResource);
+	}
+	
 	@FXML
 	 public void initialize() {
 		if(ScreenManager.getCurrentUser() instanceof User) {
 		checkIfBorrowed();
 		}else {
 			requestbutt.disableProperty();
+			setupStaffButtons();
+			
 		}
 		loadResourceImage();
 		loadResourceInformation();

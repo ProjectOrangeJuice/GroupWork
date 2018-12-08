@@ -23,10 +23,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
-import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.effect.BlendMode;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -49,7 +47,6 @@ import model.Book;
 import model.Copy;
 import model.DBHelper;
 import model.DVD;
-import model.Fine;
 import model.Laptop;
 import model.Librarian;
 import model.Person;
@@ -71,7 +68,7 @@ public class ProfileController {
 	private TextField searchTextBox;
 	
 	@FXML
-	private Controller TextField;
+	private LoginController TextField;
 	
 	@FXML
 	private Label userLabel;
@@ -152,7 +149,8 @@ public class ProfileController {
 	@FXML
 	private TableView staffUsersTable;
 	
-	String staffCurrentUser;
+	@FXML
+	private VBox leftVbox;
 	
 	//may remove fixed size resource images
 	//when dealing with window resizing.
@@ -227,7 +225,7 @@ public class ProfileController {
 			phoneLabel.setText(phoneLabel.getText() + " " + phoneNumber);
 			
 			Double userBalance = ((User) currentUser).getAccountBalance();
-			accountBalance.setText("�" + Double.toString(userBalance));
+			accountBalance.setText("£" + Double.toString(userBalance));
 		}else {
 			//get all information in about user from ScreenManager class.
 			Librarian staff = (Librarian) currentUser;
@@ -485,10 +483,6 @@ public class ProfileController {
 		changeScene(event,"/fxml/drawAvatar.fxml");
 	}
 	
-	//
-	// Manage Users Tab
-	//
-	
 	@FXML
 	private void loadUsersTable(MouseEvent event) {
 		ObservableList<Person> usersList = FXCollections.observableArrayList();
@@ -501,51 +495,17 @@ public class ProfileController {
             	usersList.add(Person.loadPerson(rs.getString(1)));
             }
             
-            TableColumn<Fine, String> usernameCol = new TableColumn<Fine, String>("Username");
-            usernameCol.setCellValueFactory(new PropertyValueFactory<>("username"));
-    		
-    		TableColumn<Fine, String> firstnameCol = new TableColumn<Fine, String>("Firstname");
-    		firstnameCol.setCellValueFactory(new PropertyValueFactory<>("firstName"));
-    		
-    		TableColumn<Fine, String> lastnameCol = new TableColumn<Fine, String>("Lastname");
-    		lastnameCol.setCellValueFactory(new PropertyValueFactory<>("lastName"));
-    		
-    		TableColumn<Fine, String> telephoneCol = new TableColumn<Fine, String>("Telephone");
-    		telephoneCol.setCellValueFactory(new PropertyValueFactory<>("telephone"));
-    		
-    		TableColumn<Fine, String> addressCol = new TableColumn<Fine, String>("Address");
-    		addressCol.setCellValueFactory(new PropertyValueFactory<>("address"));
-
-    		TableColumn<Fine, String> postcodeCol = new TableColumn<Fine, String>("Postcode");
-    		postcodeCol.setCellValueFactory(new PropertyValueFactory<>("postcode"));
-    		
-    		TableColumn<Fine, String> avatarCol = new TableColumn<Fine, String>("Avatar Path");
-    		avatarCol.setCellValueFactory(new PropertyValueFactory<>("avatarPath"));
-    		
-    		TableColumn<Fine, String> accountBalanceCol = new TableColumn<Fine, String>("accountBalance");
-    		accountBalanceCol.setCellValueFactory(new PropertyValueFactory<>("accountBalance"));
-            
             //staffUsersTable.
             //Not finished yet.
             //TODO:
             // - Load columns here
-            // - Load data into table here
+            // - Load datainto table here
             
 		} catch (SQLException e) { 
 			System.out.println("Error: Failed to load users from Database.");
 			e.printStackTrace();
 		}
 		
-	}
-	
-	@FXML
-	private void userTableClicked(MouseEvent event) {
-		System.out.println("Cell clicked?");
-	}
-	
-	@FXML
-	private void userDeleteButton(MouseEvent event) {
-		System.out.println("Delete User.");
 	}
 
 }
