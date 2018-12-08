@@ -524,6 +524,10 @@ public class ProfileController {
 		
 		TableColumn<Fine, String> accountBalanceCol = new TableColumn<Fine, String>("accountBalance");
 		accountBalanceCol.setCellValueFactory(new PropertyValueFactory<>("accountBalance"));
+		
+		staffUsersTable.getColumns().addAll(usernameCol,firstnameCol,lastnameCol,telephoneCol,addressCol,postcodeCol,avatarCol,accountBalanceCol);
+		
+		
 	}
 	
 	@FXML
@@ -531,12 +535,15 @@ public class ProfileController {
 		ObservableList<Person> usersList = FXCollections.observableArrayList();
 		try {
 			Connection conn = DBHelper.getConnection();
-			PreparedStatement pstmt = conn.prepareStatement("SELECT username FROM users");
+			PreparedStatement pstmt = conn.prepareStatement("SELECT username FROM users WHERE username NOT IN (SELECT username FROM staff);");
             ResultSet rs = pstmt.executeQuery();
             
             while(rs.next()) {
             	usersList.add(Person.loadPerson(rs.getString(1)));
             }
+            
+            staffUsersTable.setItems(usersList);
+            staffUsersTable.autosize();
             
             
 		} catch (SQLException e) { 
