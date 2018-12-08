@@ -249,9 +249,8 @@ public class ProfileController {
 	 */
 	final EventHandler<MouseEvent> enterHandler = event -> {
 		StackPane currentPane = (StackPane) event.getSource();
-		currentPane.getChildren().get(0).setOpacity(0.3);
+		currentPane.getChildren().get(3).setVisible(true);
 		currentPane.getChildren().get(2).setVisible(true);
-		currentPane.getChildren().get(1).setOpacity((0.3));
 	};
 	
 	/**
@@ -259,9 +258,8 @@ public class ProfileController {
 	 */
 	final EventHandler<MouseEvent> exitHandler = event -> {
 		StackPane currentPane = (StackPane) event.getSource();
-		currentPane.getChildren().get(0).setOpacity(1);
+		currentPane.getChildren().get(3).setVisible(false);
 		currentPane.getChildren().get(2).setVisible(false);
-		currentPane.getChildren().get(1).setOpacity((1));
 	};
 	
 	final EventHandler<MouseEvent> clickHandler = event -> {
@@ -312,9 +310,17 @@ public class ProfileController {
 		image.setCache(true);
 		image.setCacheHint(CacheHint.SCALE);
 		image.setSmooth(true);
+		
+		Rectangle rect = new Rectangle();
+		rect.setWidth(width);
+		rect.setHeight(height);
+		rect.setFill(Color.BLACK);
+		rect.setOpacity(0.7);
+		rect.setVisible(false);
 	
 		imagePane.getChildren().add(image);
 		imagePane.getChildren().add(new ImageView());
+		imagePane.getChildren().add(rect);
 		imagePane.getChildren().add(resourceText);
 		
 		//set id of imagePane to it's index so it can be accessed
@@ -518,6 +524,10 @@ public class ProfileController {
 		
 		TableColumn<Fine, String> accountBalanceCol = new TableColumn<Fine, String>("accountBalance");
 		accountBalanceCol.setCellValueFactory(new PropertyValueFactory<>("accountBalance"));
+		
+		staffUsersTable.getColumns().addAll(usernameCol,firstnameCol,lastnameCol,telephoneCol,addressCol,postcodeCol,avatarCol,accountBalanceCol);
+		
+		
 	}
 	
 	@FXML
@@ -525,12 +535,15 @@ public class ProfileController {
 		ObservableList<Person> usersList = FXCollections.observableArrayList();
 		try {
 			Connection conn = DBHelper.getConnection();
-			PreparedStatement pstmt = conn.prepareStatement("SELECT username FROM users");
+			PreparedStatement pstmt = conn.prepareStatement("SELECT username FROM users WHERE username NOT IN (SELECT username FROM staff);");
             ResultSet rs = pstmt.executeQuery();
             
             while(rs.next()) {
             	usersList.add(Person.loadPerson(rs.getString(1)));
             }
+            
+            staffUsersTable.setItems(usersList);
+            staffUsersTable.autosize();
             
             
 		} catch (SQLException e) { 
