@@ -28,18 +28,20 @@ import model.User;
 
 public class EditCopiesController {
 
-	private ArrayList<Copy> copies;
-	private TableView<Copy> tableCopies= new TableView<>();
-	ObservableList<Copy> copyData = FXCollections.observableArrayList();
+	private ArrayList<Copy> copies; //arraylist of the copies
+	private TableView<Copy> tableCopies= new TableView<>();//tables of the copies
+	ObservableList<Copy> copyData = FXCollections.observableArrayList();//arraylist of the copy data
 	
 	@FXML
-	private TextField loanDur;
+	private TextField loanDur; //textbox which holds the loan duration
 	
 	
 	@FXML
-	private TableView copiesTable;
+	private TableView copiesTable;//table for copies
 	
-	
+	/**
+	 * Method that calls the repop method and creates the table.
+	 */
 	private void setupCopy() {
 		
 		
@@ -57,7 +59,7 @@ public class EditCopiesController {
 		
 		
 
-		
+		//generates rows of copyid and loanduration for each copy
 		copiesTable.setItems(copyData);
 		
 		copiesTable.setRowFactory( tv -> {
@@ -71,6 +73,7 @@ public class EditCopiesController {
 			return row ;
 		});
 
+		//adds the columns to the tables and auto sizes them
 		copiesTable.getColumns().addAll(idCol,loanDurCol);
 		copiesTable.autosize();
 
@@ -78,7 +81,9 @@ public class EditCopiesController {
 
 	}
 	
-	
+	/**
+	 * repopulates the copies table
+	 */
 	private void repop() {
 		ScreenManager.currentResource.loadCopyList();
 		copies = ScreenManager.currentResource.getCopies();
@@ -92,16 +97,22 @@ public class EditCopiesController {
 
 	}
 	
+	/**
+	 * adds the copy to the table
+	 * @param event the event of the button being clicked
+	 */
 	@FXML
 	private void addCopy(ActionEvent event) {
 		String duration = loanDur.getText();
 		boolean goAhead = true;
+		//converts the duration to text, if there is a format error it throws an exception and declines the add copy.
 		try {
 			Integer.parseInt(duration);
 		} catch (NumberFormatException e){
 			goAhead = false;
 		}
 		
+		//if it doesnt throw an exception, add the copy to the table
 		if(goAhead) {
 			System.out.println("Copy adding");
 			int id = makeId();
@@ -113,6 +124,10 @@ public class EditCopiesController {
 		}
 	}
 
+	/**
+	 * Randomly makes an id for a copy
+	 * @return the random id
+	 */
 	private int makeId() {
 		Random rand = new Random();
 		boolean goAhead = false;
@@ -125,6 +140,11 @@ public class EditCopiesController {
 		
 	}
 	
+	/**
+	 * A method that checks if the id that is generated is the same as an existing id
+	 * @param id the randomly generated id
+	 * @return true if its a new id, false if its the same
+	 */
 	private boolean checkId(int id) {
 		try {
 			Connection connection = DBHelper.getConnection(); 
@@ -145,7 +165,10 @@ public class EditCopiesController {
 		return false;
 	}
 	
-	
+	/**
+	 * updates the duration of a copy
+	 * @param copy passes through a copy			
+	 */
 	private void updateDuration(Copy copy){
 		String duration = loanDur.getText();
 		boolean goAhead = true;
@@ -165,7 +188,9 @@ public class EditCopiesController {
 		
 	}
 	
-	
+	/**
+	 * Calls the setup copy method when the program starts.
+	 */
 	@FXML
 	 public void initialize() {
 		setupCopy();
