@@ -169,6 +169,8 @@ CREATE TABLE IF NOT EXISTS `borrowRecords` (
 	FOREIGN KEY (username) REFERENCES `users`(`username`) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
+INSERT INTO `borrowRecords` VALUES (1,2,'Manny','Returned on 08/12/2018');
+
 DROP TABLE IF EXISTS `requestsToApprove`;
 CREATE TABLE IF NOT EXISTS `requestsToApprove` (
 	`rID` INTEGER,
