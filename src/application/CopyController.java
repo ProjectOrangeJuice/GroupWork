@@ -191,6 +191,21 @@ public class CopyController {
 			}
 		});
 		Button editResource = new Button("Edit resource");
+		editResource.setOnAction(e -> {
+			try {
+				FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/editResource.fxml"));
+	            Parent root1 = (Parent) fxmlLoader.load();
+	            Stage stage = new Stage();
+	            stage.initModality(Modality.APPLICATION_MODAL);
+	            //stage.initStyle(StageStyle.UNDECORATED);
+	            stage.setTitle("Resource");
+	            stage.setScene(new Scene(root1));  
+	            stage.show();
+			} catch (IOException e2) {
+				// TODO Auto-generated catch block
+				e2.printStackTrace();
+			}
+		});
 		leftVbox.getChildren().addAll(editCopies,editResource);
 	}
 	
