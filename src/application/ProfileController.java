@@ -150,7 +150,9 @@ public class ProfileController {
 	@FXML
 	private TableView staffCopiesExplorerTable;
 	@FXML
-	private TableView staffUsersTable;
+	private TableView<Person> staffUsersTable;
+	@FXML
+	private Label selectedUserLabel;
 	
 	@FXML
 	private VBox leftVbox;
@@ -526,7 +528,7 @@ public class ProfileController {
 		accountBalanceCol.setCellValueFactory(new PropertyValueFactory<>("accountBalance"));
 		
 		staffUsersTable.getColumns().addAll(usernameCol,firstnameCol,lastnameCol,
-				telephoneCol,addressCol,postcodeCol,avatarCol,accountBalanceCol);
+				addressCol,postcodeCol,accountBalanceCol);
 		
 	}
 	
@@ -555,12 +557,23 @@ public class ProfileController {
 	
 	@FXML
 	private void userTableClicked(MouseEvent event) {
-		System.out.println("Cell clicked?");
+		Person selectedUser = staffUsersTable.getSelectionModel().getSelectedItem();
+		selectedUserLabel.setText(selectedUser.getUsername());
+		//System.out.println("Cell clicked?");
 	}
 	
 	@FXML
 	private void userDeleteButton(MouseEvent event) {
-		System.out.println("Delete User.");
+		if (selectedUserLabel.getText().equals("-")) {
+			System.out.println("No user selected!");
+		} else {
+			System.out.println("Delete User: " + selectedUserLabel.getText());
+			//Delete user
+			selectedUserLabel.setText("-");
+			staffUsersTable.getItems().clear();
+			loadUsersTable(null);
+		}
+		
 	}
 
 }
