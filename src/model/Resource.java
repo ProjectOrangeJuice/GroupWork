@@ -139,6 +139,7 @@ public abstract class Resource {
 		loadCopyList();
 		loadCopyPriorityQueue();
 		loadUserQueue();
+		loadPendingRequests();
 	} 
 	
 	public void addCopy(Copy copy) {
@@ -200,6 +201,8 @@ public abstract class Resource {
 			returnedCopy.getBorrower().removeBorrowedCopy(returnedCopy);
 			returnedCopy.setBorrower(null);
 			returnedCopy.resetDates();
+			
+			saveCopyToDB(returnedCopy);
 		} 
 		/*If the are user in the queue, reserve this copy for the first user 
 		 * in the queue and take that person out of the queue.*/
@@ -209,6 +212,7 @@ public abstract class Resource {
 			returnedCopy.resetDates();
 			returnedCopy.setBorrower(firstRequest);
 			returnedCopy.setBorrowDate(new Date());
+			saveCopyToDB(returnedCopy);
 			
 			noDueDateCopies.add(returnedCopy);
 			firstRequest.addBorrowedCopy(returnedCopy);
@@ -266,31 +270,7 @@ public abstract class Resource {
 			noDueDateCopies.add(copyToBorrow);
 			user.addBorrowedCopy(copyToBorrow);
 			
-			try {
-				Connection dbConnection = DBHelper.getConnection();
-				PreparedStatement sqlStatement=dbConnection.prepareStatement
-						("DELETE FROM copies WHERE copyID="+copyToBorrow.getCopyID());
-				sqlStatement.executeUpdate();
-				
-				SimpleDateFormat normalDateFormat = new SimpleDateFormat("dd/MM/yyyy");
-				sqlStatement = dbConnection.prepareStatement("INSERT INTO copies VALUES(?,?,?,?,?,?,?)");
-				sqlStatement.setInt(2, uniqueID);
-				
-					sqlStatement.setInt(1, copyToBorrow.getCopyID());
-					
-					String userName = null;
-					if(copyToBorrow.getBorrower()!=null) {
-						userName = copyToBorrow.getBorrower().getUsername();
-					
-					sqlStatement.setString(3, userName);
-					sqlStatement.setInt(4, copyToBorrow.getLoanDuration());
-					sqlStatement.setString(5, normalDateFormat.format(copyToBorrow.getBorrowDate()));
-					sqlStatement.setString(6, normalDateFormat.format(copyToBorrow.getLastRenewal()));
-					sqlStatement.setString(7, normalDateFormat.format(copyToBorrow.getDueDate()));
-				}
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
+			saveCopyToDB(copyToBorrow);
 			return true;
 		} 
 		/*Else, add the user to the request queue and set the due date
@@ -300,6 +280,8 @@ public abstract class Resource {
 			userRequestQueue.enqueue(user);
 			Copy firstCopy = noDueDateCopies.poll();
 			firstCopy.setDueDate();
+			
+			saveCopyToDB(firstCopy);
 			return false;
 		}
 	}
@@ -472,6 +454,35 @@ public abstract class Resource {
 		}
 	}
 	
+	private void saveCopyToDB(Copy copyToBorrow) {
+		try {
+			Connection dbConnection = DBHelper.getConnection();
+			PreparedStatement sqlStatement=dbConnection.prepareStatement
+					("DELETE FROM copies WHERE copyID="+copyToBorrow.getCopyID());
+			sqlStatement.executeUpdate();
+			
+			SimpleDateFormat normalDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+			sqlStatement = dbConnection.prepareStatement("INSERT INTO copies VALUES(?,?,?,?,?,?,?)");
+			sqlStatement.setInt(2, uniqueID);
+			
+			sqlStatement.setInt(1, copyToBorrow.getCopyID());
+				
+			String userName = null;
+			if(copyToBorrow.getBorrower()!=null) {
+				userName = copyToBorrow.getBorrower().getUsername();
+				
+			sqlStatement.setString(3, userName);
+			sqlStatement.setInt(4, copyToBorrow.getLoanDuration());
+			sqlStatement.setString(5, normalDateFormat.format(copyToBorrow.getBorrowDate()));
+			sqlStatement.setString(6, normalDateFormat.format(copyToBorrow.getLastRenewal()));
+			sqlStatement.setString(7, normalDateFormat.format(copyToBorrow.getDueDate()));
+			sqlStatement.executeUpdate();
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	public void saveUserQueue() {
 		LinkedList<User> orderedUsers = userRequestQueue.getOrderedList();
 		try {
@@ -488,34 +499,6 @@ public abstract class Resource {
 				sqlStatement.executeUpdate();
 				current = orderedUsers.pollFirst();
 				orderNr++;
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-	}
-	
-	public void saveCopiesToDB() {
-		try {
-			Connection dbConnection = DBHelper.getConnection();
-			PreparedStatement sqlStatement=dbConnection.prepareStatement("DELETE FROM copies WHERE rID="+uniqueID);
-			sqlStatement.executeUpdate();
-			
-			SimpleDateFormat normalDateFormat = new SimpleDateFormat("dd/MM/yyyy");
-			sqlStatement = dbConnection.prepareStatement("INSERT INTO copies VALUES(?,?,?,?,?,?,?)");
-			sqlStatement.setInt(2, uniqueID);
-			
-			for(Copy copy: copyList) {
-				sqlStatement.setInt(1, copy.getCopyID());
-				
-				String userName = null;
-				if(copy.getBorrower()!=null) {
-					userName = copy.getBorrower().getUsername();
-				}
-				sqlStatement.setString(3, userName);
-				sqlStatement.setInt(4, copy.getLoanDuration());
-				sqlStatement.setString(5, normalDateFormat.format(copy.getBorrowDate()));
-				sqlStatement.setString(6, normalDateFormat.format(copy.getLastRenewal()));
-				sqlStatement.setString(7, normalDateFormat.format(copy.getDueDate()));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
