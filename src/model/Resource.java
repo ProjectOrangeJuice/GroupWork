@@ -402,6 +402,7 @@ public abstract class Resource {
 							borrowDate, lastRenewalDate, dueDate));
 				} else {
 					Copy freeCopy=new Copy(this, savedCopies.getInt("copyID"),null,savedCopies.getInt("loanDuration"));
+					copyList.add(freeCopy);
 					freeCopies.add(freeCopy);
 				}
 			} 
