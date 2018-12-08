@@ -450,23 +450,35 @@ public abstract class Resource {
 			
 			SimpleDateFormat normalDateFormat = new SimpleDateFormat("dd/MM/yyyy");
 			sqlStatement = dbConnection.prepareStatement("INSERT INTO copies VALUES(?,?,?,?,?,?,?)");
-			sqlStatement.setInt(2, uniqueID);
+			
 			
 			sqlStatement.setInt(1, copy.getCopyID());
-				
+			sqlStatement.setInt(2, uniqueID);
+			sqlStatement.setInt(4, copy.getLoanDuration());
+			sqlStatement.setString(5, formatDate(copy.getBorrowDate(),normalDateFormat));
+			sqlStatement.setString(6, formatDate(copy.getLastRenewal(),normalDateFormat));
+			sqlStatement.setString(7, formatDate(copy.getDueDate(),normalDateFormat));
+			
 			String userName = null;
 			if(copy.getBorrower()!=null) {
 				userName = copy.getBorrower().getUsername();
+				sqlStatement.setString(3, userName);
+			} else {
+				sqlStatement.setString(3, null);
 				
-			sqlStatement.setString(3, userName);
-			sqlStatement.setInt(4, copy.getLoanDuration());
-			sqlStatement.setString(5, normalDateFormat.format(copy.getBorrowDate()));
-			sqlStatement.setString(6, normalDateFormat.format(copy.getLastRenewal()));
-			sqlStatement.setString(7, normalDateFormat.format(copy.getDueDate()));
-			sqlStatement.executeUpdate();
 			}
+			
+			sqlStatement.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
+		}
+	}
+	
+	private String formatDate(Date date, SimpleDateFormat dateFormater) {
+		if(date==null) {
+			return null;
+		} else {
+			return dateFormater.format(date);
 		}
 	}
 	
@@ -535,7 +547,51 @@ public abstract class Resource {
 		
 		System.out.println(r1.noDueDateCopies.poll().getCOPY_ID());
 		System.out.println(r1.noDueDateCopies.poll().getCOPY_ID());*/
+		/*
+		loadDatabaseResources();
 		
+		Resource winter=null;
+		
+		for(Resource r: resources) {
+			if(r.getUniqueID()==3) {
+				winter=r;
+				break;
+			}
+		}
+		
+		Copy copy=null;
+		for(Copy c: winter.getCopies()) {
+			if(c.getCopyID()==1) {
+				copy=c;
+				break;
+			}
+		}
+		
+		try {
+			Connection conn = DBHelper.getConnection(); //get the connection
+			Statement stmt = conn.createStatement(); //prep a statement
+			ResultSet rs = stmt.executeQuery("SELECT * FROM copies where copyID=1"); //Your sql goes here
+			while(rs.next()) {
+				System.out.println("loan duration "+rs.getInt("loanDuration"));
+			} //Think of this a bit like the file reader for the games project
+		} catch (SQLException e) { //if your SQL is incorrect this will display it
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		copy.setLoanDuration(7);
+		System.out.println("bor");
+		try {
+			Connection conn = DBHelper.getConnection(); //get the connection
+			Statement stmt = conn.createStatement(); //prep a statement
+			ResultSet rs = stmt.executeQuery("SELECT * FROM copies where copyID=1"); //Your sql goes here
+			while(rs.next()) {
+				System.out.println("loan duration "+rs.getInt("loanDuration"));
+			} //Think of this a bit like the file reader for the games project
+		} catch (SQLException e) { //if your SQL is incorrect this will display it
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}*/
 		/*DBHelper.tableCheck();
 		
 		Laptop l = new Laptop(1,"VX15", 2017,null,"Acer","Aspire","Windows");

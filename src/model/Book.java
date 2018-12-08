@@ -32,7 +32,7 @@ public class Book extends Resource {
 			
 			while(rs.next()) {
 				Image resourceImage = new Image(rs.getString("thumbnail"), true);
-				
+				//Image resourceImage=null;
 				resources.add(new Book(rs.getInt("rID"), rs.getString("title"), 
 						rs.getInt("year"), resourceImage, rs.getString("author"),rs.getString("publisher"),
 						rs.getString("genre"), rs.getString("ISBN"), rs.getString("language")));

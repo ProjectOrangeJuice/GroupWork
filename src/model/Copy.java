@@ -35,8 +35,8 @@ public class Copy implements Comparable<Copy>{
 	private static void updateDBValue(int copyID, String field, int data) {
 		try {
 			Connection connectionToDB = DBHelper.getConnection(); //get the connection
-			Statement updateStatement = connectionToDB.createStatement(); //prep a statement
-			updateStatement.executeUpdate("update copies set " + field + " = " + data + " where rID = " + copyID); //Your sql goes here
+			Statement sqlStatement = connectionToDB.createStatement(); //prep a statement
+			sqlStatement.executeUpdate("update copies set " + field + " = " + data + " where copyID =" + copyID); //Your sql goes here
 		} catch (SQLException e) { 
 			e.printStackTrace();
 		}
@@ -138,22 +138,7 @@ public class Copy implements Comparable<Copy>{
 	}
 	
 	public void setLoanDuration(int duration){
-		System.out.println("Duration given is" +duration);
-		Connection connection;
-		try {
-			connection = DBHelper.getConnection();
-		
-		//updateDBValue(copyID,"loanDuration", duration);
-		PreparedStatement statement = connection.prepareStatement("UPDATE copies "
-				+ "set loanDuration=? WHERE copyID=? ");
-		statement.setInt(1,duration);
-		statement.setInt(2,copyID);
-	
-		statement.executeUpdate(); 
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} 
+		updateDBValue(copyID,"loanDuration", duration);
 		this.loanDuration = duration;
 	}
 	
@@ -219,7 +204,7 @@ public class Copy implements Comparable<Copy>{
 		this.borrowDate = borrowDate;
 		
 		SimpleDateFormat normalDateFormat = new SimpleDateFormat("dd/MM/yyyy");
-		//updateDBValue(copyID,"borrowDate", normalDateFormat.format(borrowDate));
+		updateDBValue(copyID,"borrowDate", normalDateFormat.format(borrowDate));
 	}
 
 	public User getBorrower() {
