@@ -151,8 +151,6 @@ public class StaffEdit {
 		currentUser = ScreenManager.getCurrentUser();
 				
 		loadStaffInformation();
-	
-	
 	 }
 
 }
