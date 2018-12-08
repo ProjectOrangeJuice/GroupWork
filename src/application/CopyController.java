@@ -199,7 +199,7 @@ public class CopyController {
 		if(ScreenManager.getCurrentUser() instanceof User) {
 		checkIfBorrowed();
 		}else {
-			requestbutt.disableProperty();
+			requestbutt.setDisable(true);
 			setupStaffButtons();
 			
 		}
