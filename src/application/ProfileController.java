@@ -249,9 +249,8 @@ public class ProfileController {
 	 */
 	final EventHandler<MouseEvent> enterHandler = event -> {
 		StackPane currentPane = (StackPane) event.getSource();
-		currentPane.getChildren().get(0).setOpacity(0.3);
+		currentPane.getChildren().get(3).setVisible(true);
 		currentPane.getChildren().get(2).setVisible(true);
-		currentPane.getChildren().get(1).setOpacity((0.3));
 	};
 	
 	/**
@@ -259,9 +258,8 @@ public class ProfileController {
 	 */
 	final EventHandler<MouseEvent> exitHandler = event -> {
 		StackPane currentPane = (StackPane) event.getSource();
-		currentPane.getChildren().get(0).setOpacity(1);
+		currentPane.getChildren().get(3).setVisible(false);
 		currentPane.getChildren().get(2).setVisible(false);
-		currentPane.getChildren().get(1).setOpacity((1));
 	};
 	
 	final EventHandler<MouseEvent> clickHandler = event -> {
@@ -312,9 +310,17 @@ public class ProfileController {
 		image.setCache(true);
 		image.setCacheHint(CacheHint.SCALE);
 		image.setSmooth(true);
+		
+		Rectangle rect = new Rectangle();
+		rect.setWidth(width);
+		rect.setHeight(height);
+		rect.setFill(Color.BLACK);
+		rect.setOpacity(0.7);
+		rect.setVisible(false);
 	
 		imagePane.getChildren().add(image);
 		imagePane.getChildren().add(new ImageView());
+		imagePane.getChildren().add(rect);
 		imagePane.getChildren().add(resourceText);
 		
 		//set id of imagePane to it's index so it can be accessed
