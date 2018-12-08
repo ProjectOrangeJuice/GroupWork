@@ -149,10 +149,14 @@ public class ProfileController {
 	private TextField staffCopyIDField;
 	@FXML
 	private TableView staffCopiesExplorerTable;
+	
+	//Manage Users
 	@FXML
 	private TableView<Person> staffUsersTable;
 	@FXML
 	private Label selectedUserLabel;
+	@FXML
+	private TextField staffAmountField;
 	
 	@FXML
 	private VBox leftVbox;
@@ -572,6 +576,28 @@ public class ProfileController {
 			selectedUserLabel.setText("-");
 			staffUsersTable.getItems().clear();
 			loadUsersTable(null);
+		}
+		
+	}
+	
+	@FXML
+	private void userAddFundsButton(MouseEvent event) {
+		if (selectedUserLabel.getText().equals("-")) {
+			System.out.println("No user selected!");
+		} else {
+			try {
+				double amount = Float.parseFloat(staffAmountField.getText());
+				if (amount > 0.01) {
+					System.out.println("Add: " + amount + " to " + selectedUserLabel.getText());
+					User.addBalance(selectedUserLabel.getText(), amount);
+				}
+			} catch (RuntimeException e) {
+				System.out.println("User entered non-float.");
+			} finally {
+				staffAmountField.setText("");
+				staffUsersTable.getItems().clear();
+				loadUsersTable(null);
+			}
 		}
 		
 	}
