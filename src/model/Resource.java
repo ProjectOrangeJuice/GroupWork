@@ -549,8 +549,8 @@ public abstract class Resource {
 		System.out.println(r1.noDueDateCopies.poll().getCOPY_ID());
 		System.out.println(r1.noDueDateCopies.poll().getCOPY_ID());*/
 		
-		//BHelper.tableCheck();
-		/*
+		/*DBHelper.tableCheck();
+		
 		Laptop l = new Laptop(1,"VX15", 2017,null,"Acer","Aspire","Windows");
 		Book b = new Book(2,"Great Expectations", 1880, null, "CharlesDickens", "Wanker");
 		DVD d =  new DVD(3,"Iron Man", 2008, null, "Favreau", 200);
@@ -559,20 +559,31 @@ public abstract class Resource {
 		Copy test =  new Copy(b, 1, user, 7);
 		test.setBorrowDate(new Date(118,10,30));
 		test.checkRenewal();
-		System.out.println(test.getLastRenewal().toString());*/
+		System.out.println(test.getLastRenewal().toString());
 		
-		//test.setDueDate(new Date(118,11,2));
+		test.setDueDate();
 		
-		/*System.out.println("----Displaying resource table----");
+		System.out.println("----Displaying resource table----");
 		try {
 			Connection conn = DBHelper.getConnection(); //get the connection
 			Statement stmt = conn.createStatement(); //prep a statement
-			ResultSet rs = stmt.executeQuery("SELECT * FROM fines"); //Your sql goes here
+			ResultSet rs = stmt.executeQuery("SELECT * FROM requestsToApprove"); //Your sql goes here
 			while(rs.next()) {
-				System.out.println("ID: "+rs.getInt("fineId")+" username: " +rs.getString("username") //The index is either a number of the name
-				+ " rID: "+rs.getInt("rID")+" daysOver: "+rs.getInt("daysOver")+
-				" amount: "+rs.getDouble("amount")+" date and time: "+
-				rs.getString("dateTime")+" paid: "+rs.getInt("paid"));
+				System.out.println("rID: "+rs.getInt("rID")+" username: " +rs.getString("userName"));
+			} //Think of this a bit like the file reader for the games project
+		} catch (SQLException e) { //if your SQL is incorrect this will display it
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		l.addPendingRequest(user);
+		System.out.println("----Displaying resource table----");
+		try {
+			Connection conn = DBHelper.getConnection(); //get the connection
+			Statement stmt = conn.createStatement(); //prep a statement
+			ResultSet rs = stmt.executeQuery("SELECT * FROM requestsToApprove"); //Your sql goes here
+			while(rs.next()) {
+				System.out.println("rID: "+rs.getInt("rID")+" username: " +rs.getString("userName"));
 			} //Think of this a bit like the file reader for the games project
 		} catch (SQLException e) { //if your SQL is incorrect this will display it
 			// TODO Auto-generated catch block

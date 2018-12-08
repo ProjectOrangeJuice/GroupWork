@@ -26,7 +26,7 @@ public class Copy implements Comparable<Copy>{
 		try {
 			Connection connectionToDB = DBHelper.getConnection(); //get the connection
 			Statement sqlStatement = connectionToDB.createStatement(); //prep a statement
-			sqlStatement.executeQuery("update copies set " + field + " = " + data + " where copyID =" + copyID); //Your sql goes here
+			sqlStatement.executeUpdate("update copies set " + field + " = " + data + " where copyID =" + copyID); //Your sql goes here
 		} catch (SQLException e) { 
 			e.printStackTrace();
 		}
@@ -34,9 +34,9 @@ public class Copy implements Comparable<Copy>{
 	
 	private static void updateDBValue(int copyID, String field, int data) {
 		try {
-			Connection conn = DBHelper.getConnection(); //get the connection
-			Statement stmt = conn.createStatement(); //prep a statement
-			stmt.executeQuery("update copies set " + field + " = " + data + " where rID = " + copyID); //Your sql goes here
+			Connection connectionToDB = DBHelper.getConnection(); //get the connection
+			Statement updateStatement = connectionToDB.createStatement(); //prep a statement
+			updateStatement.executeUpdate("update copies set " + field + " = " + data + " where rID = " + copyID); //Your sql goes here
 		} catch (SQLException e) { 
 			e.printStackTrace();
 		}
@@ -78,14 +78,14 @@ public class Copy implements Comparable<Copy>{
 	public void setBorrower(User user){
 		if (user != null) {
 			try {
-				Connection conn = DBHelper.getConnection();
-				PreparedStatement pstmt = conn.prepareStatement("INSERT INTO borrowRecords (copyId, username, description)"
+				Connection dbConnection = DBHelper.getConnection();
+				PreparedStatement preparedUpdateStatement = dbConnection.prepareStatement("INSERT INTO borrowRecords (copyId, username, description)"
 						+ " VALUES (?,?,?)");
-	            pstmt.setInt(1, getCopyID());
-	            pstmt.setString(2, user.getUsername());
-	            pstmt.setString(3, "Not sure what to put in description.");
-	            pstmt.executeUpdate();
-	            conn.close();
+	            preparedUpdateStatement.setInt(1, getCopyID());
+	            preparedUpdateStatement.setString(2, user.getUsername());
+	            preparedUpdateStatement.setString(3, "Not sure what to put in description.");
+	            preparedUpdateStatement.executeUpdate();
+	            dbConnection.close();
 			} catch (SQLException e) { 
 				System.out.println("Failed to add copy borrow to borrowRecoreds.");
 				e.printStackTrace();
@@ -93,16 +93,16 @@ public class Copy implements Comparable<Copy>{
 		}
 		
 		try {
-			Connection conn = DBHelper.getConnection();
-			PreparedStatement pstmt = conn.prepareStatement("UPDATE copies SET keeper = ? WHERE copyID = ?");
+			Connection dbConnection = DBHelper.getConnection();
+			PreparedStatement preparedUpdateStatement = dbConnection.prepareStatement("UPDATE copies SET keeper = ? WHERE copyID = ?");
 			if (user == null) {
-				pstmt.setString(1, null);
+				preparedUpdateStatement.setString(1, null);
 			} else {
-				pstmt.setString(1, user.getUsername());
+				preparedUpdateStatement.setString(1, user.getUsername());
 			}
-            pstmt.setInt(2, this.getCopyID());
-            pstmt.executeUpdate();
-            conn.close();
+            preparedUpdateStatement.setInt(2, this.getCopyID());
+            preparedUpdateStatement.executeUpdate();
+            dbConnection.close();
 		} catch (SQLException e) { 
 			System.out.println("Failed to update copies database.");
 			e.printStackTrace();
@@ -110,7 +110,6 @@ public class Copy implements Comparable<Copy>{
 		
 		this.borrower = user; //Do this last just in case the queries haven't worked.
 	}
-	
 	
 	/**
 	 * Method that gets the duration variable
@@ -205,7 +204,7 @@ public class Copy implements Comparable<Copy>{
 		this.borrowDate = borrowDate;
 		
 		SimpleDateFormat normalDateFormat = new SimpleDateFormat("dd/MM/yyyy");
-		updateDBValue(copyID,"borrowDate", normalDateFormat.format(borrowDate));
+		//updateDBValue(copyID,"borrowDate", normalDateFormat.format(borrowDate));
 	}
 
 	public User getBorrower() {
