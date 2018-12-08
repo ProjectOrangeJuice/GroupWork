@@ -15,7 +15,7 @@ import java.io.InputStream;
 */
 public class DBHelper {
 
-	private static int VERSION = 9; // Version number for database
+	private static int VERSION = 11; // Version number for database
 	private static String LINK = "jdbc:sqlite:test.db"; //database connection string
 	private static String SQL = "src/tables.sql"; // database connection string
 
@@ -112,7 +112,7 @@ public class DBHelper {
 					createTables();
 					System.out.println("Updating database");
 				}
-			}else {
+			} else {
 				createTables();
 				System.out.println("Creating database");
 			}
