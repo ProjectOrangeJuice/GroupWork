@@ -70,6 +70,12 @@ public class LoginController {
 	}
 	
 	@FXML
+	public void registerAction(MouseEvent event) {
+		//TODO: Remove after development
+		System.out.println("Register button pressed.");
+	}
+	
+	@FXML
 	public void initialize() {
 		
 	 }    

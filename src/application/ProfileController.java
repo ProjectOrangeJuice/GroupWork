@@ -529,11 +529,6 @@ public class ProfileController {
     		TableColumn<Fine, String> accountBalanceCol = new TableColumn<Fine, String>("accountBalance");
     		accountBalanceCol.setCellValueFactory(new PropertyValueFactory<>("accountBalance"));
             
-            //staffUsersTable.
-            //Not finished yet.
-            //TODO:
-            // - Load columns here
-            // - Load data into table here
             
 		} catch (SQLException e) { 
 			System.out.println("Error: Failed to load users from Database.");
