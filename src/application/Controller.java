@@ -72,6 +72,11 @@ public class Controller {
 	@FXML
 	public void initialize() {
 		
-	 }    
+	}
+	
+	@FXML
+	private void registerButtonClicked(MouseEvent event) {
+		System.out.println("Launch register!");
+	}
 
 }
