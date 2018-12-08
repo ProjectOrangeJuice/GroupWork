@@ -40,7 +40,7 @@ public class Main {
 		
 		System.out.println("---Copy Testing---");
 		
-		Copy testCopy = new Copy(Sapiens, 5, null);
+		Copy testCopy = new Copy(Sapiens, 5, null,7);
 		
 		System.out.println(testCopy.getBorrower());
 		testStaff.loanCopy(testCopy, testUser);

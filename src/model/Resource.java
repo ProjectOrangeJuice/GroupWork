@@ -1,10 +1,12 @@
 package model;
 import java.sql.Connection;
-import java.sql.Date;
+import java.util.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
@@ -192,7 +194,7 @@ public abstract class Resource {
 		else {
 			User firstRequest = userRequestQueue.peek();
 			returnedCopy.setBorrower(firstRequest);
-			returnedCopy.setBorrowDate(new Date(System.currentTimeMillis()));
+			returnedCopy.setBorrowDate(new Date());
 			userRequestQueue.dequeue();
 		}	
 	}
@@ -200,15 +202,17 @@ public abstract class Resource {
 	/**Ensures a copy is loaned to the given user if there are available 
 	 * copies, else it adds the user to the request queue.
 	 * @param user The user that wants to borrow a copy of this resource.
+	 * @return If the user has the copy or is in the queue (false)
 	 */
-	public void loanToUser(User user) {	
+	public boolean loanToUser(User user) {	
 		/*If there are free copies, mark a copy as borrowed and reserve 
 		 * it for the user.*/
 		if(!freeCopies.isEmpty()) {
 			Copy copyToBorrow = freeCopies.removeFirst();
 			copyToBorrow.setBorrower(user);
-			copyToBorrow.setBorrowDate(new Date(System.currentTimeMillis()));
+			copyToBorrow.setBorrowDate(new Date());
 			user.addBorrowedCopy(copyToBorrow);
+			return true;
 		} 
 		/*Else, add the user to the request queue and set the due date
 		 * of the borrowed copy with no due date that has been borrowed
@@ -217,6 +221,7 @@ public abstract class Resource {
 			userRequestQueue.enqueue(user);
 			Copy firstCopy = noDueDateCopies.poll();
 			firstCopy.setDueDate();
+			return false;
 		}
 	}
 
@@ -296,21 +301,46 @@ public abstract class Resource {
 	
 	private void loadCopyList() {
 		try {
-			Connection conn = DBHelper.getConnection(); //get the connection
-			Statement stmt = conn.createStatement(); //prep a statement
-			ResultSet rs = stmt.executeQuery("SELECT * FROM copies WHERE rID="+uniqueID); //Your sql goes here
+			Connection dbConnection = DBHelper.getConnection(); //get the connection
+			Statement sqlStatement = dbConnection.createStatement(); //prep a statement
+			ResultSet savedCopies = sqlStatement.executeQuery("SELECT * FROM copies WHERE rID="+uniqueID); //Your sql goes here
+			
 			copyList.clear();
 			freeCopies.clear();
 			
-			while(rs.next()) {
-				String userName=rs.getString("keeper");
-		
+			while(savedCopies.next()) {
+				String userName=savedCopies.getString("keeper");
+	
 				if(userName!=null) {
 					User borrower;
 					borrower=(User)Person.loadPerson(userName);
-					copyList.add(new Copy(this, rs.getInt("copyID"),borrower));
+					
+					Date borrowDate=null;
+					Date lastRenewalDate=null;
+					Date dueDate=null;
+					
+					try {
+						SimpleDateFormat normalDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+						borrowDate= new SimpleDateFormat("dd/MM/yyyy").parse(savedCopies.getString("borrowDate"));
+						
+						String dbLastRenewal = savedCopies.getString("lastRenewal");
+						if(dbLastRenewal!=null) {
+							lastRenewalDate= normalDateFormat.parse(dbLastRenewal);
+						}
+						
+						String dbDueDate = savedCopies.getString("dueDate");
+						if(dbDueDate!=null) {
+							dueDate = normalDateFormat.parse(dbDueDate);
+						}
+					} catch (ParseException e) {
+						System.err.println("Failed to load a date for a copy from the database.");
+					}
+					
+					copyList.add(new Copy(this, savedCopies.getInt("copyID"),
+							borrower,savedCopies.getInt("loanDuration"),
+							borrowDate, lastRenewalDate, dueDate));
 				} else {
-					Copy freeCopy=new Copy(this, rs.getInt("copyID"),null);
+					Copy freeCopy=new Copy(this, savedCopies.getInt("copyID"),null,savedCopies.getInt("loanDuration"));
 					freeCopies.add(freeCopy);
 				}
 			} 
@@ -370,6 +400,35 @@ public abstract class Resource {
 		}
 	}
 	
+	public void saveCopiesToDB() {
+		try {
+			Connection dbConnection = DBHelper.getConnection();
+			PreparedStatement sqlStatement=dbConnection.prepareStatement("DELETE FROM copies WHERE rID="+uniqueID);
+			sqlStatement.executeUpdate();
+			
+			SimpleDateFormat normalDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+			sqlStatement = dbConnection.prepareStatement("INSERT INTO copies VALUES(?,?,?,?,?,?,?)");
+			sqlStatement.setInt(2, uniqueID);
+			
+			for(Copy copy: copyList) {
+				sqlStatement.setInt(1, copy.getCopyID());
+				
+				String userName = null;
+				if(copy.getBorrower()!=null) {
+					userName = copy.getBorrower().getUsername();
+				}
+				sqlStatement.setString(3, userName);
+				sqlStatement.setInt(4, copy.getLoanDuration());
+				sqlStatement.setString(5, normalDateFormat.format(copy.getBorrowDate()));
+				sqlStatement.setString(6, normalDateFormat.format(copy.getLastRenewal()));
+				sqlStatement.setString(7, normalDateFormat.format(copy.getDueDate()));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
 	/*
 	 * Gets the number of copies that this resource has, wether free or borrowed.
 	 * @return The nr of copies of this resource.
@@ -402,7 +461,7 @@ public abstract class Resource {
 		
 		if(title.toUpperCase().contains(search.toUpperCase())) {
 			return true;
-		}else {
+		} else {
 			return false;
 		}
 	}

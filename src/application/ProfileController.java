@@ -1,13 +1,16 @@
 package application;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
+import javafx.scene.CacheHint;
 import javafx.scene.Node;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
@@ -30,7 +33,9 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import model.Book;
 import model.Copy;
 import model.DVD;
@@ -108,6 +113,11 @@ public class ProfileController {
 	
 	@FXML
 	private Button staffEditProfileButton;
+	
+	@FXML
+	private Button staffEditAvatar;
+	@FXML
+	private Button userEditAvatar;
 	
 	//check boxes
 	@FXML
@@ -237,15 +247,40 @@ public class ProfileController {
 		
 	};
 	
+	final EventHandler<MouseEvent> clickHandler = event -> {
+		
+		//find the resource that was clicked.
+		for(Resource resource : resources) {
+			if(resource.getUniqueID() == Integer.parseInt(((StackPane) event.getSource()).getId())) {
+				ScreenManager.setCurrentResource(resource);
+			}
+		}
+		
+		try {
+			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/copyScene.fxml"));
+            Parent root1 = (Parent) fxmlLoader.load();
+            Stage stage = new Stage();
+            stage.initModality(Modality.APPLICATION_MODAL);
+            //stage.initStyle(StageStyle.UNDECORATED);
+            stage.setTitle("Resource Information");
+            stage.setScene(new Scene(root1));  
+            stage.show();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	};
 	
-	private StackPane createImage(int i, int width, int height) {
+	
+	private StackPane createImage(Resource copyResource, int width, int height) {
 		
 		StackPane imagePane = new StackPane();
 		
 		Text resourceText = new Text();
 		resourceText.setFont(Font.font("Arial", 20));
-		resourceText.setText("ID: " + resources.get(i).getUniqueID() + "\n" +
-		resources.get(i).getTitle() + "\n" + resources.get(i).getYear());
+		resourceText.setText("ID: " + copyResource.getUniqueID() + "\n" +
+		copyResource.getTitle() + "\n" + copyResource.getYear());
 		resourceText.setVisible(false);
 		resourceText.setTextAlignment(TextAlignment.CENTER);
 		
@@ -253,14 +288,18 @@ public class ProfileController {
 		ImageView image = new ImageView();
 		image.setFitWidth(width);
 		image.setFitHeight(height);
-		image.setImage(resources.get(i).getThumbnail());
+		image.setImage(copyResource.getThumbnail());
+		
+		image.setCache(true);
+		image.setCacheHint(CacheHint.SCALE); // <-- hint
+		image.setSmooth(true);
 		
 		imagePane.getChildren().add(image);
 		imagePane.getChildren().add(resourceText);
 		
 		//set id of imagePane to it's index so it can be accessed
 		//within the event handler.
-		imagePane.setId(Integer.toString(i));
+		imagePane.setId(String.valueOf(copyResource.getUniqueID()));
 		
 		return imagePane;
 	}
@@ -292,9 +331,10 @@ public class ProfileController {
 			((User) currentUser).loadUserCopies();
 			ArrayList<Copy> userCopies = ((User) currentUser).getBorrowedCopies();
 			
-			for(Copy currentCopy : userCopies) {
-				Resource copyResource = currentCopy.getResource();
-				StackPane imagePane = createImage(copyResource.getUniqueID(), COPY_IMG_WIDTH, COPY_IMG_HEIGHT);
+			for(int i = 0 ; i < userCopies.size() ; i++) {
+				System.out.println(userCopies.get(i).getResource().getTitle());
+				Resource copyResource = userCopies.get(i).getResource();
+				StackPane imagePane = createImage(copyResource, COPY_IMG_WIDTH, COPY_IMG_HEIGHT);
 				
 				Rectangle colorOverlay = new Rectangle();
 				colorOverlay.setFill(Color.LIGHTGREEN);
@@ -308,6 +348,7 @@ public class ProfileController {
 				
 				imagePane.setOnMouseEntered(enterHandler);
 				imagePane.setOnMouseExited(exitHandler);
+				imagePane.setOnMouseClicked(clickHandler);
 			}
 		}
 		//get user copies that they have requested.
@@ -320,7 +361,13 @@ public class ProfileController {
 	 * be displayed within the UI.
 	 */
 	private void loadResourceImages() {
-		
+		if (ScreenManager.getCurrentUser() instanceof Librarian) {
+			staffProfileTab.setDisable(false);
+			userProfileTab.setDisable(true);
+		} else {
+			staffProfileTab.setDisable(true);
+			userProfileTab.setDisable(false);
+		}
 		//get resources
 		
 		resources = Resource.getResources();
@@ -332,7 +379,7 @@ public class ProfileController {
 		//for each resource in resources array
 		for(int i = 0; i < resources.size(); i++) {
 			if(search(i)) {
-			StackPane imagePane = createImage(i, RES_IMG_WIDTH, RES_IMG_HEIGHT);
+			StackPane imagePane = createImage(resources.get(i), RES_IMG_WIDTH, RES_IMG_HEIGHT);
 			
 			//get last image in last resource HBox.
 			HBox latestHBox = (HBox) vResourceBox.getChildren().get(vResourceBox.getChildren().size() - 1);
@@ -358,6 +405,7 @@ public class ProfileController {
 			
 			imagePane.setOnMouseEntered(enterHandler);
 			imagePane.setOnMouseExited(exitHandler);
+			imagePane.setOnMouseClicked(clickHandler);
 			
 		}
 	}
@@ -391,6 +439,12 @@ public class ProfileController {
 	private void openProfileEditor(MouseEvent event) {
 		System.out.println("Launch staff editing profile.");
 		changeScene(event,"/fxml/StaffEdit.fxml");
+	}
+	
+	@FXML
+	private void openAvatarEditor(MouseEvent event) {
+		System.out.println("Launch avatar editor.");
+		changeScene(event,"/fxml/drawAvatar.fxml");
 	}
 
 }

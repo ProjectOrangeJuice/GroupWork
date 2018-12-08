@@ -9,11 +9,15 @@ import java.util.ResourceBundle;
 import javax.imageio.ImageIO;
 
 import javafx.scene.paint.Color;
+import javafx.stage.Stage;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -44,12 +48,9 @@ public class AvatarDrawingController implements Initializable {
     private double mouseX; //The last recorded x position of the mouse.
     private double mouseY; //The last recorded y position of the mouse.
     private User user; //The user the custom avatar is being created for.
-    //The customAvatar that is created.
-    private CustomAvatar customAvatar;
-    //The current particle trace being drawn.
-    private ParticleTrace currentParticleTrace;
-    //The pane the custom avatar page is attached to.   
-    private Pane rootPane;
+    private CustomAvatar customAvatar;//The customAvatar that is created.
+    private ParticleTrace currentParticleTrace;//The current particle trace being drawn.
+    private Pane rootPane;//The pane the custom avatar page is attached to. 
     private boolean registerPrevController; //true if prev controller was register, else false (from profile.)
     private String customDrawingFileLocation = ""; //location of the custom drawing created.
 
@@ -299,22 +300,25 @@ public class AvatarDrawingController implements Initializable {
     public void onBackAction(ActionEvent event) throws IOException {
         //Returns to profile page.
         if (!registerPrevController) {
-            ProfileController ProfileController = new ProfileController();
-            ProfileController.loadUserInformation(username); //TODO: James: Fix
+        	
+            //builds a new stage
+	        Stage primaryStage = new Stage();
 
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource("/fxml/profileScene.fxml"));
+	        Parent root = FXMLLoader.load(getClass().getResource("../fxml/ProfileScene.fxml"));
 
-            //Sets the controller manually.
-            fxmlLoader.setController(ProfileController);
-            //Puts the custom avatar page scene on the root pane.
-            rootPane.getChildren().clear(); //clears the old scene
-            rootPane.getChildren().add(fxmlLoader.load());
-            //Return to register page.
+	        Scene scene = new Scene(root);
+
+	        primaryStage.setTitle("Profile");
+	        primaryStage.setScene(scene);
+	        primaryStage.show();
+
+	        // Hides the old window
+	        ((Node) (event.getSource())).getScene().getWindow().hide();
         } else {
             RegisterController registerController = new RegisterController();
             //If user has created an image, get the file path.
             if (!customDrawingFileLocation.equals("")) {
-                registerController.setAvatarImagePath(customDrawingFileLocation); //TODO: James: Fix
+                registerController.setAvatarImagePath(customDrawingFileLocation);
             }
 
             //Load up register page with the new saved avatar.

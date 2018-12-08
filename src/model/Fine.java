@@ -3,7 +3,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 
 /**
@@ -13,7 +12,7 @@ import java.util.ArrayList;
  */
 public class Fine {
 
-	private float amount;
+	private double amount;
 	private String dateTime;
 	private int resource;
 	private int daysOver;
@@ -31,7 +30,7 @@ public class Fine {
 	 * @param fineId The fineId in the database.
 	 * @param isPaid If the fine has been paid fully.
 	 */
-	public Fine(float amount, String dateTime,String user, int resource,
+	public Fine(double amount, String dateTime,String user, int resource,
 			int daysOver, int fineId, boolean isPaid ) {
 		this.amount = amount;
 		this.username = user;
@@ -44,13 +43,83 @@ public class Fine {
 
 
 	/**
+	 * Generate the fines for a user.
+	 * @param username The username to find the fines for.
+	 * @return The ArrayList of fines for the username.
+	 */
+	public static ArrayList<Fine> getFines(String username) {
+		ArrayList<Fine> fines = new ArrayList<Fine>();
+		try {
+			Connection connection = DBHelper.getConnection(); 
+			PreparedStatement statement = connection.prepareStatement("SELECT *"
+					+ " FROM fines WHERE username=?");
+			statement.setString(1,username);
+			ResultSet results = statement.executeQuery(); 
+			while(results.next()) {
+				boolean finePaid;
+				if( results.getInt("paid")== 1) {
+					finePaid = true;
+				}else {  
+					finePaid = false;
+					}
+				
+				fines.add(new Fine(results.getFloat("amount"),
+						results.getString("dateTime"),
+						results.getString("username"),
+						results.getInt("rID"),
+						results.getInt("daysOver"),
+						results.getInt("fineID"),
+						finePaid));
+			} 
+			return fines;
+		} catch (SQLException e) { 
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	
+	/**
+	 * Get all the fines in the database.
+	 * @return The ArrayList of all fines.
+	 */
+	public static ArrayList<Fine> getFines() {
+		ArrayList<Fine> fines = new ArrayList<Fine>();
+		try {
+			Connection connection = DBHelper.getConnection(); 
+			PreparedStatement statement = connection.prepareStatement("SELECT * "
+					+ "FROM fines");
+			ResultSet results = statement.executeQuery(); 
+			while(results.next()) {
+				boolean finePaid;
+				if( results.getInt("paid")== 1) {
+					finePaid = true;
+				} else {  
+					finePaid = false;
+					}
+				
+				fines.add(new Fine(results.getFloat("amount"),
+						results.getString("dateTime"),
+						results.getString("username"),
+						results.getInt("rID"),
+						results.getInt("daysOver"),
+						results.getInt("fineID"),
+						finePaid));
+			} 
+			return fines;
+		} catch (SQLException e) { 
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	/**
 	 * Return if the fine has been fully paid.
 	 * @return If it has been paid.
 	 */
 	public boolean isPaid() {
 		return isPaid;
 	}
-
 
 	/**
 	 * Change if the fine has been paid.
@@ -66,22 +135,18 @@ public class Fine {
 			pstmt.setInt(1, paidInt); 
 			pstmt.setInt(2, fineId); 
 			pstmt.executeUpdate();
-			
-
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}
 
-
 	/**
 	 * Get the amount owed from this fine.
 	 * @return The amount owed.
 	 */
-	public float getAmount() {
+	public double getAmount() {
 		return amount;
 	}
-
 
 	/**
 	 * Get the  date and time this fine was made.
@@ -90,7 +155,6 @@ public class Fine {
 	public String getDateTime() {
 		return dateTime;
 	}
-
 
 	/**
 	 * Get the resource that caused this fine.
@@ -117,7 +181,6 @@ public class Fine {
 
 	}
 
-
 	/**
 	 * Get the number of days the fine is over due.
 	 * @return The number of days it is overdue.
@@ -125,7 +188,6 @@ public class Fine {
 	public int getDaysOver() {
 		return daysOver;
 	}
-
 
 	/**
 	 * Get the fines database id.
@@ -136,84 +198,6 @@ public class Fine {
 	}
 
 	/**
-	 * Generate the fines for a user.
-	 * @param username The username to find the fines for.
-	 * @return The ArrayList of fines for the username.
-	 */
-	public static ArrayList<Fine> getFines(String username) {
-		ArrayList<Fine> fines = new ArrayList<Fine>();
-		try {
-			Connection connection = DBHelper.getConnection(); //get the connection
-			Statement statement = connection.createStatement(); //prep a statement
-			PreparedStatement pstmt = connection.prepareStatement("SELECT * FROM fines WHERE username=?");
-			pstmt.setString(1,username);
-			ResultSet results = pstmt.executeQuery(); //Your sql goes here //Your sql goes here
-			while(results.next()) {
-				boolean finePaid;
-				if( results.getInt("paid")== 1) {
-					finePaid = true;
-				}else {  
-					finePaid = false;
-					}
-				
-				fines.add(new Fine(results.getFloat("amount"),
-						results.getString("dateTime"),
-						results.getString("username"),
-						results.getInt("rID"),
-						results.getInt("daysOver"),
-						results.getInt("fineID"),
-						finePaid));
-		
-			} 
-			return fines;
-			
-			
-		} catch (SQLException e) { 
-			e.printStackTrace();
-		}
-		return null;
-	}
-	
-	
-	/**
-	 * Get all the fines in the database.
-	 * @return The ArrayList of all fines.
-	 */
-	public static ArrayList<Fine> getFines() {
-		ArrayList<Fine> fines = new ArrayList<Fine>();
-		try {
-			Connection connection = DBHelper.getConnection(); //get the connection
-			Statement statement = connection.createStatement(); //prep a statement
-			PreparedStatement pstmt = connection.prepareStatement("SELECT * FROM fines");
-			ResultSet results = pstmt.executeQuery(); //Your sql goes here //Your sql goes here
-			while(results.next()) {
-				boolean finePaid;
-				if( results.getInt("paid")== 1) {
-					finePaid = true;
-				}else {  
-					finePaid = false;
-					}
-				
-				fines.add(new Fine(results.getFloat("amount"),
-						results.getString("dateTime"),
-						results.getString("username"),
-						results.getInt("rID"),
-						results.getInt("daysOver"),
-						results.getInt("fineID"),
-						finePaid));
-				
-			} 
-			return fines;
-			
-			
-		} catch (SQLException e) { 
-			e.printStackTrace();
-		}
-		return null;
-	}
-
-
-	/**
 	 * Check if this fine contains a value in the date time stamp.
 	 * @param search The value to check against.
 	 * @return If this fine contains the search value.
@@ -221,7 +205,7 @@ public class Fine {
 	public boolean contains(String search) {
 		if(this.getDateTime().contains(search)) {
 			return true;
-		}else {
+		} else {
 			return false;
 		}
 	}
@@ -238,5 +222,4 @@ public class Fine {
 			return false;
 		}
 	}
-
 }
