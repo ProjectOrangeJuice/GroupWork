@@ -80,6 +80,11 @@ public abstract class Resource {
 		}
 	}
 	
+	
+	public ArrayList<Copy> getCopies(){
+		return copyList;
+	}
+	
 	/*private void loadFreeCopiesList() {
 		try {
 			Connection conn = DBHelper.getConnection(); //get the connection
