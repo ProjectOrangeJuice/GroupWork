@@ -60,21 +60,25 @@ public abstract class Resource {
 		DVD.loadDatabaseDVDs();
 	}
 	
-	protected static void updateDbValue(String tableName, int resourceId, String field, String data) {
+	protected static void updateDbValue(String tableName, int resourceID, String field, String data) {
 		try {
-			Connection conn = DBHelper.getConnection(); //get the connection
-			Statement stmt = conn.createStatement(); //prep a statement
-			stmt.executeQuery("update " + tableName + " set " + field + " = " + data + " where rID = " + resourceId); //Your sql goes here
+			Connection connectionToDB = DBHelper.getConnection(); //get the connection
+			PreparedStatement sqlStatement = connectionToDB.prepareStatement("update "+tableName+" set "+field+"=? where rID=?"); //prep a statement
+			sqlStatement.setString(1, data);
+			sqlStatement.setInt(2, resourceID);
+			sqlStatement.executeUpdate();
 		} catch (SQLException e) { 
 			e.printStackTrace();
 		}
 	}
 	
-	protected static void updateDbValue(String tableName, int resourceId, String field, int data) {
+	protected static void updateDbValue(String tableName, int resourceID, String field, int data) {
 		try {
-			Connection conn = DBHelper.getConnection(); //get the connection
-			Statement stmt = conn.createStatement(); //prep a statement
-			stmt.executeQuery("update " + tableName + " set " + field + " = " + data + " where rID = " + resourceId); //Your sql goes here
+			Connection connectionToDB = DBHelper.getConnection(); //get the connection
+			PreparedStatement sqlStatement = connectionToDB.prepareStatement("update "+tableName+" set "+field+"=? where rID=?"); //prep a statement
+			sqlStatement.setInt(1, data);
+			sqlStatement.setInt(2, resourceID);
+			sqlStatement.executeUpdate();
 		} catch (SQLException e) { 
 			e.printStackTrace();
 		}
