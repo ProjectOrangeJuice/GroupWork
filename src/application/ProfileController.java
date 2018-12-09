@@ -502,7 +502,9 @@ public class ProfileController {
 		loadUserInformation();
 		loadCopies();
 		loadRequested();
-		loadTables();
+		
+		loadTables("users");
+		loadTables("all");
 		
 		scrollPane.setHvalue(0.5);
 	
