@@ -250,6 +250,10 @@ public class RegisterController implements Initializable {
 
 	}
 
+	/**
+	 * 
+	 * @return true if post code is valid
+	 */
 	private boolean validatePostCode() {
 		String postCodeText = postCode.getText();
 		if (postCodeText.contains(" ")) {
@@ -259,11 +263,19 @@ public class RegisterController implements Initializable {
 		return !(postCodeText.length() > 7 || postCodeText.length() <= 5);
 	}
 
+	/**
+	 * 
+	 * @return true if address is valid
+	 */
 	private boolean validateAddress() {
 		String addressText = address.getText();
 		return !(addressText.length() > 1000 || addressText.length() <= 0);
 	}
 
+	/**
+	 * 
+	 * @return true if phone number is valid
+	 */
 	private boolean validatePhoneNumber() {
 		String phoneNumberText = phoneNumber.getText();
 		return !(phoneNumberText.length() > 11 || phoneNumberText.length() < 11 || !isNumeric(phoneNumberText));
@@ -280,18 +292,30 @@ public class RegisterController implements Initializable {
 		return str.matches(".*\\d+.*");
 	}
 
+	/**
+	 * 
+	 * @return true if last name is valid
+	 */
 	private boolean validateLastName() {
 		String lastNameText = lastName.getText();
 
 		return !(lastNameText.length() > 15 || lastNameText.length() <= 0);
 	}
 
+	/**
+	 * 
+	 * @return true if first name is valid
+	 */
 	private boolean validateFirstName() {
 		String firstNameText = firstName.getText();
 
 		return !(firstNameText.length() > 15 || firstNameText.length() <= 0);
 	}
 
+	/**
+	 * 
+	 * @return true if username is valid
+	 */
 	private boolean validateUsername() {
 		String usernameText = username.getText();
 
@@ -321,6 +345,10 @@ public class RegisterController implements Initializable {
 		return false;
 	}
 
+	/**
+	 * 
+	 * @return true if staff ID is valid
+	 */
 	private boolean validateStaffId() {
 		String staffIdText = staffId.getText();
 
