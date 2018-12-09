@@ -27,8 +27,13 @@ import javafx.scene.image.Image;
  */
 public abstract class Resource {
 
+    /**Number of milliseconds in a day. Used when calculating the number of 
+     * days a copy is overdue. Its value is {@value}.*/
     private static final long MILLISECONDS_IN_DAY = 1000 * 60 * 60 * 24;
 
+    /**A list of all resources in the application.*/
+    protected static ArrayList<Resource> resources = new ArrayList<>();
+    
     /** A unique number that identifies this resource. */
     protected final int uniqueID;
 
@@ -44,83 +49,19 @@ public abstract class Resource {
     /** A list of all the copies of this resource. */
     private ArrayList<Copy> copyList;
 
-    /**
-     * A list of all copies of this resource that are not currently borrowed.
-     */
+    /** A list of all copies of this resource that are not currently borrowed.*/
     private LinkedList<Copy> freeCopies;
 
     /** A queue of all borrowed copies who have no due date set. */
     private PriorityQueue<Copy> noDueDateCopies;
 
-    /**
-     * A queue of user who have requested a copy of this resource but have not
-     * gotten one because there is no free copy.
-     */
+    /** A queue of user who have requested a copy of this resource but have not
+     * gotten one because there is no free copy.*/
     private Queue<User> userRequestQueue;
 
+    /**A list of users with pending requests to borrow a copy of this resource 
+     * that need to be authorised by a librarian.*/
     private ArrayList<User> pendingRequests;
-
-    protected static ArrayList<Resource> resources = new ArrayList<>();
-
-    public static void loadDatabaseResources() {
-        resources = new ArrayList<>();
-        Book.loadDatabaseBooks();
-        Laptop.loadDatabaseLaptops();
-        DVD.loadDatabaseDVDs();
-    }
-
-    protected static void updateDbValue(String tableName, int resourceID,
-            String field, String data) {
-        try {
-            Connection connectionToDB = DBHelper.getConnection();
-            PreparedStatement sqlStatement = connectionToDB.prepareStatement(
-                "update " + tableName + " set " + field + "=? where rID=?");
-            sqlStatement.setString(1, data);
-            sqlStatement.setInt(2, resourceID);
-            sqlStatement.executeUpdate();
-        }
-        catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    protected static void updateDbValue(String tableName, int resourceID,
-            String field, int data) {
-        try {
-            Connection connectionToDB = DBHelper.getConnection();
-            PreparedStatement sqlStatement = connectionToDB.prepareStatement(
-                "update " + tableName + " set " + field + "=? where rID=?");
-            sqlStatement.setInt(1, data);
-            sqlStatement.setInt(2, resourceID);
-            sqlStatement.executeUpdate();
-        }
-        catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public ArrayList<Copy> getCopies() {
-        return copyList;
-    }
-
-    /*
-     * private void loadFreeCopiesList() { try { Connection conn =
-     * DBHelper.getConnection(); //get the connection Statement stmt =
-     * conn.createStatement(); //prep a statement ResultSet rs =
-     * stmt.executeQuery("SELECT * FROM freeCopies WHERE rID="+uniqueID); //Your
-     * sql goes here freeCopies.clear();
-     * 
-     * while(rs.next()) { int copyID = rs.getInt("copyID");
-     * 
-     * Copy currentCopy = null; for(Copy c: copyList) {
-     * if(c.getCOPY_ID()==copyID) { currentCopy=c; break; } }
-     * 
-     * if(currentCopy==null) { throw new
-     * IllegalStateException("No copy in the copy List "+
-     * "with the ID from the freeCopies list."); } else {
-     * freeCopies.addFirst(currentCopy); } } } catch (SQLException e) {
-     * e.printStackTrace(); } }
-     */
 
     /**
      * Makes a new resource whose details are the given arguments.
@@ -151,7 +92,75 @@ public abstract class Resource {
         loadUserQueue();
         loadPendingRequests();
     }
+    
+    /**
+     * Loads all the resources from the database and adds them to the list of
+     *  all resources.
+     */
+    public static void loadDatabaseResources() {
+        resources = new ArrayList<>();
+        Book.loadDatabaseBooks();
+        Laptop.loadDatabaseLaptops();
+        DVD.loadDatabaseDVDs();
+    }
 
+    /**
+     * Updates the database value in a resource table.
+     * @param tableName The table where the change will be made.
+     * @param resourceID The id of the resource to be changed.
+     * @param field The field that will be changed.
+     * @param data The new value of the field.
+     */
+    protected static void updateDbValue(String tableName, int resourceID,
+            String field, String data) {
+        try {
+            Connection connectionToDB = DBHelper.getConnection();
+            PreparedStatement sqlStatement = connectionToDB.prepareStatement(
+                "update " + tableName + " set " + field + "=? where rID=?");
+            sqlStatement.setString(1, data);
+            sqlStatement.setInt(2, resourceID);
+            sqlStatement.executeUpdate();
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Updates the database value in a resource table.
+     * @param tableName The table where the change will be made.
+     * @param resourceID The id of the resource to be changed.
+     * @param field The field that will be changed.
+     * @param data The new value of the field.
+     */
+    protected static void updateDbValue(String tableName, int resourceID,
+            String field, int data) {
+        try {
+            Connection connectionToDB = DBHelper.getConnection();
+            PreparedStatement sqlStatement = connectionToDB.prepareStatement(
+                "update " + tableName + " set " + field + "=? where rID=?");
+            sqlStatement.setInt(1, data);
+            sqlStatement.setInt(2, resourceID);
+            sqlStatement.executeUpdate();
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    /**
+     * Gets the list of all copies of this resource.
+     * @return An array list of all copies of the resource.
+     */
+    public ArrayList<Copy> getCopies() {
+        return copyList;
+    }
+
+    /**
+     * Adds a copy to the copy list and updates the data base.
+     * @param copy Copy to be added.
+     */
     public void addCopy(Copy copy) {
         copyList.add(copy);
         freeCopies.addFirst(copy);
@@ -159,6 +168,10 @@ public abstract class Resource {
         saveCopyToDB(copy);
     }
 
+    /**
+     * Addes multiple copies to the copy and list and updates the database.
+     * @param copies Copies to be added.
+     */
     public void addCopies(Collection<Copy> copies) {
         copyList.addAll(copies);
         freeCopies.addAll(copies);
@@ -168,6 +181,10 @@ public abstract class Resource {
         }
     }
 
+    /**
+     * Removes a copy from the list of copies and updates the database.
+     * @param copy Copy to be removed.
+     */
     public void removeCopy(Copy copy) {
         if (copy.getResource().equals(this)) {
             copyList.remove(copy);
@@ -190,19 +207,10 @@ public abstract class Resource {
         }
     }
 
-    /*
-     * public void saveFreeCopies() { try { Connection conn =
-     * DBHelper.getConnection(); //get the connection Statement stmt =
-     * conn.createStatement(); //prep a statement
-     * 
-     * for(Copy c: freeCopies) {
-     * stmt.executeUpdate("insert into freeCopies values ("+c.getCOPY_ID()+","+
-     * uniqueID+")"); } } catch (SQLException e) { e.printStackTrace(); } }
-     */
-
     /**
      * This method ensures a returned copy is marked a free copy or that it is
-     * reserved for the user at the front of the request queue.
+     * reserved for the user at the front of the request queue. It also ensures
+     * that any fines that need to be applied are added to the database.
      * 
      * @param returnedCopy The copy being returned.
      */
@@ -242,6 +250,11 @@ public abstract class Resource {
         }
     }
 
+    /**
+     * Applies fines to the user of the copy being returned, if that is the case,
+     *  based on the due date and the current date.
+     * @param copyToBeReturned The copy being returned.
+     */
     private void applyFines(Copy copyToBeReturned) {
         Date today = new Date();
         Date dueDate = copyToBeReturned.getDueDate();
