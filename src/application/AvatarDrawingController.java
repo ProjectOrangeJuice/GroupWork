@@ -219,7 +219,7 @@ public class AvatarDrawingController implements Initializable {
 
             convertToFile(fileName, path);
    
-            String total = path.substring(0, path.length()-1)+"src/SaveAvatar/"+fileName;
+            String total = "src/SaveAvatar/"+fileName;
             createSavedAvatar(total);
 
             //Set the relative path.

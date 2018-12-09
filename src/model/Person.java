@@ -181,6 +181,11 @@ public abstract class Person {
         Person.updateDatabase("users", this.getUsername(), "avatarPath", avatarPath);
     }
 
+    /**
+     * loads up a user and librarian from the database
+     * @param userName
+     * @return either a librarian or a user from the database
+     */
     public static Person loadPerson(String userName) {
         try {
             // Declaring necessary variables
@@ -191,11 +196,13 @@ public abstract class Person {
             sqlStatement.setString(1, userName);
             ResultSet rs = sqlStatement.executeQuery();
 
+            //Selects the amount of people who are staff
             if (rs.getInt(1) == 1) {
                 sqlStatement = dbConnection.prepareStatement("SELECT COUNT (*) FROM staff WHERE username = ?");
                 sqlStatement.setString(1, userName);
                 rs = sqlStatement.executeQuery();
 
+                //Loads up all staff users
                 if (rs.getInt(1) == 1) {
                     sqlStatement = dbConnection.prepareStatement(
                         "SELECT * FROM users, staff WHERE users.username = staff.username and users.username = ?");
@@ -219,6 +226,7 @@ public abstract class Person {
                 }
                 else {
 
+                	//Loads up normal users
                     sqlStatement = dbConnection.prepareStatement("SELECT * FROM users WHERE username = ?");
                     sqlStatement.setString(1, userName);
                     rs = sqlStatement.executeQuery();
@@ -252,6 +260,14 @@ public abstract class Person {
         return null;
     }
 
+    /**
+     * Method that updates the database
+     * @param table String
+     * @param username String
+     * @param column String
+     * @param data String
+     * @return True if the database updates and false if it does not
+     */
     protected static boolean updateDatabase(String table, String username, String column, String data) {
         try {
             Connection connectionToDB = DBHelper.getConnection();
@@ -300,6 +316,12 @@ public abstract class Person {
         return false;
     }
 
+    /**
+     * Method that gets a user that is currently borrowing the resource
+     * @param username String
+     * @return true if the user is borrowing a resource
+     * @throws SQLException
+     */
     private static boolean userBorrowing(String username) throws SQLException {
         Connection connectionToDB = DBHelper.getConnection();
         PreparedStatement sqlStatement = connectionToDB.prepareStatement("SELECT" + 
