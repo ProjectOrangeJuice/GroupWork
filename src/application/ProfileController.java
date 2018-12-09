@@ -562,6 +562,7 @@ public class ProfileController {
 	
 
 	private void loadTables(String tableToLoad) {
+		//Manage Users Columns
 		TableColumn<Person, String> usernameCol = new TableColumn<Person, String>("Username");
         usernameCol.setCellValueFactory(new PropertyValueFactory<>("username"));
 		
@@ -572,7 +573,7 @@ public class ProfileController {
 		lastnameCol.setCellValueFactory(new PropertyValueFactory<>("lastName"));
 		
 		TableColumn<Person, Integer> telephoneCol = new TableColumn<Person, Integer>("Telephone");
-		telephoneCol.setCellValueFactory(new PropertyValueFactory<>("telephone"));
+		telephoneCol.setCellValueFactory(new PropertyValueFactory<>("phoneNumber"));
 		
 		TableColumn<Person, String> addressCol = new TableColumn<Person, String>("Address");
 		addressCol.setCellValueFactory(new PropertyValueFactory<>("address"));
@@ -585,6 +586,29 @@ public class ProfileController {
 		
 		TableColumn<Person, String> accountBalanceCol = new TableColumn<Person, String>("accountBalance");
 		accountBalanceCol.setCellValueFactory(new PropertyValueFactory<>("accountBalance"));
+		
+		//Copies Explorer columns.
+		TableColumn<Copy, String> copyIDCol = new TableColumn<Copy, String>("Copy ID");
+		copyIDCol.setCellValueFactory(new PropertyValueFactory<>("copyID"));
+		
+		TableColumn<Copy, String> rIDCol = new TableColumn<Copy, String>("Resource ID");
+		rIDCol.setCellValueFactory(new PropertyValueFactory<>("rID"));
+		
+		TableColumn<Copy, String> keeperCol = new TableColumn<Copy, String>("Keeper");
+		keeperCol.setCellValueFactory(new PropertyValueFactory<>("keeper"));
+		
+		TableColumn<Copy, String> loanCol = new TableColumn<Copy, String>("Loan Duration");
+		loanCol.setCellValueFactory(new PropertyValueFactory<>("duration"));
+		
+		TableColumn<Copy, String> borrowCol = new TableColumn<Copy, String>("Borrowed");
+		borrowCol.setCellValueFactory(new PropertyValueFactory<>("borrowDate"));
+		
+		TableColumn<Copy, String> renewalCol = new TableColumn<Copy, String>("Last Renewal");
+		renewalCol.setCellValueFactory(new PropertyValueFactory<>("lastRenewal"));
+		
+		TableColumn<Copy, String> dueCol = new TableColumn<Copy, String>("Due");
+		dueCol.setCellValueFactory(new PropertyValueFactory<>("dueDate"));
+		
 		
 		switch (tableToLoad) {
 			case "users":
