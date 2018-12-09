@@ -401,11 +401,18 @@ public class ProfileController {
 	
 	@FXML
 	private void  reloadStuff(Event e) {
-		Resource.loadDatabaseResources();
 		vResourceBox.getChildren().clear();
 		vResourceBox.getChildren().add(new HBox());
+		resourceImages.getChildren().clear();
+		
+		
+		Resource.loadDatabaseResources();
+		
 		loadResourceImages();
-
+		loadUserInformation();
+		loadCopies();
+		loadRequested();
+		loadBorrowHistory();
 		
 	}
 	
@@ -419,7 +426,7 @@ public class ProfileController {
 			//get user copies that they're currently borrowing.
 			((User) currentUser).loadUserCopies();
 			ArrayList<Copy> userCopies = ((User) currentUser).getBorrowedCopies();
-			
+			System.out.println("sizee: " + userCopies.size());
 			for(int i = 0 ; i < userCopies.size() ; i++) {
 				System.out.println(userCopies.get(i).getResource().getTitle());
 				Resource copyResource = userCopies.get(i).getResource();
@@ -555,15 +562,11 @@ public class ProfileController {
 		
 		currentUser = ScreenManager.getCurrentUser();
 		resources = ScreenManager.getResources();
-		
-		loadResourceImages();
-		loadUserInformation();
-		loadCopies();
-		loadRequested();
-		loadBorrowHistory();
 
 		loadUserTableColumns();
 		//displayAll();
+		
+		loadResourceImages();
 
 		scrollPane.setHvalue(0.5);
 	

@@ -182,6 +182,9 @@ public class User extends Person {
 	}
 	
 	public void loadUserCopies() {
+		
+		copiesList.clear();
+		
 		try {
 			Connection conn = DBHelper.getConnection();
 			PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM copies WHERE keeper = ?");
