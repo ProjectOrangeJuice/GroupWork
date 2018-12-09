@@ -41,6 +41,9 @@ import model.DBHelper;
 public class RegisterController implements Initializable {
 
 	@FXML
+	private Label regMessage;
+	
+	@FXML
 	private TextField firstName;
 
 	@FXML
@@ -130,6 +133,7 @@ public class RegisterController implements Initializable {
 		postCodeError.setVisible(false);
 		phoneNumberError.setVisible(false);
 		employmentDateError.setVisible(false);
+		regMessage.setVisible(false);
 		staffId.visibleProperty().bind(librarianCheckBox.selectedProperty());
 		employmentDate.visibleProperty().bind(librarianCheckBox.selectedProperty());
 	}
@@ -235,9 +239,11 @@ public class RegisterController implements Initializable {
 
 					insertIntoUser(event);
 					insertIntoLibrarian(event);
+					regMessage.setVisible(true);
 				}
 			} else {
 				insertIntoUser(event);
+				regMessage.setVisible(true);
 
 			}
 		}
