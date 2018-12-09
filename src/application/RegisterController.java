@@ -14,7 +14,6 @@ import javax.imageio.ImageIO;
 
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -29,15 +28,10 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Paint;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.stage.Window;
 import model.DBHelper;
-import model.Person;
-import model.SavedAvatar;
-import model.User;
 
 /**
  * 
@@ -102,7 +96,7 @@ public class RegisterController implements Initializable {
 
 	@FXML
 	private Label staffIdError;
-	
+
 	@FXML
 	private Label employmentDateError;
 
@@ -113,9 +107,6 @@ public class RegisterController implements Initializable {
 	private Pane pane;
 
 	private String avatarPath = "/SavedAvatars/Avatar1.png";
-	
-	private Person user;
-
 
 	/**
 	 * Empty Constructor.
@@ -129,8 +120,8 @@ public class RegisterController implements Initializable {
 	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		//Image newAvatar = new Image(avatarPath);
-		//avatar.setImage(newAvatar);
+		// Image newAvatar = new Image(avatarPath);
+		// avatar.setImage(newAvatar);
 		staffIdError.setVisible(false);
 		usernameError.setVisible(false);
 		firstNameError.setVisible(false);
@@ -173,91 +164,90 @@ public class RegisterController implements Initializable {
 		changeScene(event, "/fxml/loginScene.fxml");
 	}
 
-	
-	    /**
-	     * Creates an account with the details provided if they are valid.
-	     * If there is a problem with the details displays error message indicating where the problem is.
-	     *
-	     * @param event event.
-	     * @throws IOException io exception.
-	     */
-	    @FXML
-	    void createAccount(ActionEvent event) {
+	/**
+	 * Creates an account with the details provided if they are valid. If there is a
+	 * problem with the details displays error message indicating where the problem
+	 * is.
+	 *
+	 * @param event
+	 *            event.
+	 * @throws IOException
+	 *             io exception.
+	 */
+	@FXML
+	void createAccount(ActionEvent event) {
 
-	        //if any text field is invalid display error message under it.
-	    	
-	        if (validateUsername()) {
-	            usernameError.setVisible(false);
-	        } else {
-	            usernameError.setVisible(true);
-	        }
+		// if any text field is invalid display error message under it.
 
-	        if (validateFirstName()) {
-	            firstNameError.setVisible(false);
-	        } else {
-	            firstNameError.setVisible(true);
-	        }
+		if (validateUsername()) {
+			usernameError.setVisible(false);
+		} else {
+			usernameError.setVisible(true);
+		}
 
-	        if (validateLastName()) {
-	            lastNameError.setVisible(false);
-	        } else {
-	            lastNameError.setVisible(true);
-	        }
+		if (validateFirstName()) {
+			firstNameError.setVisible(false);
+		} else {
+			firstNameError.setVisible(true);
+		}
 
-	        if (validatePhoneNumber()) {
-	            phoneNumberError.setVisible(false);
-	        } else {
-	            phoneNumberError.setVisible(true);
-	        }
+		if (validateLastName()) {
+			lastNameError.setVisible(false);
+		} else {
+			lastNameError.setVisible(true);
+		}
 
-	        if (validateAddress()) {
-	            addressError.setVisible(false);
-	        } else {
-	            addressError.setVisible(true);
-	        }
+		if (validatePhoneNumber()) {
+			phoneNumberError.setVisible(false);
+		} else {
+			phoneNumberError.setVisible(true);
+		}
 
-	        if (validatePostCode()) {
-	            postCodeError.setVisible(false);
-	        } else {
-	            postCodeError.setVisible(true);
-	        }
-	        
-	        if (validateStaffId()) {
-	            staffIdError.setVisible(false);
-	        } else {
-	        	staffIdError.setVisible(true);
-	        }
-	        
-	        if(!librarianCheckBox.isSelected()) {
-	        	 staffIdError.setVisible(false);
-	        }
-	        
-	  
-	        //if all text fields are valid create account.
-	        if (validateUsername() && validateFirstName() && validateLastName() && validatePhoneNumber()
-	                && validateAddress() && validatePostCode()) {
-	   
-	        	if(isLibrarian(event)) {
-	
-	        		if(validateStaffId()) {
-	        
-	        		insertIntoUser(event);
-	        		insertIntoLibrarian(event);
-	        	}
-	        	}
-	        	else {
-	            insertIntoUser(event);
-	            
-	        }
-	        }
+		if (validateAddress()) {
+			addressError.setVisible(false);
+		} else {
+			addressError.setVisible(true);
+		}
 
-	    }
+		if (validatePostCode()) {
+			postCodeError.setVisible(false);
+		} else {
+			postCodeError.setVisible(true);
+		}
 
+		if (validateStaffId()) {
+			staffIdError.setVisible(false);
+		} else {
+			staffIdError.setVisible(true);
+		}
+
+		if (!librarianCheckBox.isSelected()) {
+			staffIdError.setVisible(false);
+		}
+
+		// if all text fields are valid create account.
+		if (validateUsername() && validateFirstName() && validateLastName() && validatePhoneNumber()
+				&& validateAddress() && validatePostCode()) {
+
+			if (isLibrarian(event)) {
+
+				if (validateStaffId()) {
+
+					insertIntoUser(event);
+					insertIntoLibrarian(event);
+				}
+			} else {
+				insertIntoUser(event);
+
+			}
+		}
+
+	}
 
 	private boolean validatePostCode() {
 		String postCodeText = postCode.getText();
 		if (postCodeText.contains(" ")) {
-			
+
 			return !(postCodeText.length() > 8 || postCodeText.length() <= 6);
 		}
 		return !(postCodeText.length() > 7 || postCodeText.length() <= 5);
@@ -285,20 +275,20 @@ public class RegisterController implements Initializable {
 	}
 
 	private boolean validateLastName() {
-		 String lastNameText = lastName.getText();
-		 
+		String lastNameText = lastName.getText();
+
 		return !(lastNameText.length() > 15 || lastNameText.length() <= 0);
 	}
 
 	private boolean validateFirstName() {
 		String firstNameText = firstName.getText();
-		 
+
 		return !(firstNameText.length() > 15 || firstNameText.length() <= 0);
 	}
 
 	private boolean validateUsername() {
 		String usernameText = username.getText();
-		
+
 		return !(usernameText.length() > 15 || usernameText.length() <= 0 || validateExistingUser(usernameText));
 	}
 
@@ -320,7 +310,6 @@ public class RegisterController implements Initializable {
 			}
 
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return false;
@@ -328,7 +317,7 @@ public class RegisterController implements Initializable {
 
 	private boolean validateStaffId() {
 		String staffIdText = staffId.getText();
-		 
+
 		return !(staffIdText.length() > 2 || staffIdText.length() < 2 || validateExistingStaffId(staffIdText));
 	}
 
@@ -348,126 +337,128 @@ public class RegisterController implements Initializable {
 			} else {
 				return false;
 			}
-	}
-		 catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			return false;
-	}
-	    
-		/**
-		 * Checks to see if the user is an librarian
-		 * @param event checkbox being checked
-		 * @return boolean of whehter checkbox was selected
-		 */
-	    public boolean isLibrarian(ActionEvent event) {
-	    	boolean selected = librarianCheckBox.isSelected();
-	    	return selected;
-	    }
-	    
-	    /** Builds account in database using inputted info and chosen avatar.
-	     *  Then return user to login page.
-	     *
-	     *  @param event
-	     */
-	    private void insertIntoUser(ActionEvent event) {
-	        
-	    	try {
-				Connection conn = DBHelper.getConnection();
-				PreparedStatement pstmt = conn.prepareStatement("INSERT INTO users VALUES (?,?,?,?,?,?,?,0)");
-				pstmt.setString(1, username.getText());
-				pstmt.setString(2, firstName.getText());
-				pstmt.setString(3, lastName.getText());
-				pstmt.setString(4, phoneNumber.getText());
-				pstmt.setString(5, address.getText());
-				pstmt.setString(6, postCode.getText());
-				pstmt.setString(7, avatarPath);
-				pstmt.executeUpdate();//This can return a value to tell you if it was successful.
-
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-
-	    }
-	    
-	    /**
-	     * Inserts the librarin attributes into the staff table
-	     * @param event button being pressed
-	     */
-	    private void insertIntoLibrarian(ActionEvent event) {
-	        
-	    	try {
-				Connection conn = DBHelper.getConnection();
-				PreparedStatement pstmt = conn.prepareStatement("INSERT INTO staff VALUES (?, ?, ?)");//make current date
-				pstmt.setString(1, username.getText());
-				pstmt.setString(2, staffId.getText());
-				pstmt.setString(3, employmentDate.getText());
-				pstmt.executeUpdate();//This can return a value to tell you if it was successful.
-
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-	}
-
-	    /**
-		 * Opens the avatar drawing scene when the button is clicked
-		 * @param event button being clicked
-		 */
-		@FXML
-		private void openAvatarEditor(MouseEvent event) {
-			try {
-				FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/drawAvatar.fxml"));
-				Parent root1 = (Parent) fxmlLoader.load();
-				Stage stage = new Stage();
-				stage.initModality(Modality.APPLICATION_MODAL);
-				stage.setTitle("Avatar!");
-				stage.setScene(new Scene(root1));
-				stage.show();
-				
-			} catch (IOException e2) {
-				// TODO Auto-generated catch block
-				e2.printStackTrace();
-			}
-			System.out.println("Launch avatar editor.");
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
-	
+		return false;
+	}
+
 	/**
-     * Convert custom profile image to file.
-     *
-     * @param path     location of directory.
-     * @param fileName file name.
-     */
-    public void convertToFile(String fileName, String path) {
+	 * Checks to see if the user is an librarian
+	 * 
+	 * @param event
+	 *            checkbox being checked
+	 * @return boolean of whehter checkbox was selected
+	 */
+	public boolean isLibrarian(ActionEvent event) {
+		boolean selected = librarianCheckBox.isSelected();
+		return selected;
+	}
 
-        //Create path for File class as absolute path to project
+	/**
+	 * Builds account in database using inputted info and chosen avatar. Then return
+	 * user to login page.
+	 *
+	 * @param event
+	 */
+	private void insertIntoUser(ActionEvent event) {
 
-        path = path.substring(0, path.length() - 2)
-                + "/SavedAvatars/"
-                + fileName;
+		try {
+			Connection conn = DBHelper.getConnection();
+			PreparedStatement pstmt = conn.prepareStatement("INSERT INTO users VALUES (?,?,?,?,?,?,?,0)");
+			pstmt.setString(1, username.getText());
+			pstmt.setString(2, firstName.getText());
+			pstmt.setString(3, lastName.getText());
+			pstmt.setString(4, phoneNumber.getText());
+			pstmt.setString(5, address.getText());
+			pstmt.setString(6, postCode.getText());
+			pstmt.setString(7, avatarPath);
+			pstmt.executeUpdate();// This can return a value to tell you if it was successful.
 
-        //Create the file that will be saved.
-        File file = new File(path);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 
-        //If the file isn't null, try to save it.
-        if (!(file == null)) {
-            try {
-                /* Convert a snapshot of the canvas to a buffered image
-                 * and the write it to file.
-                 */
-                BufferedImage bImage = SwingFXUtils.fromFXImage(
-                        avatar.snapshot(null, null), null);
-                ImageIO.write(bImage, "png", file);
-            } catch (Exception e) {
-                /* If an exception is cause, print the error message
-                 * on the console.
-                 */
-                System.out.println(e.getMessage());
-            }
-        }
-    }
+	}
+
+	/**
+	 * Inserts the librarin attributes into the staff table
+	 * 
+	 * @param event
+	 *            button being pressed
+	 */
+	private void insertIntoLibrarian(ActionEvent event) {
+
+		try {
+			Connection conn = DBHelper.getConnection();
+			PreparedStatement pstmt = conn.prepareStatement("INSERT INTO staff VALUES (?, ?, ?)");// make current date
+			pstmt.setString(1, username.getText());
+			pstmt.setString(2, staffId.getText());
+			pstmt.setString(3, employmentDate.getText());
+			pstmt.executeUpdate();// This can return a value to tell you if it was successful.
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * Opens the avatar drawing scene when the button is clicked
+	 * 
+	 * @param event
+	 *            button being clicked
+	 */
+	@FXML
+	private void openAvatarEditor(MouseEvent event) {
+		try {
+			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/drawAvatar.fxml"));
+			Parent root1 = (Parent) fxmlLoader.load();
+			Stage stage = new Stage();
+			stage.initModality(Modality.APPLICATION_MODAL);
+			stage.setTitle("Avatar!");
+			stage.setScene(new Scene(root1));
+			stage.show();
+
+		} catch (IOException e2) {
+			e2.printStackTrace();
+		}
+		System.out.println("Launch avatar editor.");
+	}
+
+	/**
+	 * Convert custom profile image to file.
+	 *
+	 * @param path
+	 *            location of directory.
+	 * @param fileName
+	 *            file name.
+	 */
+	public void convertToFile(String fileName, String path) {
+
+		// Create path for File class as absolute path to project
+
+		path = path.substring(0, path.length() - 2) + "/SavedAvatars/" + fileName;
+
+		// Create the file that will be saved.
+		File file = new File(path);
+
+		// If the file isn't null, try to save it.
+		if (!(file == null)) {
+			try {
+				/*
+				 * Convert a snapshot of the canvas to a buffered image and the write it to
+				 * file.
+				 */
+				BufferedImage bImage = SwingFXUtils.fromFXImage(avatar.snapshot(null, null), null);
+				ImageIO.write(bImage, "png", file);
+			} catch (Exception e) {
+				/*
+				 * If an exception is cause, print the error message on the console.
+				 */
+				System.out.println(e.getMessage());
+			}
+		}
+	}
 
 	/**
 	 * Sets avatar image.
@@ -486,23 +477,23 @@ public class RegisterController implements Initializable {
 	public void setAvatarPath(String path) {
 		this.avatarPath = path;
 	}
-	
+
 	/**
 	 * select a preset avatar
+	 * 
 	 * @param event
 	 */
-	@FXML protected void browseAvatarAction(ActionEvent event) {
-	    FileChooser chooser = new FileChooser();
-	    FileChooser.ExtensionFilter extentionFilter = new FileChooser.ExtensionFilter("PNG files (*.png)", "*.png");
+	@FXML
+	protected void browseAvatarAction(ActionEvent event) {
+		FileChooser chooser = new FileChooser();
+		FileChooser.ExtensionFilter extentionFilter = new FileChooser.ExtensionFilter("PNG files (*.png)", "*.png");
 		chooser.getExtensionFilters().add(extentionFilter);
-	    chooser.setTitle("Open File");    
-	    File file = chooser.showOpenDialog(new Stage());
-	    System.out.println(file.getAbsolutePath());
-	    setAvatarPath(file.getAbsolutePath());
-	    Image selectedAvatar = new Image(new File(this.avatarPath).toURI().toString());
-	   // Image selectedAvatar = new Image(this.avatarPath);
-	    avatar.setImage(selectedAvatar);
+		chooser.setTitle("Open File");
+		File file = chooser.showOpenDialog(new Stage());
+		System.out.println(file.getAbsolutePath());
+		setAvatarPath(file.getAbsolutePath());
+		Image selectedAvatar = new Image(new File(this.avatarPath).toURI().toString());
+		// Image selectedAvatar = new Image(this.avatarPath);
+		avatar.setImage(selectedAvatar);
 	}
-
-	// TODO update selected avatar
 }
