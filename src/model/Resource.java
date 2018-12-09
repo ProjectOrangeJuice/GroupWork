@@ -71,7 +71,7 @@ public abstract class Resource {
         try {
             Connection connectionToDB = DBHelper.getConnection(); // get the connection
             PreparedStatement sqlStatement = connectionToDB
-                    .prepareStatement("update " + tableName + " set " + field + "=? where rID=?"); // prep a statement
+                .prepareStatement("update " + tableName + " set " + field + "=? where rID=?"); // prep a statement
             sqlStatement.setString(1, data);
             sqlStatement.setInt(2, resourceID);
             sqlStatement.executeUpdate();
@@ -85,7 +85,7 @@ public abstract class Resource {
         try {
             Connection connectionToDB = DBHelper.getConnection(); // get the connection
             PreparedStatement sqlStatement = connectionToDB
-                    .prepareStatement("update " + tableName + " set " + field + "=? where rID=?"); // prep a statement
+                .prepareStatement("update " + tableName + " set " + field + "=? where rID=?"); // prep a statement
             sqlStatement.setInt(1, data);
             sqlStatement.setInt(2, resourceID);
             sqlStatement.executeUpdate();
@@ -121,14 +121,10 @@ public abstract class Resource {
     /**
      * Makes a new resource whose details are the given arguments.
      * 
-     * @param uniqueID
-     *            The unique number that identifies this resource.
-     * @param title
-     *            The title of this resource.
-     * @param year
-     *            The year this resource appeared.
-     * @param thumbnail
-     *            A small image of this resource.
+     * @param uniqueID The unique number that identifies this resource.
+     * @param title The title of this resource.
+     * @param year The year this resource appeared.
+     * @param thumbnail A small image of this resource.
      */
     public Resource(int uniqueID, String title, int year, Image thumbnail) {
         this.uniqueID = uniqueID;
@@ -177,7 +173,7 @@ public abstract class Resource {
             try {
                 Connection dbConnection = DBHelper.getConnection();
                 PreparedStatement sqlStatement = dbConnection
-                        .prepareStatement("DELETE FROM copies WHERE copyID=" + copy.getCopyID());
+                    .prepareStatement("DELETE FROM copies WHERE copyID=" + copy.getCopyID());
                 sqlStatement.executeUpdate();
             }
             catch (SQLException e) {
@@ -203,8 +199,7 @@ public abstract class Resource {
      * This method ensures a returned copy is marked a free copy or that it is
      * reserved for the user at the front of the request queue.
      * 
-     * @param returnedCopy
-     *            The copy being returned.
+     * @param returnedCopy The copy being returned.
      */
     public void processReturn(Copy returnedCopy) {
         applyFines(returnedCopy);
@@ -257,7 +252,7 @@ public abstract class Resource {
             try {
                 Connection dbConnection = DBHelper.getConnection();
                 PreparedStatement sqlStatement = dbConnection.prepareStatement(
-                        "INSERT INTO fines (userName,rID,daysOver,amount,dateTime,paid) VALUES (?,?,?,?,?,?)");
+                    "INSERT INTO fines (userName,rID,daysOver,amount,dateTime,paid) VALUES (?,?,?,?,?,?)");
 
                 sqlStatement.setString(1, copyToBeReturned.getBorrower().getUsername());
                 sqlStatement.setInt(2, uniqueID);
@@ -280,8 +275,7 @@ public abstract class Resource {
      * Ensures a copy is loaned to the given user if there are available copies,
      * else it adds the user to the request queue.
      * 
-     * @param user
-     *            The user that wants to borrow a copy of this resource.
+     * @param user The user that wants to borrow a copy of this resource.
      * @return If the user has the copy or is in the queue (false)
      */
     public boolean loanToUser(User user) {
@@ -430,11 +424,11 @@ public abstract class Resource {
                     }
 
                     copyList.add(new Copy(this, savedCopies.getInt("copyID"), borrower,
-                            savedCopies.getInt("loanDuration"), borrowDate, lastRenewalDate, dueDate));
+                        savedCopies.getInt("loanDuration"), borrowDate, lastRenewalDate, dueDate));
                 }
                 else {
                     Copy freeCopy = new Copy(this, savedCopies.getInt("copyID"), null,
-                            savedCopies.getInt("loanDuration"));
+                        savedCopies.getInt("loanDuration"));
                     copyList.add(freeCopy);
                     freeCopies.add(freeCopy);
                 }
@@ -460,8 +454,8 @@ public abstract class Resource {
         try {
             Connection conn = DBHelper.getConnection();
             Statement stmt = conn.createStatement();
-            ResultSet userRequests = stmt.executeQuery(
-                    "SELECT * FROM userRequests " + "WHERE rID=" + uniqueID + " ORDER BY orderNumber ASC");
+            ResultSet userRequests = stmt
+                .executeQuery("SELECT * FROM userRequests " + "WHERE rID=" + uniqueID + " ORDER BY orderNumber ASC");
 
             while (userRequests.next()) {
                 String userName = userRequests.getString("userName");
@@ -496,7 +490,7 @@ public abstract class Resource {
         try {
             Connection dbConnection = DBHelper.getConnection();
             PreparedStatement sqlStatement = dbConnection
-                    .prepareStatement("DELETE FROM copies WHERE copyID=" + copy.getCopyID());
+                .prepareStatement("DELETE FROM copies WHERE copyID=" + copy.getCopyID());
             sqlStatement.executeUpdate();
 
             SimpleDateFormat normalDateFormat = new SimpleDateFormat("dd/MM/yyyy");
@@ -581,7 +575,7 @@ public abstract class Resource {
         try {
             Connection dbConnection = DBHelper.getConnection();
             PreparedStatement sqlStatement = dbConnection
-                    .prepareStatement("INSERT INTO requestsToApprove VALUES (?,?)");
+                .prepareStatement("INSERT INTO requestsToApprove VALUES (?,?)");
             sqlStatement.setInt(1, uniqueID);
             sqlStatement.setString(2, requester.getUsername());
             sqlStatement.executeUpdate();
