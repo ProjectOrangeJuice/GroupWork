@@ -47,8 +47,6 @@
       <TextField fx:id="lastnameText" layoutX="791.0" layoutY="418.0" />
       <TextField fx:id="addressText" layoutX="791.0" layoutY="527.0" />
       <TextField fx:id="postcodeText" layoutX="793.0" layoutY="574.0" />
-      <TextField fx:id="staffIDText" layoutX="793.0" layoutY="624.0" />
-      <TextField fx:id="employmentDateText" layoutX="791.0" layoutY="676.0" />
       <Label layoutX="518.0" layoutY="471.0" text="Phone number:">
          <font>
             <Font size="25.0" />
@@ -70,5 +68,20 @@
             <Font size="25.0" />
          </font>
       </Label>
+      <Label fx:id="staffIDLabel" layoutX="792.0" layoutY="624.0" text="Staff ID">
+         <font>
+            <Font size="25.0" />
+         </font>
+      </Label>
+      <Label fx:id="employmentDateLabel" layoutX="791.0" layoutY="676.0" text="Employment date">
+         <font>
+            <Font size="25.0" />
+         </font>
+      </Label>
+      <Label fx:id="firstNameError" layoutX="913.0" layoutY="393.0" text="Invalid" textFill="RED" />
+      <Label fx:id="lastNameError" layoutX="913.0" layoutY="448.0" text="Invalid" textFill="RED" />
+      <Label fx:id="phoneNumberError" layoutX="913.0" layoutY="501.0" text="Invalid" textFill="RED" />
+      <Label fx:id="addressError" layoutX="913.0" layoutY="554.0" text="Invalid" textFill="RED" />
+      <Label fx:id="postcodeError" layoutX="913.0" layoutY="604.0" text="Invalid" textFill="RED" />
    </children>
 </Pane>
