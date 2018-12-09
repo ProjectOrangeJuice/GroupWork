@@ -26,7 +26,7 @@ public class Copy implements Comparable<Copy>{
 		try {
 			Connection connectionToDB = DBHelper.getConnection();
 			PreparedStatement sqlStatement = connectionToDB.prepareStatement("UPDATE copies "
-					+ "set "+field+" = ? WHERE copyID=?");
+					+ "set " + field + " = ? WHERE copyID=?");
 			sqlStatement.setString(1,data);
 			sqlStatement.setInt(2,copyID);
 			sqlStatement.executeUpdate(); 
@@ -39,7 +39,7 @@ public class Copy implements Comparable<Copy>{
 		try {
 			Connection connectionToDB = DBHelper.getConnection();
 			PreparedStatement sqlStatement = connectionToDB.prepareStatement("UPDATE copies "
-					+ "set "+field+" = ? WHERE copyID=?");
+					+ "set " + field + " = ? WHERE copyID=?");
 			sqlStatement.setInt(1,data);
 			sqlStatement.setInt(2,copyID);
 			sqlStatement.executeUpdate(); 
