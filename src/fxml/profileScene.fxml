@@ -28,7 +28,7 @@
    <center>
       <TabPane fx:id="tabs" prefHeight="972.0" prefWidth="1920.0" BorderPane.alignment="CENTER">
         <tabs>
-          <Tab fx:id="resourcesTab" closable="false" text="Library Resources">
+          <Tab fx:id="resourcesTab" closable="false" onSelectionChanged="#reloadStuff" text="Library Resources">
                <content>
                   <BorderPane>
                      <center>
