@@ -414,7 +414,7 @@ public class ProfileController {
 	
 	
 	@FXML
-	private void  reloadStuff(Event e) {
+	private void  reloadVisuals(Event e) {
 
 		vResourceBox.getChildren().clear();
 		vResourceBox.getChildren().add(new HBox());
