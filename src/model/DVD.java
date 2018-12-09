@@ -25,13 +25,10 @@ public class DVD extends Resource {
 					+ "director, runTime, language FROM dvd, resource WHERE dvd.rID = resource.rID");
 			
 			while(rs.next()) {
-				
-				//ArrayList<String> subtitleLanguages = loadSubtitles(stmt, rs.getInt("rID"));
-				
-				//Image resourceImage = new Image(rs.getString("thumbnail"), true);
-				Image resourceImage=null;
+				Image resourceImage = new Image(rs.getString("thumbnail"), true);
+				//Image resourceImage=null;
 				resources.add(new DVD(rs.getInt("rID"), rs.getString("title"), rs.getInt("year"),
-						resourceImage, rs.getString("director"), rs.getInt("runTime"), rs.getString("language"), null)); //NEED TO FIX
+						resourceImage, rs.getString("director"), rs.getInt("runTime"), rs.getString("language"),null)); //NEED TO FIX
 				
 				System.out.println("New DVD added!");
 			}
