@@ -249,6 +249,21 @@
                                           </VBox>
                                        </content>
                                     </TitledPane>
+                                    <TitledPane animated="false" onMouseClicked="#loadUsersTable" text="Resource">
+                                       <content>
+                                          <VBox prefHeight="200.0" prefWidth="100.0">
+                                             <children>
+                                                <HBox prefHeight="100.0" prefWidth="200.0">
+                                                   <children>
+                                                      <Button mnemonicParsing="false" onAction="#addBook" text="Add book" />
+                                                      <Button mnemonicParsing="false" onAction="#addDVD" text="Add DVD" />
+                                                      <Button mnemonicParsing="false" onAction="#addLaptop" text="Add Laptop" />
+                                                   </children>
+                                                </HBox>
+                                             </children>
+                                          </VBox>
+                                       </content>
+                                    </TitledPane>
                                  </panes>
                               </Accordion>
                            </center>
