@@ -610,7 +610,7 @@ public abstract class Resource {
      */
     private void applyFines(Copy copyToBeReturned) {
         Date dueDate = copyToBeReturned.getDueDate();
-        if(dueDate.equals("")) {
+        if(dueDate == null) {
             return;
         }
         
