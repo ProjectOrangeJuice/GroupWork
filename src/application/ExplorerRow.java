@@ -46,7 +46,7 @@ public class ExplorerRow {
 	}
 	
 	//Filter: History
-		public ExplorerRow(int copyID, String keeper, String History) {
+		public ExplorerRow(int copyID, String keeper, String history) {
 			this.copyID = copyID;
 			this.keeper = keeper;
 			this.history = history;
@@ -72,7 +72,7 @@ public class ExplorerRow {
 		return history;
 	}
 
-	public void setHistory(String History) {
+	public void setHistory(String history) {
 		this.history = history;
 	}
 

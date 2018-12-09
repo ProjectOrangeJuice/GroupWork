@@ -1,6 +1,7 @@
 package application;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import javafx.fxml.FXML;
 import javafx.scene.CacheHint;
@@ -20,8 +21,9 @@ import model.User;
 
 
 public class RecommendedController {
+	
 	@FXML
-	HBox recommended;
+	VBox recommended;
 	private final int RES_IMG_WIDTH = 150;
 	private final int RES_IMG_HEIGHT = 250;
 	/**
@@ -97,25 +99,19 @@ public class RecommendedController {
 	 public void initialize() {
 		Person person = ScreenManager.getCurrentUser();
 		if (person instanceof User) {
-			User user = (User) person;
-			
-			
+			User user = ((User) ScreenManager.getCurrentUser());
+						
 			try {
-				for(Resource recommendedR : user.getRecommendations()) {
-					
-					VBox vbox = new VBox();
-					
+				ArrayList<Resource> recommendations = user.getRecommendations();
+				for(Resource recommendedR : recommendations) {
 					StackPane imagePane = createImage(recommendedR, RES_IMG_WIDTH, RES_IMG_HEIGHT);
-					
-					Text title = new Text("Title: "+ recommendedR.getTitle());
-					Text year = new Text("Year: "+ recommendedR.getYear());		
-					vbox.getChildren().addAll(imagePane,title,year);
-					vbox.setSpacing(5);
-					recommended.getChildren().add(vbox);
+						
+					recommended.getChildren().add(imagePane);
 					recommended.setSpacing(15);
 					
 				}
 			} catch (SQLException e) {
+				System.out.println("hello00000");
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}

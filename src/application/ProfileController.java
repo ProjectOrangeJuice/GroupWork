@@ -682,8 +682,41 @@ public class ProfileController {
 	 */
 	@FXML
 	private void displayHistory() {
-		loadExplorerTableColumns("history");
-		System.out.println("Display History!");
+		String copyID = staffCopyIDField.getText();
+		if (copyID.equals("")) {
+			System.out.println("No copyID entered!");
+		
+		} else {
+			if (checkCopyID(copyID) == true) {
+				loadExplorerTableColumns("history");
+				ObservableList<ExplorerRow> historyList = FXCollections.observableArrayList();
+
+				try {
+					Connection conn = DBHelper.getConnection();
+					PreparedStatement sqlStatement = conn.prepareStatement("SELECT * FROM borrowRecords WHERE copyID = ?");
+					sqlStatement.setInt(1, Integer.parseInt(copyID));
+					ResultSet rs = sqlStatement.executeQuery();
+					
+					while(rs.next()) {
+
+						historyList.add(new ExplorerRow(
+								rs.getInt(2),
+								rs.getString(3),
+								rs.getString(4)));
+					}
+						
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+				
+				staffCopiesExplorerTable.setItems(historyList);
+				staffCopiesExplorerTable.autosize();
+				
+			} else {
+				System.out.println("Copy not found!");
+				staffCopyIDField.setText("");
+			}
+		}
 	}
 	
 	/**
@@ -692,6 +725,7 @@ public class ProfileController {
 	@FXML
 	private void approveCopy() {
 		System.out.println("Approve copy!");
+		staffCopyIDField.setText("");
 	}
 	
 	/**
@@ -700,6 +734,7 @@ public class ProfileController {
 	@FXML
 	private void returnCopy() {
 		System.out.println("Return copy!");
+		staffCopyIDField.setText("");
 
 	}
 	
@@ -727,7 +762,7 @@ public class ProfileController {
 	@FXML
 	private void explorerTableClicked(MouseEvent event) {
 		ExplorerRow row  = (ExplorerRow) staffCopiesExplorerTable.getSelectionModel().getSelectedItem();
-		staffCopyIDField.setText(row.getKeeper());
+		staffCopyIDField.setText(Integer.toString(row.getCopyID()));
 	}
 	
 	//
@@ -844,7 +879,7 @@ public class ProfileController {
 		
 		TableColumn<ExplorerRow, String> historyCol = new TableColumn<ExplorerRow, String>("History");
 		historyCol.setCellValueFactory(cd -> 
-		new SimpleStringProperty(cd.getValue().getDueDate()));
+		new SimpleStringProperty(cd.getValue().getHistory()));
 		
 		switch (tableToLoad) {				
 			case "all":
@@ -972,6 +1007,9 @@ public class ProfileController {
 		
 	}
 	
+	//
+	// End of Staff Tab
+	//
 	
 	/**
 	 * Generate a popup.

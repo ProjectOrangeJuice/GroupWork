@@ -27,31 +27,6 @@ public class DVD extends Resource {
     private ArrayList<String> subtitleLanguages;
 
     /**
-     * Method that loads the details of all dvd resources from the dvd database table and
-     * adds them to the list of all resources.
-     */
-    public static void loadDatabaseDVDs() {
-        try {
-            Connection conn = DBHelper.getConnection(); // get the connection
-            Statement stmt = conn.createStatement(); // prep a statement
-            ResultSet rs = stmt.executeQuery("SELECT resource.rID, resource.title, resource.year, resource.thumbnail," +
-                "director, runTime, language FROM dvd, resource WHERE dvd.rID = resource.rID");
-
-            while (rs.next()) {
-                Image resourceImage = new Image(rs.getString("thumbnail"), true);
-                
-                resources.add(new DVD(rs.getInt("rID"), rs.getString("title"), rs.getInt("year"), resourceImage,
-                    rs.getString("director"), rs.getInt("runTime"), rs.getString("language"), null));
-
-                System.out.println("New DVD added!");
-            }
-        }
-        catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
      * Makes a new dvd with the given data. The new dvd has all it's fields 
      * populated. The list of subtitles is loaded from the database.
      * @param uniqueID The unique number that identifies this resource.
@@ -94,6 +69,31 @@ public class DVD extends Resource {
         this.runTime = runtime;
 
         loadSubtitles();
+    }
+    
+    /**
+     * Method that loads the details of all dvd resources from the dvd database table and
+     * adds them to the list of all resources.
+     */
+    public static void loadDatabaseDVDs() {
+        try {
+            Connection conn = DBHelper.getConnection(); // get the connection
+            Statement stmt = conn.createStatement(); // prep a statement
+            ResultSet rs = stmt.executeQuery("SELECT resource.rID, resource.title, resource.year, resource.thumbnail," +
+                "director, runTime, language FROM dvd, resource WHERE dvd.rID = resource.rID");
+
+            while (rs.next()) {
+                Image resourceImage = new Image(rs.getString("thumbnail"), true);
+                
+                resources.add(new DVD(rs.getInt("rID"), rs.getString("title"), rs.getInt("year"), resourceImage,
+                    rs.getString("director"), rs.getInt("runTime"), rs.getString("language"), null));
+
+                System.out.println("New DVD added!");
+            }
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
