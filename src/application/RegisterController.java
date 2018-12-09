@@ -173,10 +173,7 @@ public class RegisterController implements Initializable {
 	    void createAccount(ActionEvent event) {
 
 	        //if any text field is invalid display error message under it.
-	    	System.out.println(validateUsername());
-	    	System.out.println(validateFirstName());
-	    	System.out.println(validateLastName());
-	    	System.out.println(validatePhoneNumber());
+	    	
 	        if (validateUsername()) {
 	            usernameError.setVisible(false);
 	        } else {
