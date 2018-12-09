@@ -180,6 +180,9 @@ CREATE TABLE IF NOT EXISTS `requestsToApprove` (
 	FOREIGN KEY (rID) REFERENCES `resource` (`rID`) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
+INSERT INTO `requestsToApprove` VALUES (1,"Manny");
+INSERT INTO `requestsToApprove` VALUES (2,"Steveo");
+
 DROP TABLE IF EXISTS `userRequests`;
 CREATE TABLE IF NOT EXISTS `userRequests` (
 	`rID` INTEGER,

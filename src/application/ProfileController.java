@@ -5,6 +5,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 
 import javafx.beans.property.SimpleStringProperty;
@@ -586,16 +587,32 @@ public class ProfileController {
 		staffReturnCopy.setDisable(false);
 		
 		loadExplorerTableColumns("all");
-		
-		ObservableList<Copy> copiesList = FXCollections.observableArrayList();
-		
-		for (Resource res: ScreenManager.getResources()) {
-			copiesList.addAll(res.getCopies());
+		ObservableList<ExplorerRow> copiesList = FXCollections.observableArrayList();
+
+		try {
+			Connection conn = DBHelper.getConnection();
+			Statement stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery("SELECT * FROM copies, resource WHERE copies.rID = resource.rID");
+			
+			while(rs.next()) {
+				copiesList.add(new ExplorerRow(
+						rs.getString(9),
+						rs.getString(3),
+						rs.getInt(1),
+						rs.getInt(2),
+						rs.getInt(4),
+						rs.getString(5),
+						rs.getString(6),
+						rs.getString(7)
+						));
+			}
+				
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
 		
 		staffCopiesExplorerTable.setItems(copiesList);
 		staffCopiesExplorerTable.autosize();		
-
 	}
 	
 	/**
@@ -607,8 +624,11 @@ public class ProfileController {
 		staffApproveCopy.setDisable(true);
 		staffReturnCopy.setDisable(false);
 		
-		System.out.println("Display Overdue!");
 		loadExplorerTableColumns("overdue");
+		//Work out how to get all overdue books.
+		
+		//staffCopiesExplorerTable.setItems(copiesList);
+		//staffCopiesExplorerTable.autosize();
 	}
 	
 	/**
@@ -619,8 +639,28 @@ public class ProfileController {
 		staffHistoryFind.setDisable(true);
 		staffApproveCopy.setDisable(false);
 		staffReturnCopy.setDisable(true);
-		System.out.println("Display Requested!");
+		
+		loadExplorerTableColumns("requested");
+		ObservableList<ExplorerRow> copiesList = FXCollections.observableArrayList();
 
+		try {
+			Connection conn = DBHelper.getConnection();
+			Statement stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery("SELECT * FROM requestsToApprove, users where requestsToApprove.userName = users.username");
+			while(rs.next()) {
+				
+				copiesList.add(new ExplorerRow(
+						rs.getString(2),
+						rs.getInt(1)
+						));
+			}
+				
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		staffCopiesExplorerTable.setItems(copiesList);
+		staffCopiesExplorerTable.autosize();
 	}
 	
 	/**
@@ -655,8 +695,8 @@ public class ProfileController {
 	 */
 	@FXML
 	private void explorerTableClicked(MouseEvent event) {
-		//ExplorerRow row  = staffCopiesExplorerTable.getSelectionModel().getSelectedItem();
-		//selectedUserLabel.setText(row.getKeeper());
+		ExplorerRow row  = (ExplorerRow) staffCopiesExplorerTable.getSelectionModel().getSelectedItem();
+		staffCopyIDField.setText(row.getKeeper());
 	}
 	
 	//
@@ -771,7 +811,7 @@ public class ProfileController {
 			case "requested":
 				staffCopiesExplorerTable.getColumns().clear();
 				staffCopiesExplorerTable.getColumns().addAll(
-						keeperCol,resourceIDCol,orderNumberCol);
+						keeperCol,resourceIDCol);
 				break;
 		}
 		
