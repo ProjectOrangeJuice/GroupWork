@@ -27,7 +27,6 @@ public class ExplorerRow {
 	}
 
 	public ExplorerRow(String resourceTitle, String keeper, int copyID, int resourceID, String borrowDate, String dueDate) {
-		super();
 		this.resourceTitle = resourceTitle;
 		this.keeper = keeper;
 		this.copyID = copyID;
@@ -36,11 +35,9 @@ public class ExplorerRow {
 		this.dueDate = dueDate;
 	}
 
-	public ExplorerRow(String keeper, int resourceID, int orderNumber) {
-		super();
+	public ExplorerRow(String keeper, int resourceID) {
 		this.keeper = keeper;
 		this.resourceID = resourceID;
-		this.orderNumber = orderNumber;
 	}
 
 	public String getResourceTitle() {
