@@ -562,7 +562,7 @@ public class ProfileController {
 		loadRequested();
 		loadBorrowHistory();
 
-		loadTables("users");
+		loadUserTableColumns();
 		displayAll();
 
 		scrollPane.setHvalue(0.5);
@@ -583,7 +583,7 @@ public class ProfileController {
 		staffApproveCopy.setDisable(true);
 		staffReturnCopy.setDisable(false);
 		
-		loadTables("all");
+		loadExplorerTableColumns("all");
 		
 		ObservableList<Copy> copiesList = FXCollections.observableArrayList();
 		
@@ -606,7 +606,7 @@ public class ProfileController {
 		staffReturnCopy.setDisable(false);
 		
 		System.out.println("Display Overdue!");
-		loadTables("overdue");
+		loadExplorerTableColumns("overdue");
 	}
 	
 	/**
@@ -697,41 +697,12 @@ public class ProfileController {
 	}
 	
 
-	//
-	//Staff: Manage Users
-	//
+
 	
 	/**
 	 * Loads the user table so the staff can manage the users.
 	 */
-	private void loadTables(String tableToLoad) {
-		//Manage Users Columns
-
-		TableColumn<Person, String> usernameCol = new TableColumn<Person, String>("Username");
-        usernameCol.setCellValueFactory(new PropertyValueFactory<>("username"));
-		
-		TableColumn<Person, String> firstnameCol = new TableColumn<Person, String>("Firstname");
-		firstnameCol.setCellValueFactory(new PropertyValueFactory<>("firstName"));
-		
-		TableColumn<Person, String> lastnameCol = new TableColumn<Person, String>("Lastname");
-		lastnameCol.setCellValueFactory(new PropertyValueFactory<>("lastName"));
-		
-		TableColumn<Person, Integer> telephoneCol = new TableColumn<Person, Integer>("Telephone");
-		telephoneCol.setCellValueFactory(new PropertyValueFactory<>("phoneNumber"));
-		
-		TableColumn<Person, String> addressCol = new TableColumn<Person, String>("Address");
-		addressCol.setCellValueFactory(new PropertyValueFactory<>("address"));
-
-		TableColumn<Person, String> postcodeCol = new TableColumn<Person, String>("Postcode");
-		postcodeCol.setCellValueFactory(new PropertyValueFactory<>("postcode"));
-		
-		TableColumn<Person, String> avatarCol = new TableColumn<Person, String>("Avatar Path");
-		avatarCol.setCellValueFactory(new PropertyValueFactory<>("avatarPath"));
-		
-		TableColumn<Person, String> accountBalanceCol = new TableColumn<Person, String>("accountBalance");
-		accountBalanceCol.setCellValueFactory(new PropertyValueFactory<>("accountBalance"));
-		
-		//Copies Explorer columns.
+	private void loadExplorerTableColumns(String tableToLoad) {		
 		TableColumn<Copy, String> copyIDCol = new TableColumn<Copy, String>("Copy ID");
 		copyIDCol.setCellValueFactory(new PropertyValueFactory<>("copyID"));
 		
@@ -757,13 +728,7 @@ public class ProfileController {
 		dueCol.setCellValueFactory(new PropertyValueFactory<>("dueDate"));
 		
 		
-		switch (tableToLoad) {
-			case "users":
-				staffUsersTable.getColumns().clear();
-				staffUsersTable.getColumns().addAll(usernameCol,firstnameCol,
-						lastnameCol,addressCol,postcodeCol,accountBalanceCol);
-				break;
-				
+		switch (tableToLoad) {				
 			case "all":
 				staffCopiesExplorerTable.getColumns().clear();
 				staffCopiesExplorerTable.getColumns().addAll(copyIDCol,
@@ -772,12 +737,47 @@ public class ProfileController {
 			case "overdue":
 				staffCopiesExplorerTable.getColumns().clear();
 				break;
+				
+			case "requested":
+				staffCopiesExplorerTable.getColumns().clear();
+				break;
 		}
 		
 	}
 	
+	//
+	//Staff: Manage Users
+	//
+	
+	private void loadUserTableColumns() {
+		TableColumn<Person, String> usernameCol = new TableColumn<Person, String>("Username");
+        usernameCol.setCellValueFactory(new PropertyValueFactory<>("username"));
+		
+		TableColumn<Person, String> firstnameCol = new TableColumn<Person, String>("Firstname");
+		firstnameCol.setCellValueFactory(new PropertyValueFactory<>("firstName"));
+		
+		TableColumn<Person, String> lastnameCol = new TableColumn<Person, String>("Lastname");
+		lastnameCol.setCellValueFactory(new PropertyValueFactory<>("lastName"));
+		
+		TableColumn<Person, Integer> telephoneCol = new TableColumn<Person, Integer>("Telephone");
+		telephoneCol.setCellValueFactory(new PropertyValueFactory<>("phoneNumber"));
+		
+		TableColumn<Person, String> addressCol = new TableColumn<Person, String>("Address");
+		addressCol.setCellValueFactory(new PropertyValueFactory<>("address"));
 
-
+		TableColumn<Person, String> postcodeCol = new TableColumn<Person, String>("Postcode");
+		postcodeCol.setCellValueFactory(new PropertyValueFactory<>("postcode"));
+		
+		TableColumn<Person, String> avatarCol = new TableColumn<Person, String>("Avatar Path");
+		avatarCol.setCellValueFactory(new PropertyValueFactory<>("avatarPath"));
+		
+		TableColumn<Person, String> accountBalanceCol = new TableColumn<Person, String>("accountBalance");
+		accountBalanceCol.setCellValueFactory(new PropertyValueFactory<>("accountBalance"));
+		
+		staffUsersTable.getColumns().clear();
+		staffUsersTable.getColumns().addAll(usernameCol,firstnameCol,
+				lastnameCol,addressCol,postcodeCol,accountBalanceCol);
+	}
 	/**
 	 * loads all the users from the table which aren't staff when the button is clicked
 	 * @param event the button being clicked
