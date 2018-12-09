@@ -288,8 +288,8 @@ public class ProfileController {
 	 */
 	final EventHandler<MouseEvent> enterHandler = event -> {
 		StackPane currentPane = (StackPane) event.getSource();
+		currentPane.getChildren().get(4).setVisible(true);
 		currentPane.getChildren().get(3).setVisible(true);
-		currentPane.getChildren().get(2).setVisible(true);
 	};
 	
 	/**
@@ -297,8 +297,8 @@ public class ProfileController {
 	 */
 	final EventHandler<MouseEvent> exitHandler = event -> {
 		StackPane currentPane = (StackPane) event.getSource();
+		currentPane.getChildren().get(4).setVisible(false);
 		currentPane.getChildren().get(3).setVisible(false);
-		currentPane.getChildren().get(2).setVisible(false);
 	};
 	
 	final EventHandler<MouseEvent> clickHandler = event -> {
@@ -337,6 +337,11 @@ public class ProfileController {
 		
 		StackPane imagePane = new StackPane();
 		
+		Rectangle background = new Rectangle();
+		background.setWidth(width);
+		background.setHeight(height);
+		background.setFill(Color.WHITE);
+		
 		Text resourceText = new Text();
 		resourceText.setFont(Font.font("Arial", 20));
 		resourceText.setStyle("-fx-font-weight: bold");
@@ -352,6 +357,10 @@ public class ProfileController {
 		image.setFitHeight(height);
 		image.setImage(copyResource.getThumbnail());
 		
+		if(copyResource instanceof Laptop) {
+			image.setPreserveRatio(true);
+		}
+		
 		image.setCache(true);
 		image.setCacheHint(CacheHint.SCALE);
 		image.setSmooth(true);
@@ -362,7 +371,8 @@ public class ProfileController {
 		rect.setFill(Color.BLACK);
 		rect.setOpacity(0.7);
 		rect.setVisible(false);
-	
+		
+		imagePane.getChildren().add(background);
 		imagePane.getChildren().add(image);
 		imagePane.getChildren().add(new ImageView());
 		imagePane.getChildren().add(rect);
@@ -433,9 +443,9 @@ public class ProfileController {
 				
 				StackPane imagePane = createImage(copyResource, COPY_IMG_WIDTH, COPY_IMG_HEIGHT);
 				
-				((ImageView) imagePane.getChildren().get(1)).setFitWidth(COPY_IMG_WIDTH);
-				((ImageView) imagePane.getChildren().get(1)).setImage(new Image("/graphics/borrowed.png"));
-				((ImageView) imagePane.getChildren().get(1)).setPreserveRatio(true);
+				((ImageView) imagePane.getChildren().get(2)).setFitWidth(COPY_IMG_WIDTH);
+				((ImageView) imagePane.getChildren().get(2)).setImage(new Image("/graphics/borrowed.png"));
+				((ImageView) imagePane.getChildren().get(2)).setPreserveRatio(true);
 				
 				resourceImages.getChildren().add(imagePane);
 				
@@ -518,9 +528,9 @@ public class ProfileController {
 				
 				StackPane imagePane = createImage(request, COPY_IMG_WIDTH, COPY_IMG_HEIGHT);
 				
-				((ImageView) imagePane.getChildren().get(1)).setFitWidth(COPY_IMG_WIDTH);
-				((ImageView) imagePane.getChildren().get(1)).setImage(new Image("/graphics/requested.png"));
-				((ImageView) imagePane.getChildren().get(1)).setPreserveRatio(true);
+				((ImageView) imagePane.getChildren().get(2)).setFitWidth(COPY_IMG_WIDTH);
+				((ImageView) imagePane.getChildren().get(2)).setImage(new Image("/graphics/requested.png"));
+				((ImageView) imagePane.getChildren().get(2)).setPreserveRatio(true);
 				
 				resourceImages.getChildren().add(imagePane);
 				
@@ -539,9 +549,9 @@ public class ProfileController {
 				
 				StackPane imagePane = createImage(resource, COPY_IMG_WIDTH, COPY_IMG_HEIGHT);
 				
-				((ImageView) imagePane.getChildren().get(1)).setFitWidth(COPY_IMG_WIDTH);
-				((ImageView) imagePane.getChildren().get(1)).setImage(new Image("/graphics/returned.png"));
-				((ImageView) imagePane.getChildren().get(1)).setPreserveRatio(true);
+				((ImageView) imagePane.getChildren().get(2)).setFitWidth(COPY_IMG_WIDTH);
+				((ImageView) imagePane.getChildren().get(2)).setImage(new Image("/graphics/returned.png"));
+				((ImageView) imagePane.getChildren().get(2)).setPreserveRatio(true);
 				
 				resourceImages.getChildren().add(imagePane);
 				
