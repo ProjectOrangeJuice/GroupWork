@@ -487,6 +487,7 @@ public class ProfileController {
 			
 			//get last image in last resource HBox.
 			HBox latestHBox = (HBox) vResourceBox.getChildren().get(vResourceBox.getChildren().size() - 1);
+			latestHBox.setSpacing(5);
 			
 			//if there is at least one image in last resource HBox
 			if(!latestHBox.getChildren().isEmpty()) {
