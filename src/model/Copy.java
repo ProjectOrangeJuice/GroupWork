@@ -263,7 +263,7 @@ public class Copy implements Comparable<Copy> {
      * @throws IllegalArgumentException If the copy is still borrowed.
      */
     public void resetDates() throws IllegalArgumentException {
-        if (borrower == null) {
+      //  if (borrower == null) {
             borrowDate = null;
             dueDate = null;
             lastRenewal = null;
@@ -271,11 +271,11 @@ public class Copy implements Comparable<Copy> {
             updateDBValue(copyID, "borrowDate", null);
             updateDBValue(copyID, "dueDate", null);
             updateDBValue(copyID, "lastRenewal", null);
-        }
-        else {
-            throw new IllegalStateException("You are trying to reset borrow," + 
-               " due and last renewal dates while this copy is still borrowed!");
-        }
+      //  }
+       // else {
+       //     throw new IllegalStateException("You are trying to reset borrow," + 
+     //          " due and last renewal dates while this copy is still borrowed!");
+    //    }
 
     }
 
