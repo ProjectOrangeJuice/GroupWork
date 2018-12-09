@@ -47,7 +47,7 @@ DROP TABLE IF EXISTS `system`;
 CREATE TABLE IF NOT EXISTS `system` (
 	`ver`	INTEGER
 );
-INSERT INTO `system` VALUES (13);
+INSERT INTO `system` VALUES (14);
 
 DROP TABLE IF EXISTS `resource`;
 CREATE TABLE IF NOT EXISTS `resource` (
