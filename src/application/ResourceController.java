@@ -18,10 +18,14 @@ public class ResourceController {
 	@FXML
 	VBox resourceBlock;
 	
-	
+	/**
+	 * Sets up the book resource screen
+	 */
 	private void setupBook() {
+		//creates instance of a book
 		Book book = (Book) ScreenManager.getCurrentResource();
 		
+		//inserts the common resource attributes
 		HBox titleBox = new HBox();
 		Text titleText = new Text("Title");
 		TextField titleField = new TextField (book.getTitle());
@@ -76,9 +80,13 @@ public class ResourceController {
 		
 	}
 	
+/**
+ * setups the DVD resource
+ */
 	private void setupDVD() {
 		DVD dvd = (DVD) ScreenManager.getCurrentResource();
 		
+		//sets up the common attributes of all resrouces
 		HBox titleBox = new HBox();
 		Text titleText = new Text("Title");
 		TextField titleField = new TextField (dvd.getTitle());
@@ -130,7 +138,9 @@ public class ResourceController {
 		
 	}
 	
+
 	private void updateBook(String title, String year, String author, String publish, String genre, String ISBN, String language, String img){
+		//Checks if the year is a number
 		boolean goAhead = true;
 		try {
 			Integer.parseInt(year);
@@ -139,6 +149,7 @@ public class ResourceController {
 			alertDone("Year must be a number");
 		}
 		
+		//If the year is a number, update the book attributes
 		if (goAhead) {
 			Book resource = (Book) ScreenManager.getCurrentResource();
 			resource.setTitle(title);
@@ -167,6 +178,9 @@ public class ResourceController {
 		alert.showAndWait();
 	}
 	
+	/**
+	 * Initalize method that creates the resource on start up depending on the resource.
+	 */
 	@FXML
 	 public void initialize() {
 		Resource resource = ScreenManager.getCurrentResource();

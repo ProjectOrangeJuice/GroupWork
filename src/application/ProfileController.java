@@ -60,78 +60,78 @@ import model.User;
 public class ProfileController {
 
 	@FXML
-	private HBox resourceImages;
+	private HBox resourceImages;//hbox that holds the resource images
 
 	@FXML
-	private ScrollPane scrollPane;
+	private ScrollPane scrollPane;//allows the user to scroll through the images
 	
 	@FXML
-	private VBox vResourceBox;
+	private VBox vResourceBox;//vbox that contains the hbox of resources
 	
 	@FXML
-	private TextField searchTextBox;
+	private TextField searchTextBox;//allows the user to search for resources
 	
 	@FXML
-	private LoginController TextField;
+	private LoginController TextField;//log out link
 	
 	//User Profile
 	@FXML
-	private Label userLabel;
+	private Label userLabel;//label displaying "Username"
 	@FXML
-	private Label fullnameLabel;
+	private Label fullnameLabel;//label displaying "Full name"
 	@FXML
-	private Label phoneLabel;
+	private Label phoneLabel;//label displaying "Phone number"
 	@FXML
-	private Label addressLabel;
+	private Label addressLabel;//label displaying "Address"
 	@FXML
-	private Label postcodeLabel;
+	private Label postcodeLabel;//label displaying "Post code"
 	@FXML
-	private Label balanceLabel;
+	private Label balanceLabel;//label displaying "Balance"
 	
 	//Staff Profile
 	@FXML
-	private Label userLabel1;
+	private Label userLabel1;//label displaying the username from the database 
 	@FXML
-	private Label fullnameLabel1;
+	private Label fullnameLabel1;//label displaying the fullanme of the user from the database 
 	@FXML
-	private Label phoneLabel1;
+	private Label phoneLabel1;//label displaying the phone number of the user from the database 
 	@FXML
-	private Label addressLabel1;
+	private Label addressLabel1;//label displaying the address of the user from the database 
 	@FXML
-	private Label postcodeLabel1;
+	private Label postcodeLabel1;//label displaying the postcode of the user from the database 
 	@FXML
-	private Label dateLabel1;
+	private Label dateLabel1;//label displaying the employment date of the staff from the database 
 	@FXML
-	private Label staffIDLabel1;
+	private Label staffIDLabel1;//label displaying the staff id from the database 	
 	
 	@FXML
-	private Tab userProfileTab;
+	private Tab userProfileTab;//my profile tab
 	
 	@FXML
-	private Tab resourcesTab;
+	private Tab resourcesTab;// library resources tab
 	
 	@FXML
-	private Tab transactionTab;
+	private Tab transactionTab;//transaction tab
 	
 	@FXML
-	private Tab staffProfileTab;
+	private Tab staffProfileTab;//staff profile tab
 	
 	@FXML
-	private TabPane tabs;
+	private TabPane tabs;//tab pane that holds the tabs
 	
 	@FXML
-	private Label accountBalance;
+	private Label accountBalance;//label that displays an users balance
 	
 	@FXML
-	private Button userEditProfileButton;
+	private Button userEditProfileButton;//allows user to edit their profile
 	
 	@FXML
-	private Button staffEditProfileButton;
+	private Button staffEditProfileButton;//allows staff to edit their profile
 	
 	@FXML
-	private Button staffEditAvatar;
+	private Button staffEditAvatar;//allows staff to edit avatar
 	@FXML
-	private Button userEditAvatar;
+	private Button userEditAvatar;//allows user to edit avatar
 	
 	//check boxes
 	@FXML
@@ -208,6 +208,10 @@ public class ProfileController {
 		//tabPane.getSelectionModel().select(2);
 	}
 	
+	/**
+	 * Method that searches for resources
+	 * @param event when something is typed into the search box
+	 */
 	@FXML  
     void searchThis(KeyEvent event) {
 		tabs.getSelectionModel().select(resourcesTab);
@@ -314,7 +318,13 @@ public class ProfileController {
 		
 	};
 	
-	
+	/**
+	 * Makes the image and resource text for the resource
+	 * @param copyResource the copy of the resource 
+	 * @param width width of image
+	 * @param height height of image
+	 * @return the image pane
+	 */
 	private StackPane createImage(Resource copyResource, int width, int height) {
 		
 		StackPane imagePane = new StackPane();
@@ -357,7 +367,11 @@ public class ProfileController {
 		return imagePane;
 	}
 	
-	
+	/**
+	 * Search resources and checks to see if the checkboxes are selected which filter the search
+	 * @param i loop to get the resources
+	 * @return the search results or false
+	 */
 	private boolean search(int i ) {
 		//get the resource
 		Resource r = resources.get(i);
@@ -376,7 +390,9 @@ public class ProfileController {
 		return false;
 
 	}
-	
+	/**
+	 * Method that loads copies that the user is currently borrowing
+	 */
 	private void loadCopies() {
 		if (currentUser instanceof User) {
 			
@@ -462,6 +478,9 @@ public class ProfileController {
 		
 	}
 	
+	/**
+	 * Loads the resources that have been requested so the librarian can confirm then
+	 */
 	@FXML
 	private void loadRequested() {
 		
@@ -493,6 +512,9 @@ public class ProfileController {
 		}
 	}
 
+	/**
+	 * intialize method that starts when the scene is intialized
+	 */
 	@FXML
 	 public void initialize() {
 		
@@ -503,9 +525,16 @@ public class ProfileController {
 		loadUserInformation();
 		loadCopies();
 		loadRequested();
+
+	
+		
+		loadTables("users");
+		loadTables("all");
+
 		
 		loadTables("users");
 		//displayAll();
+
 		
 		scrollPane.setHvalue(0.5);
 	
@@ -535,8 +564,12 @@ public class ProfileController {
 		
 		staffCopiesExplorerTable.setItems(copiesList);
 		staffCopiesExplorerTable.autosize();		
+
 	}
 	
+	/**
+	 * Displays what is overdue 
+	 */
 	@FXML
 	private void displayOverdue() {
 		staffHistoryFind.setDisable(false);
@@ -547,29 +580,48 @@ public class ProfileController {
 		loadTables("overdue");
 	}
 	
+	/**
+	 * Displays what is requested
+	 */
 	@FXML
 	private void displayRequested() {
 		staffHistoryFind.setDisable(true);
 		staffApproveCopy.setDisable(false);
 		staffReturnCopy.setDisable(true);
 		System.out.println("Display Requested!");
+
 	}
 	
+	/**
+	 * prints display history
+	 */
 	@FXML
 	private void displayHistory() {
 		System.out.println("Display History!");
 	}
 	
+	/**
+	 * prints out approval of the copy
+	 */
 	@FXML
 	private void approveCopy() {
 		System.out.println("Approve copy!");
 	}
 	
+	/**
+	 * 
+	 */
 	@FXML
 	private void returnCopy() {
 		System.out.println("Return copy!");
+
 	}
 	
+	
+	/**
+	 * Opens the profile editor when the button is clicked
+	 * @param event button being clicked
+	 */
 	@FXML
 	private void explorerTableClicked(MouseEvent event) {
 		//Person selectedUser = staffCopiesExplorerTable.getSelectionModel().getSelectedItem();
@@ -587,6 +639,10 @@ public class ProfileController {
 		changeScene(event,"/fxml/StaffEdit.fxml");
 	}
 	
+	/**
+	 * Opens the avatar drawing scene when the button is clicked
+	 * @param event button being clicked
+	 */
 	@FXML
 	private void openAvatarEditor(MouseEvent event) {
 		System.out.println("Launch avatar editor.");
@@ -594,8 +650,16 @@ public class ProfileController {
 	}
 	
 
+	//
+	// Manage Users Tab
+	//
+	
+	/**
+	 * Loads the user table so the staff can manage the users.
+	 */
 	private void loadTables(String tableToLoad) {
 		//Manage Users Columns
+
 		TableColumn<Person, String> usernameCol = new TableColumn<Person, String>("Username");
         usernameCol.setCellValueFactory(new PropertyValueFactory<>("username"));
 		
@@ -619,6 +683,9 @@ public class ProfileController {
 		
 		TableColumn<Person, String> accountBalanceCol = new TableColumn<Person, String>("accountBalance");
 		accountBalanceCol.setCellValueFactory(new PropertyValueFactory<>("accountBalance"));
+		
+
+		staffUsersTable.getColumns().addAll(usernameCol, firstnameCol, lastnameCol,addressCol,postcodeCol,accountBalanceCol);
 		
 		//Copies Explorer columns.
 		TableColumn<Copy, String> copyIDCol = new TableColumn<Copy, String>("Copy ID");
@@ -664,6 +731,13 @@ public class ProfileController {
 		
 	}
 	
+
+
+	/**
+	 * loads all the users from the table which aren't staff when the button is clicked
+	 * @param event the button being clicked
+	 */
+
 	//
 	//Staff: Manage Users
 	//
@@ -691,6 +765,10 @@ public class ProfileController {
 		
 	}
 	
+	/**
+	 * Method that shows the table of the selected user when button is clicked
+	 * @param event when the button is clicked
+	 */
 	@FXML
 	private void userTableClicked(MouseEvent event) {
 		Person selectedUser = staffUsersTable.getSelectionModel().getSelectedItem();
@@ -698,6 +776,10 @@ public class ProfileController {
 		//System.out.println("Cell clicked?");
 	}
 	
+	/**
+	 * Deletes a user from the database when the button is clicked
+	 * @param event the button being clicked
+	 */
 	@FXML
 	private void userDeleteButton(MouseEvent event) {
 		if (selectedUserLabel.getText().equals("-")) {
@@ -712,6 +794,10 @@ public class ProfileController {
 		
 	}
 	
+	/**
+	 * Method that allows librarian to add funds to a user when the button is clicked
+	 * @param event the button being pressed
+	 */
 	@FXML
 	private void userAddFundsButton(MouseEvent event) {
 		if (selectedUserLabel.getText().equals("-")) {
