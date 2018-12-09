@@ -9,13 +9,13 @@
    <children>
       <ImageView fx:id="avatar" fitHeight="188.0" fitWidth="243.0" layoutX="32.0" layoutY="27.0" pickOnBounds="true" preserveRatio="true" />
       <TextField fx:id="username" layoutX="377.0" layoutY="33.0" promptText="Username" />
-      <TextField fx:id="firstname" layoutX="377.0" layoutY="75.0" promptText="First name" />
-      <TextField fx:id="lastname" layoutX="377.0" layoutY="115.0" promptText="Last name" />
+      <TextField fx:id="firstName" layoutX="377.0" layoutY="75.0" promptText="First name" />
+      <TextField fx:id="lastName" layoutX="377.0" layoutY="115.0" promptText="Last name" />
       <TextField fx:id="phoneNumber" layoutX="377.0" layoutY="154.0" promptText="Phone number" />
       <TextField fx:id="address" layoutX="377.0" layoutY="196.0" promptText="Address" />
       <TextField fx:id="postCode" layoutX="377.0" layoutY="236.0" promptText="Post code" />
       <Button fx:id="browseButton" layoutX="32.0" layoutY="236.0" mnemonicParsing="false" text="Browse avatars" />
-      <Button fx:id="registerButton" layoutX="116.0" layoutY="303.0" mnemonicParsing="false" text="Register" />
+      <Button fx:id="registerButt" layoutX="116.0" layoutY="303.0" mnemonicParsing="false" onAction="#createAccount" text="Register" />
       <Button fx:id="createButton" layoutX="162.0" layoutY="236.0" mnemonicParsing="false" onMouseClicked="#customAvatarAction" onMouseReleased="#customAvatarAction" text="Create custom" />
       <Label fx:id="usernameError" layoutX="491.0" layoutY="58.0" text="Invalid" textFill="RED" />
       <Label fx:id="firstNameError" layoutX="491.0" layoutY="100.0" text="Invalid" textFill="RED" />

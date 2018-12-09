@@ -70,7 +70,7 @@ public class RegisterController implements Initializable {
 	private TextField phoneNumber;
 
 	@FXML
-	private Button registerButton;
+	private Button registerButt;
 
 	@FXML
 	private Button browseButton;
@@ -116,8 +116,8 @@ public class RegisterController implements Initializable {
 	public void initialize(URL location, ResourceBundle resources) {
 		Image newAvatar = new Image(avatarPath);
 		avatar.setImage(newAvatar);
-		staffId.setVisible(false);
-		employmentDate.setVisible(false);
+		//staffId.setVisible(false);
+		//employmentDate.setVisible(false);
 		staffIdError.setVisible(false);
 		usernameError.setVisible(false);
 		firstNameError.setVisible(false);
@@ -126,6 +126,9 @@ public class RegisterController implements Initializable {
 		postCodeError.setVisible(false);
 		phoneNumberError.setVisible(false);
 		employmentDateError.setVisible(false);
+		
+		staffId.visibleProperty().bind(librarianCheckBox.selectedProperty());
+		employmentDate.visibleProperty().bind(librarianCheckBox.selectedProperty());
 	}
 
 	/**
@@ -338,10 +341,10 @@ public class RegisterController implements Initializable {
 		 */
 	    public boolean isLibrarian(ActionEvent event) {//show staffId box
 	    	boolean selected = librarianCheckBox.isSelected();
-	    	if(librarianCheckBox.isSelected()) {
+	    	/**if(librarianCheckBox.isSelected()) {
 	    		staffId.setVisible(true);
 		        employmentDate.setVisible(true);
-	    		}
+	    		}*/
 	    	return selected;
 	    }
 	    
