@@ -259,7 +259,7 @@ public class ProfileController {
 			
 			Double userBalance = ((User) currentUser).getAccountBalance();
 			accountBalance.setText("£" + Double.toString(userBalance));
-			userAvatarView.setImage(new Image(new File(currentUser.getAvatar()).toURI().toString()));
+			userAvatarView.setImage(new Image(currentUser.getAvatar()));
 		}else {
 			//get all information in about user from ScreenManager class.
 			Librarian staff = (Librarian) currentUser;
@@ -273,7 +273,7 @@ public class ProfileController {
 			dateLabel1.setText(dateLabel1.getText() + " " + staff.getEmploymentDate());
 			staffIDLabel1.setText(staffIDLabel1.getText() + " " + staff.getStaffID());
 			
-			staffAvatarView.setImage(new Image(new File(currentUser.getAvatar()).toURI().toString()));
+			staffAvatarView.setImage(new Image(currentUser.getAvatar()));
 		}
 	}
 	
