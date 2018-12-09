@@ -48,7 +48,7 @@
                         <Font size="15.0" />
                      </font>
                   </Button>
-                  <Button fx:id="registerButton" alignment="CENTER" mnemonicParsing="false" onMouseClicked="#registerAction" style="-fx-background-color: #BBBBBB;" text="Don't have an account?" textFill="WHITE" />
+                  <Button fx:id="registerButton" alignment="CENTER" mnemonicParsing="false" onMouseClicked="#registerAction" style="-fx-background-color: #999999;" text="Don't have an account?" textFill="WHITE" />
                </children>
             </VBox>
          </children>
