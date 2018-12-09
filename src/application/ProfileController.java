@@ -509,6 +509,7 @@ public class ProfileController {
 		scrollPane.setHvalue(0.5);
 	
 	 }
+	
 	//
 	//Staff Profile -----------------------------------------------------------
 	//
@@ -559,10 +560,7 @@ public class ProfileController {
 		changeScene(event,"/fxml/drawAvatar.fxml");
 	}
 	
-	//
-	// Manage Users Tab
-	//
-	
+
 	private void loadTables(String tableToLoad) {
 		TableColumn<Person, String> usernameCol = new TableColumn<Person, String>("Username");
         usernameCol.setCellValueFactory(new PropertyValueFactory<>("username"));
@@ -600,6 +598,10 @@ public class ProfileController {
 		}
 		
 	}
+	
+	//
+	// Staff: Manage Users
+	//
 	
 	@FXML
 	private void loadUsersTable(MouseEvent event) {
