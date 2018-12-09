@@ -97,7 +97,7 @@
                                     <Label fx:id="phoneLabel" text="Phone Number: " textFill="WHITE" />
                                     <Label fx:id="addressLabel" text="Address:" textFill="WHITE" />
                                     <Label fx:id="postcodeLabel" text="Post Code:" textFill="WHITE" />
-                                    <Separator prefWidth="200.0" />
+                                    <Separator disable="true" prefWidth="200.0" visible="false" />
                                     <VBox alignment="CENTER">
                                        <children>
                                           <Label fx:id="balanceLabel" alignment="CENTER" text="Account Balance:" textFill="WHITE">
