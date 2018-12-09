@@ -9,18 +9,17 @@ import javafx.scene.paint.Color;
  * @version 1.0
  */
 public class Circle extends AvatarComponent {
-    private double radius; //The radius of the circle, from the starting point.
+    private double radius; // The radius of the circle, from the starting point.
 
     /**
      * Creates a circle.
      *
      * @param xStartPosition The x start position.
      * @param yStartPosition The y start position.
-     * @param colour         The colour of the circle.
-     * @param radius         The radius of the circle.
+     * @param colour The colour of the circle.
+     * @param radius The radius of the circle.
      */
-    public Circle(double xStartPosition, double yStartPosition, Color colour,
-                  double radius) {
+    public Circle(double xStartPosition, double yStartPosition, Color colour, double radius) {
         super(xStartPosition, yStartPosition, colour);
         this.radius = radius;
     }
@@ -47,7 +46,6 @@ public class Circle extends AvatarComponent {
     public void displayComponent(Canvas canvas) {
         GraphicsContext graphicsContext = canvas.getGraphicsContext2D();
         graphicsContext.setFill(getColour());
-        graphicsContext.fillOval(getXStartPosition(), getYStartPosition(),
-                getRadius(), getRadius());
+        graphicsContext.fillOval(getXStartPosition(), getYStartPosition(), getRadius(), getRadius());
     }
 }
