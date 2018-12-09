@@ -491,7 +491,8 @@ public class RegisterController implements Initializable {
 	    File file = chooser.showOpenDialog(new Stage());
 	    System.out.println(file.getAbsolutePath());
 	    setAvatarPath(file.getAbsolutePath());
-	    Image selectedAvatar = new Image(this.avatarPath);
+	    Image selectedAvatar = new Image(new File(this.avatarPath).toURI().toString());
+	   // Image selectedAvatar = new Image(this.avatarPath);
 	    avatar.setImage(selectedAvatar);
 	}
 
