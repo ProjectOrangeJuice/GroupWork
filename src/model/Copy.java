@@ -274,4 +274,12 @@ public class Copy implements Comparable<Copy>{
 			return 0;
 		}
 	}
+	
+	public String getBorrowerIDSafely() {
+		if (this.borrower == null) {
+			return null;
+		} else {
+			return this.borrower.getUsername();
+		}
+	}
 }

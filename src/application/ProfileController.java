@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
@@ -602,13 +603,16 @@ public class ProfileController {
 		copyIDCol.setCellValueFactory(new PropertyValueFactory<>("copyID"));
 		
 		TableColumn<Copy, String> rIDCol = new TableColumn<Copy, String>("Resource ID");
-		rIDCol.setCellValueFactory(new PropertyValueFactory<>("rID"));
+		rIDCol.setCellValueFactory(cd -> 
+		new SimpleStringProperty(cd.getValue().getResource().getTitle()));
 		
 		TableColumn<Copy, String> keeperCol = new TableColumn<Copy, String>("Keeper");
-		keeperCol.setCellValueFactory(new PropertyValueFactory<>("keeper"));
+		keeperCol.setCellValueFactory(cd -> 
+		new SimpleStringProperty(cd.getValue().getBorrowerIDSafely()));
 		
 		TableColumn<Copy, String> loanCol = new TableColumn<Copy, String>("Loan Duration");
-		loanCol.setCellValueFactory(new PropertyValueFactory<>("duration"));
+		loanCol.setCellValueFactory(cd -> 
+		new SimpleStringProperty(Integer.toString(cd.getValue().getLoanDuration())));
 		
 		TableColumn<Copy, String> borrowCol = new TableColumn<Copy, String>("Borrowed");
 		borrowCol.setCellValueFactory(new PropertyValueFactory<>("borrowDate"));
