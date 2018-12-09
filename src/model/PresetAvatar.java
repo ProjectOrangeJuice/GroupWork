@@ -16,7 +16,7 @@ public class PresetAvatar extends Avatar {
      * @param size The size of the avatar, which is square.
      * @param posX The x position of the centre of the avatar.
      * @param posY The y position of the centre of the avatar.
-     * @param presetImage The selected preset avatar.
+     * @param presetAvatar The selected preset avatar.
      */
     public PresetAvatar(double size, double posX, double posY, PresetAvatar presetAvatar) {
         super(size, posX, posY);
@@ -52,6 +52,7 @@ public class PresetAvatar extends Avatar {
 
     /**
      * Converts a preset avatar to a string.
+     * @return a string representation of the preset avatar.
      */
     public String toString() {
         String result = "";

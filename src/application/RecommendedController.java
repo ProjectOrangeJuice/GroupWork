@@ -1,10 +1,17 @@
 package application;
 
+import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.CacheHint;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -13,6 +20,8 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import model.Laptop;
 import model.Person;
 import model.Resource;
@@ -20,10 +29,55 @@ import model.User;
 
 
 public class RecommendedController {
+	
 	@FXML
-	HBox recommended;
+	VBox recommended;
 	private final int RES_IMG_WIDTH = 150;
 	private final int RES_IMG_HEIGHT = 250;
+	
+	/**
+	 * Event handler that handles when a resource is clicked.
+	 */
+	final EventHandler<MouseEvent> enterHandler = event -> {
+		StackPane currentPane = (StackPane) event.getSource();
+		currentPane.getChildren().get(4).setVisible(true);
+		currentPane.getChildren().get(3).setVisible(true);
+	};
+	
+	/**
+	 * Event handler that handles when a resource is clicked.
+	 */
+	final EventHandler<MouseEvent> exitHandler = event -> {
+		StackPane currentPane = (StackPane) event.getSource();
+		currentPane.getChildren().get(4).setVisible(false);
+		currentPane.getChildren().get(3).setVisible(false);
+	};
+	
+	final EventHandler<MouseEvent> clickHandler = event -> {
+		
+		//find the resource that was clicked.
+		for(Resource resource : ScreenManager.getResources()) {
+			if(resource.getUniqueID() == Integer.parseInt(((StackPane) event.getSource()).getId())) {
+				ScreenManager.setCurrentResource(resource);
+			}
+		}
+		
+		try {
+			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/copyScene.fxml"));
+            Parent root1 = (Parent) fxmlLoader.load();
+            Stage stage = new Stage();
+            stage.initModality(Modality.APPLICATION_MODAL);
+            //stage.initStyle(StageStyle.UNDECORATED);
+            stage.setTitle("Resource Information");
+            stage.setScene(new Scene(root1));  
+            stage.show();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	};
+		
 	/**
 	 * Makes the image and resource text for the resource
 	 * @param copyResource the copy of the resource 
@@ -90,6 +144,10 @@ public class RecommendedController {
 		//within the event handler.
 		imagePane.setId(String.valueOf(copyResource.getUniqueID()));
 		
+		imagePane.setOnMouseEntered(enterHandler);
+		imagePane.setOnMouseExited(exitHandler);
+		imagePane.setOnMouseClicked(clickHandler);
+		
 		return imagePane;
 	}
 	
@@ -97,22 +155,14 @@ public class RecommendedController {
 	 public void initialize() {
 		Person person = ScreenManager.getCurrentUser();
 		if (person instanceof User) {
-			User user = (User) person;
-			
-			
+			User user = ((User) ScreenManager.getCurrentUser());
+						
 			try {
-				for(Resource recommendedR : user.getRecommendations()) {
-					
-					VBox vbox = new VBox();
-					
+				ArrayList<Resource> recommendations = user.getRecommendations();
+				for(Resource recommendedR : recommendations) {
 					StackPane imagePane = createImage(recommendedR, RES_IMG_WIDTH, RES_IMG_HEIGHT);
-					
-					Text title = new Text("Title: "+ recommendedR.getTitle());
-					Text year = new Text("Year: "+ recommendedR.getYear());		
-					vbox.getChildren().addAll(imagePane,title,year);
-					vbox.setSpacing(5);
-					recommended.getChildren().add(vbox);
-					recommended.setSpacing(15);
+						
+					recommended.getChildren().add(imagePane);
 					
 				}
 			} catch (SQLException e) {
