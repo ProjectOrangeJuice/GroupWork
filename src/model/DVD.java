@@ -91,14 +91,9 @@ public class DVD extends Resource {
 		updateDbValue("dvd", this.uniqueID, "language", language);
 	}
 
-	public String getSubtitleLanguages() {
-		String result="";
+	public ArrayList<String> getSubtitleLanguages() {
 		
-		for(String s: subtitleLanguages) {
-			result+=s+"\n";
-		}
-		
-		return result;
+		return subtitleLanguages;
 	}
 
 	public void addSubtitle(String subtitleLanguage) {
@@ -112,8 +107,10 @@ public class DVD extends Resource {
 		subtitleLanguages.add(subtitleLanguage);
 		try {
 			Connection connectionToDB = DBHelper.getConnection(); //get the connection
-			Statement sqlStatement = connectionToDB.createStatement(); //prep a statement
-			sqlStatement.executeUpdate("INSERT INTO subtitles VALUES ("+uniqueID+","+subtitleLanguage+")");
+			PreparedStatement sqlStatement = connectionToDB.prepareStatement("INSERT INTO subtitles VALUES (?,?)"); //prep a statement
+			sqlStatement.setInt(1, uniqueID);
+			sqlStatement.setString(2, subtitleLanguage);
+			sqlStatement.executeUpdate();
 		} catch (SQLException e) { 
 			e.printStackTrace();
 		}
@@ -197,4 +194,23 @@ public class DVD extends Resource {
 			e.printStackTrace();
 		} 
 	}
+	
+	/*public static void main(String args[]) {
+		DBHelper.tableCheck();
+		DVD.loadDatabaseDVDs();
+		
+		DVD dvd = (DVD)Resource.getResources().get(0);
+		
+		dvd.addSubtitle("chinese");
+		
+		for(String s: dvd.getSubtitleLanguages()) {
+			System.out.println(s);
+		}
+		
+		dvd.deleteSubtitle("chinese");
+		
+		for(String s: dvd.getSubtitleLanguages()) {
+			System.out.println(s);
+		}
+	}*/
 }
