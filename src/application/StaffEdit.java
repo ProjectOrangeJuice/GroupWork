@@ -28,14 +28,13 @@ public class StaffEdit {
     private ImageView profileImageView;//storage for profile image
 
     @FXML
-    private SplitMenuButton changeProfileImageButton;//change profile image buton
+    private SplitMenuButton changeProfileImageButton;//change profile image button
 
     @FXML
-<<<<<<< HEAD
     private Label usernameLabel;
-=======
+
+    @FXML
     private TextField usernameText;//username text box
->>>>>>> branch 'master' of https://github.com/The-Juggernaut/Group6.git
 
     @FXML
     private TextField firstnameText;//firstname text box
