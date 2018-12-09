@@ -125,6 +125,7 @@ public class EditCopiesController {
 		}else {
 			Resource resource = ScreenManager.getCurrentResource();
 			resource.removeCopy(copy);
+			repop();
 		}
 	}
 	
