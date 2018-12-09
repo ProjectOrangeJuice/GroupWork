@@ -1,5 +1,6 @@
 package application;
 
+import java.io.File;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -47,6 +48,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
+import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -256,7 +258,7 @@ public class ProfileController {
 			phoneLabel.setText("Phone Number: " + currentUser.getPhoneNumber());
 			
 			Double userBalance = ((User) currentUser).getAccountBalance();
-			accountBalance.setText("£" + Double.toString(userBalance));
+			accountBalance.setText("Â£" + Double.toString(userBalance));
 			
 			userAvatarView.setImage(new Image(currentUser.getAvatar()));
 		}else {
@@ -694,6 +696,23 @@ public class ProfileController {
 	//
 	//Staff: Profile
 	//
+	
+	
+	@FXML
+	void pickAvatar(Event e) {
+		  FileChooser chooser = new FileChooser();
+		    FileChooser.ExtensionFilter extentionFilter = new FileChooser.ExtensionFilter("PNG files (*.png)", "*.png");
+			chooser.getExtensionFilters().add(extentionFilter);
+		    chooser.setTitle("Open File");    
+		    File file = chooser.showOpenDialog(new Stage());
+		    System.out.println(file.getAbsolutePath());
+		 
+		 
+		    ScreenManager.getCurrentUser().setAvatar(new File(file.getAbsolutePath()).toURI().toString());
+		    userAvatarView.setImage(new Image(currentUser.getAvatar()));
+		    staffAvatarView.setImage(new Image(currentUser.getAvatar()));
+	
+	}
 	
 	@FXML
 	private void openProfileEditor(MouseEvent event) {
