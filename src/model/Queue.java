@@ -4,14 +4,12 @@ import java.util.LinkedList;
 import java.util.NoSuchElementException;
 
 /**
- * A class that implements a queue. It is your job to complete this class. Your
- * queue will use a linked list constructed by LinkedListElements. However, your
- * queue must be general and allow setting of any type of Object. Also you
- * cannot use ArrayLists or arrays (you will get zero).
- * 
- * @author you
+ * A class that implements a queue. It encapsulates the head an tail of linked 
+ * structure. The linked element are QueueElement objects. Provides all operations
+ * a queue should provide.
+ * @param <E> The type of element contained by this queue.
+ * @author Alexandru Dascalu
  */
-
 public class Queue<E> {
 
     /**
@@ -34,7 +32,8 @@ public class Queue<E> {
     }
 
     /**
-     * Returns true if the queue is empty
+     * Returns true if the queue is empty.
+     * @return True if the queue is empty, false if not.
      */
     public boolean isEmpty() {
         if (head == null && tail == null) {
@@ -46,9 +45,10 @@ public class Queue<E> {
     }
 
     /**
-     * Returns the element at the head of the queue
+     * Returns the element at the head of the queue.
+     * @return element at the head of the queue.
      * 
-     * @throws NoSuchElementException
+     * @throws NoSuchElementException If the queue is empty.
      */
     public E peek() throws NoSuchElementException {
         if (!isEmpty()) {
@@ -63,7 +63,7 @@ public class Queue<E> {
     /**
      * Removes the front element of the queue.
      * 
-     * @throws NoSuchElementException
+     * @throws NoSuchElementException If the queue is empty.
      */
     public void dequeue() throws NoSuchElementException {
         if (!isEmpty()) {
@@ -85,6 +85,7 @@ public class Queue<E> {
 
     /**
      * Puts an element on the back of the queue.
+     * @param element The element to be enqueued.
      */
     public void enqueue(E element) {
         QueueElement<E> newTail = new QueueElement<>(element, null);
@@ -118,11 +119,19 @@ public class Queue<E> {
         }
     }
 
+    /**
+     * Empties this queue of all elements.
+     */
     public void clean() {
         head = null;
         tail = null;
     }
 
+    /**
+     * Builds an returns a linked list of elements contained by the QueueElements
+     * of the queue, in the order they are in the queue.
+     * @return a linked list with the elements in the order they are in the queue.
+     */
     public LinkedList<E> getOrderedList() {
         LinkedList<E> orderedList = new LinkedList<E>();
         QueueElement<E> current = head;
