@@ -72,11 +72,6 @@
           <RowConstraints minHeight="10.0" prefHeight="70.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Button fx:id="back" mnemonicParsing="false" onAction="#onBackAction" prefHeight="40.0" prefWidth="120.0" text="Back" GridPane.halignment="CENTER" GridPane.valignment="TOP">
-               <GridPane.margin>
-                  <Insets />
-               </GridPane.margin>
-            </Button>
             <Button fx:id="saveImage" mnemonicParsing="false" onAction="#onSaveImageAction" prefHeight="40.0" prefWidth="120.0" text="Save Image" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="TOP" />
          </children>
       </GridPane>

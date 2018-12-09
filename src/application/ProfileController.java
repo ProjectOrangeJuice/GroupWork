@@ -1,5 +1,6 @@
 package application;
 
+import java.io.File;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -47,6 +48,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
+import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -256,7 +258,7 @@ public class ProfileController {
 			phoneLabel.setText("Phone Number: " + currentUser.getPhoneNumber());
 			
 			Double userBalance = ((User) currentUser).getAccountBalance();
-			accountBalance.setText("£" + Double.toString(userBalance));
+			accountBalance.setText("Â£" + Double.toString(userBalance));
 			
 			userAvatarView.setImage(new Image(currentUser.getAvatar()));
 		}else {
@@ -328,13 +330,17 @@ public class ProfileController {
 	 */
 	private StackPane createImage(Resource copyResource, int width, int height) {
 		
+		//create stackpane to add image layers to.
 		StackPane imagePane = new StackPane();
 		
+		//create white backround just in case image is small.
 		Rectangle background = new Rectangle();
 		background.setWidth(width);
 		background.setHeight(height);
 		background.setFill(Color.WHITE);
 		
+		//create text containing resource information
+		//this text only shows when mouse enters image.
 		Text resourceText = new Text();
 		resourceText.setFont(Font.font("Arial", 20));
 		resourceText.setStyle("-fx-font-weight: bold");
@@ -345,20 +351,24 @@ public class ProfileController {
 		resourceText.setTextAlignment(TextAlignment.CENTER);
 		resourceText.setWrappingWidth(width);
 		
-		//create new resource image to be added.
+		//create imageview containg resource image.
 		ImageView image = new ImageView();
 		image.setFitWidth(width);
 		image.setFitHeight(height);
 		image.setImage(copyResource.getThumbnail());
 		
+		//if image is of a laptop, keep aspect ratio.
 		if(copyResource instanceof Laptop) {
 			image.setPreserveRatio(true);
 		}
 		
+		//make image as smooth as possible.
 		image.setCache(true);
 		image.setCacheHint(CacheHint.SCALE);
 		image.setSmooth(true);
 		
+		//add black colour overlay
+		//only shows when mouse is in image.
 		Rectangle rect = new Rectangle();
 		rect.setWidth(width);
 		rect.setHeight(height);
@@ -366,6 +376,7 @@ public class ProfileController {
 		rect.setOpacity(0.7);
 		rect.setVisible(false);
 		
+		//add all elements to stack pane.
 		imagePane.getChildren().add(background);
 		imagePane.getChildren().add(image);
 		imagePane.getChildren().add(new ImageView());
@@ -405,7 +416,7 @@ public class ProfileController {
 	
 	
 	@FXML
-	private void  reloadStuff(Event e) {
+	private void  reloadVisuals(Event e) {
 
 		vResourceBox.getChildren().clear();
 		vResourceBox.getChildren().add(new HBox());
@@ -722,6 +733,23 @@ public class ProfileController {
 	//
 	//Staff: Profile
 	//
+	
+	
+	@FXML
+	void pickAvatar(Event e) {
+		  FileChooser chooser = new FileChooser();
+		    FileChooser.ExtensionFilter extentionFilter = new FileChooser.ExtensionFilter("PNG files (*.png)", "*.png");
+			chooser.getExtensionFilters().add(extentionFilter);
+		    chooser.setTitle("Open File");    
+		    File file = chooser.showOpenDialog(new Stage());
+		    System.out.println(file.getAbsolutePath());
+		 
+		 
+		    ScreenManager.getCurrentUser().setAvatar(new File(file.getAbsolutePath()).toURI().toString());
+		    userAvatarView.setImage(new Image(currentUser.getAvatar()));
+		    staffAvatarView.setImage(new Image(currentUser.getAvatar()));
+	
+	}
 	
 	@FXML
 	private void openProfileEditor(MouseEvent event) {

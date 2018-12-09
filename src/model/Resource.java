@@ -519,7 +519,7 @@ public abstract class Resource {
     /**
      * Calculates an integer representing how similar this resource is to the
      *  given resource.
-     *  @param otherResource The resource this rsource is compared with.
+     *  @param otherResource The resource this resource is compared with.
      *  @return an integer representing how similar this resource is to the
      *   given resource.
      */
