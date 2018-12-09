@@ -504,7 +504,7 @@ public class ProfileController {
 		loadRequested();
 		
 		loadTables("users");
-		loadTables("all");
+		//displayAll();
 		
 		scrollPane.setHvalue(0.5);
 	
@@ -520,8 +520,16 @@ public class ProfileController {
 	
 	@FXML
 	private void displayAll() {
-		System.out.println("Display All!");
 		loadTables("all");
+		
+		ObservableList<Copy> copiesList = FXCollections.observableArrayList();
+		
+		for (Resource res: ScreenManager.getResources()) {
+			copiesList.addAll(res.getCopies());
+		}
+		
+		staffCopiesExplorerTable.setItems(copiesList);
+		staffCopiesExplorerTable.autosize();		
 	}
 	
 	@FXML
