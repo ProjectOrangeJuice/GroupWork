@@ -558,6 +558,7 @@ public class ProfileController {
 		loadUserInformation();
 		loadCopies();
 		loadRequested();
+		loadBorrowHistory();
 
 		loadTables("users");
 		displayAll();

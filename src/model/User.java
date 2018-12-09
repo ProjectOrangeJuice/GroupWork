@@ -164,12 +164,13 @@ public class User extends Person {
 		
 		try {
 			Connection conn = DBHelper.getConnection();
-			PreparedStatement pstmt = conn.prepareStatement("SELECT copyId, rId FROM borrowRecords, copies WHERE username = ? "
+			PreparedStatement pstmt = conn.prepareStatement("SELECT borrowRecords.copyId, rId FROM borrowRecords, copies WHERE username = ? "
 			+ "AND copies.copyId = borrowRecords.copyId");
             pstmt.setString(1, username);
             ResultSet rs = pstmt.executeQuery();
             
             while(rs.next()) {
+            	System.out.println("Adding borrow History!");
             	borrowHistory.add(Resource.getResource(rs.getInt("rID")));
             }
 		} catch (SQLException e) { 
