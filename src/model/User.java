@@ -26,14 +26,14 @@ public class User extends Person {
     /**
      * Creates a new User object from the given arguments.
      * 
-     * @param username
-     * @param firstName
-     * @param lastName
-     * @param phoneNumber
-     * @param address
-     * @param postcode
-     * @param avatar
-     * @param accountBalance
+     * @param username users username
+     * @param firstName users firstname
+     * @param lastName users lastname
+     * @param phoneNumber users phonenumber
+     * @param address users address
+     * @param postcode users postcode
+     * @param avatar users avatar
+     * @param accountBalance users account balance
      */
     public User(String username, String firstName, String lastName,
         String phoneNumber, String address, String postcode, String avatarPath,
@@ -46,7 +46,7 @@ public class User extends Person {
     /**
      * Adds a copy of a resource that the user has withdrawn.
      * 
-     * @param copy Copy
+     * @param copy of the resource
      */
     public void addBorrowedCopy(Copy copy) {
         this.copiesList.add(copy);
@@ -62,6 +62,10 @@ public class User extends Person {
         return copiesList;
     }
 
+    /**
+     * Method that gets the arraylist of all requested resources
+     * @return the arraylist of all requested resources 
+     */
     public ArrayList<Resource> getRequestedResources() {
 
         ArrayList<Resource> requestedResource = new ArrayList<Resource>();
@@ -90,7 +94,7 @@ public class User extends Person {
     /**
      * Removes a copy from the list of copies withdrawn.
      * 
-     * @param copy Copy
+     * @param copy copy of the resource
      */
     public void removeBorrowedCopy(Copy copy) {
         copiesList.remove(copy);
@@ -156,6 +160,12 @@ public class User extends Person {
         return false;
     }
 
+    /**
+     * A method that adds a balance to the user in the database
+     * @param username username of the user
+     * @param value their balance
+     * @return returns that it updated the database or false otherwise
+     */
     public static boolean addBalance(String username, double value) {
         Connection dbConnection;
         try {
@@ -175,6 +185,10 @@ public class User extends Person {
         return false;
     }
 
+    /**
+     * Method that loads the users borrow history
+     * @return borrow history
+     */
     public ArrayList<Resource> loadUserHistory() {
 
         ArrayList<Resource> borrowHistory = new ArrayList<Resource>();
@@ -200,6 +214,9 @@ public class User extends Person {
         return borrowHistory;
     }
 
+    /**
+     * Loads the copies the user currently is borrowing
+     */
     public void loadUserCopies() {
 
         copiesList.clear();
@@ -221,7 +238,11 @@ public class User extends Person {
             e.printStackTrace();
         }
     }
-
+    
+    /**
+     * A method that checks if a user has any outstanding fines by getting their name and see if they have paid 0
+     * @return if the paid = 0 then they have no outstanding fines and returns false otherwise returns true
+     */
     public boolean hasOutstandingFines() {
         try {
             Connection dbConnection = DBHelper.getConnection();
@@ -244,6 +265,11 @@ public class User extends Person {
         return false;
     }
 
+    /**
+     * Boolean method that checks if the resource is being borrowed
+     * @param resource that is being borrowed
+     * @return true if the resource is being borrowed, false otherwise
+     */
     public boolean isBorrowing(Resource resource) {
         for (Copy copy : getBorrowedCopies()) {
             if (copy.getResource() == resource) {
@@ -253,6 +279,11 @@ public class User extends Person {
         return false;
     }
 
+    /**
+     * A method that gets recommendations for the user based on what they have previously borrowed
+     * @return the recommended resource based on the user
+     * @throws SQLException
+     */
     public ArrayList<Resource> getRecommendations() throws SQLException {
         Connection connectionToDB = DBHelper.getConnection();
         PreparedStatement sqlStatement = connectionToDB.prepareStatement(
@@ -283,6 +314,7 @@ public class User extends Person {
             }
         }
 
+        //The arraylist that stores the recommendation scores
         ArrayList<ResourceRecommendScore> resourceScores = new ArrayList<>();
         ArrayList<Resource> resources = Resource.getResources();
         for (Resource resource : resources) {
@@ -296,6 +328,7 @@ public class User extends Person {
 
         resourceScores.sort(null);
 
+        //Arraylist that stores the recommended resource
         ArrayList<Resource> recommendedResource = new ArrayList<>();
         for (ResourceRecommendScore resourceScore : resourceScores) {
             if (resourceScore.calculateLikeness() > 0) {
