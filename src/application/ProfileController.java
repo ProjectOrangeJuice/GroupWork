@@ -147,9 +147,9 @@ public class ProfileController {
 	@FXML
 	private Button staffRequestedFilter;
 	@FXML
-	private Button staffHistoryFind;
-	@FXML
 	private Button staffAllFilter;
+	@FXML
+	private Button staffHistoryFind;
 	@FXML
 	private Button staffApproveCopy;
 	@FXML
@@ -516,11 +516,15 @@ public class ProfileController {
 	//
 	
 	//
-	// Staff: Copies Explorer
+	//Staff: Copies Explorer
 	//
 	
 	@FXML
 	private void displayAll() {
+		staffHistoryFind.setDisable(false);
+		staffApproveCopy.setDisable(true);
+		staffReturnCopy.setDisable(false);
+		
 		loadTables("all");
 		
 		ObservableList<Copy> copiesList = FXCollections.observableArrayList();
@@ -535,12 +539,19 @@ public class ProfileController {
 	
 	@FXML
 	private void displayOverdue() {
+		staffHistoryFind.setDisable(false);
+		staffApproveCopy.setDisable(true);
+		staffReturnCopy.setDisable(false);
+		
 		System.out.println("Display Overdue!");
 		loadTables("overdue");
 	}
 	
 	@FXML
 	private void displayRequested() {
+		staffHistoryFind.setDisable(true);
+		staffApproveCopy.setDisable(false);
+		staffReturnCopy.setDisable(true);
 		System.out.println("Display Requested!");
 	}
 	
@@ -558,6 +569,17 @@ public class ProfileController {
 	private void returnCopy() {
 		System.out.println("Return copy!");
 	}
+	
+	@FXML
+	private void explorerTableClicked(MouseEvent event) {
+		//Person selectedUser = staffCopiesExplorerTable.getSelectionModel().getSelectedItem();
+		//selectedUserLabel.setText(selectedUser.getUsername());
+		//System.out.println("Cell clicked?");
+	}
+	
+	//
+	//Staff: Profile
+	//
 	
 	@FXML
 	private void openProfileEditor(MouseEvent event) {
@@ -643,7 +665,7 @@ public class ProfileController {
 	}
 	
 	//
-	// Staff: Manage Users
+	//Staff: Manage Users
 	//
 	
 	@FXML
