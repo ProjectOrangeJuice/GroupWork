@@ -782,11 +782,6 @@ public class ProfileController {
 	 * loads all the users from the table which aren't staff when the button is clicked
 	 * @param event the button being clicked
 	 */
-
-	//
-	//Staff: Manage Users
-	//
-	
 	@FXML
 	private void loadUsersTable(MouseEvent event) {
 		ObservableList<Person> usersList = FXCollections.observableArrayList();
