@@ -141,7 +141,10 @@ public abstract class Resource {
      */
     public void addCopy(Copy copy) {
         copyList.add(copy);
-        freeCopies.addFirst(copy);
+        
+        if (copy.getBorrower() == null) {
+            freeCopies.addFirst(copy);
+        }
 
         saveCopyToDB(copy);
     }
@@ -155,6 +158,9 @@ public abstract class Resource {
         freeCopies.addAll(copies);
 
         for (Copy copy : copies) {
+            if (copy.getBorrower() == null) {
+                freeCopies.addFirst(copy);
+            }
             saveCopyToDB(copy);
         }
     }
