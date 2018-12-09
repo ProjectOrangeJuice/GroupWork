@@ -63,7 +63,7 @@ public class Fine {
                 }
 
                 fines.add(
-                    new Fine(results.getFloat("amount"), results.getString("dateTime"), results.getString("username"),
+                    new Fine(results.getDouble("amount"), results.getString("dateTime"), results.getString("username"),
                         results.getInt("rID"), results.getInt("daysOver"), results.getInt("fineID"), finePaid));
             }
             return fines;
@@ -95,7 +95,7 @@ public class Fine {
                 }
 
                 fines.add(
-                    new Fine(results.getFloat("amount"), results.getString("dateTime"), results.getString("username"),
+                    new Fine(results.getDouble("amount"), results.getString("dateTime"), results.getString("username"),
                         results.getInt("rID"), results.getInt("daysOver"), results.getInt("fineID"), finePaid));
             }
             return fines;
