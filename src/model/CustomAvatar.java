@@ -36,6 +36,7 @@ public class CustomAvatar extends Avatar {
 
     /**
      * Converts a saved avatar to a string.
+     * @return A string representation of the custom avatar.
      */
     public String toString() {
         String result = "";

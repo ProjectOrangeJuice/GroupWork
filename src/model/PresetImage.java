@@ -35,6 +35,7 @@ public enum PresetImage {
 
     /**
      * Converts a preset avatar to a string.
+     * @return a string representation of the preset avatar of this image.
      */
     public String toString() {
         return presetAvatar.toString();

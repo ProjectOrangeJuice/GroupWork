@@ -22,7 +22,7 @@ public class SavedAvatar extends Avatar {
     public SavedAvatar(String fileName) {
         super(DEFAULT_SIZE, 0, 0);
         
-        System.out.println("Location given: "+fileName);
+        System.out.println("Location given: " + fileName);
         this.Avatar = new Image(new File(fileName).toURI().toString());
     }
 
@@ -59,6 +59,7 @@ public class SavedAvatar extends Avatar {
 
     /**
      * Converts a saved avatar to a string.
+     * @return a string representation of the saved avatar.
      */
     public String toString() {
         String result = "";
