@@ -1,5 +1,6 @@
 package application;
 
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -9,6 +10,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
+import javax.imageio.ImageIO;
+
+import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -424,6 +428,41 @@ public class RegisterController implements Initializable {
 		avatarDrawingController.setPrevScene("profile");
 		changeScene(event, "/fxml/drawAvatar.fxml");
 	}
+	
+	/**
+     * Convert custom profile image to file.
+     *
+     * @param path     location of directory.
+     * @param fileName file name.
+     */
+    public void convertToFile(String fileName, String path) {
+
+        //Create path for File class as absolute path to project
+
+        path = path.substring(0, path.length() - 2)
+                + "/SavedAvatars/"
+                + fileName;
+
+        //Create the file that will be saved.
+        File file = new File(path);
+
+        //If the file isn't null, try to save it.
+        if (!(file == null)) {
+            try {
+                /* Convert a snapshot of the canvas to a buffered image
+                 * and the write it to file.
+                 */
+                BufferedImage bImage = SwingFXUtils.fromFXImage(
+                        avatar.snapshot(null, null), null);
+                ImageIO.write(bImage, "png", file);
+            } catch (Exception e) {
+                /* If an exception is cause, print the error message
+                 * on the console.
+                 */
+                System.out.println(e.getMessage());
+            }
+        }
+    }
 
 	/**
 	 * Sets avatar image.
@@ -439,34 +478,25 @@ public class RegisterController implements Initializable {
 	 *
 	 * @param path
 	 */
+	/**
+	 * Sets path to avatar image.
+	 *
+	 * @param path
+	 */
 	public void setAvatarImagePath(String path) {
 		this.avatarPath = path;
 	}
-	/**
-	@FXML
-	public void browseAvatarAction(MouseEvent event) {
-		FileChooser chooser = new FileChooser();
-		chooser.setTitle("Open Avatar");
-		chooser.showOpenDialog(browseButton.getScene().getWindow());
-		
-	}*/
+
 	@FXML protected void browseAvatarAction(ActionEvent event) {
 	    FileChooser chooser = new FileChooser();
-	    chooser.setTitle("Open File");
+	    FileChooser.ExtensionFilter extentionFilter = new FileChooser.ExtensionFilter("PNG files (*.png)", "*.png");
+		chooser.getExtensionFilters().add(extentionFilter);
+	    chooser.setTitle("Open File");    
 	    File file = chooser.showOpenDialog(new Stage());
 	    avatarPath = file.getAbsolutePath();
+	    //newAvatar = avatarPath;
+	    //avatar.setImage(avatarPath);
 	}
 
-    /**
-     * Set the profile image of user.
-     *
-     * @param picName name of picture.
-    
-    private void setProfileImage() {
-    	avatarPath = file;
-        user.setAvatar(avatarPath);
-
-    } */
-
-	// TODO open system explorer to select avatar
+	// TODO update selected avatar
 }
