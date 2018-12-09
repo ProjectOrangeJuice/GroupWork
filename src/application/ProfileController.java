@@ -526,16 +526,9 @@ public class ProfileController {
 		loadCopies();
 		loadRequested();
 
-	
-		
 		loadTables("users");
-		loadTables("all");
+		displayAll();
 
-		
-		loadTables("users");
-		//displayAll();
-
-		
 		scrollPane.setHvalue(0.5);
 	
 	 }
@@ -651,7 +644,7 @@ public class ProfileController {
 	
 
 	//
-	// Manage Users Tab
+	//Staff: Manage Users
 	//
 	
 	/**
@@ -715,6 +708,7 @@ public class ProfileController {
 		
 		switch (tableToLoad) {
 			case "users":
+				staffUsersTable.getColumns().clear();
 				staffUsersTable.getColumns().addAll(usernameCol,firstnameCol,
 						lastnameCol,addressCol,postcodeCol,accountBalanceCol);
 				break;

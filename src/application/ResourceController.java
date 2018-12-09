@@ -130,7 +130,7 @@ public class ResourceController {
 		
 		Button button = new Button("Save");
 		button.setOnAction(e -> {
-			//updateBook(titleField.getText(), yearField.getText(), Field.getText(), publishField.getText(), genreField.getText(), iField.getText(), languageField.getText(), imgField.getText());
+			updateDVD(titleField.getText(),yearField.getText(),directorField.getText(),runtimeField.getText(),langField.getText(),subtitlesField.getText(),imgField.getText());
 		});
 		
 		
@@ -159,11 +159,40 @@ public class ResourceController {
 			resource.setGenre(genre);
 			resource.setISBN(ISBN);
 			resource.setLanguage(language);
-			
+			alertDone("To see changes, logout and login again");
 			
 		}
 	}
 	
+	
+	private void updateDVD(String title, String year, String director, String runtime, String language, String subtitles, String img){
+		boolean goAhead = true;
+		try {
+			Integer.parseInt(year);
+			Integer.parseInt(runtime);
+		}catch (NumberFormatException  e) {
+			goAhead = false;
+			alertDone("Year and runtime must be a number");
+		}
+		
+		if (goAhead) {
+			DVD resource = (DVD) ScreenManager.getCurrentResource();
+			resource.setTitle(title);
+			resource.setYear(Integer.parseInt(year));
+			resource.setDirector(director);
+			resource.setLanguage(language);
+			
+			String[] subs = subtitles.split(",");
+			for(String sub : subs) {
+				resource.deleteSubtitle(sub);
+				resource.addSubtitle(sub);
+			}
+			
+			resource.setRuntime(Integer.parseInt(runtime));
+			
+			alertDone("To see changes, logout and login again");
+		}
+	}
 	
 	/**
 	 * Generate a popup.
@@ -185,7 +214,7 @@ public class ResourceController {
 	 public void initialize() {
 		Resource resource = ScreenManager.getCurrentResource();
 		if(resource instanceof DVD) {
-			
+			setupDVD();
 		}else if(resource instanceof Book) {
 			setupBook();
 		}else if(resource instanceof Laptop) {
