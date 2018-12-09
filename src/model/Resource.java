@@ -44,7 +44,9 @@ public abstract class Resource {
     /** A list of all the copies of this resource. */
     private ArrayList<Copy> copyList;
 
-    /** A list of all copies of this resource that are not currently borrowed. */
+    /**
+     * A list of all copies of this resource that are not currently borrowed.
+     */
     private LinkedList<Copy> freeCopies;
 
     /** A queue of all borrowed copies who have no due date set. */
@@ -67,11 +69,12 @@ public abstract class Resource {
         DVD.loadDatabaseDVDs();
     }
 
-    protected static void updateDbValue(String tableName, int resourceID, String field, String data) {
+    protected static void updateDbValue(String tableName, int resourceID,
+            String field, String data) {
         try {
-            Connection connectionToDB = DBHelper.getConnection(); // get the connection
-            PreparedStatement sqlStatement = connectionToDB
-                .prepareStatement("update " + tableName + " set " + field + "=? where rID=?"); // prep a statement
+            Connection connectionToDB = DBHelper.getConnection();
+            PreparedStatement sqlStatement = connectionToDB.prepareStatement(
+                "update " + tableName + " set " + field + "=? where rID=?");
             sqlStatement.setString(1, data);
             sqlStatement.setInt(2, resourceID);
             sqlStatement.executeUpdate();
@@ -81,11 +84,12 @@ public abstract class Resource {
         }
     }
 
-    protected static void updateDbValue(String tableName, int resourceID, String field, int data) {
+    protected static void updateDbValue(String tableName, int resourceID,
+            String field, int data) {
         try {
-            Connection connectionToDB = DBHelper.getConnection(); // get the connection
-            PreparedStatement sqlStatement = connectionToDB
-                .prepareStatement("update " + tableName + " set " + field + "=? where rID=?"); // prep a statement
+            Connection connectionToDB = DBHelper.getConnection();
+            PreparedStatement sqlStatement = connectionToDB.prepareStatement(
+                "update " + tableName + " set " + field + "=? where rID=?");
             sqlStatement.setInt(1, data);
             sqlStatement.setInt(2, resourceID);
             sqlStatement.executeUpdate();
@@ -103,13 +107,13 @@ public abstract class Resource {
      * private void loadFreeCopiesList() { try { Connection conn =
      * DBHelper.getConnection(); //get the connection Statement stmt =
      * conn.createStatement(); //prep a statement ResultSet rs =
-     * stmt.executeQuery("SELECT * FROM freeCopies WHERE rID="+uniqueID); //Your sql
-     * goes here freeCopies.clear();
+     * stmt.executeQuery("SELECT * FROM freeCopies WHERE rID="+uniqueID); //Your
+     * sql goes here freeCopies.clear();
      * 
      * while(rs.next()) { int copyID = rs.getInt("copyID");
      * 
-     * Copy currentCopy = null; for(Copy c: copyList) { if(c.getCOPY_ID()==copyID) {
-     * currentCopy=c; break; } }
+     * Copy currentCopy = null; for(Copy c: copyList) {
+     * if(c.getCOPY_ID()==copyID) { currentCopy=c; break; } }
      * 
      * if(currentCopy==null) { throw new
      * IllegalStateException("No copy in the copy List "+
@@ -133,8 +137,8 @@ public abstract class Resource {
         this.thumbnail = thumbnail;
 
         /*
-         * just make new empty instances of the containers used for tracking information
-         * about borrowing and returning copies
+         * just make new empty instances of the containers used for tracking
+         * information about borrowing and returning copies
          */
         copyList = new ArrayList<Copy>();
         freeCopies = new LinkedList<Copy>();
@@ -172,8 +176,8 @@ public abstract class Resource {
 
             try {
                 Connection dbConnection = DBHelper.getConnection();
-                PreparedStatement sqlStatement = dbConnection
-                    .prepareStatement("DELETE FROM copies WHERE copyID=" + copy.getCopyID());
+                PreparedStatement sqlStatement = dbConnection.prepareStatement(
+                    "DELETE FROM copies WHERE copyID=" + copy.getCopyID());
                 sqlStatement.executeUpdate();
             }
             catch (SQLException e) {
@@ -181,7 +185,8 @@ public abstract class Resource {
             }
         }
         else {
-            throw new IllegalArgumentException("Copy argument is not a copy of this resource!");
+            throw new IllegalArgumentException(
+                "Copy argument is not a copy of this resource!");
         }
     }
 
@@ -205,8 +210,8 @@ public abstract class Resource {
         applyFines(returnedCopy);
 
         /*
-         * If the user request queue is empty, add the copy to the list of free copies
-         * and mark it as free.
+         * If the user request queue is empty, add the copy to the list of free
+         * copies and mark it as free.
          */
         if (userRequestQueue.isEmpty()) {
             freeCopies.add(returnedCopy);
@@ -220,8 +225,8 @@ public abstract class Resource {
             saveCopyToDB(returnedCopy);
         }
         /*
-         * If the are user in the queue, reserve this copy for the first user in the
-         * queue and take that person out of the queue.
+         * If the are user in the queue, reserve this copy for the first user in
+         * the queue and take that person out of the queue.
          */
         else {
             User firstRequest = userRequestQueue.peek();
@@ -241,7 +246,8 @@ public abstract class Resource {
         Date today = new Date();
         Date dueDate = copyToBeReturned.getDueDate();
 
-        int daysOverDue = (int) ((today.getTime() - dueDate.getTime()) / MILLISECONDS_IN_DAY);
+        int daysOverDue = (int) ((today.getTime() - dueDate.getTime()) /
+            MILLISECONDS_IN_DAY);
         if (daysOverDue > 0) {
             int amount = daysOverDue * getDailyFineAmount();
 
@@ -254,12 +260,14 @@ public abstract class Resource {
                 PreparedStatement sqlStatement = dbConnection.prepareStatement(
                     "INSERT INTO fines (userName,rID,daysOver,amount,dateTime,paid) VALUES (?,?,?,?,?,?)");
 
-                sqlStatement.setString(1, copyToBeReturned.getBorrower().getUsername());
+                sqlStatement.setString(1,
+                    copyToBeReturned.getBorrower().getUsername());
                 sqlStatement.setInt(2, uniqueID);
                 sqlStatement.setInt(3, daysOverDue);
                 sqlStatement.setDouble(4, amount);
 
-                SimpleDateFormat normalDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+                SimpleDateFormat normalDateFormat = new SimpleDateFormat(
+                    "dd/MM/yyyy");
                 sqlStatement.setString(5, normalDateFormat.format(today));
                 sqlStatement.setInt(6, 0);
 
@@ -280,8 +288,8 @@ public abstract class Resource {
      */
     public boolean loanToUser(User user) {
         /*
-         * If there are free copies, mark a copy as borrowed and reserve it for the
-         * user.
+         * If there are free copies, mark a copy as borrowed and reserve it for
+         * the user.
          */
         if (!freeCopies.isEmpty()) {
             Copy copyToBorrow = freeCopies.removeFirst();
@@ -297,8 +305,8 @@ public abstract class Resource {
             return true;
         }
         /*
-         * Else, add the user to the request queue and set the due date of the borrowed
-         * copy with no due date that has been borrowed the longest.
+         * Else, add the user to the request queue and set the due date of the
+         * borrowed copy with no due date that has been borrowed the longest.
          */
         else {
             userRequestQueue.enqueue(user);
@@ -372,8 +380,8 @@ public abstract class Resource {
      * Returns a string with the unique ID and availability of each copy of this
      * resource. The information of each copy is on each separate line.
      * 
-     * @return A string where each line of the unique ID and availability of a copy
-     *         of this resource.
+     * @return A string where each line of the unique ID and availability of a
+     *         copy of this resource.
      */
     public String getCopyInformation() {
         String copiesInfo = "";
@@ -387,9 +395,12 @@ public abstract class Resource {
 
     public void loadCopyList() {
         try {
-            Connection dbConnection = DBHelper.getConnection(); // get the connection
-            Statement sqlStatement = dbConnection.createStatement(); // prep a statement
-            ResultSet savedCopies = sqlStatement.executeQuery("SELECT * FROM copies WHERE rID=" + uniqueID);
+            Connection dbConnection = DBHelper.getConnection(); // get the
+                                                                // connection
+            Statement sqlStatement = dbConnection.createStatement(); // prep a
+                                                                     // statement
+            ResultSet savedCopies = sqlStatement
+                .executeQuery("SELECT * FROM copies WHERE rID=" + uniqueID);
 
             copyList.clear();
             freeCopies.clear();
@@ -406,12 +417,16 @@ public abstract class Resource {
                     Date dueDate = null;
 
                     try {
-                        SimpleDateFormat normalDateFormat = new SimpleDateFormat("dd/MM/yyyy");
-                        borrowDate = new SimpleDateFormat("dd/MM/yyyy").parse(savedCopies.getString("borrowDate"));
+                        SimpleDateFormat normalDateFormat = new SimpleDateFormat(
+                            "dd/MM/yyyy");
+                        borrowDate = new SimpleDateFormat("dd/MM/yyyy")
+                            .parse(savedCopies.getString("borrowDate"));
 
-                        String dbLastRenewal = savedCopies.getString("lastRenewal");
+                        String dbLastRenewal = savedCopies
+                            .getString("lastRenewal");
                         if (dbLastRenewal != null) {
-                            lastRenewalDate = normalDateFormat.parse(dbLastRenewal);
+                            lastRenewalDate = normalDateFormat
+                                .parse(dbLastRenewal);
                         }
 
                         String dbDueDate = savedCopies.getString("dueDate");
@@ -420,15 +435,17 @@ public abstract class Resource {
                         }
                     }
                     catch (ParseException e) {
-                        System.err.println("Failed to load a date for a copy from the database.");
+                        System.err.println(
+                            "Failed to load a date for a copy from the database.");
                     }
 
-                    copyList.add(new Copy(this, savedCopies.getInt("copyID"), borrower,
-                        savedCopies.getInt("loanDuration"), borrowDate, lastRenewalDate, dueDate));
+                    copyList.add(new Copy(this, savedCopies.getInt("copyID"),
+                        borrower, savedCopies.getInt("loanDuration"),
+                        borrowDate, lastRenewalDate, dueDate));
                 }
                 else {
-                    Copy freeCopy = new Copy(this, savedCopies.getInt("copyID"), null,
-                        savedCopies.getInt("loanDuration"));
+                    Copy freeCopy = new Copy(this, savedCopies.getInt("copyID"),
+                        null, savedCopies.getInt("loanDuration"));
                     copyList.add(freeCopy);
                     freeCopies.add(freeCopy);
                 }
@@ -455,7 +472,8 @@ public abstract class Resource {
             Connection conn = DBHelper.getConnection();
             Statement stmt = conn.createStatement();
             ResultSet userRequests = stmt
-                .executeQuery("SELECT * FROM userRequests " + "WHERE rID=" + uniqueID + " ORDER BY orderNumber ASC");
+                .executeQuery("SELECT * FROM userRequests " + "WHERE rID=" +
+                    uniqueID + " ORDER BY orderNumber ASC");
 
             while (userRequests.next()) {
                 String userName = userRequests.getString("userName");
@@ -473,7 +491,8 @@ public abstract class Resource {
         try {
             Connection dbConnection = DBHelper.getConnection();
             Statement sqlStatement = dbConnection.createStatement();
-            ResultSet userRequests = sqlStatement.executeQuery("SELECT * FROM requestsToApprove WHERE rID=" + uniqueID);
+            ResultSet userRequests = sqlStatement.executeQuery(
+                "SELECT * FROM requestsToApprove WHERE rID=" + uniqueID);
 
             while (userRequests.next()) {
                 String userName = userRequests.getString("userName");
@@ -489,19 +508,24 @@ public abstract class Resource {
     private void saveCopyToDB(Copy copy) {
         try {
             Connection dbConnection = DBHelper.getConnection();
-            PreparedStatement sqlStatement = dbConnection
-                .prepareStatement("DELETE FROM copies WHERE copyID=" + copy.getCopyID());
+            PreparedStatement sqlStatement = dbConnection.prepareStatement(
+                "DELETE FROM copies WHERE copyID=" + copy.getCopyID());
             sqlStatement.executeUpdate();
 
-            SimpleDateFormat normalDateFormat = new SimpleDateFormat("dd/MM/yyyy");
-            sqlStatement = dbConnection.prepareStatement("INSERT INTO copies VALUES(?,?,?,?,?,?,?)");
+            SimpleDateFormat normalDateFormat = new SimpleDateFormat(
+                "dd/MM/yyyy");
+            sqlStatement = dbConnection
+                .prepareStatement("INSERT INTO copies VALUES(?,?,?,?,?,?,?)");
 
             sqlStatement.setInt(1, copy.getCopyID());
             sqlStatement.setInt(2, uniqueID);
             sqlStatement.setInt(4, copy.getLoanDuration());
-            sqlStatement.setString(5, formatDate(copy.getBorrowDate(), normalDateFormat));
-            sqlStatement.setString(6, formatDate(copy.getLastRenewal(), normalDateFormat));
-            sqlStatement.setString(7, formatDate(copy.getDueDate(), normalDateFormat));
+            sqlStatement.setString(5,
+                formatDate(copy.getBorrowDate(), normalDateFormat));
+            sqlStatement.setString(6,
+                formatDate(copy.getLastRenewal(), normalDateFormat));
+            sqlStatement.setString(7,
+                formatDate(copy.getDueDate(), normalDateFormat));
 
             String userName = null;
             if (copy.getBorrower() != null) {
@@ -533,9 +557,11 @@ public abstract class Resource {
         LinkedList<User> orderedUsers = userRequestQueue.getOrderedList();
         try {
             Connection dbConnection = DBHelper.getConnection();
-            PreparedStatement sqlStatement = dbConnection.prepareStatement("DELETE FROM userRequests");
+            PreparedStatement sqlStatement = dbConnection
+                .prepareStatement("DELETE FROM userRequests");
             sqlStatement.executeUpdate();
-            sqlStatement = dbConnection.prepareStatement("INSERT INTO userRequests VALUES (" + uniqueID + ",?,?)");
+            sqlStatement = dbConnection.prepareStatement(
+                "INSERT INTO userRequests VALUES (" + uniqueID + ",?,?)");
 
             int orderNr = 1;
             User current = orderedUsers.pollFirst();
@@ -553,7 +579,8 @@ public abstract class Resource {
     }
 
     /*
-     * Gets the number of copies that this resource has, wether free or borrowed.
+     * Gets the number of copies that this resource has, wether free or
+     * borrowed.
      * 
      * @return The nr of copies of this resource.
      */
@@ -602,40 +629,42 @@ public abstract class Resource {
      * 
      * Resource winter=null;
      * 
-     * for(Resource r: resources) { if(r.getUniqueID()==3) { winter=r; break; } }
+     * for(Resource r: resources) { if(r.getUniqueID()==3) { winter=r; break; }
+     * }
      * 
      * Copy copy=null; for(Copy c: winter.getCopies()) { if(c.getCopyID()==1) {
      * copy=c; break; } }
      * 
      * try { Connection conn = DBHelper.getConnection(); //get the connection
-     * Statement stmt = conn.createStatement(); //prep a statement ResultSet rs =
-     * stmt.executeQuery("SELECT * FROM copies where copyID=1"); //Your sql goes
-     * here while(rs.next()) {
-     * System.out.println("loan duration "+rs.getInt("loanDuration")); } //Think of
-     * this a bit like the file reader for the games project } catch (SQLException
-     * e) { //if your SQL is incorrect this will display it // TODO Auto-generated
-     * catch block e.printStackTrace(); }
+     * Statement stmt = conn.createStatement(); //prep a statement ResultSet rs
+     * = stmt.executeQuery("SELECT * FROM copies where copyID=1"); //Your sql
+     * goes here while(rs.next()) {
+     * System.out.println("loan duration "+rs.getInt("loanDuration")); } //Think
+     * of this a bit like the file reader for the games project } catch
+     * (SQLException e) { //if your SQL is incorrect this will display it //
+     * TODO Auto-generated catch block e.printStackTrace(); }
      * 
-     * copy.setLoanDuration(7); System.out.println("bor"); try { Connection conn =
-     * DBHelper.getConnection(); //get the connection Statement stmt =
+     * copy.setLoanDuration(7); System.out.println("bor"); try { Connection conn
+     * = DBHelper.getConnection(); //get the connection Statement stmt =
      * conn.createStatement(); //prep a statement ResultSet rs =
      * stmt.executeQuery("SELECT * FROM copies where copyID=1"); //Your sql goes
      * here while(rs.next()) {
-     * System.out.println("loan duration "+rs.getInt("loanDuration")); } //Think of
-     * this a bit like the file reader for the games project } catch (SQLException
-     * e) { //if your SQL is incorrect this will display it // TODO Auto-generated
-     * catch block e.printStackTrace(); }
+     * System.out.println("loan duration "+rs.getInt("loanDuration")); } //Think
+     * of this a bit like the file reader for the games project } catch
+     * (SQLException e) { //if your SQL is incorrect this will display it //
+     * TODO Auto-generated catch block e.printStackTrace(); }
      */
     /*
      * DBHelper.tableCheck();
      * 
-     * Laptop l = new Laptop(1,"VX15", 2017,null,"Acer","Aspire","Windows"); Book b
-     * = new Book(2,"Great Expectations", 1880, null, "CharlesDickens", "Wanker");
-     * DVD d = new DVD(3,"Iron Man", 2008, null, "Favreau", 200);
+     * Laptop l = new Laptop(1,"VX15", 2017,null,"Acer","Aspire","Windows");
+     * Book b = new Book(2,"Great Expectations", 1880, null, "CharlesDickens",
+     * "Wanker"); DVD d = new DVD(3,"Iron Man", 2008, null, "Favreau", 200);
      * 
-     * User user = new User("Alexandru", "Alex","Dasc","0777777777","902 Kilvey",
-     * "SA2 8PU", null,0); Copy test = new Copy(b, 1, user, 7);
-     * test.setBorrowDate(new Date(118,10,30)); test.checkRenewal();
+     * User user = new User("Alexandru",
+     * "Alex","Dasc","0777777777","902 Kilvey", "SA2 8PU", null,0); Copy test =
+     * new Copy(b, 1, user, 7); test.setBorrowDate(new Date(118,10,30));
+     * test.checkRenewal();
      * System.out.println(test.getLastRenewal().toString());
      * 
      * test.setDueDate();
@@ -643,21 +672,25 @@ public abstract class Resource {
      * System.out.println("----Displaying resource table----"); try { Connection
      * conn = DBHelper.getConnection(); //get the connection Statement stmt =
      * conn.createStatement(); //prep a statement ResultSet rs =
-     * stmt.executeQuery("SELECT * FROM requestsToApprove"); //Your sql goes here
-     * while(rs.next()) { System.out.println("rID: "+rs.getInt("rID")+" username: "
-     * +rs.getString("userName")); } //Think of this a bit like the file reader for
-     * the games project } catch (SQLException e) { //if your SQL is incorrect this
-     * will display it // TODO Auto-generated catch block e.printStackTrace(); }
+     * stmt.executeQuery("SELECT * FROM requestsToApprove"); //Your sql goes
+     * here while(rs.next()) {
+     * System.out.println("rID: "+rs.getInt("rID")+" username: "
+     * +rs.getString("userName")); } //Think of this a bit like the file reader
+     * for the games project } catch (SQLException e) { //if your SQL is
+     * incorrect this will display it // TODO Auto-generated catch block
+     * e.printStackTrace(); }
      * 
      * l.addPendingRequest(user);
      * System.out.println("----Displaying resource table----"); try { Connection
      * conn = DBHelper.getConnection(); //get the connection Statement stmt =
      * conn.createStatement(); //prep a statement ResultSet rs =
-     * stmt.executeQuery("SELECT * FROM requestsToApprove"); //Your sql goes here
-     * while(rs.next()) { System.out.println("rID: "+rs.getInt("rID")+" username: "
-     * +rs.getString("userName")); } //Think of this a bit like the file reader for
-     * the games project } catch (SQLException e) { //if your SQL is incorrect this
-     * will display it // TODO Auto-generated catch block e.printStackTrace(); }
+     * stmt.executeQuery("SELECT * FROM requestsToApprove"); //Your sql goes
+     * here while(rs.next()) {
+     * System.out.println("rID: "+rs.getInt("rID")+" username: "
+     * +rs.getString("userName")); } //Think of this a bit like the file reader
+     * for the games project } catch (SQLException e) { //if your SQL is
+     * incorrect this will display it // TODO Auto-generated catch block
+     * e.printStackTrace(); }
      */
 
     // l.applyFines(test);
@@ -678,7 +711,8 @@ public abstract class Resource {
     }
 
     public boolean contains(String search) {
-        if (title != null && title.toUpperCase().contains(search.toUpperCase())) {
+        if (title != null &&
+            title.toUpperCase().contains(search.toUpperCase())) {
             return true;
         }
         else {
