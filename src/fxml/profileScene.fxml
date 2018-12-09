@@ -29,11 +29,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<<<<<<< HEAD
+
 <BorderPane focusTraversable="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="400.0" minWidth="600.0" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.ProfileController">
-=======
-<BorderPane focusTraversable="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="400.0" minWidth="600.0" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.ProfileController">
->>>>>>> ded72c1afb3233dfa386c6cdfd4e352dd9aaf300
+
    <center>
       <TabPane fx:id="tabs" prefHeight="972.0" prefWidth="1920.0" BorderPane.alignment="CENTER">
         <tabs>
@@ -255,6 +253,21 @@
                                                       <TableView fx:id="staffUsersTable" layoutX="54.0" onMouseClicked="#userTableClicked" prefHeight="614.0" prefWidth="936.0" />
                                                    </children>
                                                 </Pane>
+                                             </children>
+                                          </VBox>
+                                       </content>
+                                    </TitledPane>
+                                    <TitledPane animated="false" onMouseClicked="#loadUsersTable" text="Resource">
+                                       <content>
+                                          <VBox prefHeight="200.0" prefWidth="100.0">
+                                             <children>
+                                                <HBox prefHeight="100.0" prefWidth="200.0">
+                                                   <children>
+                                                      <Button mnemonicParsing="false" onAction="#addBook" text="Add book" />
+                                                      <Button mnemonicParsing="false" onAction="#addDVD" text="Add DVD" />
+                                                      <Button mnemonicParsing="false" onAction="#addLaptop" text="Add Laptop" />
+                                                   </children>
+                                                </HBox>
                                              </children>
                                           </VBox>
                                        </content>

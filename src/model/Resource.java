@@ -674,7 +674,7 @@ public abstract class Resource {
 	}
 	
 	public boolean contains(String search) {
-		if(title.toUpperCase().contains(search.toUpperCase())) {
+		if(title!=null && title.toUpperCase().contains(search.toUpperCase())) {
 			return true;
 		} else {
 			return false;
