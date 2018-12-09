@@ -67,7 +67,7 @@ INSERT INTO `resource` VALUES (8,'Sapiens',2015,'/graphics/sapiens.jpg');
 INSERT INTO `resource` VALUES (9,'Waking Gods',2015,'/graphics/wakingGods.jpg');
 INSERT INTO `resource` VALUES (10,'American Gods',2015,'/graphics/americanGods.jpg');
 INSERT INTO `resource` VALUES (11,'Iron Man 3',2013,'/graphics/ironMan3.jpg');
-INSERT INTO `resource` VALUES (12,'Lenovo',2017,'/graphics/laptop.png');
+INSERT INTO `resource` VALUES (12,'Lenovo',2017,'/graphics/laptop.jpg');
 
 
 DROP TABLE IF EXISTS `fines`;
