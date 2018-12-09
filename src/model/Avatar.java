@@ -28,6 +28,7 @@ public abstract class Avatar {
     }
 
     /**
+     * Gets the size of the avatar.
      * @return The size of the avatar.
      */
     public double getSize() {
@@ -44,7 +45,7 @@ public abstract class Avatar {
     }
 
     /**
-     * Gets y-axis centre position
+     * Gets y-axis centre position.
      * 
      * @return The y position of the centre of the avatar.
      */
@@ -53,7 +54,7 @@ public abstract class Avatar {
     }
 
     /**
-     * Sets size variable
+     * Sets size variable.
      *
      * @param size The size of the avatar.
      */
@@ -62,7 +63,7 @@ public abstract class Avatar {
     }
 
     /**
-     * Sets x-axis centre position
+     * Sets x-axis centre position.
      *
      * @param x The x position at the centre of the avatar.
      */
@@ -71,7 +72,7 @@ public abstract class Avatar {
     }
 
     /**
-     * Sets y-axis centre position
+     * Sets y-axis centre position.
      * 
      * @param y The y position at the centre of the avatar.
      */
@@ -81,6 +82,7 @@ public abstract class Avatar {
 
     /**
      * Converts an avatar to a String.
+     * @return String representation of the avatar.
      */
     public String toString() {
         String result = "";

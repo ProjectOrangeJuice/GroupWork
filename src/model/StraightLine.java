@@ -67,6 +67,7 @@ public class StraightLine extends AvatarComponent {
 
     /**
      * Converts a straight line to a string.
+     * @return a string representation of the straight line.
      */
     public String toString() {
         String result = "";

@@ -11,7 +11,7 @@ import java.sql.Statement;
 import java.util.Scanner;
 
 /**
- * Contains helper methods for the database.
+ * Contains static helper methods used to communicate with the database.
  * 
  * @author Oliver Harris.
  */
@@ -40,9 +40,9 @@ public class DBHelper {
     /**
      * Get the connection for the database.
      * 
-     * @param keyCheck. True if the database should check foreign keys.
+     * @param keyCheck True if the database should check foreign keys.
      * @return Connection The connection to database.
-     * @throws SQLException. Unable to connect to database.
+     * @throws SQLException If unable to connect to database.
      */
     public static Connection getConnection(boolean keyCheck) throws SQLException {
         Connection connection = null;
@@ -55,7 +55,7 @@ public class DBHelper {
     }
 
     /**
-     * Get the connection for the database
+     * Get the connection for the database.
      * 
      * @return Connection. The connection with foreign key enabled.
      * @throws SQLException. Unable to connect to database.
@@ -70,10 +70,12 @@ public class DBHelper {
     private static void createTables() {
 
         try {
-            InputStream input = new FileInputStream(SQL);// Opens up the file
+            // Opens up the file
+            InputStream input = new FileInputStream(SQL); 
 
             Scanner scanner = new Scanner(input);
-            scanner.useDelimiter(";");// Each statement is split with ";"
+            // Each statement is split with ";"
+            scanner.useDelimiter(";"); 
             Statement statement = null;
 
             Connection connection = getConnection(false); // Connection without foreign key checks
@@ -87,10 +89,14 @@ public class DBHelper {
                     }
                     catch (SQLException e) { // Error on the SQL table.
                         System.out.println(line);
-                        e.printStackTrace();// The tables.sql is incorrect
+                        
+                        // The tables.sql is incorrect
+                        e.printStackTrace();
                     }
                 }
             }
+            
+            scanner.close();
         }
         catch (SQLException e) {
             // Error in the tables.sql
@@ -111,10 +117,10 @@ public class DBHelper {
         try {
             ResultSet results = selectKnown("SELECT ver FROM system");
             if (results.next()) {
-                int DBVer = results.getInt("ver");
+                int databaseVersion = results.getInt("ver");
                 results.close();
-                System.out.println("Table is at " + DBVer + " program is at " + VERSION);
-                if (DBVer != VERSION) {
+                System.out.println("Table is at " + databaseVersion + " program is at " + VERSION);
+                if (databaseVersion != VERSION) {
                     createTables();
                     System.out.println("Updating database");
                 }

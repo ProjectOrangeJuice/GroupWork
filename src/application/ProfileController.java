@@ -724,7 +724,26 @@ public class ProfileController {
 	 */
 	@FXML
 	private void approveCopy() {
-		System.out.println("Approve copy!");
+		ExplorerRow row  = (ExplorerRow) staffCopiesExplorerTable.getSelectionModel().getSelectedItem();
+		int resourceID = row.getResourceID();
+		String username = row.getKeeper();
+		
+		User user = (User)Person.loadPerson(username);
+		Resource.getResource(resourceID).loanToUser(user);
+		
+		try {
+			Connection conn = DBHelper.getConnection();
+			PreparedStatement sqlStatement = conn.prepareStatement("DELETE FROM requestsToApprove WHERE rID = ? AND userName = ?");
+			sqlStatement.setInt(1, resourceID);
+			sqlStatement.setString(2, username);
+			sqlStatement.executeUpdate();
+				
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		loadExplorerTableColumns("requested");
+		System.out.println("Approved copy!");
 		staffCopyIDField.setText("");
 	}
 	
