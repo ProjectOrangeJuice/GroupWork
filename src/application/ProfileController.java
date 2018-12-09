@@ -724,8 +724,26 @@ public class ProfileController {
 	 */
 	@FXML
 	private void approveCopy() {
-		System.out.println("Approve copy!");
-		staffCopyIDField.setText("");
+		ExplorerRow row  = (ExplorerRow) staffCopiesExplorerTable.getSelectionModel().getSelectedItem();
+		int resourceID = row.getResourceID();
+		String username = row.getKeeper();
+		
+		User user = (User)Person.loadPerson(username);
+		Resource.getResource(resourceID).loanToUser(user);
+		
+		try {
+			Connection conn = DBHelper.getConnection();
+			PreparedStatement sqlStatement = conn.prepareStatement("DELETE FROM requestsToApprove WHERE rID = ? AND userName = ?");
+			sqlStatement.setInt(1, resourceID);
+			sqlStatement.setString(2, username);
+			sqlStatement.executeUpdate();
+				
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		System.out.println("Approved copy!");
+		displayRequested();
 	}
 	
 	/**
@@ -733,9 +751,20 @@ public class ProfileController {
 	 */
 	@FXML
 	private void returnCopy() {
-		System.out.println("Return copy!");
-		staffCopyIDField.setText("");
-
+		ExplorerRow row  = (ExplorerRow) staffCopiesExplorerTable.getSelectionModel().getSelectedItem();
+		int copyID = row.getCopyID();
+		
+		for (Resource res : Resource.getResources()) {
+			for (Copy copy : res.getCopies()) {
+				if (copy.getCopyID() == copyID) {
+					res.processReturn(copy);
+				}
+			}
+		}
+		
+		
+		System.out.println("Returned copy!");
+		displayAll();
 	}
 	
 	private boolean checkCopyID(String copyID) {
@@ -1044,4 +1073,3 @@ public class ProfileController {
 	}
 
 }
-

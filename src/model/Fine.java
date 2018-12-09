@@ -21,7 +21,7 @@ public class Fine {
     private String username;
     private boolean isPaid;
 
-    /**
+    /**Creates a new fine with the given arguments.
      * @param amount The amount owed.
      * @param dateTime The date and time stamp.
      * @param user The user who owns this fine.
@@ -117,8 +117,7 @@ public class Fine {
 
     /**
      * Change if the fine has been paid.
-     * 
-     * @param isPaid
+     * @param isPaid True if the fine has been paid, false if not.
      */
     public void setPaid(boolean isPaid) {
         this.isPaid = isPaid;

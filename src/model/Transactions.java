@@ -7,7 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 /**
- * Holds all the transactions for a user.
+ * Holds all the payments a user has made.
  * 
  * @author Oliver Harris
  */

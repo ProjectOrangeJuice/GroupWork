@@ -15,7 +15,7 @@ public abstract class AvatarComponent {
     private Color colour; // The colour of the component.
 
     /**
-     * Creates a avatar component.
+     * Creates an avatar component.
      *
      * @param xStartPosition The x start position.
      * @param yStartPosition The y start position.
@@ -84,6 +84,7 @@ public abstract class AvatarComponent {
 
     /**
      * Converts an avatar component to a string.
+     * @return a string representation of the avatar component.
      */
     public String toString() {
         String result = "";

@@ -23,18 +23,17 @@ public class Librarian extends Person {
     private final int staffID;
 
     /**
-     * Create a new librarian user from the given arguments.
-     * 
-     * @param userName
-     * @param firstName
-     * @param lastName
-     * @param phoneNumber
-     * @param address
-     * @param postcode
-     * @param avatar
-     * @param employmentDate
-     * @param staffNumber
-     */
+    * Creates a new librarian with the given data.
+    * @param userName The user name of the librarian.
+    * @param firstName The librarian's first name.
+    * @param lastName The last name of the librarian.
+    * @param phoneNumber The phone number of the librarian.
+    * @param address The address of the librarian.
+    * @param postcode The post code of the librarian.
+    * @param avatarPath The path to the avatar image of the librarian.
+    * @param employmentDate The date the librarian as employed.
+    * @param staffID The ID of the librarian.
+    */
     public Librarian(String userName, String firstName, String lastName, String phoneNumber, String address,
             String postcode, String avatarPath, String employmentDate, int staffID) {
         super(userName, firstName, lastName, phoneNumber, address, postcode, avatarPath);
@@ -53,16 +52,17 @@ public class Librarian extends Person {
     }
 
     /**
-     * Loans a copy to the user
+     * Loans a copy to the user.
      * 
      * @param copy Copy that a user has loaned
+     * @param user The user who borrowes the copy.
      */
     public void loanCopy(Copy copy, User user) {
         copy.getResource().loanToUser(user);
     }
 
     /**
-     * handles the process of the return copies from the user
+     * Handles the process of the return copies from the user.
      * 
      * @param user The user that returns the copy
      * @param copy The copy that has been borrowed by the user
@@ -71,15 +71,16 @@ public class Librarian extends Person {
         copy.getResource().processReturn(copy);
     }
 
-    /**
-     * @param user User that needs to make the payment
+    /**Authorises the payment of a fine.
+     * @param user User that needs to make the payment.
+     * @param amount The amount of the part of the fine being paid.
      */
     public void authorizeFinePayment(User user, double amount) {
         user.makePayment(amount);
     }
-
+    
     /**
-     * Returns the unique staff number of the librarian
+     * Returns the unique staff number of the librarian.
      * 
      * @return Staff number of the librarian
      */
