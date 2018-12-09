@@ -127,15 +127,15 @@ public class StaffEdit {
    			pstmt.setString(5, postcode);
    			pstmt.setString(6, username);
     		pstmt.executeUpdate();
-    		conn.commit();
+    		//conn.commit();
     		
-    		PreparedStatement pstmt1 = conn.prepareStatement("UPDATE staff SET staffID = ?, employmentDate = ?  WHERE username = ?");
+    		PreparedStatement pstmt1 = conn.prepareStatement("UPDATE staff SET staffID = ?, employmentDate = ?  WHERE staff.username = ?");
     		pstmt1.setInt(1, Integer.parseInt(staffID));
    			pstmt1.setString(2, employmentDate);
    			pstmt.setString(3,  username);
     			
    			pstmt1.executeUpdate();
-   			conn.commit();
+   			//conn.commit();
    			
    			conn.close();
 		} catch (SQLException e) {
