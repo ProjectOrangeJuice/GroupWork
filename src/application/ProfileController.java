@@ -203,8 +203,7 @@ public class ProfileController {
 		}
 
 	}
-	
-	
+
 	
 	@FXML
 	private void searchBarSwitch (MouseEvent event) {
@@ -396,6 +395,26 @@ public class ProfileController {
 		return false;
 
 	}
+	
+	
+	@FXML
+	private void  reloadStuff(Event e) {
+		Resource.loadDatabaseResources();
+		vResourceBox.getChildren().clear();
+		vResourceBox.getChildren().add(new HBox());
+		loadResourceImages();
+		loadUserInformation();
+		loadCopies();
+		loadRequested();
+
+		loadTables("users");
+		displayAll();
+
+		scrollPane.setHvalue(0.5);
+		
+	}
+	
+	
 	/**
 	 * Method that loads copies that the user is currently borrowing
 	 */
