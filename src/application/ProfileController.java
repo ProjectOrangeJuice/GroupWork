@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -213,7 +214,7 @@ public class ProfileController {
 	 * @param event when something is typed into the search box
 	 */
 	@FXML  
-    void searchThis(KeyEvent event) {
+    void searchThis(Event event) {
 		tabs.getSelectionModel().select(resourcesTab);
 		vResourceBox.getChildren().clear();
 		HBox hbox = new HBox();
@@ -254,7 +255,7 @@ public class ProfileController {
 			phoneLabel.setText(phoneLabel.getText() + " " + phoneNumber);
 			
 			Double userBalance = ((User) currentUser).getAccountBalance();
-			accountBalance.setText("£" + Double.toString(userBalance));
+			accountBalance.setText("Â£" + Double.toString(userBalance));
 			
 			userAvatarView.setImage(new Image(avatarPath));
 		}else {
@@ -526,16 +527,9 @@ public class ProfileController {
 		loadCopies();
 		loadRequested();
 
-	
-		
 		loadTables("users");
-		loadTables("all");
+		displayAll();
 
-		
-		loadTables("users");
-		//displayAll();
-
-		
 		scrollPane.setHvalue(0.5);
 	
 	 }
@@ -651,7 +645,7 @@ public class ProfileController {
 	
 
 	//
-	// Manage Users Tab
+	//Staff: Manage Users
 	//
 	
 	/**
@@ -715,6 +709,7 @@ public class ProfileController {
 		
 		switch (tableToLoad) {
 			case "users":
+				staffUsersTable.getColumns().clear();
 				staffUsersTable.getColumns().addAll(usernameCol,firstnameCol,
 						lastnameCol,addressCol,postcodeCol,accountBalanceCol);
 				break;

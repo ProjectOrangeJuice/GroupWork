@@ -13,10 +13,13 @@ import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import model.Copy;
 import model.DBHelper;
@@ -29,7 +32,6 @@ import model.User;
 public class EditCopiesController {
 
 	private ArrayList<Copy> copies; //arraylist of the copies
-	private TableView<Copy> tableCopies= new TableView<>();//tables of the copies
 	ObservableList<Copy> copyData = FXCollections.observableArrayList();//arraylist of the copy data
 	
 	@FXML
@@ -37,10 +39,24 @@ public class EditCopiesController {
 	
 	
 	@FXML
-	private TableView copiesTable;//table for copies
+	private TableView<Copy> copiesTable;//table for copies
 	
 	/**
-	 * Method that calls the repop method and creates the table.
+	 * Generate a popup.
+	 * @param text The text to be displayed.
+	 */
+	private void alertDone(String text) {
+		Alert alert = new Alert(AlertType.INFORMATION);
+		alert.setTitle("Information Dialog");
+		alert.setHeaderText(null);
+		alert.setContentText(text);
+
+		alert.showAndWait();
+	}
+
+	
+	/**
+	 * Method that calls  creates the table.
 	 */
 	private void setupCopy() {
 		
@@ -95,6 +111,18 @@ public class EditCopiesController {
 		
 		copiesTable.setItems(copyData);
 
+	}
+	
+	/**
+	 * removes the copy from the table
+	 * @param event the event of the button being clicked
+	 */
+	@FXML
+	private void deleteButton(ActionEvent event) {
+		Copy copy = copiesTable.getSelectionModel().getSelectedItem();
+		if(copy.getBorrower() != null) {
+			alertDone("Copy is being borrowed");
+		}
 	}
 	
 	/**

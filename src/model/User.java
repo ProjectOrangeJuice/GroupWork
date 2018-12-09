@@ -206,7 +206,7 @@ public class User extends Person {
 	public ArrayList<Resource> getRecommendations() throws SQLException{
 		Connection connectionToDB = DBHelper.getConnection();
 		PreparedStatement sqlStatement = connectionToDB.prepareStatement
-				("select distinct copyID from borrowRecords where username=?");
+				("select copyID from borrowRecords where username=?");
 		sqlStatement.setString(1, username);
 		ResultSet borrowedCopiesID = sqlStatement.executeQuery();
 	
@@ -222,11 +222,48 @@ public class User extends Person {
 			/*Since copyID is the primary key of copies, the result to selecting
 			 *  rID will always have only one row.*/
 			int resourceID = resourceIDResult.getInt("rID");
+			System.out.println("rID: "+resourceID);
 			Resource borrowedResource = Resource.getResource(resourceID);
 			
-			borrowedResources.add(borrowedResource);
+			if(!borrowedResources.contains(borrowedResource)) {
+				borrowedResources.add(borrowedResource);
+			}
 		}
 		
-		return new ArrayList<Resource>();
+		ArrayList<ResourceRecommendScore> resourceScores = new ArrayList<>();
+		ArrayList<Resource> resources = Resource.getResources();
+		for(Resource resource: resources) {
+			if(!borrowedResources.contains(resource)) {
+				ResourceRecommendScore resourceScore= new ResourceRecommendScore();
+				resourceScore.setResource(resource);
+				resourceScore.setBorrowedResources(borrowedResources);
+				resourceScores.add(resourceScore);
+			}
+		}
+		
+		resourceScores.sort(null);
+		
+		ArrayList<Resource> recommendedResource = new ArrayList<>();
+		for(ResourceRecommendScore resourceScore: resourceScores) {
+			if(resourceScore.calculateLikeness()>0) {
+				recommendedResource.add(resourceScore.getResource());
+			}
+		}
+		
+		return recommendedResource;
 	}
+	
+	/*
+	public static void main(String args[]) {
+		User manny = (User) Person.loadPerson("Manny");
+		
+		DBHelper.tableCheck();
+		Resource.loadDatabaseResources();
+		ArrayList<Resource> recs=null;
+		try {
+			recs = manny.getRecommendations();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}*/
 }
