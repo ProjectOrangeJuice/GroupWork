@@ -190,6 +190,7 @@ public class AvatarDrawingController implements Initializable {
      */
     @FXML
     public void onSaveImageAction(ActionEvent event) throws IOException {
+    	System.out.println(prevScene);
 
         //Get the absolute path of the project.
         File directory = new File("./");
@@ -205,18 +206,11 @@ public class AvatarDrawingController implements Initializable {
     	 */
             fileName = user.getUsername() + System.currentTimeMillis()
                     + ".png";
-
+            
             convertToFile(fileName, path);
 
             //Update system and database with new avatar.
-<<<<<<< HEAD
-            SavedAvatar newAvatar = createSavedAvatar(fileName);
-            user.setAvatar("/Group6/SavedAvatars/" + fileName);
-=======
-            //SavedAvatar newAvatar = createSavedAvatar(path);
             user.setAvatar("SavedAvatars/" + fileName);
-            changeScene(event, "/fxml/profileScene.fxml");
->>>>>>> 84c0c4308c6470c8d9d32d387f529bb922d4d710
             
             
         } else {
@@ -229,12 +223,7 @@ public class AvatarDrawingController implements Initializable {
             createSavedAvatar(total);
 
             //Set the relative path.
-<<<<<<< HEAD
-            customDrawingFileLocation = "/Group6/SavedAvatars/"
-=======
-            customDrawingFileLocation = "SavedAvatars/"
->>>>>>> 84c0c4308c6470c8d9d32d387f529bb922d4d710
-                    + fileName;
+            customDrawingFileLocation = "SavedAvatars/" + fileName;
         }
     }
 
@@ -249,11 +238,7 @@ public class AvatarDrawingController implements Initializable {
         //Create path for File class as absolute path to project
 
         path = path.substring(0, path.length() - 2)
-<<<<<<< HEAD
-                + "/Group6/SavedAvatars/"
-=======
                 + "/src/SavedAvatars/"
->>>>>>> 84c0c4308c6470c8d9d32d387f529bb922d4d710
                 + fileName;
         
    
@@ -288,13 +273,8 @@ public class AvatarDrawingController implements Initializable {
      */
     public SavedAvatar createSavedAvatar(String fileName) {
         //Create a new Saved Avatar.
-<<<<<<< HEAD
-        return new SavedAvatar(
-                "/Group6/SavedAvatars/"
-                        + fileName);
-=======
         return new SavedAvatar(fileName);
->>>>>>> 84c0c4308c6470c8d9d32d387f529bb922d4d710
+
     }
 
     /**

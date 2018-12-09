@@ -412,20 +412,27 @@ public class RegisterController implements Initializable {
 			}
 	}
 
-	/**
-	 * Opens custom drawing window. Lets the user draw an icon.
-	 *
-	 * @param event
-	 *            event.
-	 * @throws IOException
-	 *             io exception.
-	 */
-	@FXML
-	public void customAvatarAction(MouseEvent event) {
-		AvatarDrawingController avatarDrawingController = new AvatarDrawingController();
-		avatarDrawingController.setPrevScene("profile");
-		changeScene(event, "/fxml/drawAvatar.fxml");
-	}
+	    /**
+		 * Opens the avatar drawing scene when the button is clicked
+		 * @param event button being clicked
+		 */
+		@FXML
+		private void openAvatarEditor(MouseEvent event) {
+			try {
+				FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/drawAvatar.fxml"));
+				Parent root1 = (Parent) fxmlLoader.load();
+				Stage stage = new Stage();
+				stage.initModality(Modality.APPLICATION_MODAL);
+				stage.setTitle("Avatar!");
+				stage.setScene(new Scene(root1));
+				stage.show();
+				
+			} catch (IOException e2) {
+				// TODO Auto-generated catch block
+				e2.printStackTrace();
+			}
+			System.out.println("Launch avatar editor.");
+		}
 	
 	/**
      * Convert custom profile image to file.

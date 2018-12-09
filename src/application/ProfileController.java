@@ -795,7 +795,6 @@ public class ProfileController {
             Parent root1 = (Parent) fxmlLoader.load();
             Stage stage = new Stage();
             stage.initModality(Modality.APPLICATION_MODAL);
-            //stage.initStyle(StageStyle.UNDECORATED);
             stage.setTitle("Resource Information");
             stage.setScene(new Scene(root1));  
             stage.show();
@@ -811,26 +810,20 @@ public class ProfileController {
 	 */
 	@FXML
 	private void openAvatarEditor(MouseEvent event) {
-		
 		try {
 			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/drawAvatar.fxml"));
 			Parent root1 = (Parent) fxmlLoader.load();
 			Stage stage = new Stage();
 			stage.initModality(Modality.APPLICATION_MODAL);
-			// stage.initStyle(StageStyle.UNDECORATED);
 			stage.setTitle("Avatar!");
 			stage.setScene(new Scene(root1));
 			stage.show();
+			
 		} catch (IOException e2) {
 			// TODO Auto-generated catch block
 			e2.printStackTrace();
 		}
-		
-		//AvatarDrawingController avatarDrawingController = new AvatarDrawingController();
-		//avatarDrawingController.setPrevScene("profile");
 		System.out.println("Launch avatar editor.");
-		
-		//changeScene(event,"/fxml/drawAvatar.fxml");
 	}
 	
 
