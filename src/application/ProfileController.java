@@ -731,9 +731,6 @@ public class ProfileController {
 		TableColumn<Person, String> accountBalanceCol = new TableColumn<Person, String>("accountBalance");
 		accountBalanceCol.setCellValueFactory(new PropertyValueFactory<>("accountBalance"));
 		
-
-		staffUsersTable.getColumns().addAll(usernameCol, firstnameCol, lastnameCol,addressCol,postcodeCol,accountBalanceCol);
-		
 		//Copies Explorer columns.
 		TableColumn<Copy, String> copyIDCol = new TableColumn<Copy, String>("Copy ID");
 		copyIDCol.setCellValueFactory(new PropertyValueFactory<>("copyID"));
