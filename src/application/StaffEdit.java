@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -29,7 +31,11 @@ public class StaffEdit {
     private SplitMenuButton changeProfileImageButton;//change profile image buton
 
     @FXML
+<<<<<<< HEAD
+    private Label usernameLabel;
+=======
     private TextField usernameText;//username text box
+>>>>>>> branch 'master' of https://github.com/The-Juggernaut/Group6.git
 
     @FXML
     private TextField firstnameText;//firstname text box
@@ -102,25 +108,35 @@ public class StaffEdit {
      */
     @FXML
     void saveEditedProfile(MouseEvent event) {
+    	String firstName = firstnameText.getText();
+    	String lastName = lastnameText.getText();
+    	String phoneNumber = phoneNumberText.getText();
+    	String address = addressText.getText();
+    	String postcode = postcodeText.getText();
+    	String staffID = staffIDText.getText();
+    	String employmentDate = employmentDateText.getText();
+    	String username = usernameLabel.getText();
+    	
     	try {
     		//SQL that saves the profile information into the table
     		Connection conn = model.DBHelper.getConnection();
     		PreparedStatement pstmt = conn.prepareStatement("UPDATE users SET firstName = ?, lastName = ?, telephone = ?, address = ?, postcode = ? WHERE username = ?");
-    		pstmt.setString(1, firstnameText.getText());
-   			pstmt.setString(2, lastnameText.getText());
-   			pstmt.setString(3, phoneNumberText.getText());
-   			pstmt.setString(4, addressText.getText());
-   			pstmt.setString(5, postcodeText.getText());
-    			
+    		pstmt.setString(1, firstName);
+   			pstmt.setString(2, lastName);
+   			pstmt.setString(3, phoneNumber);
+   			pstmt.setString(4, address);
+   			pstmt.setString(5, postcode);
+   			pstmt.setString(6, username);
     		pstmt.executeUpdate();
+    		conn.commit();
     		
     		PreparedStatement pstmt1 = conn.prepareStatement("UPDATE staff SET staffID = ?, employmentDate = ?  WHERE username = ?");
-    		pstmt1.setInt(1, Integer.parseInt(staffIDText.getText()));
-    			
-    		SimpleDateFormat sdfr = new SimpleDateFormat("dd/MM/yyyy");
-   			pstmt1.setString(2, sdfr.format(employmentDateText.getText()));
+    		pstmt1.setInt(1, Integer.parseInt(staffID));
+   			pstmt1.setString(2, employmentDate);
+   			pstmt.setString(3,  username);
     			
    			pstmt1.executeUpdate();
+   			conn.commit();
    			
    			conn.close();
 		} catch (SQLException e) {
@@ -148,7 +164,7 @@ public class StaffEdit {
 	    	String employmentDate = sdfr.format(currentStaff.getEmploymentDate());
 	    	
 	    	//change text to text field for staff to edit
-	    	usernameText.setText(username);
+	    	usernameLabel.setText(username);
 	    	firstnameText.setText(firstname);
 	    	lastnameText.setText(lastname);
 	    	phoneNumberText.setText(phoneNumber);
