@@ -33,70 +33,71 @@ import model.User;
 	
 public class RegisterController {
 	    @FXML
-	    private TextField firstName;
+	    private TextField firstName;//textbox that holds the users firstname
 
 	    @FXML
-	    private TextField address;
+	    private TextField address;//textbox that holds the users address
 
 	    @FXML
-	    private Label firstNameError;
+	    private Label firstNameError;//first name error message
 
 	    @FXML
-	    private Label addressError;
+	    private Label addressError;//address error message
 
 	    @FXML
-	    private Label phoneNumberError;
+	    private Label phoneNumberError;//phone number error message
 
 	    @FXML
-	    private Label usernameError;
+	    private Label usernameError;//user name error message
 
 	    @FXML
-	    private Label postCodeError;
+	    private Label postCodeError;//postcode error message
 
 	    @FXML
-	    private CheckBox librarianCheckBox;
+	    private CheckBox librarianCheckBox;//allows a librarian to register a librarian
 
 	    @FXML
-	    private ImageView avatar;
+	    private ImageView avatar;//profile image
 
 	    @FXML
-	    private TextField lastName;
+	    private TextField lastName;//texbox for last name
 
 	    @FXML
-	    private Label lastNameError;
+	    private Label lastNameError;//last name error message
 
 	    @FXML
-	    private TextField phoneNumber;
+	    private TextField phoneNumber;//textbox for phone number
 
 	    @FXML
-	    private Button registerButton;
+	    private Button registerButton;//button that calls a register method
 
 	    @FXML
 	    private Button browseButton;
 
 	    @FXML
-	    private Button createButton;
+	    private Button createButton;//button that creates the person
 
 	    @FXML
-	    private TextField postCode;
+	    private TextField postCode;//textbox that holds postcode
 
 	    @FXML
-	    private TextField username;
+	    private TextField username;//textbox that holds username
 	    
 	    @FXML
-	    private TextField staffId;
+	    private TextField staffId;//textbox that holds teh staff id
 	    
 	    @FXML
-	    private Label staffIdError;
+	    private Label staffIdError;//staff id error message
 	    
 	    @FXML
-	    private TextField employmentDate;
+	    private TextField employmentDate;//text box that holds employment date
 	    
 	    @FXML
 	    private Pane pane;
 	    
 	    private Pane rootPane;
 	    
+	    //sets all the textboxs to the variables
 	    private String avatarPath = "/SavedAvatars/Avatar1.png";
 	    private String postCodeText = postCode.getText();
 	    private String usernameText = username.getText();
@@ -219,6 +220,10 @@ public class RegisterController {
 
 	    }
 
+	    /**
+	     * Validates postcode by checking the length
+	     * @return false if the postode is invalid
+	     */
 		private boolean validatePostCode() {
 			
 	        if (postCodeText.contains(" ")) {
@@ -227,11 +232,19 @@ public class RegisterController {
 	        return !(postCodeText.length() > 7 || postCodeText.length() <= 5);
 		}
 
+		/**
+		 * Validates address by checking length
+		 * @return false if the address is invalid
+		 */
 		private boolean validateAddress() {
 			
 	        return !(addressText.length() > 1000 || addressText.length() <= 0);
 		}
 
+		/**
+		 * Validates phone number by checking length
+		 * @return false if the number is invalid
+		 */
 		private boolean validatePhoneNumber() {
 			
 	        return !(phoneNumberText.length() > 11 || phoneNumberText.length() < 11 || !isNumeric(phoneNumberText));
@@ -247,16 +260,28 @@ public class RegisterController {
 	        return str.matches(".*\\d+.*");
 	    }
 		
+	    /**
+	     * validates the last name by checking the length
+	     * @return false if the lastname is invalid
+	     */
 		private boolean validateLastName() {
 			
 	        return !(lastNameText.length() > 15 || lastNameText.length() <= 0);
 		}
 
+		 /**
+	     * validates the first name by checking the length
+	     * @return false if the firstname is invalid
+	     */
 		private boolean validateFirstName() {
 			
 	        return !(firstNameText.length() > 15 || firstNameText.length() <= 0);
 		}
 
+		 /**
+	     * validates the last name by checking the length and if it already exists
+	     * @return false if the username is invalid
+	     */
 		private boolean validateUsername() {
 			
 	        return !(usernameText.length() > 15 || usernameText.length() <= 0 || validateExistingUser(usernameText));
@@ -286,6 +311,10 @@ public class RegisterController {
 			return false;
 		}
 		
+		/**
+		 * Validates the staff id by checking length and if it already exists
+		 * @return false if the staff id is invalid
+		 */
 		private boolean validateStaffId() {
 			
 	        return !(staffIdText.length() > 2 || staffIdText.length() < 2 || validateExistingStaffId(staffIdText));
@@ -315,6 +344,11 @@ public class RegisterController {
 			return false;
 		}
 	    
+		/**
+		 * Checks to see if the user is an librarian
+		 * @param event checkbox being checked
+		 * @return boolean of whehter checkbox was selected
+		 */
 	    public boolean isLibrarian(ActionEvent event) {//show staffId box
 	    	boolean selected = librarianCheckBox.isSelected();
 	    	if(librarianCheckBox.isSelected()) {
@@ -350,6 +384,10 @@ public class RegisterController {
 
 	    }
 	    
+	    /**
+	     * Inserts the librarin attributes into the staff table
+	     * @param event button being pressed
+	     */
 	    private void insertIntoLibrarian(ActionEvent event) {
 	        
 	    	try {
