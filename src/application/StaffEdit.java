@@ -192,7 +192,7 @@ public class StaffEdit {
     @FXML
     public void initialize() {
         currentUser = ScreenManager.getCurrentUser();
-
+        usernameLabel.setText(currentUser.getUsername());
         loadStaffInformation();
     }
 
