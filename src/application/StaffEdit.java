@@ -103,7 +103,7 @@ public class StaffEdit {
 
     /**
      * Saves profile information about the user
-     * @param event button is presed
+     * @param event button is pressed
      */
     @FXML
     void saveEditedProfile(MouseEvent event) {
