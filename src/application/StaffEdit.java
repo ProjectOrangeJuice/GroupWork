@@ -10,11 +10,13 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.SplitMenuButton;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
@@ -138,11 +140,13 @@ public class StaffEdit {
    			//conn.commit();
    			
    			conn.close();
+   			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-    	changeScene(event, "/fxml/profileScene.fxml");
+    	alertDone("Details have been saved");
+    	changeScene(event, "/fxml/LoginScene.fxml");
     }
     
     /**
@@ -184,5 +188,18 @@ public class StaffEdit {
 				
 		loadStaffInformation();
 	 }
+    
+    /**
+	 * Generate a popup.
+	 * @param text The text to be displayed.
+	 */
+	private void alertDone(String text) {
+		Alert alert = new Alert(AlertType.INFORMATION);
+		alert.setTitle("Information Dialog");
+		alert.setHeaderText(null);
+		alert.setContentText(text);
+
+		alert.showAndWait();
+	}
 
 }
