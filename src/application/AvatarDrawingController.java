@@ -93,13 +93,16 @@ public class AvatarDrawingController implements Initializable {
      */
     @FXML
     private Button saveImage;
+    
+	
+	private String prevScene;
 
     /**
      * Creates custom avatar controller.
      *
      * @param rootPane               the pane attached.
      * @param registerPrevController true if controller was created from register controller.
-     */
+    
     public AvatarDrawingController(Pane rootPane, boolean registerPrevController) {
         this.rootPane = rootPane;
         this.registerPrevController = registerPrevController;
@@ -112,12 +115,14 @@ public class AvatarDrawingController implements Initializable {
      * @param rootPane               The pane the custom avatar page is
      *                               attached to.
      * @param registerPrevController true if prev controller was register.
-     */
     public AvatarDrawingController(User user, Pane rootPane, Boolean registerPrevController) {
         this.user = user;
         this.rootPane = rootPane;
-        this.registerPrevController = registerPrevController;
-    }
+    } */
+	
+	public AvatarDrawingController() {
+		
+	}
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -289,6 +294,14 @@ public class AvatarDrawingController implements Initializable {
                 "/SavedAvatars"
                         + fileName);
     }
+    
+    public void setPrevScene(String prevScene) {
+    	this.prevScene = prevScene;
+    }
+    
+    public String getPrevScene() {
+    	return prevScene;
+    }
 
     /**
 	 * Sets new scene on stage within program using fxml file provided.
@@ -315,7 +328,7 @@ public class AvatarDrawingController implements Initializable {
     @FXML
     public void onBackAction(ActionEvent event) throws IOException {
         //Returns to profile page.
-        if (!registerPrevController) {
+        if (getPrevScene() == "profile") {
         	changeScene(event, "/fxml/profileScene.fxml");
         } else {
             RegisterController registerController = new RegisterController();
