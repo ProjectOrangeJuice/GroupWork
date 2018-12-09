@@ -441,7 +441,7 @@ public class ProfileController {
 				
 				imagePane.setOnMouseEntered(enterHandler);
 				imagePane.setOnMouseExited(exitHandler);
-				imagePane.setOnMouseClicked(clickHandler);
+				//imagePane.setOnMouseClicked(clickHandler);
 			}
 		}
 		//get user copies that they have requested.
@@ -526,7 +526,6 @@ public class ProfileController {
 				
 				imagePane.setOnMouseEntered(enterHandler);
 				imagePane.setOnMouseExited(exitHandler);
-				imagePane.setOnMouseClicked(clickHandler);
 				
 			}
 		}
