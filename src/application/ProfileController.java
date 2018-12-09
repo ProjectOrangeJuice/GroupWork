@@ -524,10 +524,16 @@ public class ProfileController {
 		loadUserInformation();
 		loadCopies();
 		loadRequested();
-		loadTables()
+
+	
 		
 		loadTables("users");
 		loadTables("all");
+
+		
+		loadTables("users");
+		//displayAll();
+
 		
 		scrollPane.setHvalue(0.5);
 	
@@ -543,8 +549,21 @@ public class ProfileController {
 	
 	@FXML
 	private void displayAll() {
+
 		System.out.println("Display All!");
 		loadTables("all");
+
+		loadTables("all");
+		
+		ObservableList<Copy> copiesList = FXCollections.observableArrayList();
+		
+		for (Resource res: ScreenManager.getResources()) {
+			copiesList.addAll(res.getCopies());
+		}
+		
+		staffCopiesExplorerTable.setItems(copiesList);
+		staffCopiesExplorerTable.autosize();		
+
 	}
 	
 	@FXML
@@ -556,6 +575,7 @@ public class ProfileController {
 	@FXML
 	private void displayRequested() {
 		System.out.println("Display Requested!");
+
 	}
 	
 	@FXML
@@ -571,7 +591,9 @@ public class ProfileController {
 	@FXML
 	private void returnCopy() {
 		System.out.println("Return copy!");
+
 	}
+	
 	
 	/**
 	 * Opens the profile editor when the button is clicked
@@ -593,7 +615,7 @@ public class ProfileController {
 		changeScene(event,"/fxml/drawAvatar.fxml");
 	}
 	
-<<<<<<< HEAD
+
 	//
 	// Manage Users Tab
 	//
@@ -601,12 +623,9 @@ public class ProfileController {
 	/**
 	 * Loads the user table so the staff can manage the users.
 	 */
-	private void loadTables() {
-=======
-
 	private void loadTables(String tableToLoad) {
 		//Manage Users Columns
->>>>>>> aafe31e85e305ed5ea15ea3f5e1ce4ed1aec9b1d
+
 		TableColumn<Person, String> usernameCol = new TableColumn<Person, String>("Username");
         usernameCol.setCellValueFactory(new PropertyValueFactory<>("username"));
 		
@@ -617,7 +636,7 @@ public class ProfileController {
 		lastnameCol.setCellValueFactory(new PropertyValueFactory<>("lastName"));
 		
 		TableColumn<Person, Integer> telephoneCol = new TableColumn<Person, Integer>("Telephone");
-		telephoneCol.setCellValueFactory(new PropertyValueFactory<>("telephone"));
+		telephoneCol.setCellValueFactory(new PropertyValueFactory<>("phoneNumber"));
 		
 		TableColumn<Person, String> addressCol = new TableColumn<Person, String>("Address");
 		addressCol.setCellValueFactory(new PropertyValueFactory<>("address"));
@@ -631,6 +650,7 @@ public class ProfileController {
 		TableColumn<Person, String> accountBalanceCol = new TableColumn<Person, String>("accountBalance");
 		accountBalanceCol.setCellValueFactory(new PropertyValueFactory<>("accountBalance"));
 		
+
 		staffUsersTable.getColumns().addAll(usernameCol, firstnameCol, lastnameCol,addressCol,postcodeCol,accountBalanceCol);
 		
 		//Copies Explorer columns.
@@ -675,6 +695,7 @@ public class ProfileController {
 	}
 	
 
+
 	/**
 	 * loads all the users from the table which aren't staff when the button is clicked
 	 * @param event the button being clicked
@@ -684,7 +705,6 @@ public class ProfileController {
 	// Staff: Manage Users
 	//
 	
-
 	@FXML
 	private void loadUsersTable(MouseEvent event) {
 		ObservableList<Person> usersList = FXCollections.observableArrayList();

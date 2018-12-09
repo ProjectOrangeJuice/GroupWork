@@ -40,12 +40,15 @@ public class ScreenManager {
 	public static void setCurrentResource(Resource resource) {
 		currentResource = resource;
 	}
+	
 	public static void setCurrentUser(Person currentUser) {
 		ScreenManager.currentUser = currentUser;
 	}
+	
 	public static ArrayList<Resource> getResources() {
 		return resources;
 	}
+	
 	public static void setResources(ArrayList<Resource> resources) {
 		ScreenManager.resources = resources;
 	}

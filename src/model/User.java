@@ -24,7 +24,7 @@ public class User extends Person {
 	
 	/**
 	 * Creates a new User object from the given arguments.
-	 * @param userName
+	 * @param username
 	 * @param firstName
 	 * @param lastName
 	 * @param phoneNumber
@@ -162,7 +162,7 @@ public class User extends Person {
 		try {
 			Connection conn = DBHelper.getConnection();
 			PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM copies WHERE keeper = ?");
-            pstmt.setString(1, userName);
+            pstmt.setString(1, username);
             ResultSet rs = pstmt.executeQuery();
             
             while(rs.next()) {
@@ -207,7 +207,7 @@ public class User extends Person {
 		Connection connectionToDB = DBHelper.getConnection();
 		PreparedStatement sqlStatement = connectionToDB.prepareStatement
 				("select distinct copyID from borrowRecords where username=?");
-		sqlStatement.setString(1, userName);
+		sqlStatement.setString(1, username);
 		ResultSet borrowedCopiesID = sqlStatement.executeQuery();
 	
 		sqlStatement = connectionToDB.prepareStatement("select rID from copies where copyID=?");

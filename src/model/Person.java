@@ -16,7 +16,7 @@ import javafx.scene.image.Image;
 public abstract class Person {
 	
 	/**The persons user name.*/
-	protected final String userName; 
+	protected final String username; 
 	
 	/**The persons first name.*/
 	private String firstName; 
@@ -38,7 +38,7 @@ public abstract class Person {
 
 	/**
 	 * Creates a new Person object from the given arguments.
-	 * @param userName
+	 * @param username
 	 * @param firstName
 	 * @param lastName
 	 * @param phoneNumber
@@ -47,7 +47,7 @@ public abstract class Person {
 	 * @param avatar
 	 */
 	public Person(String username, String firstName, String lastName, String phoneNumber, String address, String postcode, String avatarPath) {
-		this.userName = username;
+		this.username = username;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.phoneNumber = phoneNumber;
@@ -62,7 +62,7 @@ public abstract class Person {
 	 * @return userName String
 	 */
 	public String getUsername() {
-		return userName;
+		return username;
 	}
 
 	/**

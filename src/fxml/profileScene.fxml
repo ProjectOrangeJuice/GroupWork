@@ -10,7 +10,6 @@
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
-<?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.TitledPane?>
@@ -209,24 +208,19 @@
                                                 <ToolBar prefHeight="40.0" prefWidth="835.0">
                                                    <items>
                                                       <Label text="View: " />
-                                                      <Button fx:id="staffOverdueFilter" mnemonicParsing="false" onAction="#displayOverdue" text="Overdue" />
-                                                      <Button fx:id="staffRequestedFilter" mnemonicParsing="false" text="Requested" />
+                                                      <Button fx:id="staffAllFilter" mnemonicParsing="false" onMouseClicked="#displayAll" text="All" />
+                                                      <Button mnemonicParsing="false" onAction="#displayOverdue" onMouseClicked="#displayOverdue" text="Overdue" />
+                                                      <Button fx:id="staffRequestedFilter" mnemonicParsing="false" onMouseClicked="#displayRequested" text="Requested" />
                                                       <Label text="Search:" />
                                                       <TextField fx:id="staffCopyIDField" promptText="CopyID" />
-                                                      <Button fx:id="staffHistoryFind" mnemonicParsing="false" text="Copy History" />
-                                                      <Button fx:id="staffReturnCopyButton" mnemonicParsing="false" text="Return Copy" />
+                                                      <Button fx:id="staffHistoryFind" mnemonicParsing="false" onMouseClicked="#displayHistory" text="Copy History" />
+                                                      <Button fx:id="staffReturnCopy" mnemonicParsing="false" onMouseClicked="#returnCopy" text="Return Copy" />
+                                                      <Button fx:id="staffApproveCopy" mnemonicParsing="false" onMouseClicked="#approveCopy" text="Approve" />
                                                    </items>
                                                 </ToolBar>
                                                 <Pane prefHeight="698.0" prefWidth="1323.0" VBox.vgrow="ALWAYS">
                                                    <children>
-                                                      <TableView fx:id="staffCopiesExplorerTable" prefHeight="824.0" prefWidth="967.0">
-                                                         <columns>
-                                                            <TableColumn editable="false" prefWidth="75.0" text="Username" />
-                                                            <TableColumn editable="false" prefWidth="75.0" text="Title" />
-                                                            <TableColumn editable="false" prefWidth="75.0" text="CopyID" />
-                                                            <TableColumn editable="false" prefWidth="75.0" text="State" />
-                                                         </columns>
-                                                      </TableView>
+                                                      <TableView fx:id="staffCopiesExplorerTable" prefHeight="824.0" prefWidth="967.0" />
                                                    </children>
                                                 </Pane>
                                              </children>

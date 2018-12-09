@@ -135,7 +135,7 @@ public class CopyController {
 			ScreenManager.currentDVD = (DVD) ScreenManager.currentResource;
 			String director = ScreenManager.currentDVD.getDirector();
 			int runtime = ScreenManager.currentDVD.getRuntime();
-			String language = ScreenManager.currentDVD.getDirector();
+			String language = ScreenManager.currentDVD.getLanguage();
 
 			centertextarea.appendText(
 					"\ndirector: " + director + "\nruntime: " + Integer.toString(runtime) + "\nlanguage: " + language);

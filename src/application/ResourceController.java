@@ -80,17 +80,62 @@ public class ResourceController {
 		
 	}
 	
-	/**
-	 * Updates the book attributes
-	 * @param title of book
-	 * @param year of book
-	 * @param author of book
-	 * @param publish of book
-	 * @param genre of book
-	 * @param ISBN of book
-	 * @param language of book
-	 * @param img of book
-	 */
+
+	private void setupDVD() {
+		DVD dvd = (DVD) ScreenManager.getCurrentResource();
+		
+		HBox titleBox = new HBox();
+		Text titleText = new Text("Title");
+		TextField titleField = new TextField (dvd.getTitle());
+		titleBox.getChildren().addAll(titleText,titleField);
+		
+		HBox yearBox = new HBox();
+		Text yearText = new Text("Year");
+		TextField yearField = new TextField (String.valueOf(dvd.getYear()));
+		yearBox.getChildren().addAll(yearText,yearField);
+		
+		//the rest are not from resource
+		
+		HBox directorBox = new HBox();
+		Text directorText = new Text("Director");
+		TextField directorField = new TextField (dvd.getDirector());
+		directorBox.getChildren().addAll(directorText,directorField);
+		
+		HBox runtimeBox = new HBox();
+		Text runtimeText = new Text("Runtime");
+		TextField runtimeField = new TextField (String.valueOf(dvd.getRuntime()));
+		runtimeBox.getChildren().addAll(runtimeText,runtimeField);
+		
+		HBox langBox = new HBox();
+		Text langText = new Text("Language");
+		TextField langField = new TextField (dvd.getLanguage());
+		langBox.getChildren().addAll(langText,langField);
+		
+		HBox subtitlesBox = new HBox();
+		Text subtitlesText = new Text("Subtitle language");
+		
+		TextField subtitlesField = new TextField (dvd.getSubtitleLanguages());
+		subtitlesBox.getChildren().addAll(subtitlesText,subtitlesField);
+		
+		
+
+		HBox imgBox = new HBox();
+		Text imgText = new Text("Path to image");
+		TextField imgField = new TextField ();
+		imgBox.getChildren().addAll(imgText,imgField);
+		
+		
+		Button button = new Button("Save");
+		button.setOnAction(e -> {
+			//updateBook(titleField.getText(), yearField.getText(), Field.getText(), publishField.getText(), genreField.getText(), iField.getText(), languageField.getText(), imgField.getText());
+		});
+		
+		
+		resourceBlock.getChildren().addAll(titleBox,yearBox,directorBox,runtimeBox,langBox,subtitlesBox,imgBox,button);
+		
+	}
+	
+
 	private void updateBook(String title, String year, String author, String publish, String genre, String ISBN, String language, String img){
 		//Checks if the year is a number
 		boolean goAhead = true;
