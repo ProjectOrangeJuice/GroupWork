@@ -742,9 +742,8 @@ public class ProfileController {
 			e.printStackTrace();
 		}
 		
-		loadExplorerTableColumns("requested");
 		System.out.println("Approved copy!");
-		staffCopyIDField.setText("");
+		displayRequested();
 	}
 	
 	/**
@@ -752,9 +751,20 @@ public class ProfileController {
 	 */
 	@FXML
 	private void returnCopy() {
-		System.out.println("Return copy!");
-		staffCopyIDField.setText("");
-
+		ExplorerRow row  = (ExplorerRow) staffCopiesExplorerTable.getSelectionModel().getSelectedItem();
+		int copyID = row.getCopyID();
+		
+		for (Resource res : Resource.getResources()) {
+			for (Copy copy : res.getCopies()) {
+				if (copy.getCopyID() == copyID) {
+					res.processReturn(copy);
+				}
+			}
+		}
+		
+		
+		System.out.println("Returned copy!");
+		displayAll();
 	}
 	
 	private boolean checkCopyID(String copyID) {
