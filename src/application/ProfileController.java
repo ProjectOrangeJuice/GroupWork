@@ -402,13 +402,12 @@ public class ProfileController {
 	
 	@FXML
 	private void  reloadStuff(Event e) {
+
 		vResourceBox.getChildren().clear();
 		vResourceBox.getChildren().add(new HBox());
 		resourceImages.getChildren().clear();
 		
-		
 		Resource.loadDatabaseResources();
-		
 		loadResourceImages();
 		loadUserInformation();
 		loadCopies();

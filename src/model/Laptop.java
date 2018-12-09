@@ -20,12 +20,12 @@ public class Laptop extends Resource {
         try {
             Connection conn = DBHelper.getConnection(); // get the connection
             Statement stmt = conn.createStatement(); // prep a statement
-            ResultSet rs = stmt.executeQuery("SELECT resource.rID, resource.title, resource.year, manufacturer," +
+            ResultSet rs = stmt.executeQuery("SELECT resource.rID, resource.title, resource.year, resource.thumbnail, manufacturer," +
                 " model, os FROM laptop, resource WHERE resource.rID = laptop.rID");
 
             while (rs.next()) {
-
-                resources.add(new Laptop(rs.getInt("rID"), rs.getString("title"), rs.getInt("year"), null,
+            	Image resourceImage = new Image(rs.getString("thumbnail"), true);
+                resources.add(new Laptop(rs.getInt("rID"), rs.getString("title"), rs.getInt("year"), resourceImage,
                     rs.getString("manufacturer"), rs.getString("model"), rs.getString("os")));
             }
         }
