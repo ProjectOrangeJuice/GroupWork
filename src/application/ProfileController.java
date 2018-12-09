@@ -150,6 +150,8 @@ public class ProfileController {
 	@FXML
 	private Button staffAllFilter;
 	@FXML
+	private Button staffApproveCopy;
+	@FXML
 	private Button staffReturnCopy;
 	@FXML
 	private TextField staffCopyIDField;
