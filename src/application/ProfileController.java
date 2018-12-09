@@ -664,7 +664,20 @@ public class ProfileController {
 	@FXML
 	private void openProfileEditor(MouseEvent event) {
 		System.out.println("Launch staff editing profile.");
-		changeScene(event,"/fxml/StaffEdit.fxml");
+		
+		try {
+			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/StaffEdit.fxml"));
+            Parent root1 = (Parent) fxmlLoader.load();
+            Stage stage = new Stage();
+            stage.initModality(Modality.APPLICATION_MODAL);
+            //stage.initStyle(StageStyle.UNDECORATED);
+            stage.setTitle("Resource Information");
+            stage.setScene(new Scene(root1));  
+            stage.show();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	/**

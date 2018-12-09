@@ -1,5 +1,6 @@
 package application;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
@@ -25,10 +26,13 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Paint;
+import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.Window;
 import model.DBHelper;
 import model.Person;
+import model.SavedAvatar;
 import model.User;
 
 public class RegisterController implements Initializable {
@@ -100,6 +104,8 @@ public class RegisterController implements Initializable {
 	private Pane pane;
 
 	private String avatarPath = "/SavedAvatars/Avatar1.png";
+	
+	private Person user;
 
 
 	/**
@@ -436,7 +442,31 @@ public class RegisterController implements Initializable {
 	public void setAvatarImagePath(String path) {
 		this.avatarPath = path;
 	}
+	/**
+	@FXML
+	public void browseAvatarAction(MouseEvent event) {
+		FileChooser chooser = new FileChooser();
+		chooser.setTitle("Open Avatar");
+		chooser.showOpenDialog(browseButton.getScene().getWindow());
+		
+	}*/
+	@FXML protected void browseAvatarAction(ActionEvent event) {
+	    FileChooser chooser = new FileChooser();
+	    chooser.setTitle("Open File");
+	    File file = chooser.showOpenDialog(new Stage());
+	    avatarPath = file.getAbsolutePath();
+	}
 
+    /**
+     * Set the profile image of user.
+     *
+     * @param picName name of picture.
+    
+    private void setProfileImage() {
+    	avatarPath = file;
+        user.setAvatar(avatarPath);
+
+    } */
 
 	// TODO open system explorer to select avatar
 }
