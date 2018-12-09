@@ -194,6 +194,7 @@ public class AvatarDrawingController implements Initializable {
         //Get the absolute path of the project.
         File directory = new File("./");
         String path = directory.getAbsolutePath();
+      
         String fileName;
 
         //Checks whether it came from profile or register pages.
@@ -208,8 +209,14 @@ public class AvatarDrawingController implements Initializable {
             convertToFile(fileName, path);
 
             //Update system and database with new avatar.
+<<<<<<< HEAD
             SavedAvatar newAvatar = createSavedAvatar(fileName);
             user.setAvatar("/Group6/SavedAvatars/" + fileName);
+=======
+            //SavedAvatar newAvatar = createSavedAvatar(path);
+            user.setAvatar("SavedAvatars/" + fileName);
+            changeScene(event, "/fxml/profileScene.fxml");
+>>>>>>> 84c0c4308c6470c8d9d32d387f529bb922d4d710
             
             
         } else {
@@ -217,11 +224,16 @@ public class AvatarDrawingController implements Initializable {
             fileName = System.currentTimeMillis() + ".png";
 
             convertToFile(fileName, path);
-
-            createSavedAvatar(fileName);
+   
+            String total = path.substring(0, path.length()-1)+"src/SaveAvatar/"+fileName;
+            createSavedAvatar(total);
 
             //Set the relative path.
+<<<<<<< HEAD
             customDrawingFileLocation = "/Group6/SavedAvatars/"
+=======
+            customDrawingFileLocation = "SavedAvatars/"
+>>>>>>> 84c0c4308c6470c8d9d32d387f529bb922d4d710
                     + fileName;
         }
     }
@@ -237,8 +249,14 @@ public class AvatarDrawingController implements Initializable {
         //Create path for File class as absolute path to project
 
         path = path.substring(0, path.length() - 2)
+<<<<<<< HEAD
                 + "/Group6/SavedAvatars/"
+=======
+                + "/src/SavedAvatars/"
+>>>>>>> 84c0c4308c6470c8d9d32d387f529bb922d4d710
                 + fileName;
+        
+   
 
         //Create the file that will be saved.
         File file = new File(path);
@@ -270,9 +288,13 @@ public class AvatarDrawingController implements Initializable {
      */
     public SavedAvatar createSavedAvatar(String fileName) {
         //Create a new Saved Avatar.
+<<<<<<< HEAD
         return new SavedAvatar(
                 "/Group6/SavedAvatars/"
                         + fileName);
+=======
+        return new SavedAvatar(fileName);
+>>>>>>> 84c0c4308c6470c8d9d32d387f529bb922d4d710
     }
 
     /**
