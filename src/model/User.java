@@ -158,6 +158,28 @@ public class User extends Person {
 		return false;
 	} 
 	
+	public ArrayList<Resource> loadUserHistory() {
+		
+		ArrayList<Resource> borrowHistory = new ArrayList<Resource>();
+		
+		try {
+			Connection conn = DBHelper.getConnection();
+			PreparedStatement pstmt = conn.prepareStatement("SELECT copyId, rId FROM borrowRecords, copies WHERE username = ? "
+			+ "AND copies.copyId = borrowRecords.copyId");
+            pstmt.setString(1, username);
+            ResultSet rs = pstmt.executeQuery();
+            
+            while(rs.next()) {
+            	borrowHistory.add(Resource.getResource(rs.getInt("rID")));
+            }
+		} catch (SQLException e) { 
+			System.out.println("Failed to load user history;");
+			e.printStackTrace();
+		}
+		
+		return borrowHistory;
+	}
+	
 	public void loadUserCopies() {
 		try {
 			Connection conn = DBHelper.getConnection();
