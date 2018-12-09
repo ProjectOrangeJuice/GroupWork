@@ -538,6 +538,11 @@ public class ProfileController {
 	}
 	
 	@FXML
+	private void approveCopy() {
+		System.out.println("Approve copy!");
+	}
+	
+	@FXML
 	private void returnCopy() {
 		System.out.println("Return copy!");
 	}
