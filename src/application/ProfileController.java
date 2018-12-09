@@ -429,38 +429,6 @@ public class ProfileController {
 	
 	
 	/**
-	 * Method that loads copies that the user is currently borrowing
-	 */
-	private void loadCopies() {
-		if (currentUser instanceof User) {
-			
-			//get user copies that they're currently borrowing.
-			((User) currentUser).loadUserCopies();
-			ArrayList<Copy> userCopies = ((User) currentUser).getBorrowedCopies();
-			System.out.println("sizee: " + userCopies.size());
-			for(int i = 0 ; i < userCopies.size() ; i++) {
-				System.out.println(userCopies.get(i).getResource().getTitle());
-				Resource copyResource = userCopies.get(i).getResource();
-				
-				StackPane imagePane = createImage(copyResource, COPY_IMG_WIDTH, COPY_IMG_HEIGHT);
-				
-				((ImageView) imagePane.getChildren().get(2)).setFitWidth(COPY_IMG_WIDTH);
-				((ImageView) imagePane.getChildren().get(2)).setImage(new Image("/graphics/borrowed.png"));
-				((ImageView) imagePane.getChildren().get(2)).setPreserveRatio(true);
-				
-				resourceImages.getChildren().add(imagePane);
-				
-				imagePane.setOnMouseEntered(enterHandler);
-				imagePane.setOnMouseExited(exitHandler);
-				//imagePane.setOnMouseClicked(clickHandler);
-			}
-		}
-		//get user copies that they have requested.
-
-	}
-	
-	
-	/**
 	 * Loads resource images from Resource class, so that they can
 	 * be displayed within the UI.
 	 */
@@ -517,42 +485,15 @@ public class ProfileController {
 		
 	}
 	
-	/**
-	 * Loads the resources that have been requested so the librarian can confirm then
-	 */
-	@FXML
-	private void loadRequested() {
+	private void loadCopyImages(ArrayList<Resource> resources, String bannerName) {
 		
 		if(currentUser instanceof User) {
-			ArrayList<Resource> requestedResources = ((User) currentUser).getRequestedResources();
-			System.out.println("request size: " + requestedResources.size());
-			for(Resource request : requestedResources) {
-				
-				StackPane imagePane = createImage(request, COPY_IMG_WIDTH, COPY_IMG_HEIGHT);
-				
-				((ImageView) imagePane.getChildren().get(2)).setFitWidth(COPY_IMG_WIDTH);
-				((ImageView) imagePane.getChildren().get(2)).setImage(new Image("/graphics/requested.png"));
-				((ImageView) imagePane.getChildren().get(2)).setPreserveRatio(true);
-				
-				resourceImages.getChildren().add(imagePane);
-				
-				imagePane.setOnMouseEntered(enterHandler);
-				imagePane.setOnMouseExited(exitHandler);
-				
-			}
-		}
-	}
-	
-	@FXML
-	private void loadBorrowHistory() {
-		if(currentUser instanceof User) {
-			ArrayList<Resource> borrowHistory = ((User) currentUser).loadUserHistory();
-			for(Resource resource : borrowHistory) {
+			for(Resource resource : resources) {
 				
 				StackPane imagePane = createImage(resource, COPY_IMG_WIDTH, COPY_IMG_HEIGHT);
 				
 				((ImageView) imagePane.getChildren().get(2)).setFitWidth(COPY_IMG_WIDTH);
-				((ImageView) imagePane.getChildren().get(2)).setImage(new Image("/graphics/returned.png"));
+				((ImageView) imagePane.getChildren().get(2)).setImage(new Image("/graphics/" + bannerName));
 				((ImageView) imagePane.getChildren().get(2)).setPreserveRatio(true);
 				
 				resourceImages.getChildren().add(imagePane);
@@ -563,6 +504,38 @@ public class ProfileController {
 				
 			}
 		}
+	}
+	
+	/**
+	 * Method that loads copies that the user is currently borrowing
+	 */
+	private void loadCopies() {
+		
+		((User) currentUser).loadUserCopies();
+		ArrayList<Copy> userCopies = ((User) currentUser).getBorrowedCopies();
+		ArrayList<Resource> copyResources = new ArrayList<Resource>();
+		
+		for(Copy copy : userCopies) {
+			copyResources.add(copy.getResource());
+		}
+		
+		loadCopyImages(copyResources, "borrowed.png");
+
+	}
+	
+	/**
+	 * Loads the resources that have been requested so the librarian can confirm then
+	 */
+	@FXML
+	private void loadRequested() {
+		ArrayList<Resource> requestedResources = ((User) currentUser).getRequestedResources();
+		loadCopyImages(requestedResources, "requested.png");
+	}
+	
+	@FXML
+	private void loadBorrowHistory() {
+		ArrayList<Resource> borrowHistory = ((User) currentUser).loadUserHistory();
+		loadCopyImages(borrowHistory, "returned.png");
 	}
 
 	/**
