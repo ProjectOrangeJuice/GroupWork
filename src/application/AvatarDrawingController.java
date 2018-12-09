@@ -33,6 +33,7 @@ import model.Avatar;
 import model.Circle;
 import model.CustomAvatar;
 import model.ParticleTrace;
+import model.Person;
 import model.SavedAvatar;
 import model.StraightLine;
 
@@ -47,7 +48,7 @@ public class AvatarDrawingController implements Initializable {
     public static final double MOUSE_RESET_POSITION = -1;
     private double mouseX; //The last recorded x position of the mouse.
     private double mouseY; //The last recorded y position of the mouse.
-    private User user; //The user the custom avatar is being created for.
+    private Person user; //The user the custom avatar is being created for.
     private CustomAvatar customAvatar;//The customAvatar that is created.
     private ParticleTrace currentParticleTrace;//The current particle trace being drawn.
   //  private Pane rootPane;//The pane the custom avatar page is attached to. 
@@ -328,10 +329,8 @@ public class AvatarDrawingController implements Initializable {
     @FXML
     public void onBackAction(ActionEvent event) throws IOException {
         //Returns to profile page.
-        if (getPrevScene() == "profile") {
-        	changeScene(event, "/fxml/profileScene.fxml");
-        } else {
-            RegisterController registerController = new RegisterController();
+        if (getPrevScene() !="profile") {
+        	RegisterController registerController = new RegisterController();
             //If user has created an image, get the file path.
             if (!customDrawingFileLocation.equals("")) {
                 registerController.setAvatarImagePath(customDrawingFileLocation);
@@ -339,6 +338,9 @@ public class AvatarDrawingController implements Initializable {
 
             //Load up register page with the new saved avatar.
             changeScene(event, "/fxml/registerScene.fxml");
+        	
+        } else {
+        	changeScene(event, "/fxml/profileScene.fxml");
         }
     }
 
@@ -389,5 +391,9 @@ public class AvatarDrawingController implements Initializable {
         currentParticleTrace.addToTrace(circle);
         circle.displayComponent(canvas);
     }
+
+	public void setUser(Person user) {
+		this.user = user;
+	}
 }
 

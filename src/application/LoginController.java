@@ -7,6 +7,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
@@ -23,6 +24,13 @@ public class LoginController {
 	
 	@FXML
 	private Label errorLabel;
+	
+	@FXML
+	private Button registerButton;
+	
+	@FXML
+	private Button loginButton;
+	
 	
 	/**
 	 * Sets new scene on stage within program using fxml file provided.
