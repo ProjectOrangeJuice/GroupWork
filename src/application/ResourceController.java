@@ -4,6 +4,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -80,6 +81,9 @@ public class ResourceController {
 		
 	}
 	
+	
+	
+	
 /**
  * setups the DVD resource
  */
@@ -138,10 +142,100 @@ public class ResourceController {
 		
 	}
 	
+	
+	
+/**
+ * setups the Laptop resource
+ */
+	private void setupLaptop() {
+		Laptop laptop = (Laptop) ScreenManager.getCurrentResource();
+		
+		//sets up the common attributes of all resrouces
+		HBox titleBox = new HBox();
+		Text titleText = new Text("Title");
+		TextField titleField = new TextField (laptop.getTitle());
+		titleBox.getChildren().addAll(titleText,titleField);
+		
+		HBox yearBox = new HBox();
+		Text yearText = new Text("Year");
+		TextField yearField = new TextField (String.valueOf(laptop.getYear()));
+		yearBox.getChildren().addAll(yearText,yearField);
+		
+		//the rest are not from resource
+		
+		HBox manuBox = new HBox();
+		Text manuText = new Text("Manufacturer");
+		TextField manuField = new TextField (laptop.getManufacturer());
+		manuBox.getChildren().addAll(manuText,manuField);
+		
+		HBox modelBox = new HBox();
+		Text modelText = new Text("Model");
+		TextField modelField = new TextField (String.valueOf(laptop.getModel()));
+		modelBox.getChildren().addAll(modelText,modelField);
+		
+		HBox OSBox = new HBox();
+		Text OSText = new Text("OS");
+		TextField OSField = new TextField (laptop.getOS());
+		OSBox.getChildren().addAll(OSText,OSField);
+	
+		HBox imgBox = new HBox();
+		Text imgText = new Text("Path to image");
+		TextField imgField = new TextField ();
+		imgBox.getChildren().addAll(imgText,imgField);
+		
+		
+		Button button = new Button("Save");
+		button.setOnAction(e -> {
+			updateLaptop(titleField.getText(),yearField.getText(),manuField.getText(),modelField.getText(),OSField.getText(),imgField.getText());
+		});
+		
+		
+		resourceBlock.getChildren().addAll(titleBox,yearBox,manuBox,modelBox,OSBox,imgBox,button);
+		
+	}
+	
 
+	private void updateLaptop(String title,String year,String manu,String model,String OS, String img) {
+		//Checks if the year is a number
+				boolean goAhead = true;
+				Image image = null;
+				try {
+					Integer.parseInt(year);
+				}catch (NumberFormatException  e) {
+					goAhead = false;
+					alertDone("Year must be a number");
+				}
+				try {
+					if(!img.equals("")) {
+					image = new Image(img,true);
+					}
+				}catch (Exception e) {
+					goAhead = false;
+					alertDone("Image not found");
+				}
+				if(goAhead) {
+					Laptop laptop = (Laptop) ScreenManager.getCurrentResource();
+					if(!img.equals("")) {
+						laptop.setThumbnail(image);
+						}
+					laptop.setTitle(title);
+					laptop.setYear(Integer.parseInt(year));
+					laptop.setManufacturer(manu);
+					laptop.setModel(model);
+					laptop.setOS(OS);
+					
+					
+				}
+		
+		
+		
+	}
+	
+	
 	private void updateBook(String title, String year, String author, String publish, String genre, String ISBN, String language, String img){
 		//Checks if the year is a number
 		boolean goAhead = true;
+		Image image = null;
 		try {
 			Integer.parseInt(year);
 		}catch (NumberFormatException  e) {
@@ -149,9 +243,22 @@ public class ResourceController {
 			alertDone("Year must be a number");
 		}
 		
+		try {
+			if(!img.equals("")) {
+			image = new Image(img,true);
+			}
+		}catch (Exception e) {
+			goAhead = false;
+			System.out.println(e);
+			alertDone("Image not found");
+		}
+		
 		//If the year is a number, update the book attributes
 		if (goAhead) {
 			Book resource = (Book) ScreenManager.getCurrentResource();
+			if(!img.equals("")) {
+				resource.setThumbnail(image);
+				}
 			resource.setTitle(title);
 			resource.setYear(Integer.parseInt(year));
 			resource.setAuthor(author);
@@ -159,6 +266,7 @@ public class ResourceController {
 			resource.setGenre(genre);
 			resource.setISBN(ISBN);
 			resource.setLanguage(language);
+
 			alertDone("To see changes, logout and login again");
 			
 		}
@@ -167,12 +275,22 @@ public class ResourceController {
 	
 	private void updateDVD(String title, String year, String director, String runtime, String language, String subtitles, String img){
 		boolean goAhead = true;
+		Image image = null;
 		try {
 			Integer.parseInt(year);
 			Integer.parseInt(runtime);
 		}catch (NumberFormatException  e) {
 			goAhead = false;
 			alertDone("Year and runtime must be a number");
+		}
+		
+		try {
+			if(!img.equals("")) {
+			image = new Image(img,true);
+			}
+		}catch (Exception e) {
+			goAhead = false;
+			alertDone("Image not found");
 		}
 		
 		if (goAhead) {
@@ -188,6 +306,9 @@ public class ResourceController {
 				resource.addSubtitle(sub);
 			}
 			
+			if(!img.equals("")) {
+				resource.setThumbnail(image);
+				}
 			resource.setRuntime(Integer.parseInt(runtime));
 			
 			alertDone("To see changes, logout and login again");
@@ -218,7 +339,7 @@ public class ResourceController {
 		}else if(resource instanceof Book) {
 			setupBook();
 		}else if(resource instanceof Laptop) {
-			
+			setupLaptop();
 		}
 	}
 	
