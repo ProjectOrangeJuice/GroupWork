@@ -9,19 +9,20 @@ import javafx.scene.paint.Color;
  * @version 1.0
  */
 public class StraightLine extends AvatarComponent {
-    private double[] finishPosition; //The point at which the straight line finishes.
+    // The point at which the straight line finishes.
+    private double[] finishPosition;
 
     /**
      * Creates a straight line.
      *
-     * @param xStartPosition  The x start position.
-     * @param yStartPosition  The y start position.
+     * @param xStartPosition The x start position.
+     * @param yStartPosition The y start position.
      * @param xFinishPosition The x end position.
      * @param yFinishPosition The y end position.
-     * @param colour          The colour of the straight line.
+     * @param colour The colour of the straight line.
      */
     public StraightLine(double xStartPosition, double yStartPosition,
-                        double xFinishPosition, double yFinishPosition, Color colour) {
+        double xFinishPosition, double yFinishPosition, Color colour) {
         super(xStartPosition, yStartPosition, colour);
         finishPosition = new double[NO_OF_DIMENSIONS];
         this.finishPosition[X_INDEX] = xFinishPosition;
@@ -66,6 +67,7 @@ public class StraightLine extends AvatarComponent {
 
     /**
      * Converts a straight line to a string.
+     * @return a string representation of the straight line.
      */
     public String toString() {
         String result = "";
@@ -82,7 +84,7 @@ public class StraightLine extends AvatarComponent {
         graphicsContext.setFill(getColour());
         graphicsContext.setStroke(getColour());
         graphicsContext.strokeLine(getXStartPosition(), getYStartPosition(),
-                getXFinishPosition(), getYFinishPosition());
+            getXFinishPosition(), getYFinishPosition());
     }
 
 }

@@ -1,10 +1,12 @@
 package application;
 
+import java.io.File;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 
 import javafx.beans.property.SimpleStringProperty;
@@ -46,6 +48,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
+import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -245,30 +248,23 @@ public class ProfileController {
 	 */
 	private void loadUserInformation() {
 		if (ScreenManager.getCurrentUser() instanceof User) {
-			//get all information in about user from ScreenManager class.
-			String username = currentUser.getUsername();
-			String fullname = currentUser.getFirstName() + " " + currentUser.getLastName();
-			String address = currentUser.getAddress();
-			String postcode = currentUser.getPostcode();
-			String phoneNumber = currentUser.getPhoneNumber();
-			String avatarPath = currentUser.getAvatar();
-			
+
 			//change text in labels to appropriate user information.
-			userLabel.setText(username);
-			fullnameLabel.setText(fullnameLabel.getText() + " " + fullname);
-			addressLabel.setText(addressLabel.getText() + " " + address);
-			postcodeLabel.setText(postcodeLabel.getText() + " " + postcode);
-			phoneLabel.setText(phoneLabel.getText() + " " + phoneNumber);
+			userLabel.setText(currentUser.getUsername());
+			fullnameLabel.setText("Full Name: " + currentUser.getFirstName() + " "
+			+ currentUser.getLastName());
+			addressLabel.setText("Address: " + currentUser.getAddress());
+			postcodeLabel.setText("Post Code: " + currentUser.getPostcode());
+			phoneLabel.setText("Phone Number: " + currentUser.getPhoneNumber());
 			
 			Double userBalance = ((User) currentUser).getAccountBalance();
 			accountBalance.setText("£" + Double.toString(userBalance));
 			
-			userAvatarView.setImage(new Image(avatarPath));
+			userAvatarView.setImage(new Image(currentUser.getAvatar()));
 		}else {
 			//get all information in about user from ScreenManager class.
 			Librarian staff = (Librarian) currentUser;
 			String fullname = staff.getFirstName() + " " + staff.getLastName();
-			String avatarPath = currentUser.getAvatar();
 			
 			userLabel1.setText(staff.getUsername());
 			fullnameLabel1.setText(fullnameLabel1.getText() + " " + fullname);
@@ -278,7 +274,7 @@ public class ProfileController {
 			dateLabel1.setText(dateLabel1.getText() + " " + staff.getEmploymentDate());
 			staffIDLabel1.setText(staffIDLabel1.getText() + " " + staff.getStaffID());
 			
-			staffAvatarView.setImage(new Image(avatarPath));
+			staffAvatarView.setImage(new Image(currentUser.getAvatar()));
 		}
 	}
 	
@@ -287,8 +283,8 @@ public class ProfileController {
 	 */
 	final EventHandler<MouseEvent> enterHandler = event -> {
 		StackPane currentPane = (StackPane) event.getSource();
+		currentPane.getChildren().get(4).setVisible(true);
 		currentPane.getChildren().get(3).setVisible(true);
-		currentPane.getChildren().get(2).setVisible(true);
 	};
 	
 	/**
@@ -296,8 +292,8 @@ public class ProfileController {
 	 */
 	final EventHandler<MouseEvent> exitHandler = event -> {
 		StackPane currentPane = (StackPane) event.getSource();
+		currentPane.getChildren().get(4).setVisible(false);
 		currentPane.getChildren().get(3).setVisible(false);
-		currentPane.getChildren().get(2).setVisible(false);
 	};
 	
 	final EventHandler<MouseEvent> clickHandler = event -> {
@@ -334,8 +330,17 @@ public class ProfileController {
 	 */
 	private StackPane createImage(Resource copyResource, int width, int height) {
 		
+		//create stackpane to add image layers to.
 		StackPane imagePane = new StackPane();
 		
+		//create white backround just in case image is small.
+		Rectangle background = new Rectangle();
+		background.setWidth(width);
+		background.setHeight(height);
+		background.setFill(Color.WHITE);
+		
+		//create text containing resource information
+		//this text only shows when mouse enters image.
 		Text resourceText = new Text();
 		resourceText.setFont(Font.font("Arial", 20));
 		resourceText.setStyle("-fx-font-weight: bold");
@@ -344,24 +349,35 @@ public class ProfileController {
 		copyResource.getTitle() + "\n" + copyResource.getYear());
 		resourceText.setVisible(false);
 		resourceText.setTextAlignment(TextAlignment.CENTER);
+		resourceText.setWrappingWidth(width);
 		
-		//create new resource image to be added.
+		//create imageview containg resource image.
 		ImageView image = new ImageView();
 		image.setFitWidth(width);
 		image.setFitHeight(height);
 		image.setImage(copyResource.getThumbnail());
 		
+		//if image is of a laptop, keep aspect ratio.
+		if(copyResource instanceof Laptop) {
+			image.setPreserveRatio(true);
+		}
+		
+		//make image as smooth as possible.
 		image.setCache(true);
 		image.setCacheHint(CacheHint.SCALE);
 		image.setSmooth(true);
 		
+		//add black colour overlay
+		//only shows when mouse is in image.
 		Rectangle rect = new Rectangle();
 		rect.setWidth(width);
 		rect.setHeight(height);
 		rect.setFill(Color.BLACK);
 		rect.setOpacity(0.7);
 		rect.setVisible(false);
-	
+		
+		//add all elements to stack pane.
+		imagePane.getChildren().add(background);
 		imagePane.getChildren().add(image);
 		imagePane.getChildren().add(new ImageView());
 		imagePane.getChildren().add(rect);
@@ -400,45 +416,19 @@ public class ProfileController {
 	
 	
 	@FXML
-	private void  reloadStuff(Event e) {
-		Resource.loadDatabaseResources();
+	private void  reloadVisuals(Event e) {
+
 		vResourceBox.getChildren().clear();
 		vResourceBox.getChildren().add(new HBox());
-		loadResourceImages();
-
+		resourceImages.getChildren().clear();
 		
-	}
-	
-	
-	/**
-	 * Method that loads copies that the user is currently borrowing
-	 */
-	private void loadCopies() {
-		if (currentUser instanceof User) {
-			
-			//get user copies that they're currently borrowing.
-			((User) currentUser).loadUserCopies();
-			ArrayList<Copy> userCopies = ((User) currentUser).getBorrowedCopies();
-			
-			for(int i = 0 ; i < userCopies.size() ; i++) {
-				System.out.println(userCopies.get(i).getResource().getTitle());
-				Resource copyResource = userCopies.get(i).getResource();
-				
-				StackPane imagePane = createImage(copyResource, COPY_IMG_WIDTH, COPY_IMG_HEIGHT);
-				
-				((ImageView) imagePane.getChildren().get(1)).setFitWidth(COPY_IMG_WIDTH);
-				((ImageView) imagePane.getChildren().get(1)).setImage(new Image("/graphics/borrowed.png"));
-				((ImageView) imagePane.getChildren().get(1)).setPreserveRatio(true);
-				
-				resourceImages.getChildren().add(imagePane);
-				
-				imagePane.setOnMouseEntered(enterHandler);
-				imagePane.setOnMouseExited(exitHandler);
-				imagePane.setOnMouseClicked(clickHandler);
-			}
-		}
-		//get user copies that they have requested.
-
+		Resource.loadDatabaseResources();
+		loadResourceImages();
+		loadUserInformation();
+		loadCopies();
+		loadRequested();
+		loadBorrowHistory();
+		
 	}
 	
 	
@@ -469,6 +459,7 @@ public class ProfileController {
 			
 			//get last image in last resource HBox.
 			HBox latestHBox = (HBox) vResourceBox.getChildren().get(vResourceBox.getChildren().size() - 1);
+			latestHBox.setSpacing(5);
 			
 			//if there is at least one image in last resource HBox
 			if(!latestHBox.getChildren().isEmpty()) {
@@ -498,52 +489,62 @@ public class ProfileController {
 		
 	}
 	
+	private void loadCopyImages(ArrayList<Resource> resources, String bannerName) {
+
+		for(Resource resource : resources) {
+			
+			StackPane imagePane = createImage(resource, COPY_IMG_WIDTH, COPY_IMG_HEIGHT);
+			
+			((ImageView) imagePane.getChildren().get(2)).setFitWidth(COPY_IMG_WIDTH);
+			((ImageView) imagePane.getChildren().get(2)).setImage(new Image("/graphics/" + bannerName));
+			((ImageView) imagePane.getChildren().get(2)).setPreserveRatio(true);
+			
+			resourceImages.getChildren().add(imagePane);
+			
+			imagePane.setOnMouseEntered(enterHandler);
+			imagePane.setOnMouseExited(exitHandler);
+			imagePane.setOnMouseClicked(clickHandler);
+				
+			}
+	}
+	
+	/**
+	 * Method that loads copies that the user is currently borrowing
+	 */
+	private void loadCopies() {
+		
+		if(currentUser instanceof User) {
+			((User) currentUser).loadUserCopies();
+			ArrayList<Copy> userCopies = ((User) currentUser).getBorrowedCopies();
+			ArrayList<Resource> copyResources = new ArrayList<Resource>();
+			
+			for(Copy copy : userCopies) {
+				copyResources.add(copy.getResource());
+			}
+			
+			loadCopyImages(copyResources, "borrowed.png");
+		}
+		
+
+	}
+	
 	/**
 	 * Loads the resources that have been requested so the librarian can confirm then
 	 */
 	@FXML
 	private void loadRequested() {
-		
 		if(currentUser instanceof User) {
 			ArrayList<Resource> requestedResources = ((User) currentUser).getRequestedResources();
-			System.out.println("request size: " + requestedResources.size());
-			for(Resource request : requestedResources) {
-				
-				StackPane imagePane = createImage(request, COPY_IMG_WIDTH, COPY_IMG_HEIGHT);
-				
-				((ImageView) imagePane.getChildren().get(1)).setFitWidth(COPY_IMG_WIDTH);
-				((ImageView) imagePane.getChildren().get(1)).setImage(new Image("/graphics/requested.png"));
-				((ImageView) imagePane.getChildren().get(1)).setPreserveRatio(true);
-				
-				resourceImages.getChildren().add(imagePane);
-				
-				imagePane.setOnMouseEntered(enterHandler);
-				imagePane.setOnMouseExited(exitHandler);
-				imagePane.setOnMouseClicked(clickHandler);
-				
-			}
+			loadCopyImages(requestedResources, "requested.png");
 		}
+		
 	}
 	
 	@FXML
 	private void loadBorrowHistory() {
 		if(currentUser instanceof User) {
 			ArrayList<Resource> borrowHistory = ((User) currentUser).loadUserHistory();
-			for(Resource resource : borrowHistory) {
-				
-				StackPane imagePane = createImage(resource, COPY_IMG_WIDTH, COPY_IMG_HEIGHT);
-				
-				((ImageView) imagePane.getChildren().get(1)).setFitWidth(COPY_IMG_WIDTH);
-				((ImageView) imagePane.getChildren().get(1)).setImage(new Image("/graphics/returned.png"));
-				((ImageView) imagePane.getChildren().get(1)).setPreserveRatio(true);
-				
-				resourceImages.getChildren().add(imagePane);
-				
-				imagePane.setOnMouseEntered(enterHandler);
-				imagePane.setOnMouseExited(exitHandler);
-				imagePane.setOnMouseClicked(clickHandler);
-				
-			}
+			loadCopyImages(borrowHistory, "returned.png");
 		}
 	}
 
@@ -555,15 +556,11 @@ public class ProfileController {
 		
 		currentUser = ScreenManager.getCurrentUser();
 		resources = ScreenManager.getResources();
-		
-		loadResourceImages();
-		loadUserInformation();
-		loadCopies();
-		loadRequested();
-		loadBorrowHistory();
 
 		loadUserTableColumns();
-		//displayAll();
+		displayAll();
+		
+		loadResourceImages();
 
 		scrollPane.setHvalue(0.5);
 	
@@ -584,16 +581,32 @@ public class ProfileController {
 		staffReturnCopy.setDisable(false);
 		
 		loadExplorerTableColumns("all");
-		
-		ObservableList<Copy> copiesList = FXCollections.observableArrayList();
-		
-		for (Resource res: ScreenManager.getResources()) {
-			copiesList.addAll(res.getCopies());
+		ObservableList<ExplorerRow> copiesList = FXCollections.observableArrayList();
+
+		try {
+			Connection conn = DBHelper.getConnection();
+			Statement stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery("SELECT * FROM copies, resource WHERE copies.rID = resource.rID");
+			
+			while(rs.next()) {
+				copiesList.add(new ExplorerRow(
+						rs.getString(9),
+						rs.getString(3),
+						rs.getInt(1),
+						rs.getInt(2),
+						rs.getInt(4),
+						rs.getString(5),
+						rs.getString(6),
+						rs.getString(7)
+						));
+			}
+				
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
 		
 		staffCopiesExplorerTable.setItems(copiesList);
 		staffCopiesExplorerTable.autosize();		
-
 	}
 	
 	/**
@@ -605,8 +618,31 @@ public class ProfileController {
 		staffApproveCopy.setDisable(true);
 		staffReturnCopy.setDisable(false);
 		
-		System.out.println("Display Overdue!");
 		loadExplorerTableColumns("overdue");
+		ObservableList<ExplorerRow> copiesList = FXCollections.observableArrayList();
+
+		try {
+			Connection conn = DBHelper.getConnection();
+			Statement stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery("SELECT * FROM fines, resource, copies WHERE fines.rID = resource.rID AND copies.rID = resource.rID AND copies.keeper = fines.username");
+			
+			while(rs.next()) {
+				copiesList.add(new ExplorerRow(
+						rs.getString(9),
+						rs.getString(2),
+						rs.getInt(12),
+						rs.getInt(3),
+						rs.getString(16),
+						rs.getString(18)
+						));
+			}
+				
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		staffCopiesExplorerTable.setItems(copiesList);
+		staffCopiesExplorerTable.autosize();
 	}
 	
 	/**
@@ -617,8 +653,28 @@ public class ProfileController {
 		staffHistoryFind.setDisable(true);
 		staffApproveCopy.setDisable(false);
 		staffReturnCopy.setDisable(true);
-		System.out.println("Display Requested!");
+		
+		loadExplorerTableColumns("requested");
+		ObservableList<ExplorerRow> copiesList = FXCollections.observableArrayList();
 
+		try {
+			Connection conn = DBHelper.getConnection();
+			Statement stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery("SELECT * FROM requestsToApprove, users where requestsToApprove.userName = users.username");
+			
+			while(rs.next()) {
+				copiesList.add(new ExplorerRow(
+						rs.getString(2),
+						rs.getInt(1)
+						));
+			}
+				
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		staffCopiesExplorerTable.setItems(copiesList);
+		staffCopiesExplorerTable.autosize();
 	}
 	
 	/**
@@ -626,7 +682,41 @@ public class ProfileController {
 	 */
 	@FXML
 	private void displayHistory() {
-		System.out.println("Display History!");
+		String copyID = staffCopyIDField.getText();
+		if (copyID.equals("")) {
+			System.out.println("No copyID entered!");
+		
+		} else {
+			if (checkCopyID(copyID) == true) {
+				loadExplorerTableColumns("history");
+				ObservableList<ExplorerRow> historyList = FXCollections.observableArrayList();
+
+				try {
+					Connection conn = DBHelper.getConnection();
+					PreparedStatement sqlStatement = conn.prepareStatement("SELECT * FROM borrowRecords WHERE copyID = ?");
+					sqlStatement.setInt(1, Integer.parseInt(copyID));
+					ResultSet rs = sqlStatement.executeQuery();
+					
+					while(rs.next()) {
+
+						historyList.add(new ExplorerRow(
+								rs.getInt(2),
+								rs.getString(3),
+								rs.getString(4)));
+					}
+						
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+				
+				staffCopiesExplorerTable.setItems(historyList);
+				staffCopiesExplorerTable.autosize();
+				
+			} else {
+				System.out.println("Copy not found!");
+				staffCopyIDField.setText("");
+			}
+		}
 	}
 	
 	/**
@@ -635,6 +725,7 @@ public class ProfileController {
 	@FXML
 	private void approveCopy() {
 		System.out.println("Approve copy!");
+		staffCopyIDField.setText("");
 	}
 	
 	/**
@@ -643,7 +734,24 @@ public class ProfileController {
 	@FXML
 	private void returnCopy() {
 		System.out.println("Return copy!");
+		staffCopyIDField.setText("");
 
+	}
+	
+	private boolean checkCopyID(String copyID) {
+		try {
+			Connection conn = DBHelper.getConnection();
+			PreparedStatement sqlStatement = conn.prepareStatement("SELECT COUNT(*) FROM copies WHERE copyID = ?");
+			sqlStatement.setString(1, copyID);
+			ResultSet rs = sqlStatement.executeQuery();
+            if (rs.getInt(1) == 1) {
+            	return true;
+            }
+				
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return false;
 	}
 	
 	
@@ -653,13 +761,30 @@ public class ProfileController {
 	 */
 	@FXML
 	private void explorerTableClicked(MouseEvent event) {
-		//ExplorerRow row  = staffCopiesExplorerTable.getSelectionModel().getSelectedItem();
-		//selectedUserLabel.setText(row.getKeeper());
+		ExplorerRow row  = (ExplorerRow) staffCopiesExplorerTable.getSelectionModel().getSelectedItem();
+		staffCopyIDField.setText(Integer.toString(row.getCopyID()));
 	}
 	
 	//
 	//Staff: Profile
 	//
+	
+	
+	@FXML
+	void pickAvatar(Event e) {
+		  FileChooser chooser = new FileChooser();
+		    FileChooser.ExtensionFilter extentionFilter = new FileChooser.ExtensionFilter("PNG files (*.png)", "*.png");
+			chooser.getExtensionFilters().add(extentionFilter);
+		    chooser.setTitle("Open File");    
+		    File file = chooser.showOpenDialog(new Stage());
+		    System.out.println(file.getAbsolutePath());
+		 
+		 
+		    ScreenManager.getCurrentUser().setAvatar(new File(file.getAbsolutePath()).toURI().toString());
+		    userAvatarView.setImage(new Image(currentUser.getAvatar()));
+		    staffAvatarView.setImage(new Image(currentUser.getAvatar()));
+	
+	}
 	
 	@FXML
 	private void openProfileEditor(MouseEvent event) {
@@ -670,7 +795,6 @@ public class ProfileController {
             Parent root1 = (Parent) fxmlLoader.load();
             Stage stage = new Stage();
             stage.initModality(Modality.APPLICATION_MODAL);
-            //stage.initStyle(StageStyle.UNDECORATED);
             stage.setTitle("Resource Information");
             stage.setScene(new Scene(root1));  
             stage.show();
@@ -686,26 +810,20 @@ public class ProfileController {
 	 */
 	@FXML
 	private void openAvatarEditor(MouseEvent event) {
-		
 		try {
 			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/drawAvatar.fxml"));
 			Parent root1 = (Parent) fxmlLoader.load();
 			Stage stage = new Stage();
 			stage.initModality(Modality.APPLICATION_MODAL);
-			// stage.initStyle(StageStyle.UNDECORATED);
 			stage.setTitle("Avatar!");
 			stage.setScene(new Scene(root1));
 			stage.show();
+			
 		} catch (IOException e2) {
 			// TODO Auto-generated catch block
 			e2.printStackTrace();
 		}
-		
-		//AvatarDrawingController avatarDrawingController = new AvatarDrawingController();
-		//avatarDrawingController.setPrevScene("profile");
 		System.out.println("Launch avatar editor.");
-		
-		//changeScene(event,"/fxml/drawAvatar.fxml");
 	}
 	
 
@@ -730,7 +848,7 @@ public class ProfileController {
 		
 		TableColumn<ExplorerRow, String> resourceIDCol = new TableColumn<ExplorerRow, String>("Resource ID");
 		resourceIDCol.setCellValueFactory(cd -> 
-		new SimpleStringProperty(Integer.toString(cd.getValue().getCopyID())));
+		new SimpleStringProperty(Integer.toString(cd.getValue().getResourceID())));
 		
 		TableColumn<ExplorerRow, String> loanDurationCol = new TableColumn<ExplorerRow, String>("Loan Duration");
 		loanDurationCol.setCellValueFactory(cd -> 
@@ -752,6 +870,10 @@ public class ProfileController {
 		dueDateCol.setCellValueFactory(cd -> 
 		new SimpleStringProperty(cd.getValue().getDueDate()));
 		
+		TableColumn<ExplorerRow, String> historyCol = new TableColumn<ExplorerRow, String>("History");
+		historyCol.setCellValueFactory(cd -> 
+		new SimpleStringProperty(cd.getValue().getHistory()));
+		
 		switch (tableToLoad) {				
 			case "all":
 				staffCopiesExplorerTable.getColumns().clear();
@@ -769,8 +891,13 @@ public class ProfileController {
 			case "requested":
 				staffCopiesExplorerTable.getColumns().clear();
 				staffCopiesExplorerTable.getColumns().addAll(
-						keeperCol,resourceIDCol,orderNumberCol);
+						keeperCol,resourceIDCol);
 				break;
+				
+			case "history":
+				staffCopiesExplorerTable.getColumns().clear();
+				staffCopiesExplorerTable.getColumns().addAll(
+						copyIDCol,keeperCol,historyCol);
 		}
 		
 	}
@@ -873,6 +1000,9 @@ public class ProfileController {
 		
 	}
 	
+	//
+	// End of Staff Tab
+	//
 	
 	/**
 	 * Generate a popup.

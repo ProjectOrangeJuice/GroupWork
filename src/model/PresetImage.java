@@ -7,15 +7,13 @@ import javafx.scene.image.Image;
  * @version 1.0
  */
 public enum PresetImage {
-    //Avatars taken from "https://www.flaticon.com/free-icons/avatar".
-    IMAGE_1("Avatar1.png"),
-    IMAGE_2("Avatar2.png"),
-    IMAGE_3("Avatar3.png"),
+    // Avatars taken from "https://www.flaticon.com/free-icons/avatar".
+    IMAGE_1("Avatar1.png"), IMAGE_2("Avatar2.png"), IMAGE_3("Avatar3.png"),
     IMAGE_4("Avatar4.png");
 
-
-    private static final String FILE_PATH = "Group6/src/SavedAvatars"; //The file path to saved avatars.
-    private final Image presetAvatar; //The preset JavaFX image.
+    // The file path to saved avatars.
+    private static final String FILE_PATH = "Group6/src/SavedAvatars";
+    private final Image presetAvatar; // The preset JavaFX image.
 
     /**
      * Creates a preset avatar.
@@ -37,6 +35,7 @@ public enum PresetImage {
 
     /**
      * Converts a preset avatar to a string.
+     * @return a string representation of the preset avatar of this image.
      */
     public String toString() {
         return presetAvatar.toString();
