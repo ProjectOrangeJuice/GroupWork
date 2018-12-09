@@ -370,7 +370,7 @@ public class RegisterController implements Initializable {
 	        
 	    	try {
 				Connection conn = DBHelper.getConnection();
-				PreparedStatement pstmt = conn.prepareStatement("INSERT INTO users VALUES (?,?,?,?,?,?,?,0");
+				PreparedStatement pstmt = conn.prepareStatement("INSERT INTO users VALUES (?,?,?,?,?,?,?,0)");
 				pstmt.setString(1, username.getText());
 				pstmt.setString(2, firstName.getText());
 				pstmt.setString(3, lastName.getText());
