@@ -124,10 +124,8 @@ public class RegisterController implements Initializable {
 	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		Image newAvatar = new Image(avatarPath);
-		avatar.setImage(newAvatar);
-		//staffId.setVisible(false);
-		//employmentDate.setVisible(false);
+		//Image newAvatar = new Image(avatarPath);
+		//avatar.setImage(newAvatar);
 		staffIdError.setVisible(false);
 		usernameError.setVisible(false);
 		firstNameError.setVisible(false);
@@ -136,7 +134,6 @@ public class RegisterController implements Initializable {
 		postCodeError.setVisible(false);
 		phoneNumberError.setVisible(false);
 		employmentDateError.setVisible(false);
-		
 		staffId.visibleProperty().bind(librarianCheckBox.selectedProperty());
 		employmentDate.visibleProperty().bind(librarianCheckBox.selectedProperty());
 	}
@@ -469,7 +466,7 @@ public class RegisterController implements Initializable {
 	 *
 	 * @param image
 	 */
-	public void setIcon(Image image) {
+	public void setAvatar(Image image) {
 		this.avatar.setImage(image);
 	}
 
@@ -478,24 +475,24 @@ public class RegisterController implements Initializable {
 	 *
 	 * @param path
 	 */
-	/**
-	 * Sets path to avatar image.
-	 *
-	 * @param path
-	 */
-	public void setAvatarImagePath(String path) {
+	public void setAvatarPath(String path) {
 		this.avatarPath = path;
 	}
-
+	
+	/**
+	 * select a preset avatar
+	 * @param event
+	 */
 	@FXML protected void browseAvatarAction(ActionEvent event) {
 	    FileChooser chooser = new FileChooser();
 	    FileChooser.ExtensionFilter extentionFilter = new FileChooser.ExtensionFilter("PNG files (*.png)", "*.png");
 		chooser.getExtensionFilters().add(extentionFilter);
 	    chooser.setTitle("Open File");    
 	    File file = chooser.showOpenDialog(new Stage());
-	    avatarPath = file.getAbsolutePath();
-	    //newAvatar = avatarPath;
-	    //avatar.setImage(avatarPath);
+	    System.out.println(file.getAbsolutePath());
+	    setAvatarPath(file.getAbsolutePath());
+	    Image selectedAvatar = new Image(this.avatarPath);
+	    avatar.setImage(selectedAvatar);
 	}
 
 	// TODO update selected avatar
