@@ -19,6 +19,7 @@ import javafx.scene.CacheHint;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
@@ -28,6 +29,7 @@ import javafx.scene.control.TabPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.effect.BlendMode;
 import javafx.scene.image.Image;
@@ -203,8 +205,7 @@ public class ProfileController {
 		}
 
 	}
-	
-	
+
 	
 	@FXML
 	private void searchBarSwitch (MouseEvent event) {
@@ -396,6 +397,19 @@ public class ProfileController {
 		return false;
 
 	}
+	
+	
+	@FXML
+	private void  reloadStuff(Event e) {
+		Resource.loadDatabaseResources();
+		vResourceBox.getChildren().clear();
+		vResourceBox.getChildren().add(new HBox());
+		loadResourceImages();
+
+		
+	}
+	
+	
 	/**
 	 * Method that loads copies that the user is currently borrowing
 	 */
@@ -514,7 +528,22 @@ public class ProfileController {
 	@FXML
 	private void loadBorrowHistory() {
 		if(currentUser instanceof User) {
-			System.out.println("things");
+			ArrayList<Resource> borrowHistory = ((User) currentUser).loadUserHistory();
+			for(Resource resource : borrowHistory) {
+				
+				StackPane imagePane = createImage(resource, COPY_IMG_WIDTH, COPY_IMG_HEIGHT);
+				
+				((ImageView) imagePane.getChildren().get(1)).setFitWidth(COPY_IMG_WIDTH);
+				((ImageView) imagePane.getChildren().get(1)).setImage(new Image("/graphics/returned.png"));
+				((ImageView) imagePane.getChildren().get(1)).setPreserveRatio(true);
+				
+				resourceImages.getChildren().add(imagePane);
+				
+				imagePane.setOnMouseEntered(enterHandler);
+				imagePane.setOnMouseExited(exitHandler);
+				imagePane.setOnMouseClicked(clickHandler);
+				
+			}
 		}
 	}
 
@@ -531,6 +560,7 @@ public class ProfileController {
 		loadUserInformation();
 		loadCopies();
 		loadRequested();
+		loadBorrowHistory();
 
 		loadTables("users");
 		displayAll();
@@ -790,12 +820,35 @@ public class ProfileController {
 			System.out.println("No user selected!");
 		} else {
 			System.out.println("Delete User: " + selectedUserLabel.getText());
+			if(selectedUserLabel.getText().equals(ScreenManager.getCurrentUser().getUsername())) {
+				alertDone("You can't delete yourself!");
+			}else {
+				if(Person.removePerson(selectedUserLabel.getText())) {
+					
+				}else {
+					alertDone("They can't be deleted at the moment");
+				}
+			}
 			//Delete user
 			selectedUserLabel.setText("-");
 			staffUsersTable.getItems().clear();
 			loadUsersTable(null);
 		}
 		
+	}
+	
+	
+	/**
+	 * Generate a popup.
+	 * @param text The text to be displayed.
+	 */
+	private void alertDone(String text) {
+		Alert alert = new Alert(AlertType.INFORMATION);
+		alert.setTitle("Information Dialog");
+		alert.setHeaderText(null);
+		alert.setContentText(text);
+
+		alert.showAndWait();
 	}
 	
 	/**
