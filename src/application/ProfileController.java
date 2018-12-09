@@ -1,5 +1,6 @@
 package application;
 
+import java.io.File;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -47,6 +48,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
+import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -256,7 +258,7 @@ public class ProfileController {
 			phoneLabel.setText("Phone Number: " + currentUser.getPhoneNumber());
 			
 			Double userBalance = ((User) currentUser).getAccountBalance();
-			accountBalance.setText("£" + Double.toString(userBalance));
+			accountBalance.setText("Â£" + Double.toString(userBalance));
 			
 			userAvatarView.setImage(new Image(currentUser.getAvatar()));
 		}else {
@@ -556,7 +558,7 @@ public class ProfileController {
 		resources = ScreenManager.getResources();
 
 		loadUserTableColumns();
-		//displayAll();
+		displayAll();
 		
 		loadResourceImages();
 
@@ -617,10 +619,30 @@ public class ProfileController {
 		staffReturnCopy.setDisable(false);
 		
 		loadExplorerTableColumns("overdue");
-		//Work out how to get all overdue books.
+		ObservableList<ExplorerRow> copiesList = FXCollections.observableArrayList();
+
+		try {
+			Connection conn = DBHelper.getConnection();
+			Statement stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery("SELECT * FROM fines, resource, copies WHERE fines.rID = resource.rID AND copies.rID = resource.rID AND copies.keeper = fines.username");
+			
+			while(rs.next()) {
+				copiesList.add(new ExplorerRow(
+						rs.getString(9),
+						rs.getString(2),
+						rs.getInt(12),
+						rs.getInt(3),
+						rs.getString(16),
+						rs.getString(18)
+						));
+			}
+				
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 		
-		//staffCopiesExplorerTable.setItems(copiesList);
-		//staffCopiesExplorerTable.autosize();
+		staffCopiesExplorerTable.setItems(copiesList);
+		staffCopiesExplorerTable.autosize();
 	}
 	
 	/**
@@ -639,8 +661,8 @@ public class ProfileController {
 			Connection conn = DBHelper.getConnection();
 			Statement stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery("SELECT * FROM requestsToApprove, users where requestsToApprove.userName = users.username");
+			
 			while(rs.next()) {
-				
 				copiesList.add(new ExplorerRow(
 						rs.getString(2),
 						rs.getInt(1)
@@ -660,6 +682,7 @@ public class ProfileController {
 	 */
 	@FXML
 	private void displayHistory() {
+		loadExplorerTableColumns("history");
 		System.out.println("Display History!");
 	}
 	
@@ -680,6 +703,22 @@ public class ProfileController {
 
 	}
 	
+	private boolean checkCopyID(String copyID) {
+		try {
+			Connection conn = DBHelper.getConnection();
+			PreparedStatement sqlStatement = conn.prepareStatement("SELECT COUNT(*) FROM copies WHERE copyID = ?");
+			sqlStatement.setString(1, copyID);
+			ResultSet rs = sqlStatement.executeQuery();
+            if (rs.getInt(1) == 1) {
+            	return true;
+            }
+				
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+	
 	
 	/**
 	 * Opens the profile editor when the button is clicked
@@ -694,6 +733,23 @@ public class ProfileController {
 	//
 	//Staff: Profile
 	//
+	
+	
+	@FXML
+	void pickAvatar(Event e) {
+		  FileChooser chooser = new FileChooser();
+		    FileChooser.ExtensionFilter extentionFilter = new FileChooser.ExtensionFilter("PNG files (*.png)", "*.png");
+			chooser.getExtensionFilters().add(extentionFilter);
+		    chooser.setTitle("Open File");    
+		    File file = chooser.showOpenDialog(new Stage());
+		    System.out.println(file.getAbsolutePath());
+		 
+		 
+		    ScreenManager.getCurrentUser().setAvatar(new File(file.getAbsolutePath()).toURI().toString());
+		    userAvatarView.setImage(new Image(currentUser.getAvatar()));
+		    staffAvatarView.setImage(new Image(currentUser.getAvatar()));
+	
+	}
 	
 	@FXML
 	private void openProfileEditor(MouseEvent event) {
@@ -786,6 +842,10 @@ public class ProfileController {
 		dueDateCol.setCellValueFactory(cd -> 
 		new SimpleStringProperty(cd.getValue().getDueDate()));
 		
+		TableColumn<ExplorerRow, String> historyCol = new TableColumn<ExplorerRow, String>("History");
+		historyCol.setCellValueFactory(cd -> 
+		new SimpleStringProperty(cd.getValue().getDueDate()));
+		
 		switch (tableToLoad) {				
 			case "all":
 				staffCopiesExplorerTable.getColumns().clear();
@@ -805,6 +865,11 @@ public class ProfileController {
 				staffCopiesExplorerTable.getColumns().addAll(
 						keeperCol,resourceIDCol);
 				break;
+				
+			case "history":
+				staffCopiesExplorerTable.getColumns().clear();
+				staffCopiesExplorerTable.getColumns().addAll(
+						copyIDCol,keeperCol,historyCol);
 		}
 		
 	}

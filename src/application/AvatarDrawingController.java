@@ -85,41 +85,22 @@ public class AvatarDrawingController implements Initializable {
     @FXML
     private Label title;
 
-    //The button which allows a user to return to the profile page.
-    @FXML
-    private Button back;
-
     /* The button which allows a user to save the image as their 
      * new avatar and return to the profile page.
      */
     @FXML
     private Button saveImage;
     
-	
 	private String prevScene;
 
     /**
-     * Creates custom avatar controller.
+     * Constructor
      *
-     * @param rootPane               the pane attached.
-     * @param registerPrevController true if controller was created from register controller.
-    
-    public AvatarDrawingController(Pane rootPane, boolean registerPrevController) {
-        this.rootPane = rootPane;
-        this.registerPrevController = registerPrevController;
-    }
-
-    /**
-     * Creates a custom avatar controller.
-     *
-     * @param user                   The user the custom avatar is being created for.
-     * @param rootPane               The pane the custom avatar page is
-     *                               attached to.
-     * @param registerPrevController true if prev controller was register.
-    public AvatarDrawingController(User user, Pane rootPane, Boolean registerPrevController) {
+     * @param user The user the custom avatar is being created for.
+    */
+    public AvatarDrawingController(User user) {
         this.user = user;
-        this.rootPane = rootPane;
-    } */
+    } 
 	
 	public AvatarDrawingController() {
 		
@@ -214,8 +195,8 @@ public class AvatarDrawingController implements Initializable {
         String path = directory.getAbsolutePath();
         String fileName;
 
-        //Checks whether it came from profile or register prev controller.
-        if (!registerPrevController) {
+        //Checks whether it came from profile or register pages.
+        if (prevScene=="profile") {
 
     	/* The filename of the image will be the users username followed by the
     	 * time it was created in milliseconds as a png file.
@@ -227,7 +208,9 @@ public class AvatarDrawingController implements Initializable {
 
             //Update system and database with new avatar.
             SavedAvatar newAvatar = createSavedAvatar(fileName);
-            user.setAvatar("/SavedAvatars/" + fileName);
+            user.setAvatar("../SavedAvatars/" + fileName);
+            changeScene(event, "/fxml/profileScene.fxml");
+            
             
         } else {
             //Create file name.
@@ -238,13 +221,10 @@ public class AvatarDrawingController implements Initializable {
             createSavedAvatar(fileName);
 
             //Set the relative path.
-            customDrawingFileLocation = "/SavedAvatars/"
+            customDrawingFileLocation = "../SavedAvatars/"
                     + fileName;
-
-
+            changeScene(event, "/fxml/registerScene.fxml");
         }
-        //Return to previous page.
-        onBackAction(event);
     }
 
     /**
@@ -292,16 +272,8 @@ public class AvatarDrawingController implements Initializable {
     public SavedAvatar createSavedAvatar(String fileName) {
         //Create a new Saved Avatar.
         return new SavedAvatar(
-                "/SavedAvatars"
+                "../SavedAvatars/"
                         + fileName);
-    }
-    
-    public void setPrevScene(String prevScene) {
-    	this.prevScene = prevScene;
-    }
-    
-    public String getPrevScene() {
-    	return prevScene;
     }
 
     /**
@@ -319,31 +291,7 @@ public class AvatarDrawingController implements Initializable {
 		}
 
 	}
-    
-    /**
-     * Returns to the profile page when the "Back" button is pressed.
-     *
-     * @param event event.
-     * @throws IOException Thrown if Profile.fxml can't be loaded.
-     */
-    @FXML
-    public void onBackAction(ActionEvent event) throws IOException {
-        //Returns to profile page.
-        if (getPrevScene() !="profile") {
-        	RegisterController registerController = new RegisterController();
-            //If user has created an image, get the file path.
-            if (!customDrawingFileLocation.equals("")) {
-                registerController.setAvatarPath(customDrawingFileLocation);
-            }
-
-            //Load up register page with the new saved avatar.
-            changeScene(event, "/fxml/registerScene.fxml");
-        	
-        } else {
-        	changeScene(event, "/fxml/profileScene.fxml");
-        }
-    }
-
+	
     /**
      * Draws a straight line.
      *
@@ -394,6 +342,11 @@ public class AvatarDrawingController implements Initializable {
 
 	public void setUser(Person user) {
 		this.user = user;
+	}
+
+	public void setPrevScene(String prevScene) {
+		prevScene = this.prevScene;
+		
 	}
 }
 
