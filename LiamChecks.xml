@@ -14,8 +14,8 @@
     <module name="NeedBraces"/>
     <module name="LeftCurly"/>
     <module name="RightCurly">
-      <property name="option" value="alone"/>
-      <property name="tokens" value="LITERAL_TRY,LITERAL_CATCH,LITERAL_FINALLY,LITERAL_IF,LITERAL_ELSE,CLASS_DEF,METHOD_DEF,CTOR_DEF,LITERAL_FOR,LITERAL_WHILE,LITERAL_DO"/>
+      <property name="option" value="alone_or_singleline"/>
+      <property name="tokens" value="LITERAL_CATCH,CLASS_DEF,CTOR_DEF,LITERAL_DO,LITERAL_ELSE,LITERAL_FINALLY,LITERAL_FOR,LITERAL_IF,METHOD_DEF,LITERAL_TRY,LITERAL_WHILE"/>
     </module>
     <module name="ConstantName"/>
     <module name="LocalVariableName"/>
