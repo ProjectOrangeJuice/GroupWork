@@ -1,4 +1,4 @@
-package application;
+﻿package application;
 
 import java.io.File;
 import java.io.IOException;
@@ -259,8 +259,7 @@ public class ProfileController {
 			
 			Double userBalance = ((User) currentUser).getAccountBalance();
 			accountBalance.setText("£" + Double.toString(userBalance));
-			
-			userAvatarView.setImage(new Image(currentUser.getAvatar()));
+			userAvatarView.setImage(new Image(new File(currentUser.getAvatar()).toURI().toString()));
 		}else {
 			//get all information in about user from ScreenManager class.
 			Librarian staff = (Librarian) currentUser;
@@ -274,7 +273,7 @@ public class ProfileController {
 			dateLabel1.setText(dateLabel1.getText() + " " + staff.getEmploymentDate());
 			staffIDLabel1.setText(staffIDLabel1.getText() + " " + staff.getStaffID());
 			
-			staffAvatarView.setImage(new Image(currentUser.getAvatar()));
+			staffAvatarView.setImage(new Image(new File(currentUser.getAvatar()).toURI().toString()));
 		}
 	}
 	
@@ -720,24 +719,56 @@ public class ProfileController {
 	}
 	
 	/**
-	 * prints out approval of the copy
+	 * Approves the loaning of a copy to a user from the Staff Copies Explorer
 	 */
 	@FXML
 	private void approveCopy() {
-		System.out.println("Approve copy!");
-		staffCopyIDField.setText("");
+		ExplorerRow row  = (ExplorerRow) staffCopiesExplorerTable.getSelectionModel().getSelectedItem();
+		int resourceID = row.getResourceID();
+		String username = row.getKeeper();
+		
+		User user = (User)Person.loadPerson(username);
+		Resource.getResource(resourceID).loanToUser(user);
+		
+		try {
+			Connection conn = DBHelper.getConnection();
+			PreparedStatement sqlStatement = conn.prepareStatement("DELETE FROM requestsToApprove WHERE rID = ? AND userName = ?");
+			sqlStatement.setInt(1, resourceID);
+			sqlStatement.setString(2, username);
+			sqlStatement.executeUpdate();
+				
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		System.out.println("Approved copy!");
+		displayRequested();
 	}
 	
 	/**
-	 * 
+	 * Returns the selected copy from a user in the Copies Explorer
 	 */
 	@FXML
 	private void returnCopy() {
-		System.out.println("Return copy!");
-		staffCopyIDField.setText("");
-
+		ExplorerRow row  = (ExplorerRow) staffCopiesExplorerTable.getSelectionModel().getSelectedItem();
+		int copyID = row.getCopyID();
+		
+		for (Resource res : Resource.getResources()) {
+			for (Copy copy : res.getCopies()) {
+				if (copy.getCopyID() == copyID) {
+					res.processReturn(copy);
+				}
+			}
+		}
+		System.out.println("Returned copy!");
+		displayAll();
 	}
 	
+	/**
+	 * Checks whether a copyID exists in the database
+	 * @param copyID String
+	 * @return
+	 */
 	private boolean checkCopyID(String copyID) {
 		try {
 			Connection conn = DBHelper.getConnection();
