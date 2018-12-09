@@ -50,7 +50,7 @@ public class AvatarDrawingController implements Initializable {
     private User user; //The user the custom avatar is being created for.
     private CustomAvatar customAvatar;//The customAvatar that is created.
     private ParticleTrace currentParticleTrace;//The current particle trace being drawn.
-    private Pane rootPane;//The pane the custom avatar page is attached to. 
+  //  private Pane rootPane;//The pane the custom avatar page is attached to. 
     private boolean registerPrevController; //true if prev controller was register, else false (from profile.)
     private String customDrawingFileLocation = ""; //location of the custom drawing created.
 

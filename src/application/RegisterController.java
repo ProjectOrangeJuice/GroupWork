@@ -99,8 +99,6 @@ public class RegisterController implements Initializable {
 	@FXML
 	private Pane pane;
 
-	private Pane rootPane;
-
 	private String avatarPath = "/SavedAvatars/Avatar1.png";
 
 
@@ -426,14 +424,6 @@ public class RegisterController implements Initializable {
 		this.avatarPath = path;
 	}
 
-	/**
-	 * Sets centre pane.
-	 *
-	 * @param pane
-	 */
-	public void setRootPane(Pane pane) {
-		this.rootPane = pane;
-	}
 
 	// TODO open system explorer to select avatar
 }

@@ -176,7 +176,7 @@
                                           <Image url="@../graphics/defaultImage.png" />
                                        </image>
                                     </ImageView>
-                                    <Button fx:id="staffEditAvatar" mnemonicParsing="false" onMouseClicked="#customAvatarAction" text="Edit Avatar" />
+                                    <Button fx:id="staffEditAvatar" mnemonicParsing="false" onMouseClicked="#openAvatarEditor" text="Edit Avatar" />
                                     <Separator prefWidth="200.0">
                                        <VBox.margin>
                                           <Insets bottom="10.0" top="15.0" />
