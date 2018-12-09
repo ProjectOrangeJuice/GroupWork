@@ -276,7 +276,7 @@ public class TransactionsController {
             setupTransactions();
         }
         else {
-            setupBalance();
+           // setupBalance();
         }
     }
 }
