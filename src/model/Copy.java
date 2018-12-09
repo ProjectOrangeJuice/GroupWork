@@ -21,50 +21,6 @@ public class Copy implements Comparable<Copy> {
     private Date dueDate;
 
     /**
-     * Updates the dabatabase value in the given field of the given copy.
-     * @param copyID Unique ID of copy that is updated.
-     * @param field The attribute of the copy that is updated.
-     * @param data The new data the field will be set to.
-     */
-    private static void updateDBValue(int copyID, String field, String data) {
-        try {
-            Connection connectionToDB = DBHelper.getConnection();
-            PreparedStatement sqlStatement = connectionToDB
-                .prepareStatement("UPDATE copies " + "set " + field + 
-                " = ? WHERE copyID=?");
-            
-            sqlStatement.setString(1, data);
-            sqlStatement.setInt(2, copyID);
-            sqlStatement.executeUpdate();
-        }
-        catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * Updates the dabatabase value in the given field of the given copy.
-     * @param copyID Unique ID of copy that is updated.
-     * @param field The attribute of the copy that is updated.
-     * @param data The new data the field will be set to.
-     */
-    private static void updateDBValue(int copyID, String field, int data) {
-        try {
-            Connection connectionToDB = DBHelper.getConnection();
-            PreparedStatement sqlStatement = connectionToDB
-                .prepareStatement("UPDATE copies " + "set " + field + 
-                " = ? WHERE copyID=?");
-            
-            sqlStatement.setInt(1, data);
-            sqlStatement.setInt(2, copyID);
-            sqlStatement.executeUpdate();
-        }
-        catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
      * Makes a new copy with the given arguments as data.
      * @param resource The resource this copy belongs to.
      * @param copyID The ID of the new copy.
@@ -374,6 +330,50 @@ public class Copy implements Comparable<Copy> {
         }
         else {
             return this.borrower.getUsername();
+        }
+    }
+    
+    /**
+     * Updates the dabatabase value in the given field of the given copy.
+     * @param copyID Unique ID of copy that is updated.
+     * @param field The attribute of the copy that is updated.
+     * @param data The new data the field will be set to.
+     */
+    private static void updateDBValue(int copyID, String field, String data) {
+        try {
+            Connection connectionToDB = DBHelper.getConnection();
+            PreparedStatement sqlStatement = connectionToDB
+                .prepareStatement("UPDATE copies " + "set " + field + 
+                " = ? WHERE copyID=?");
+            
+            sqlStatement.setString(1, data);
+            sqlStatement.setInt(2, copyID);
+            sqlStatement.executeUpdate();
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Updates the dabatabase value in the given field of the given copy.
+     * @param copyID Unique ID of copy that is updated.
+     * @param field The attribute of the copy that is updated.
+     * @param data The new data the field will be set to.
+     */
+    private static void updateDBValue(int copyID, String field, int data) {
+        try {
+            Connection connectionToDB = DBHelper.getConnection();
+            PreparedStatement sqlStatement = connectionToDB
+                .prepareStatement("UPDATE copies " + "set " + field + 
+                " = ? WHERE copyID=?");
+            
+            sqlStatement.setInt(1, data);
+            sqlStatement.setInt(2, copyID);
+            sqlStatement.executeUpdate();
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 }
