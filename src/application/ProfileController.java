@@ -256,10 +256,10 @@ public class ProfileController {
 			
 			//change text in labels to appropriate user information.
 			userLabel.setText(username);
-			fullnameLabel.setText(fullnameLabel.getText() + " " + fullname);
-			addressLabel.setText(addressLabel.getText() + " " + address);
-			postcodeLabel.setText(postcodeLabel.getText() + " " + postcode);
-			phoneLabel.setText(phoneLabel.getText() + " " + phoneNumber);
+			fullnameLabel.setText("Full Name: " + fullname);
+			addressLabel.setText("Address: " + address);
+			postcodeLabel.setText("Post Code: " + postcode);
+			phoneLabel.setText("Phone Number: " + phoneNumber);
 			
 			Double userBalance = ((User) currentUser).getAccountBalance();
 			accountBalance.setText("£" + Double.toString(userBalance));
