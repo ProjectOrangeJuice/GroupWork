@@ -82,8 +82,8 @@ CREATE TABLE IF NOT EXISTS `fines` (
 	FOREIGN KEY(`username`) REFERENCES `users`(`username`),
 	FOREIGN KEY(`rID`) REFERENCES `resource`(`rID`)
 );
-INSERT INTO `fines` VALUES (1,"test",1,3,5.0,'hi',1);
-INSERT INTO `fines` VALUES (2,"test",2,100,10.0,'always',1);
+INSERT INTO `fines` VALUES (1,"Manny",1,3,5.0,'hi',1);
+INSERT INTO `fines` VALUES (2,"Steveo",2,100,10.0,'always',1);
 
 DROP TABLE IF EXISTS `book`;
 CREATE TABLE IF NOT EXISTS `book` (
@@ -158,7 +158,6 @@ CREATE TABLE IF NOT EXISTS `copies` (
 );
 
 INSERT INTO `copies` VALUES (1,1,'Manny',8,'12/03/2018',NULL,NULL);
-INSERT INTO `copies` VALUES (2,1,NULL,7,NULL,NULL,NULL);
 INSERT INTO `copies` VALUES (3,1,NULL,7,NULL,NULL,NULL);
 INSERT INTO `copies` VALUES (4,1,NULL,7,NULL,NULL,NULL);
 INSERT INTO `copies` VALUES (5,1,NULL,7,NULL,NULL,NULL);

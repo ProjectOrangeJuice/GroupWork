@@ -558,7 +558,7 @@ public class ProfileController {
 		resources = ScreenManager.getResources();
 
 		loadUserTableColumns();
-		//displayAll();
+		displayAll();
 		
 		loadResourceImages();
 
@@ -619,10 +619,30 @@ public class ProfileController {
 		staffReturnCopy.setDisable(false);
 		
 		loadExplorerTableColumns("overdue");
-		//Work out how to get all overdue books.
+		ObservableList<ExplorerRow> copiesList = FXCollections.observableArrayList();
+
+		try {
+			Connection conn = DBHelper.getConnection();
+			Statement stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery("SELECT * FROM fines, resource, copies WHERE fines.rID = resource.rID AND copies.rID = resource.rID AND copies.keeper = fines.username");
+			
+			while(rs.next()) {
+				copiesList.add(new ExplorerRow(
+						rs.getString(9),
+						rs.getString(2),
+						rs.getInt(12),
+						rs.getInt(3),
+						rs.getString(16),
+						rs.getString(18)
+						));
+			}
+				
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 		
-		//staffCopiesExplorerTable.setItems(copiesList);
-		//staffCopiesExplorerTable.autosize();
+		staffCopiesExplorerTable.setItems(copiesList);
+		staffCopiesExplorerTable.autosize();
 	}
 	
 	/**
@@ -641,8 +661,8 @@ public class ProfileController {
 			Connection conn = DBHelper.getConnection();
 			Statement stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery("SELECT * FROM requestsToApprove, users where requestsToApprove.userName = users.username");
+			
 			while(rs.next()) {
-				
 				copiesList.add(new ExplorerRow(
 						rs.getString(2),
 						rs.getInt(1)
@@ -662,6 +682,7 @@ public class ProfileController {
 	 */
 	@FXML
 	private void displayHistory() {
+		loadExplorerTableColumns("history");
 		System.out.println("Display History!");
 	}
 	
@@ -680,6 +701,22 @@ public class ProfileController {
 	private void returnCopy() {
 		System.out.println("Return copy!");
 
+	}
+	
+	private boolean checkCopyID(String copyID) {
+		try {
+			Connection conn = DBHelper.getConnection();
+			PreparedStatement sqlStatement = conn.prepareStatement("SELECT COUNT(*) FROM copies WHERE copyID = ?");
+			sqlStatement.setString(1, copyID);
+			ResultSet rs = sqlStatement.executeQuery();
+            if (rs.getInt(1) == 1) {
+            	return true;
+            }
+				
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return false;
 	}
 	
 	
@@ -805,6 +842,10 @@ public class ProfileController {
 		dueDateCol.setCellValueFactory(cd -> 
 		new SimpleStringProperty(cd.getValue().getDueDate()));
 		
+		TableColumn<ExplorerRow, String> historyCol = new TableColumn<ExplorerRow, String>("History");
+		historyCol.setCellValueFactory(cd -> 
+		new SimpleStringProperty(cd.getValue().getDueDate()));
+		
 		switch (tableToLoad) {				
 			case "all":
 				staffCopiesExplorerTable.getColumns().clear();
@@ -824,6 +865,11 @@ public class ProfileController {
 				staffCopiesExplorerTable.getColumns().addAll(
 						keeperCol,resourceIDCol);
 				break;
+				
+			case "history":
+				staffCopiesExplorerTable.getColumns().clear();
+				staffCopiesExplorerTable.getColumns().addAll(
+						copyIDCol,keeperCol,historyCol);
 		}
 		
 	}

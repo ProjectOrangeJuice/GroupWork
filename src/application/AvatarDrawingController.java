@@ -195,7 +195,7 @@ public class AvatarDrawingController implements Initializable {
         String path = directory.getAbsolutePath();
         String fileName;
 
-        //Checks whether it came from profile or register prev controller.
+        //Checks whether it came from profile or register pages.
         if (prevScene=="profile") {
 
     	/* The filename of the image will be the users username followed by the
@@ -209,7 +209,7 @@ public class AvatarDrawingController implements Initializable {
             //Update system and database with new avatar.
             SavedAvatar newAvatar = createSavedAvatar(fileName);
             user.setAvatar("../SavedAvatars/" + fileName);
-            changeScene(event, "/fxml/profile.fxml");
+            changeScene(event, "/fxml/profileScene.fxml");
             
             
         } else {
@@ -223,8 +223,7 @@ public class AvatarDrawingController implements Initializable {
             //Set the relative path.
             customDrawingFileLocation = "../SavedAvatars/"
                     + fileName;
-
-
+            changeScene(event, "/fxml/registerScene.fxml");
         }
     }
 

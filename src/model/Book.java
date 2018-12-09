@@ -39,8 +39,8 @@ public class Book extends Resource {
     private String language;
 
     /**
-     * Method that loads the details of a book resource from the book table and
-     * adds it to the list of all resources.
+     * Method that loads the details of all book resources from the book database table and
+     * adds them to the list of all resources.
      */
     public static void loadDatabaseBooks() {
         try {
