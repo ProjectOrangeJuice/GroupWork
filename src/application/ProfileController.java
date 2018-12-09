@@ -246,30 +246,23 @@ public class ProfileController {
 	 */
 	private void loadUserInformation() {
 		if (ScreenManager.getCurrentUser() instanceof User) {
-			//get all information in about user from ScreenManager class.
-			String username = currentUser.getUsername();
-			String fullname = currentUser.getFirstName() + " " + currentUser.getLastName();
-			String address = currentUser.getAddress();
-			String postcode = currentUser.getPostcode();
-			String phoneNumber = currentUser.getPhoneNumber();
-			String avatarPath = currentUser.getAvatar();
-			
+
 			//change text in labels to appropriate user information.
-			userLabel.setText(username);
-			fullnameLabel.setText("Full Name: " + fullname);
-			addressLabel.setText("Address: " + address);
-			postcodeLabel.setText("Post Code: " + postcode);
-			phoneLabel.setText("Phone Number: " + phoneNumber);
+			userLabel.setText(currentUser.getUsername());
+			fullnameLabel.setText("Full Name: " + currentUser.getFirstName() + " "
+			+ currentUser.getLastName());
+			addressLabel.setText("Address: " + currentUser.getAddress());
+			postcodeLabel.setText("Post Code: " + currentUser.getPostcode());
+			phoneLabel.setText("Phone Number: " + currentUser.getPhoneNumber());
 			
 			Double userBalance = ((User) currentUser).getAccountBalance();
-			accountBalance.setText("Â£" + Double.toString(userBalance));
+			accountBalance.setText("£" + Double.toString(userBalance));
 			
-			userAvatarView.setImage(new Image(avatarPath));
+			userAvatarView.setImage(new Image(currentUser.getAvatar()));
 		}else {
 			//get all information in about user from ScreenManager class.
 			Librarian staff = (Librarian) currentUser;
 			String fullname = staff.getFirstName() + " " + staff.getLastName();
-			String avatarPath = currentUser.getAvatar();
 			
 			userLabel1.setText(staff.getUsername());
 			fullnameLabel1.setText(fullnameLabel1.getText() + " " + fullname);
@@ -279,7 +272,7 @@ public class ProfileController {
 			dateLabel1.setText(dateLabel1.getText() + " " + staff.getEmploymentDate());
 			staffIDLabel1.setText(staffIDLabel1.getText() + " " + staff.getStaffID());
 			
-			staffAvatarView.setImage(new Image(avatarPath));
+			staffAvatarView.setImage(new Image(currentUser.getAvatar()));
 		}
 	}
 	
