@@ -7,9 +7,11 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -172,6 +174,7 @@ public class CopyController {
 	@FXML
 	public void requestCopy(MouseEvent event) {
 		ScreenManager.currentResource.addPendingRequest((User) ScreenManager.getCurrentUser());
+		alertDone("You've requested the copy");
 		// ScreenManager.currentResource.loanToUser((User)ScreenManager.getCurrentUser());
 	}
 
@@ -226,6 +229,22 @@ public class CopyController {
 		});
 		leftVbox.getChildren().addAll(editCopies, editResource);
 	}
+	
+	/**
+	 * Generate a popup.
+	 * 
+	 * @param text
+	 *            The text to be displayed.
+	 */
+	private void alertDone(String text) {
+		Alert alert = new Alert(AlertType.INFORMATION);
+		alert.setTitle("Information Dialog");
+		alert.setHeaderText(null);
+		alert.setContentText(text);
+
+		alert.showAndWait();
+	}
+
 
 	/**
 	 * An initialize method that checks the user if its a staff, and loads the resource image and information when started.
