@@ -120,8 +120,15 @@ public class ResourceController {
 		
 		HBox subtitlesBox = new HBox();
 		Text subtitlesText = new Text("Subtitle language");
-		
-		TextField subtitlesField = new TextField (dvd.getSubtitleLanguages());
+		String subs = "";
+		for(String sub : dvd.getSubtitleLanguages()) {
+			if(subs.equals("")) {
+				subs = sub;
+			}else {
+				subs +=","+sub;
+			}
+		}
+		TextField subtitlesField = new TextField (subs);
 		subtitlesBox.getChildren().addAll(subtitlesText,subtitlesField);
 		
 		
