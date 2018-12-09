@@ -152,8 +152,6 @@ public class ProfileController {
 	@FXML
 	private Button staffReturnCopy;
 	@FXML
-	private Button staffApproveCopy;
-	@FXML
 	private TextField staffCopyIDField;
 	@FXML
 	private TableView staffCopiesExplorerTable;
@@ -484,6 +482,13 @@ public class ProfileController {
 			}
 		}
 	}
+	
+	@FXML
+	private void loadBorrowHistory() {
+		if(currentUser instanceof User) {
+			System.out.println("things");
+		}
+	}
 
 	@FXML
 	 public void initialize() {
@@ -495,9 +500,7 @@ public class ProfileController {
 		loadUserInformation();
 		loadCopies();
 		loadRequested();
-		
-		loadTables("users");
-		loadTables("all");
+		loadTables();
 		
 		scrollPane.setHvalue(0.5);
 	
@@ -536,11 +539,6 @@ public class ProfileController {
 	}
 	
 	@FXML
-	private void approveCopy() {
-		System.out.println("Approve copy!");
-	}
-	
-	@FXML
 	private void openProfileEditor(MouseEvent event) {
 		System.out.println("Launch staff editing profile.");
 		changeScene(event,"/fxml/StaffEdit.fxml");
@@ -556,7 +554,7 @@ public class ProfileController {
 	// Manage Users Tab
 	//
 	
-	private void loadTables(String tableToLoad) {
+	private void loadTables() {
 		TableColumn<Person, String> usernameCol = new TableColumn<Person, String>("Username");
         usernameCol.setCellValueFactory(new PropertyValueFactory<>("username"));
 		
@@ -581,15 +579,8 @@ public class ProfileController {
 		TableColumn<Person, String> accountBalanceCol = new TableColumn<Person, String>("accountBalance");
 		accountBalanceCol.setCellValueFactory(new PropertyValueFactory<>("accountBalance"));
 		
-		switch (tableToLoad) {
-			case "users":
-				staffUsersTable.getColumns().addAll(usernameCol,firstnameCol,
-						lastnameCol,addressCol,postcodeCol,accountBalanceCol);
-				break;
-				
-			case "all":
-				staffCopiesExplorerTable.getItems().clear(); //Temp
-		}
+		staffUsersTable.getColumns().addAll(usernameCol,firstnameCol,lastnameCol,
+				addressCol,postcodeCol,accountBalanceCol);
 		
 	}
 	
@@ -629,7 +620,7 @@ public class ProfileController {
 			System.out.println("No user selected!");
 		} else {
 			System.out.println("Delete User: " + selectedUserLabel.getText());
-			//TODO: Delete user sql
+			//Delete user
 			selectedUserLabel.setText("-");
 			staffUsersTable.getItems().clear();
 			loadUsersTable(null);
