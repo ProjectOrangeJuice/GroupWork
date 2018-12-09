@@ -719,7 +719,7 @@ public class ProfileController {
 	}
 	
 	/**
-	 * prints out approval of the copy
+	 * Approves the loaning of a copy to a user from the Staff Copies Explorer
 	 */
 	@FXML
 	private void approveCopy() {
@@ -746,7 +746,7 @@ public class ProfileController {
 	}
 	
 	/**
-	 * 
+	 * Returns the selected copy from a user in the Copies Explorer
 	 */
 	@FXML
 	private void returnCopy() {
@@ -760,13 +760,15 @@ public class ProfileController {
 				}
 			}
 		}
-		
-		
 		System.out.println("Returned copy!");
 		displayAll();
-
 	}
 	
+	/**
+	 * Checks whether a copyID exists in the database
+	 * @param copyID String
+	 * @return
+	 */
 	private boolean checkCopyID(String copyID) {
 		try {
 			Connection conn = DBHelper.getConnection();

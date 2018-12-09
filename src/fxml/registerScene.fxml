@@ -34,5 +34,6 @@
       <TextField fx:id="staffId" layoutX="377.0" layoutY="303.0" promptText="Staff ID" />
       <Label fx:id="employmentDateError" layoutX="491.0" layoutY="370.0" text="Invalid" textFill="RED" />
       <Label fx:id="staffIdError" layoutX="491.0" layoutY="328.0" text="Invalid" textFill="RED" />
+      <Label fx:id="regMessage" layoutX="123.0" layoutY="287.0" text="Success!" textFill="#00ff14" />
    </children>
 </Pane>
