@@ -14,7 +14,7 @@ public class Laptop extends Resource {
 	
 	private String manufacturer;
 	private String model;
-	private String OS;
+	private String operatingSystem;
 	
 	public static void loadDatabaseLaptops() {
 		try {
@@ -39,7 +39,7 @@ public class Laptop extends Resource {
 		super(uniqueID, title, year, thumbnail);
 		this.manufacturer = manufacturer;
 		this.model = model;
-		this.OS = OS;
+		this.operatingSystem = OS;
 	}
 	
 	public String getManufacturer() {
@@ -61,11 +61,11 @@ public class Laptop extends Resource {
 	}
 
 	public String getOS() {
-		return OS;
+		return operatingSystem;
 	}
 
 	public void setOS(String OS) {
-		this.OS = OS;
+		this.operatingSystem = OS;
 		updateDbValue("laptop", this.uniqueID, "OS", OS);
 	}
 	
@@ -75,5 +75,29 @@ public class Laptop extends Resource {
 	
 	public int getMaxFineAmount() {
 		return MAX_FINE_AMOUNT;
+	}
+	
+	public int getLikenessScore(Resource otherResource) {
+		int score=0;
+		
+		if(otherResource.getClass()==Laptop.class) {
+			
+			Laptop otherLaptop=(Laptop)otherResource;
+			
+			if(manufacturer.equals(otherLaptop.getManufacturer())) {
+				score++;
+			}
+			
+			if(model.equals(otherLaptop.getModel())) {
+				score++;
+			}
+			
+			if(operatingSystem.equals(otherLaptop.getOS())) {
+				score++;
+			}
+		}
+		
+		score+=super.getLikenessScore(otherResource);
+		return score;
 	}
 }

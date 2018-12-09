@@ -13,7 +13,7 @@ public class DVD extends Resource {
 	private static final int DAILY_FINE_AMOUNT=2;
 	
 	private String director;
-	private int runtime;
+	private int runTime;
 	private String language;
 	private ArrayList<String> subtitleLanguages;
 	
@@ -28,8 +28,8 @@ public class DVD extends Resource {
 				
 				//ArrayList<String> subtitleLanguages = loadSubtitles(stmt, rs.getInt("rID"));
 				
-				Image resourceImage = new Image(rs.getString("thumbnail"), true);
-				//Image resourceImage=null;
+				//Image resourceImage = new Image(rs.getString("thumbnail"), true);
+				Image resourceImage=null;
 				resources.add(new DVD(rs.getInt("rID"), rs.getString("title"), rs.getInt("year"),
 						resourceImage, rs.getString("director"), rs.getInt("runTime"), rs.getString("language"), null)); //NEED TO FIX
 				
@@ -44,7 +44,7 @@ public class DVD extends Resource {
 	public DVD(int uniqueID, String title, int year, Image thumbnail, String director, int runtime, String language, ArrayList<String> subtitleList) {
 		super(uniqueID, title, year, thumbnail);
 		this.director = director;
-		this.runtime = runtime;
+		this.runTime = runtime;
 		this.language = language;
 		
 		loadSubtitles();
@@ -59,7 +59,7 @@ public class DVD extends Resource {
 	public DVD(int uniqueID, String title, int year, Image thumbnail, String director, int runtime) {
 		super(uniqueID, title, year, thumbnail);
 		this.director = director;
-		this.runtime = runtime;
+		this.runTime = runtime;
 		
 		loadSubtitles();
 	}
@@ -74,11 +74,11 @@ public class DVD extends Resource {
 	}
 
 	public int getRuntime() {
-		return runtime;
+		return runTime;
 	}
 
 	public void setRuntime(int runtime) {
-		this.runtime = runtime;
+		this.runTime = runtime;
 		updateDbValue("dvd", this.uniqueID, "runtime", Integer.toString(runtime));
 	}
 
@@ -151,6 +151,32 @@ public class DVD extends Resource {
 	
 	public int getMaxFineAmount() {
 		return MAX_FINE_AMOUNT;
+	}
+	
+	public int getLikenessScore(Resource otherResource) {
+		int score=0;
+		
+		if(otherResource.getClass()==DVD.class) {
+			
+			DVD otherDVD=(DVD)otherResource;
+			
+			if(director.equals(otherDVD.getDirector())) {
+				score++;
+			}
+		
+			if(runTime==otherDVD.getRuntime()) {
+				score++;
+			}
+			
+			if(language!=null) {
+				if(language.equals(otherDVD.getLanguage())) {
+					score++;
+				}
+			}
+		}
+		
+		score+=super.getLikenessScore(otherResource);
+		return score;
 	}
 
 	private void loadSubtitles() {

@@ -214,6 +214,7 @@ public class User extends Person {
 		ArrayList<Resource> borrowedResources = new ArrayList<>();
 		
 		while(borrowedCopiesID.next()) {
+			System.out.println("KABKJBADKCBAK");
 			int copyID = borrowedCopiesID.getInt("copyID");
 			
 			sqlStatement.setInt(1, copyID);
@@ -222,11 +223,55 @@ public class User extends Person {
 			/*Since copyID is the primary key of copies, the result to selecting
 			 *  rID will always have only one row.*/
 			int resourceID = resourceIDResult.getInt("rID");
+			System.out.println("rID: "+resourceID);
 			Resource borrowedResource = Resource.getResource(resourceID);
 			
-			borrowedResources.add(borrowedResource);
+			if(!borrowedResources.contains(borrowedResource)) {
+				borrowedResources.add(borrowedResource);
+			}
 		}
 		
-		return new ArrayList<Resource>();
+		ArrayList<ResourceRecommendScore> resourceScores = new ArrayList<>();
+		ArrayList<Resource> resources = Resource.getResources();
+		for(Resource resource: resources) {
+			if(!borrowedResources.contains(resource)) {
+				ResourceRecommendScore resourceScore= new ResourceRecommendScore();
+				resourceScore.setResource(resource);
+				resourceScore.setBorrowedResources(borrowedResources);
+				resourceScores.add(resourceScore);
+			}
+		}
+		
+		for(ResourceRecommendScore score: resourceScores) {
+			System.out.println(score.toString());
+		}
+		resourceScores.sort(null);
+		for(ResourceRecommendScore score: resourceScores) {
+			System.out.println(score.toString());
+		}
+		
+		ArrayList<Resource> recommendedResource = new ArrayList<>();
+		/*for(ResourceRecommendScore resourceScore: resourceScores) {
+			recommendedResource.add(resourceScore.getResource());
+		}*/
+		
+		return recommendedResource;
+	}
+	
+	public static void main(String args[]) {
+		User manny =  new User("Manny", null, null,null,null,null,null,0);
+		
+		Resource.loadDatabaseResources();
+		ArrayList<Resource> recs=null;
+		try {
+			recs = manny.getRecommendations();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		for(Resource r: recs) {
+			System.out.println(r.toString());
+		}
+		
 	}
 }
