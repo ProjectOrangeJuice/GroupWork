@@ -640,6 +640,19 @@ public abstract class Resource {
 		//l.applyFines(test);
 	//}
 	
+	public int getLikenessScore(Resource otherResource) {
+		int score=0;
+		
+		if(title.equals(otherResource.getTitle())) {
+			score++;
+		}
+		
+		if(year==otherResource.getYear()) {
+			score++;
+		}
+		
+		return score;
+	}
 	
 	public boolean contains(String search) {
 		if(title.toUpperCase().contains(search.toUpperCase())) {

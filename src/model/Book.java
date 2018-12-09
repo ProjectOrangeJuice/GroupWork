@@ -15,7 +15,7 @@ public class Book extends Resource {
 	private String author;
 	private String publisher;
 	private String genre;
-	private String ISBN;
+	private String isbn;
 	private String language;
 	
 	/**
@@ -31,8 +31,8 @@ public class Book extends Resource {
 					+ "genre, ISBN, language FROM book, resource WHERE book.rID = resource.rID"); //Your sql goes here
 			
 			while(rs.next()) {
-				Image resourceImage = new Image(rs.getString("thumbnail"), true);
-				//Image resourceImage=null;
+				//Image resourceImage = new Image(rs.getString("thumbnail"), true);
+				Image resourceImage=null;
 				resources.add(new Book(rs.getInt("rID"), rs.getString("title"), 
 						rs.getInt("year"), resourceImage, rs.getString("author"),rs.getString("publisher"),
 						rs.getString("genre"), rs.getString("ISBN"), rs.getString("language")));
@@ -65,7 +65,7 @@ public class Book extends Resource {
 		this.author = author;
 		this.publisher = publisher;
 		this.genre = genre;
-		this.ISBN = ISBN;
+		this.isbn = ISBN;
 		this.language = language;
 	}
 	
@@ -112,11 +112,11 @@ public class Book extends Resource {
 	}
 
 	public String getISBN() {
-		return ISBN;
+		return isbn;
 	}
 
 	public void setISBN(String ISBN) {
-		this.ISBN = ISBN;
+		this.isbn = ISBN;
 		updateDbValue("book", this.uniqueID, "ISBN", ISBN);
 	}
 
@@ -135,5 +135,43 @@ public class Book extends Resource {
 	
 	public int getMaxFineAmount() {
 		return MAX_FINE_AMOUNT;
+	}
+	
+	public int getLikenessScore(Resource otherResource) {
+		int score=0;
+		
+		if(otherResource.getClass()==Book.class) {
+			
+			Book otherBook=(Book)otherResource;
+			
+			if(author.equals(otherBook.getAuthor())) {
+				score++;
+			}
+			
+			if(publisher.equals(otherBook.getPublisher())) {
+				score++;
+			}
+			
+			if(genre!=null) {
+				if(genre.equals(otherBook.getGenre())) {
+					score++;
+				}
+			}
+			
+			if(isbn!=null) {
+				if(isbn.equals(otherBook.getISBN())) {
+					score++;
+				}
+			}
+			
+			if(language!=null) {
+				if(language.equals(otherBook.getLanguage())) {
+					score++;
+				}
+			}
+		}
+		
+		score+=super.getLikenessScore(otherResource);
+		return score;
 	}
 }
