@@ -230,7 +230,7 @@ public class ResourceController {
 					laptop.setManufacturer(manu);
 					laptop.setModel(model);
 					laptop.setOS(OS);
-					
+					alertDone("Updated!");
 					
 				}
 		
@@ -274,7 +274,7 @@ public class ResourceController {
 			resource.setISBN(ISBN);
 			resource.setLanguage(language);
 
-			alertDone("To see changes, logout and login again");
+			alertDone("Updated!");
 			
 		}
 	}
@@ -318,7 +318,7 @@ public class ResourceController {
 				}
 			resource.setRuntime(Integer.parseInt(runtime));
 			
-			alertDone("To see changes, logout and login again");
+			alertDone("Updated!");
 		}
 	}
 	
