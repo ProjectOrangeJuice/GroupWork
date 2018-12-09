@@ -103,6 +103,7 @@ public class RegisterController implements Initializable {
 
 	private String avatarPath = "/SavedAvatars/Avatar1.png";
 
+
 	/**
 	 * Empty Constructor.
 	 */
@@ -342,7 +343,7 @@ public class RegisterController implements Initializable {
 	    	if(librarianCheckBox.isSelected()) {
 	    		staffId.setVisible(true);
 		        employmentDate.setVisible(true);
-	    	}
+	    		}
 	    	return selected;
 	    }
 	    
@@ -402,6 +403,8 @@ public class RegisterController implements Initializable {
 	 */
 	@FXML
 	public void customAvatarAction(MouseEvent event) {
+		AvatarDrawingController avatarDrawingController = new AvatarDrawingController();
+		avatarDrawingController.setPrevScene("profile");
 		changeScene(event, "/fxml/drawAvatar.fxml");
 	}
 

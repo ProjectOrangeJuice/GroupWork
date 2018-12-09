@@ -639,7 +639,10 @@ public class ProfileController {
 	 */
 	@FXML
 	private void openAvatarEditor(MouseEvent event) {
+		AvatarDrawingController avatarDrawingController = new AvatarDrawingController();
+		avatarDrawingController.setPrevScene("profile");
 		System.out.println("Launch avatar editor.");
+		
 		changeScene(event,"/fxml/drawAvatar.fxml");
 	}
 	
