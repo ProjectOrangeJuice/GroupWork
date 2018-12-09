@@ -43,7 +43,6 @@
             <Font size="25.0" />
          </font>
       </Label>
-      <TextField fx:id="usernameText" layoutX="791.0" layoutY="307.0" />
       <TextField fx:id="firstnameText" layoutX="791.0" layoutY="363.0" />
       <TextField fx:id="lastnameText" layoutX="791.0" layoutY="418.0" />
       <TextField fx:id="addressText" layoutX="791.0" layoutY="527.0" />
@@ -62,6 +61,11 @@
          </font>
       </Button>
       <Label layoutX="517.0" layoutY="307.0" text="Username: ">
+         <font>
+            <Font size="25.0" />
+         </font>
+      </Label>
+      <Label fx:id="usernameLabel" layoutX="791.0" layoutY="307.0" text="Username ">
          <font>
             <Font size="25.0" />
          </font>
