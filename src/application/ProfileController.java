@@ -563,7 +563,7 @@ public class ProfileController {
 	// Manage Users Tab
 	//
 	
-	private void loadTables() {
+	private void loadTables(String tableToLoad) {
 		TableColumn<Person, String> usernameCol = new TableColumn<Person, String>("Username");
         usernameCol.setCellValueFactory(new PropertyValueFactory<>("username"));
 		
@@ -588,8 +588,16 @@ public class ProfileController {
 		TableColumn<Person, String> accountBalanceCol = new TableColumn<Person, String>("accountBalance");
 		accountBalanceCol.setCellValueFactory(new PropertyValueFactory<>("accountBalance"));
 		
-		staffUsersTable.getColumns().addAll(usernameCol,firstnameCol,lastnameCol,
-				addressCol,postcodeCol,accountBalanceCol);
+		switch (tableToLoad) {
+			case "users":
+				staffUsersTable.getColumns().addAll(usernameCol,firstnameCol,
+						lastnameCol,addressCol,postcodeCol,accountBalanceCol);
+				break;
+				
+			case "all":
+				staffCopiesExplorerTable.getItems().clear();
+				break;
+		}
 		
 	}
 	
