@@ -5,13 +5,12 @@ import java.util.ArrayList;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.image.ImageView;
 
-
 /**
  * @author James Finlayson
  * @version 1.0
  */
 public class CustomAvatar extends Avatar {
-    //The list of components that create the custom avatar.
+    // The list of components that create the custom avatar.
     private ArrayList<AvatarComponent> component;
 
     /**
@@ -46,15 +45,15 @@ public class CustomAvatar extends Avatar {
 
     @Override
     public void displayAvatar(ImageView imageView) {
-    	//Create a canvas.
-    	Canvas canvas = new Canvas();
-    	
-    	//Display every component of the custom avatar.
-    	for (AvatarComponent elem : component) {
-    		elem.displayComponent(canvas);
-    	}
-    	
-    	//Add the canvas to the scene.
-    	imageView.getParent().getChildrenUnmodifiable().add(canvas);
+        // Create a canvas.
+        Canvas canvas = new Canvas();
+
+        // Display every component of the custom avatar.
+        for (AvatarComponent elem : component) {
+            elem.displayComponent(canvas);
+        }
+
+        // Add the canvas to the scene.
+        imageView.getParent().getChildrenUnmodifiable().add(canvas);
     }
 }

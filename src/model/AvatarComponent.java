@@ -9,10 +9,10 @@ import javafx.scene.paint.Color;
  */
 public abstract class AvatarComponent {
     public static final int NO_OF_DIMENSIONS = 2;
-    public static final int X_INDEX = 0; //The x index in an array.
-    public static final int Y_INDEX = 1; //The y index in an array.
-    private double[] startPosition; //The start point of the component.
-    private Color colour; //The colour of the component.
+    public static final int X_INDEX = 0; // The x index in an array.
+    public static final int Y_INDEX = 1; // The y index in an array.
+    private double[] startPosition; // The start point of the component.
+    private Color colour; // The colour of the component.
 
     /**
      * Creates a avatar component.
@@ -95,6 +95,7 @@ public abstract class AvatarComponent {
 
     /**
      * Displays the component on the canvas provided.
+     * 
      * @param canvas The canvas the component will be displayed on.
      */
     public abstract void displayComponent(Canvas canvas);

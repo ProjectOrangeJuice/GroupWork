@@ -29,21 +29,22 @@ public class Book extends Resource {
             Connection conn = DBHelper.getConnection(); // get the connection
             Statement stmt = conn.createStatement(); // prep a statement
             ResultSet rs = stmt.executeQuery(
-                    "SELECT resource.rID, resource.year, resource.title, resource.thumbnail, author, publisher,"
-                            + "genre, ISBN, language FROM book, resource WHERE book.rID = resource.rID"); // Your sql
-                                                                                                          // goes here
+                "SELECT resource.rID, resource.year, resource.title, resource.thumbnail, author, publisher," +
+                    "genre, ISBN, language FROM book, resource WHERE book.rID = resource.rID"); // Your sql
+                                                                                                // goes here
 
             while (rs.next()) {
                 Image resourceImage = new Image(rs.getString("thumbnail"), true);
                 // Image resourceImage=null;
                 resources.add(new Book(rs.getInt("rID"), rs.getString("title"), rs.getInt("year"), resourceImage,
-                        rs.getString("author"), rs.getString("publisher"), rs.getString("genre"), rs.getString("ISBN"),
-                        rs.getString("language")));
+                    rs.getString("author"), rs.getString("publisher"), rs.getString("genre"), rs.getString("ISBN"),
+                    rs.getString("language")));
 
                 System.out.println("New book added!");
             }
 
-        } catch (SQLException e) {
+        }
+        catch (SQLException e) {
             e.printStackTrace();
         }
     }
@@ -99,8 +100,7 @@ public class Book extends Resource {
     /**
      * Sets the genre variable from database
      * 
-     * @param genre
-     *            of book
+     * @param genre of book
      */
     public void setGenre(String genre) {
         this.genre = genre;
@@ -138,8 +138,7 @@ public class Book extends Resource {
     /**
      * Set publisher variable from database
      * 
-     * @param publisher
-     *            of book
+     * @param publisher of book
      */
     public void setPublisher(String publisher) {
         this.publisher = publisher;
@@ -158,8 +157,7 @@ public class Book extends Resource {
     /**
      * Set ISBN variable from database
      * 
-     * @param ISBN
-     *            of a book
+     * @param ISBN of a book
      */
     public void setISBN(String ISBN) {
         this.isbn = ISBN;

@@ -1,23 +1,24 @@
 package model;
+
 import javafx.scene.image.ImageView;
 
 /**
  * @author James Finlayson
  */
 public abstract class Avatar {
-    //Number of dimensions an avatar has
+    // Number of dimensions an avatar has
     public static final int NO_OF_DIMENSIONS = 2;
-    public static final int X_INDEX = 0; //x index
-    public static final int Y_INDEX = 1; //y index
-    private double size; //size of the avatar
-    private double[] position; //centre x,y coordinates 
+    public static final int X_INDEX = 0; // x index
+    public static final int Y_INDEX = 1; // y index
+    private double size; // size of the avatar
+    private double[] position; // centre x,y coordinates
 
     /**
      * Creates an avatar.
      *
-     * @param size 
-     * @param posX 
-     * @param posY 
+     * @param size
+     * @param posX
+     * @param posY
      */
     public Avatar(double size, double posX, double posY) {
         this.size = size;
@@ -43,8 +44,8 @@ public abstract class Avatar {
     }
 
     /**
- 	 * Gets y-axis centre position
- 	 * 
+     * Gets y-axis centre position
+     * 
      * @return The y position of the centre of the avatar.
      */
     public double getYPosition() {
@@ -70,7 +71,7 @@ public abstract class Avatar {
     }
 
     /**
-     * Sets y-axis centre position     
+     * Sets y-axis centre position
      * 
      * @param y The y position at the centre of the avatar.
      */
@@ -91,6 +92,7 @@ public abstract class Avatar {
 
     /**
      * Displays the avatar on an ImageView.
+     * 
      * @param imageView The ImageView that the avatar is being displayed on.
      */
     public abstract void displayAvatar(ImageView imageView);

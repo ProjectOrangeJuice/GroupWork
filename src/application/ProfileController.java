@@ -402,11 +402,18 @@ public class ProfileController {
 	
 	@FXML
 	private void  reloadStuff(Event e) {
-		Resource.loadDatabaseResources();
 		vResourceBox.getChildren().clear();
 		vResourceBox.getChildren().add(new HBox());
+		resourceImages.getChildren().clear();
+		
+		
+		Resource.loadDatabaseResources();
+		
 		loadResourceImages();
-
+		loadUserInformation();
+		loadCopies();
+		loadRequested();
+		loadBorrowHistory();
 		
 	}
 	
@@ -420,7 +427,7 @@ public class ProfileController {
 			//get user copies that they're currently borrowing.
 			((User) currentUser).loadUserCopies();
 			ArrayList<Copy> userCopies = ((User) currentUser).getBorrowedCopies();
-			
+			System.out.println("sizee: " + userCopies.size());
 			for(int i = 0 ; i < userCopies.size() ; i++) {
 				System.out.println(userCopies.get(i).getResource().getTitle());
 				Resource copyResource = userCopies.get(i).getResource();
@@ -435,7 +442,7 @@ public class ProfileController {
 				
 				imagePane.setOnMouseEntered(enterHandler);
 				imagePane.setOnMouseExited(exitHandler);
-				imagePane.setOnMouseClicked(clickHandler);
+				//imagePane.setOnMouseClicked(clickHandler);
 			}
 		}
 		//get user copies that they have requested.
@@ -520,7 +527,6 @@ public class ProfileController {
 				
 				imagePane.setOnMouseEntered(enterHandler);
 				imagePane.setOnMouseExited(exitHandler);
-				imagePane.setOnMouseClicked(clickHandler);
 				
 			}
 		}
@@ -556,15 +562,11 @@ public class ProfileController {
 		
 		currentUser = ScreenManager.getCurrentUser();
 		resources = ScreenManager.getResources();
-		
-		loadResourceImages();
-		loadUserInformation();
-		loadCopies();
-		loadRequested();
-		loadBorrowHistory();
 
 		loadUserTableColumns();
 		//displayAll();
+		
+		loadResourceImages();
 
 		scrollPane.setHvalue(0.5);
 	
@@ -706,7 +708,7 @@ public class ProfileController {
 		System.out.println("Launch staff editing profile.");
 		
 		try {
-			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/StaffEdit.fxml"));
+			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/staffEdit.fxml"));
             Parent root1 = (Parent) fxmlLoader.load();
             Stage stage = new Stage();
             stage.initModality(Modality.APPLICATION_MODAL);
