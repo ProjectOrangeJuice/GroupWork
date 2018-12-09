@@ -526,7 +526,22 @@ public class ProfileController {
 	@FXML
 	private void loadBorrowHistory() {
 		if(currentUser instanceof User) {
-			System.out.println("things");
+			ArrayList<Resource> borrowHistory = ((User) currentUser).loadUserHistory();
+			for(Resource resource : borrowHistory) {
+				
+				StackPane imagePane = createImage(resource, COPY_IMG_WIDTH, COPY_IMG_HEIGHT);
+				
+				((ImageView) imagePane.getChildren().get(1)).setFitWidth(COPY_IMG_WIDTH);
+				((ImageView) imagePane.getChildren().get(1)).setImage(new Image("/graphics/returned.png"));
+				((ImageView) imagePane.getChildren().get(1)).setPreserveRatio(true);
+				
+				resourceImages.getChildren().add(imagePane);
+				
+				imagePane.setOnMouseEntered(enterHandler);
+				imagePane.setOnMouseExited(exitHandler);
+				imagePane.setOnMouseClicked(clickHandler);
+				
+			}
 		}
 	}
 
