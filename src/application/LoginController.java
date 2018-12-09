@@ -78,8 +78,7 @@ public class LoginController {
 	@FXML
 	public void registerAction(MouseEvent event) {
 		System.out.println("Register button pressed.");
-		changeScene(event,"/fxml/registerScene.fxml");
-		
+		changeScene(event, "/fxml/registerScene.fxml");
 	}
 	
 	@FXML

@@ -206,7 +206,7 @@ public class User extends Person {
 	public ArrayList<Resource> getRecommendations() throws SQLException{
 		Connection connectionToDB = DBHelper.getConnection();
 		PreparedStatement sqlStatement = connectionToDB.prepareStatement
-				("select distinct copyID from borrowRecords where username=?");
+				("select copyID from borrowRecords where username=?");
 		sqlStatement.setString(1, username);
 		ResultSet borrowedCopiesID = sqlStatement.executeQuery();
 	
@@ -214,7 +214,6 @@ public class User extends Person {
 		ArrayList<Resource> borrowedResources = new ArrayList<>();
 		
 		while(borrowedCopiesID.next()) {
-			System.out.println("KABKJBADKCBAK");
 			int copyID = borrowedCopiesID.getInt("copyID");
 			
 			sqlStatement.setInt(1, copyID);
@@ -242,25 +241,23 @@ public class User extends Person {
 			}
 		}
 		
-		for(ResourceRecommendScore score: resourceScores) {
-			System.out.println(score.toString());
-		}
 		resourceScores.sort(null);
-		for(ResourceRecommendScore score: resourceScores) {
-			System.out.println(score.toString());
-		}
 		
 		ArrayList<Resource> recommendedResource = new ArrayList<>();
-		/*for(ResourceRecommendScore resourceScore: resourceScores) {
-			recommendedResource.add(resourceScore.getResource());
-		}*/
+		for(ResourceRecommendScore resourceScore: resourceScores) {
+			if(resourceScore.calculateLikeness()>0) {
+				recommendedResource.add(resourceScore.getResource());
+			}
+		}
 		
 		return recommendedResource;
 	}
 	
+	/*
 	public static void main(String args[]) {
-		User manny =  new User("Manny", null, null,null,null,null,null,0);
+		User manny = (User) Person.loadPerson("Manny");
 		
+		DBHelper.tableCheck();
 		Resource.loadDatabaseResources();
 		ArrayList<Resource> recs=null;
 		try {
@@ -268,10 +265,5 @@ public class User extends Person {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
-		for(Resource r: recs) {
-			System.out.println(r.toString());
-		}
-		
-	}
+	}*/
 }
