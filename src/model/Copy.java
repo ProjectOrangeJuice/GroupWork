@@ -26,7 +26,7 @@ public class Copy implements Comparable<Copy> {
      * @param copyID The ID of the new copy.
      * @param borrower The user borrowing the copy currently.
      * @param loanDuration The duration in days that a loan is valid, untill it 
-     * is renewad or until the user needs to bring it back.
+     * is renewed or until the user needs to bring it back.
      * @param borrowDate Date copy was borrowed.
      * @param lastRenewal Last date the loan was renewed.
      * @param dueDate Date by which this copy needs to be returned.

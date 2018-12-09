@@ -518,10 +518,10 @@ public abstract class Resource {
 
     /**
      * Calculates an integer representing how similar this resource is to the
-     *  given resource.
-     *  @param otherResource The resource this resource is compared with.
-     *  @return an integer representing how similar this resource is to the
-     *   given resource.
+     * given resource.
+     * @param otherResource The resource this resource is compared with.
+     * @return an integer representing how similar this resource is to the
+     * given resource.
      */
     public int getLikenessScore(Resource otherResource) {
         int score = 0;
