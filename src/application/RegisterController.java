@@ -361,12 +361,8 @@ public class RegisterController implements Initializable {
 		 * @param event checkbox being checked
 		 * @return boolean of whehter checkbox was selected
 		 */
-	    public boolean isLibrarian(ActionEvent event) {//show staffId box
+	    public boolean isLibrarian(ActionEvent event) {
 	    	boolean selected = librarianCheckBox.isSelected();
-	    	/**if(librarianCheckBox.isSelected()) {
-	    		staffId.setVisible(true);
-		        employmentDate.setVisible(true);
-	    		}*/
 	    	return selected;
 	    }
 	    

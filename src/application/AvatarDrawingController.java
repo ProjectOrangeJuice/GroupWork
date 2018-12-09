@@ -183,6 +183,7 @@ public class AvatarDrawingController implements Initializable {
 
     /**
      * Saves the custom avatar when the "Save Image" button is pressed.
+     * Returns to either profile or registration depending on where the page was accessed from.
      *
      * @param event event.
      * @throws IOException Thrown if Profile.fxml can't be loaded.
@@ -208,8 +209,7 @@ public class AvatarDrawingController implements Initializable {
 
             //Update system and database with new avatar.
             SavedAvatar newAvatar = createSavedAvatar(fileName);
-            user.setAvatar("../SavedAvatars/" + fileName);
-            changeScene(event, "/fxml/profileScene.fxml");
+            user.setAvatar("/Group6/SavedAvatars/" + fileName);
             
             
         } else {
@@ -221,9 +221,8 @@ public class AvatarDrawingController implements Initializable {
             createSavedAvatar(fileName);
 
             //Set the relative path.
-            customDrawingFileLocation = "../SavedAvatars/"
+            customDrawingFileLocation = "/Group6/SavedAvatars/"
                     + fileName;
-            changeScene(event, "/fxml/registerScene.fxml");
         }
     }
 
@@ -238,7 +237,7 @@ public class AvatarDrawingController implements Initializable {
         //Create path for File class as absolute path to project
 
         path = path.substring(0, path.length() - 2)
-                + "/SavedAvatars/"
+                + "/Group6/SavedAvatars/"
                 + fileName;
 
         //Create the file that will be saved.
@@ -254,7 +253,7 @@ public class AvatarDrawingController implements Initializable {
                         canvas.snapshot(null, null), null);
                 ImageIO.write(bImage, "png", file);
             } catch (Exception e) {
-                /* If an exception is cause, print the error message
+                /* If an exception is caused, print the error message
                  * on the console.
                  */
                 System.out.println(e.getMessage());
@@ -272,7 +271,7 @@ public class AvatarDrawingController implements Initializable {
     public SavedAvatar createSavedAvatar(String fileName) {
         //Create a new Saved Avatar.
         return new SavedAvatar(
-                "../SavedAvatars/"
+                "/Group6/SavedAvatars/"
                         + fileName);
     }
 
