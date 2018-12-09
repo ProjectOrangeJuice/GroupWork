@@ -41,7 +41,6 @@ public class StaffEdit {
     private TextField usernameText;// username text box
 
     @FXML
-<<<<<<< HEAD
     private TextField firstnameText;//firstname text box
     
     @FXML
@@ -58,9 +57,8 @@ public class StaffEdit {
     
     @FXML
     private Label postcodeError;
-=======
-    private TextField firstnameText;// firstname text box
->>>>>>> refs/remotes/origin/master
+
+    //private TextField firstnameText;// firstname text box
 
     @FXML
     private TextField lastnameText;// lastname text box
@@ -72,18 +70,13 @@ public class StaffEdit {
     private TextField postcodeText;// postcode text box
 
     @FXML
-<<<<<<< HEAD
     private Label staffIDLabel;//staffid text box
-=======
+
     private TextField staffIDText;// staffid text box
->>>>>>> refs/remotes/origin/master
+
 
     @FXML
-<<<<<<< HEAD
     private Label employmentDateLabel;//employmentdate text box
-=======
-    private TextField employmentDateText;// employmentdate text box
->>>>>>> refs/remotes/origin/master
 
     @FXML
     private TextField phoneNumberText;// phone number text box
@@ -132,14 +125,9 @@ public class StaffEdit {
      */
     @FXML
     void cancelEditProfile(MouseEvent event) {
-<<<<<<< HEAD
     	Stage stage = (Stage) cancelButton.getScene().getWindow();
     	stage.close();
     	//changeScene(event, "/fxml/profileScene.fxml");
-=======
-        Stage stage = (Stage) cancelButton.getScene().getWindow();
-        stage.close();
->>>>>>> refs/remotes/origin/master
     }
 
     /**
@@ -149,7 +137,6 @@ public class StaffEdit {
      */
     @FXML
     void saveEditedProfile(MouseEvent event) {
-<<<<<<< HEAD
     	String firstName = firstnameText.getText();
     	String lastName = lastnameText.getText();
     	String phoneNumber = phoneNumberText.getText();
@@ -221,56 +208,12 @@ public class StaffEdit {
         	alertDone("Details have been saved");
         	changeScene(event, "/fxml/LoginScene.fxml");
     	}
-=======
-        String firstName = firstnameText.getText();
-        String lastName = lastnameText.getText();
-        String phoneNumber = phoneNumberText.getText();
-        String address = addressText.getText();
-        String postcode = postcodeText.getText();
-        String staffID = staffIDText.getText();
-        String employmentDate = employmentDateText.getText();
-        String username = usernameLabel.getText();
-
-        try {
-            // SQL that saves the profile information into the table
-            Connection dbConnection = model.DBHelper.getConnection();
-            PreparedStatement preparedSQLStatement = dbConnection
-                .prepareStatement(
-                    "UPDATE users SET firstName = ?, lastName = ?, telephone = ?, address = ?, postcode = ? WHERE username = ?");
-            preparedSQLStatement.setString(1, firstName);
-            preparedSQLStatement.setString(2, lastName);
-            preparedSQLStatement.setString(3, phoneNumber);
-            preparedSQLStatement.setString(4, address);
-            preparedSQLStatement.setString(5, postcode);
-            preparedSQLStatement.setString(6, username);
-            preparedSQLStatement.executeUpdate();
-            // conn.commit();
-
-            PreparedStatement pstmt1 = dbConnection.prepareStatement(
-                "UPDATE staff SET staffID = ?, employmentDate = ?  WHERE staff.username = ?");
-            pstmt1.setInt(1, Integer.parseInt(staffID));
-            pstmt1.setString(2, employmentDate);
-            preparedSQLStatement.setString(3, username);
-
-            pstmt1.executeUpdate();
-            // conn.commit();
-
-            dbConnection.close();
-        }
-        catch (SQLException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        alertDone("Details have been saved");
-        changeScene(event, "/fxml/LoginScene.fxml");
->>>>>>> refs/remotes/origin/master
     }
 
     /**
      * Method that loads the staff information and adds them to the text fields
      */
     public void loadStaffInformation() {
-<<<<<<< HEAD
     	if (currentUser instanceof Librarian) {
     		Librarian currentStaff = (Librarian) currentUser;
     		SimpleDateFormat sdfr = new SimpleDateFormat("dd/MM/yyyy");
@@ -294,32 +237,6 @@ public class StaffEdit {
 	    	staffIDLabel.setText(Integer.toString(staffID));
 	    	employmentDateLabel.setText(employmentDate);
     	}
-=======
-        if (currentUser instanceof Librarian) {
-            Librarian currentStaff = (Librarian) currentUser;
-            SimpleDateFormat sdfr = new SimpleDateFormat("dd/MM/yyyy");
-            // get all information in about user from ScreenManager class.
-            String username = currentStaff.getUsername();
-            String firstname = currentStaff.getFirstName();
-            String lastname = currentStaff.getLastName();
-            String address = currentStaff.getAddress();
-            String postcode = currentStaff.getPostcode();
-            String phoneNumber = currentStaff.getPhoneNumber();
-            int staffID = currentStaff.getStaffID();
-            String employmentDate = sdfr
-                .format(currentStaff.getEmploymentDate());
-
-            // change text to text field for staff to edit
-            usernameLabel.setText(username);
-            firstnameText.setText(firstname);
-            lastnameText.setText(lastname);
-            phoneNumberText.setText(phoneNumber);
-            addressText.setText(address);
-            postcodeText.setText(postcode);
-            staffIDText.setText(Integer.toString(staffID));
-            employmentDateText.setText(employmentDate);
-        }
->>>>>>> refs/remotes/origin/master
     }
 
     /**
@@ -331,10 +248,6 @@ public class StaffEdit {
         usernameLabel.setText(currentUser.getUsername());
         loadStaffInformation();
     }
-
-<<<<<<< HEAD
-		alert.showAndWait();
-	}
 	
 	private boolean validateAddress() {
 		String address = addressText.getText();
@@ -351,7 +264,7 @@ public class StaffEdit {
 		 
 		return !(lastName.length() > 15 || lastName.length() <= 0);
 	}
-=======
+
     /**
      * Generate a popup.
      * 
@@ -365,7 +278,6 @@ public class StaffEdit {
 
         alert.showAndWait();
     }
->>>>>>> refs/remotes/origin/master
 
 	private boolean validateFirstName() {
 		String firstName = firstnameText.getText();
