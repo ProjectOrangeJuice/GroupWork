@@ -1,16 +1,20 @@
 package application;
 
 
+import java.io.IOException;
 import java.sql.SQLException;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import model.Librarian;
 import model.Person;
@@ -23,6 +27,13 @@ public class LoginController {
 	
 	@FXML
 	private Label errorLabel;
+	
+	@FXML
+	private Button registerButton;
+	
+	@FXML
+	private Button loginButton;
+	
 	
 	/**
 	 * Sets new scene on stage within program using fxml file provided.
@@ -78,7 +89,20 @@ public class LoginController {
 	@FXML
 	public void registerAction(MouseEvent event) {
 		System.out.println("Register button pressed.");
-		changeScene(event, "/fxml/registerScene.fxml");
+		try {
+			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/registerScene.fxml"));
+			Parent root1 = (Parent) fxmlLoader.load();
+			Stage stage = new Stage();
+			stage.initModality(Modality.APPLICATION_MODAL);
+			// stage.initStyle(StageStyle.UNDECORATED);
+			stage.setTitle("Avatar!");
+			stage.setScene(new Scene(root1));
+			stage.show();
+		} catch (IOException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
+		//changeScene(event, "/fxml/registerScene.fxml");
 	}
 	
 	@FXML

@@ -84,37 +84,69 @@ public class Book extends Resource {
 		this.publisher = publisher;
 	}
 	
+	/**
+	 * Get genre method
+	 * @return genre of book
+	 */
 	public String getGenre() {
 		return genre;
 	}
 
+	/**
+	 * Sets the genre variable from database
+	 * @param genre of book
+	 */
 	public void setGenre(String genre) {
 		this.genre = genre;
 		updateDbValue("book", this.uniqueID, "genre", genre);
 	}
 
+	/**
+	 * Get author method
+	 * @return author of book
+	 */
 	public String getAuthor() {
 		return author;
 	}
 
+	/**
+	 * Sets author variable from database.
+	 * @param author
+	 */
 	public void setAuthor(String author) {
 		this.author = author;
 		updateDbValue("book", this.uniqueID, "author", author);
 	}
 
+	/**
+	 * Get publisher method
+	 * @return publisher of book
+	 */
 	public String getPublisher() {
 		return publisher;
 	}
 
+	/**
+	 * Set publisher variable from database
+	 * @param publisher of book
+	 */
 	public void setPublisher(String publisher) {
 		this.publisher = publisher;
 		updateDbValue("book", this.uniqueID, "publisher", publisher);
 	}
 
+	/**
+	 * Get ISBN method
+	 * @return ISBN of a book
+	 */
 	public String getISBN() {
 		return isbn;
 	}
 
+	/**
+	 * Set ISBN variable from database
+	 * @param ISBN of a book
+	 */
 	public void setISBN(String ISBN) {
 		this.isbn = ISBN;
 		updateDbValue("book", this.uniqueID, "ISBN", ISBN);

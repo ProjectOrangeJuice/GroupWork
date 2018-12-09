@@ -19,6 +19,7 @@ import javafx.scene.CacheHint;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
@@ -28,6 +29,7 @@ import javafx.scene.control.TabPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.effect.BlendMode;
 import javafx.scene.image.Image;
@@ -203,8 +205,7 @@ public class ProfileController {
 		}
 
 	}
-	
-	
+
 	
 	@FXML
 	private void searchBarSwitch (MouseEvent event) {
@@ -396,6 +397,19 @@ public class ProfileController {
 		return false;
 
 	}
+	
+	
+	@FXML
+	private void  reloadStuff(Event e) {
+		Resource.loadDatabaseResources();
+		vResourceBox.getChildren().clear();
+		vResourceBox.getChildren().add(new HBox());
+		loadResourceImages();
+
+		
+	}
+	
+	
 	/**
 	 * Method that loads copies that the user is currently borrowing
 	 */
@@ -514,7 +528,22 @@ public class ProfileController {
 	@FXML
 	private void loadBorrowHistory() {
 		if(currentUser instanceof User) {
-			System.out.println("things");
+			ArrayList<Resource> borrowHistory = ((User) currentUser).loadUserHistory();
+			for(Resource resource : borrowHistory) {
+				
+				StackPane imagePane = createImage(resource, COPY_IMG_WIDTH, COPY_IMG_HEIGHT);
+				
+				((ImageView) imagePane.getChildren().get(1)).setFitWidth(COPY_IMG_WIDTH);
+				((ImageView) imagePane.getChildren().get(1)).setImage(new Image("/graphics/returned.png"));
+				((ImageView) imagePane.getChildren().get(1)).setPreserveRatio(true);
+				
+				resourceImages.getChildren().add(imagePane);
+				
+				imagePane.setOnMouseEntered(enterHandler);
+				imagePane.setOnMouseExited(exitHandler);
+				imagePane.setOnMouseClicked(clickHandler);
+				
+			}
 		}
 	}
 
@@ -531,8 +560,9 @@ public class ProfileController {
 		loadUserInformation();
 		loadCopies();
 		loadRequested();
+		loadBorrowHistory();
 
-		loadTables("users");
+		loadUserTableColumns();
 		displayAll();
 
 		scrollPane.setHvalue(0.5);
@@ -553,7 +583,7 @@ public class ProfileController {
 		staffApproveCopy.setDisable(true);
 		staffReturnCopy.setDisable(false);
 		
-		loadTables("all");
+		loadExplorerTableColumns("all");
 		
 		ObservableList<Copy> copiesList = FXCollections.observableArrayList();
 		
@@ -576,7 +606,7 @@ public class ProfileController {
 		staffReturnCopy.setDisable(false);
 		
 		System.out.println("Display Overdue!");
-		loadTables("overdue");
+		loadExplorerTableColumns("overdue");
 	}
 	
 	/**
@@ -644,52 +674,35 @@ public class ProfileController {
 	 */
 	@FXML
 	private void openAvatarEditor(MouseEvent event) {
-		AvatarDrawingController avatarDrawingController = new AvatarDrawingController();
-		avatarDrawingController.setPrevScene("profile");
+		
+		try {
+			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/drawAvatar.fxml"));
+			Parent root1 = (Parent) fxmlLoader.load();
+			Stage stage = new Stage();
+			stage.initModality(Modality.APPLICATION_MODAL);
+			// stage.initStyle(StageStyle.UNDECORATED);
+			stage.setTitle("Avatar!");
+			stage.setScene(new Scene(root1));
+			stage.show();
+		} catch (IOException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
+		
+		//AvatarDrawingController avatarDrawingController = new AvatarDrawingController();
+		//avatarDrawingController.setPrevScene("profile");
 		System.out.println("Launch avatar editor.");
 		
-		changeScene(event,"/fxml/drawAvatar.fxml");
+		//changeScene(event,"/fxml/drawAvatar.fxml");
 	}
 	
 
-	//
-	//Staff: Manage Users
-	//
+
 	
 	/**
 	 * Loads the user table so the staff can manage the users.
 	 */
-	private void loadTables(String tableToLoad) {
-		//Manage Users Columns
-
-		TableColumn<Person, String> usernameCol = new TableColumn<Person, String>("Username");
-        usernameCol.setCellValueFactory(new PropertyValueFactory<>("username"));
-		
-		TableColumn<Person, String> firstnameCol = new TableColumn<Person, String>("Firstname");
-		firstnameCol.setCellValueFactory(new PropertyValueFactory<>("firstName"));
-		
-		TableColumn<Person, String> lastnameCol = new TableColumn<Person, String>("Lastname");
-		lastnameCol.setCellValueFactory(new PropertyValueFactory<>("lastName"));
-		
-		TableColumn<Person, Integer> telephoneCol = new TableColumn<Person, Integer>("Telephone");
-		telephoneCol.setCellValueFactory(new PropertyValueFactory<>("phoneNumber"));
-		
-		TableColumn<Person, String> addressCol = new TableColumn<Person, String>("Address");
-		addressCol.setCellValueFactory(new PropertyValueFactory<>("address"));
-
-		TableColumn<Person, String> postcodeCol = new TableColumn<Person, String>("Postcode");
-		postcodeCol.setCellValueFactory(new PropertyValueFactory<>("postcode"));
-		
-		TableColumn<Person, String> avatarCol = new TableColumn<Person, String>("Avatar Path");
-		avatarCol.setCellValueFactory(new PropertyValueFactory<>("avatarPath"));
-		
-		TableColumn<Person, String> accountBalanceCol = new TableColumn<Person, String>("accountBalance");
-		accountBalanceCol.setCellValueFactory(new PropertyValueFactory<>("accountBalance"));
-		
-
-		staffUsersTable.getColumns().addAll(usernameCol, firstnameCol, lastnameCol,addressCol,postcodeCol,accountBalanceCol);
-		
-		//Copies Explorer columns.
+	private void loadExplorerTableColumns(String tableToLoad) {		
 		TableColumn<Copy, String> copyIDCol = new TableColumn<Copy, String>("Copy ID");
 		copyIDCol.setCellValueFactory(new PropertyValueFactory<>("copyID"));
 		
@@ -715,13 +728,7 @@ public class ProfileController {
 		dueCol.setCellValueFactory(new PropertyValueFactory<>("dueDate"));
 		
 		
-		switch (tableToLoad) {
-			case "users":
-				staffUsersTable.getColumns().clear();
-				staffUsersTable.getColumns().addAll(usernameCol,firstnameCol,
-						lastnameCol,addressCol,postcodeCol,accountBalanceCol);
-				break;
-				
+		switch (tableToLoad) {				
 			case "all":
 				staffCopiesExplorerTable.getColumns().clear();
 				staffCopiesExplorerTable.getColumns().addAll(copyIDCol,
@@ -730,21 +737,51 @@ public class ProfileController {
 			case "overdue":
 				staffCopiesExplorerTable.getColumns().clear();
 				break;
+				
+			case "requested":
+				staffCopiesExplorerTable.getColumns().clear();
+				break;
 		}
 		
 	}
 	
-
-
-	/**
-	 * loads all the users from the table which aren't staff when the button is clicked
-	 * @param event the button being clicked
-	 */
-
 	//
 	//Staff: Manage Users
 	//
 	
+	private void loadUserTableColumns() {
+		TableColumn<Person, String> usernameCol = new TableColumn<Person, String>("Username");
+        usernameCol.setCellValueFactory(new PropertyValueFactory<>("username"));
+		
+		TableColumn<Person, String> firstnameCol = new TableColumn<Person, String>("Firstname");
+		firstnameCol.setCellValueFactory(new PropertyValueFactory<>("firstName"));
+		
+		TableColumn<Person, String> lastnameCol = new TableColumn<Person, String>("Lastname");
+		lastnameCol.setCellValueFactory(new PropertyValueFactory<>("lastName"));
+		
+		TableColumn<Person, Integer> telephoneCol = new TableColumn<Person, Integer>("Telephone");
+		telephoneCol.setCellValueFactory(new PropertyValueFactory<>("phoneNumber"));
+		
+		TableColumn<Person, String> addressCol = new TableColumn<Person, String>("Address");
+		addressCol.setCellValueFactory(new PropertyValueFactory<>("address"));
+
+		TableColumn<Person, String> postcodeCol = new TableColumn<Person, String>("Postcode");
+		postcodeCol.setCellValueFactory(new PropertyValueFactory<>("postcode"));
+		
+		TableColumn<Person, String> avatarCol = new TableColumn<Person, String>("Avatar Path");
+		avatarCol.setCellValueFactory(new PropertyValueFactory<>("avatarPath"));
+		
+		TableColumn<Person, String> accountBalanceCol = new TableColumn<Person, String>("accountBalance");
+		accountBalanceCol.setCellValueFactory(new PropertyValueFactory<>("accountBalance"));
+		
+		staffUsersTable.getColumns().clear();
+		staffUsersTable.getColumns().addAll(usernameCol,firstnameCol,
+				lastnameCol,addressCol,postcodeCol,accountBalanceCol);
+	}
+	/**
+	 * loads all the users from the table which aren't staff when the button is clicked
+	 * @param event the button being clicked
+	 */
 	@FXML
 	private void loadUsersTable(MouseEvent event) {
 		ObservableList<Person> usersList = FXCollections.observableArrayList();
@@ -789,12 +826,35 @@ public class ProfileController {
 			System.out.println("No user selected!");
 		} else {
 			System.out.println("Delete User: " + selectedUserLabel.getText());
+			if(selectedUserLabel.getText().equals(ScreenManager.getCurrentUser().getUsername())) {
+				alertDone("You can't delete yourself!");
+			}else {
+				if(Person.removePerson(selectedUserLabel.getText())) {
+					
+				}else {
+					alertDone("They can't be deleted at the moment");
+				}
+			}
 			//Delete user
 			selectedUserLabel.setText("-");
 			staffUsersTable.getItems().clear();
 			loadUsersTable(null);
 		}
 		
+	}
+	
+	
+	/**
+	 * Generate a popup.
+	 * @param text The text to be displayed.
+	 */
+	private void alertDone(String text) {
+		Alert alert = new Alert(AlertType.INFORMATION);
+		alert.setTitle("Information Dialog");
+		alert.setHeaderText(null);
+		alert.setContentText(text);
+
+		alert.showAndWait();
 	}
 	
 	/**

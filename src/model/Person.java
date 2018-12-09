@@ -254,5 +254,47 @@ public abstract class Person {
 		return false;
 	}
 	
-	//Remove Person
+	/**
+	 * Removes the user from the database.
+	 * @param username The username to remove
+	 * @return If it was removed
+	 */
+	public static boolean removePerson(String username) {
+		try {
+			if(!userBorrowing(username)) {
+				
+			
+			Connection conn = DBHelper.getConnection();
+			PreparedStatement pstmt = conn.prepareStatement("DELETE FROM userRequests WHERE userName= ?");
+            pstmt.setString(1, username);
+            pstmt.executeUpdate();
+            pstmt = conn.prepareStatement("DELETE FROM users WHERE userName= ?");
+            pstmt.setString(1, username);
+            pstmt.executeUpdate();
+
+ 
+            	return true;
+            
+            
+			}
+          
+		} catch (SQLException e) { 
+			e.printStackTrace();
+		}
+		return false;
+	}
+	
+
+	private static boolean userBorrowing(String username) throws SQLException {
+		Connection conn = DBHelper.getConnection();
+		PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM borrowRecords WHERE username= ?");
+        pstmt.setString(1, username);
+        ResultSet results = pstmt.executeQuery(); 
+        if(results.next()) {
+        	return true;
+        }
+        return false;
+       
+	}
+	
 }

@@ -70,7 +70,7 @@ public class RegisterController implements Initializable {
 	private TextField phoneNumber;
 
 	@FXML
-	private Button registerButton;
+	private Button registerButt;
 
 	@FXML
 	private Button browseButton;
@@ -116,8 +116,8 @@ public class RegisterController implements Initializable {
 	public void initialize(URL location, ResourceBundle resources) {
 		Image newAvatar = new Image(avatarPath);
 		avatar.setImage(newAvatar);
-		staffId.setVisible(false);
-		employmentDate.setVisible(false);
+		//staffId.setVisible(false);
+		//employmentDate.setVisible(false);
 		staffIdError.setVisible(false);
 		usernameError.setVisible(false);
 		firstNameError.setVisible(false);
@@ -126,6 +126,9 @@ public class RegisterController implements Initializable {
 		postCodeError.setVisible(false);
 		phoneNumberError.setVisible(false);
 		employmentDateError.setVisible(false);
+		
+		staffId.visibleProperty().bind(librarianCheckBox.selectedProperty());
+		employmentDate.visibleProperty().bind(librarianCheckBox.selectedProperty());
 	}
 
 	/**
@@ -170,53 +173,62 @@ public class RegisterController implements Initializable {
 	    void createAccount(ActionEvent event) {
 
 	        //if any text field is invalid display error message under it.
+	    	
 	        if (validateUsername()) {
-	            usernameError.setTextFill(Paint.valueOf("transparent"));
+	            usernameError.setVisible(false);
 	        } else {
-	            usernameError.setTextFill(Paint.valueOf("RED"));
+	            usernameError.setVisible(true);
 	        }
 
 	        if (validateFirstName()) {
-	            firstNameError.setTextFill(Paint.valueOf("transparent"));
+	            firstNameError.setVisible(false);
 	        } else {
-	            firstNameError.setTextFill(Paint.valueOf("RED"));
+	            firstNameError.setVisible(true);
 	        }
 
 	        if (validateLastName()) {
-	            lastNameError.setTextFill(Paint.valueOf("transparent"));
+	            lastNameError.setVisible(false);
 	        } else {
-	            lastNameError.setTextFill(Paint.valueOf("RED"));
+	            lastNameError.setVisible(true);
 	        }
 
 	        if (validatePhoneNumber()) {
-	            phoneNumberError.setTextFill(Paint.valueOf("transparent"));
+	            phoneNumberError.setVisible(false);
 	        } else {
-	            phoneNumberError.setTextFill(Paint.valueOf("RED"));
+	            phoneNumberError.setVisible(true);
 	        }
 
 	        if (validateAddress()) {
-	            addressError.setTextFill(Paint.valueOf("transparent"));
+	            addressError.setVisible(false);
 	        } else {
-	            addressError.setTextFill(Paint.valueOf("RED"));
+	            addressError.setVisible(true);
 	        }
 
 	        if (validatePostCode()) {
-	            postCodeError.setTextFill(Paint.valueOf("transparent"));
+	            postCodeError.setVisible(false);
 	        } else {
-	            postCodeError.setTextFill(Paint.valueOf("RED"));
+	            postCodeError.setVisible(true);
 	        }
 	        
 	        if (validateStaffId()) {
-	            staffIdError.setTextFill(Paint.valueOf("transparent"));
+	            staffIdError.setVisible(false);
 	        } else {
-	        	staffIdError.setTextFill(Paint.valueOf("RED"));
+	        	staffIdError.setVisible(true);
 	        }
-
+	        
+	        if(!librarianCheckBox.isSelected()) {
+	        	 staffIdError.setVisible(false);
+	        }
+	        
+	  
 	        //if all text fields are valid create account.
 	        if (validateUsername() && validateFirstName() && validateLastName() && validatePhoneNumber()
 	                && validateAddress() && validatePostCode()) {
+	   
 	        	if(isLibrarian(event)) {
+	
 	        		if(validateStaffId()) {
+	        
 	        		insertIntoUser(event);
 	        		insertIntoLibrarian(event);
 	        	}
@@ -274,6 +286,7 @@ public class RegisterController implements Initializable {
 
 	private boolean validateUsername() {
 		String usernameText = username.getText();
+		
 		return !(usernameText.length() > 15 || usernameText.length() <= 0 || validateExistingUser(usernameText));
 	}
 
@@ -338,10 +351,10 @@ public class RegisterController implements Initializable {
 		 */
 	    public boolean isLibrarian(ActionEvent event) {//show staffId box
 	    	boolean selected = librarianCheckBox.isSelected();
-	    	if(librarianCheckBox.isSelected()) {
+	    	/**if(librarianCheckBox.isSelected()) {
 	    		staffId.setVisible(true);
 		        employmentDate.setVisible(true);
-	    		}
+	    		}*/
 	    	return selected;
 	    }
 	    
@@ -354,7 +367,7 @@ public class RegisterController implements Initializable {
 	        
 	    	try {
 				Connection conn = DBHelper.getConnection();
-				PreparedStatement pstmt = conn.prepareStatement("INSERT INTO users VALUES (?,?,?,?,?,?,?,0");
+				PreparedStatement pstmt = conn.prepareStatement("INSERT INTO users VALUES (?,?,?,?,?,?,?,0)");
 				pstmt.setString(1, username.getText());
 				pstmt.setString(2, firstName.getText());
 				pstmt.setString(3, lastName.getText());

@@ -55,6 +55,7 @@ public abstract class Resource {
 	protected static ArrayList<Resource> resources = new ArrayList<>();
 	
 	public static  void loadDatabaseResources() {
+		resources = new ArrayList<>();
 		Book.loadDatabaseBooks();
 		Laptop.loadDatabaseLaptops();
 		DVD.loadDatabaseDVDs();
