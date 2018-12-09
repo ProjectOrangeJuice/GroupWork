@@ -328,13 +328,17 @@ public class ProfileController {
 	 */
 	private StackPane createImage(Resource copyResource, int width, int height) {
 		
+		//create stackpane to add image layers to.
 		StackPane imagePane = new StackPane();
 		
+		//create white backround just in case image is small.
 		Rectangle background = new Rectangle();
 		background.setWidth(width);
 		background.setHeight(height);
 		background.setFill(Color.WHITE);
 		
+		//create text containing resource information
+		//this text only shows when mouse enters image.
 		Text resourceText = new Text();
 		resourceText.setFont(Font.font("Arial", 20));
 		resourceText.setStyle("-fx-font-weight: bold");
@@ -345,20 +349,24 @@ public class ProfileController {
 		resourceText.setTextAlignment(TextAlignment.CENTER);
 		resourceText.setWrappingWidth(width);
 		
-		//create new resource image to be added.
+		//create imageview containg resource image.
 		ImageView image = new ImageView();
 		image.setFitWidth(width);
 		image.setFitHeight(height);
 		image.setImage(copyResource.getThumbnail());
 		
+		//if image is of a laptop, keep aspect ratio.
 		if(copyResource instanceof Laptop) {
 			image.setPreserveRatio(true);
 		}
 		
+		//make image as smooth as possible.
 		image.setCache(true);
 		image.setCacheHint(CacheHint.SCALE);
 		image.setSmooth(true);
 		
+		//add black colour overlay
+		//only shows when mouse is in image.
 		Rectangle rect = new Rectangle();
 		rect.setWidth(width);
 		rect.setHeight(height);
@@ -366,6 +374,7 @@ public class ProfileController {
 		rect.setOpacity(0.7);
 		rect.setVisible(false);
 		
+		//add all elements to stack pane.
 		imagePane.getChildren().add(background);
 		imagePane.getChildren().add(image);
 		imagePane.getChildren().add(new ImageView());
