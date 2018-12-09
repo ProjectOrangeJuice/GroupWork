@@ -38,14 +38,13 @@ public abstract class Person {
 
     /**
      * Creates a new Person object from the given arguments.
-     * 
-     * @param username
-     * @param firstName
-     * @param lastName
-     * @param phoneNumber
-     * @param address
-     * @param postcode
-     * @param avatar
+     * @param username The user name of this person.
+     * @param firstName First Name of this person.
+     * @param lastName Last name of this person.
+     * @param phoneNumber Phone number of this person.
+     * @param address Address of this person.
+     * @param postcode Post code of this person.
+     * @param avatarPath Path to the avatar image of this person.
      */
     public Person(String username, String firstName, String lastName, String phoneNumber, String address,
             String postcode, String avatarPath) {
@@ -60,8 +59,7 @@ public abstract class Person {
 
     /**
      * Returns the user name of the person.
-     * 
-     * @return userName String
+     * @return The user name of the person.
      */
     public String getUsername() {
         return username;
@@ -69,8 +67,7 @@ public abstract class Person {
 
     /**
      * Returns the first name of the person.
-     * 
-     * @return firstName String
+     * @return The first name of the person.
      */
     public String getFirstName() {
         return firstName;
@@ -78,8 +75,8 @@ public abstract class Person {
 
     /**
      * Sets the first name of the person.
-     * 
-     * @param firstName String
+     * Updates the database as well.
+     * @param firstName the new first name of the person.
      */
     public void setFirstName(String firstName) {
         this.firstName = firstName;
@@ -88,8 +85,7 @@ public abstract class Person {
 
     /**
      * Returns the last name of the person.
-     * 
-     * @return lastName String
+     * @return The new last name of the person.
      */
     public String getLastName() {
         return lastName;
@@ -97,8 +93,8 @@ public abstract class Person {
 
     /**
      * Sets the last name of the person.
-     * 
-     * @param lastName String
+     * Updates the database as well.
+     * @param lastName The new last name of the person.
      */
     public void setLastName(String lastName) {
         this.lastName = lastName;
@@ -107,8 +103,7 @@ public abstract class Person {
 
     /**
      * Returns the phone number of the person.
-     * 
-     * @return phoneNumber String
+     * @return The phone number of this person.
      */
     public String getPhoneNumber() {
         return phoneNumber;
@@ -116,8 +111,8 @@ public abstract class Person {
 
     /**
      * Sets the phone number of the person.
-     * 
-     * @param phoneNumber String
+     * Updates the database as well.
+     * @param phoneNumber The new phone number of the person.
      */
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
@@ -126,8 +121,7 @@ public abstract class Person {
 
     /**
      * Returns the address of the person.
-     * 
-     * @return address String
+     * @return The address of the person.
      */
     public String getAddress() {
         return address;
@@ -135,8 +129,8 @@ public abstract class Person {
 
     /**
      * Sets the address of the person.
-     * 
-     * @param address String
+     * * Updates the database as well.
+     * @param address The new address of the person.
      */
     public void setAddress(String address) {
         this.address = address;
@@ -145,36 +139,34 @@ public abstract class Person {
 
     /**
      * Returns the post code of the person.
-     * 
-     * @return postcode String
+     * @return The post code of the person.
      */
     public String getPostcode() {
         return postcode;
     }
 
     /**
-     * Sets the post code of the person
-     * 
-     * @param postcode String
+     * Sets the post code of the person.
+     * Updates the database as well.
+     * @param postCode new post code of this person.
      */
-    public void setPostcode(String postcode) {
-        this.postcode = postcode;
-        Person.updateDatabase("users", this.getUsername(), "postcode", postcode);
+    public void setPostcode(String postCode) {
+        this.postcode = postCode;
+        Person.updateDatabase("users", this.getUsername(), "postcode", postCode);
     }
 
     /**
      * Returns the avatar the person has chosen.
-     * 
-     * @return avatar Image
+     * @return The path of the avatar image of the person.
      */
     public String getAvatar() {
         return avatarPath;
     }
 
     /**
-     * Sets the avatar the person has chosen.
-     * 
-     * @param avatar Image
+     * Sets the avatar path to the one the person has chosen.
+     * Updates the database as well.
+     * @param avatarPath New image path.
      */
     public void setAvatar(String avatarPath) {
         this.avatarPath = avatarPath;
@@ -182,9 +174,9 @@ public abstract class Person {
     }
 
     /**
-     * loads up a user and librarian from the database
-     * @param userName
-     * @return either a librarian or a user from the database
+     * Loads up a user or librarian from the database and returnes them casted as a Person.
+     * @param userName The user name of the person we want to load.
+     * @return either a librarian or a user from the database.
      */
     public static Person loadPerson(String userName) {
         try {
@@ -225,8 +217,7 @@ public abstract class Person {
                         Integer.parseInt(staffIDResult));
                 }
                 else {
-
-                	//Loads up normal users
+                    //Loads up normal users
                     sqlStatement = dbConnection.prepareStatement("SELECT * FROM users WHERE username = ?");
                     sqlStatement.setString(1, userName);
                     rs = sqlStatement.executeQuery();
@@ -261,18 +252,19 @@ public abstract class Person {
     }
 
     /**
-     * Method that updates the database
-     * @param table String
-     * @param username String
-     * @param column String
-     * @param data String
+     * Method that updates the table in the database specified, at the row 
+     * with given username, and at the given column.
+     * @param table The table where the change needs to be made.
+     * @param username The user name that needs to be updated.
+     * @param column The name of the field that will be updated.
+     * @param data The new value of the field.
      * @return True if the database updates and false if it does not
      */
     protected static boolean updateDatabase(String table, String username, String column, String data) {
         try {
             Connection connectionToDB = DBHelper.getConnection();
             PreparedStatement sqlStatement = connectionToDB.prepareStatement("UPDATE " + 
-               table + " SET " + column + " = ? WHERE username = ?");
+                table + " SET " + column + " = ? WHERE username = ?");
             sqlStatement.setString(1, data);
             sqlStatement.setString(2, username);
             if (sqlStatement.executeUpdate() == 1) {
@@ -290,8 +282,8 @@ public abstract class Person {
     /**
      * Removes the user from the database.
      * 
-     * @param username The username to remove
-     * @return If it was removed
+     * @param username The username of the user to remove.
+     * @return True if it as removed, false if not.
      */
     public static boolean removePerson(String username) {
         try {
@@ -317,10 +309,10 @@ public abstract class Person {
     }
 
     /**
-     * Method that gets a user that is currently borrowing the resource
-     * @param username String
-     * @return true if the user is borrowing a resource
-     * @throws SQLException
+     * Method that gets a user that is currently borrowing the resource.
+     * @param username The user name of the person we are checking.
+     * @return True if the given user has ever borrowed a resource, false if not.
+     * @throws SQLException If the data base connection fails.
      */
     private static boolean userBorrowing(String username) throws SQLException {
         Connection connectionToDB = DBHelper.getConnection();
