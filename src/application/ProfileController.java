@@ -563,7 +563,7 @@ public class ProfileController {
 		loadBorrowHistory();
 
 		loadUserTableColumns();
-		displayAll();
+		//displayAll();
 
 		scrollPane.setHvalue(0.5);
 	
@@ -653,9 +653,8 @@ public class ProfileController {
 	 */
 	@FXML
 	private void explorerTableClicked(MouseEvent event) {
-		//Person selectedUser = staffCopiesExplorerTable.getSelectionModel().getSelectedItem();
-		//selectedUserLabel.setText(selectedUser.getUsername());
-		//System.out.println("Cell clicked?");
+		//ExplorerRow row  = staffCopiesExplorerTable.getSelectionModel().getSelectedItem();
+		//selectedUserLabel.setText(row.getKeeper());
 	}
 	
 	//
@@ -665,7 +664,20 @@ public class ProfileController {
 	@FXML
 	private void openProfileEditor(MouseEvent event) {
 		System.out.println("Launch staff editing profile.");
-		changeScene(event,"/fxml/StaffEdit.fxml");
+		
+		try {
+			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/staffEdit.fxml"));
+            Parent root1 = (Parent) fxmlLoader.load();
+            Stage stage = new Stage();
+            stage.initModality(Modality.APPLICATION_MODAL);
+            //stage.initStyle(StageStyle.UNDECORATED);
+            stage.setTitle("Resource Information");
+            stage.setScene(new Scene(root1));  
+            stage.show();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	/**
@@ -697,49 +709,67 @@ public class ProfileController {
 	}
 	
 
-
+	//Integer.toString(cd.getValue().getLoanDuration())
 	
 	/**
 	 * Loads the user table so the staff can manage the users.
 	 */
-	private void loadExplorerTableColumns(String tableToLoad) {		
-		TableColumn<Copy, String> copyIDCol = new TableColumn<Copy, String>("Copy ID");
-		copyIDCol.setCellValueFactory(new PropertyValueFactory<>("copyID"));
+	private void loadExplorerTableColumns(String tableToLoad) {
 		
-		TableColumn<Copy, String> rIDCol = new TableColumn<Copy, String>("Resource ID");
-		rIDCol.setCellValueFactory(cd -> 
-		new SimpleStringProperty(cd.getValue().getResource().getTitle()));
+		TableColumn<ExplorerRow, String> titleCol = new TableColumn<ExplorerRow, String>("Title");
+		titleCol.setCellValueFactory(cd -> 
+		new SimpleStringProperty(cd.getValue().getResourceTitle()));
 		
-		TableColumn<Copy, String> keeperCol = new TableColumn<Copy, String>("Keeper");
+		TableColumn<ExplorerRow, String> keeperCol = new TableColumn<ExplorerRow, String>("Keeper");
 		keeperCol.setCellValueFactory(cd -> 
-		new SimpleStringProperty(cd.getValue().getBorrowerIDSafely()));
+		new SimpleStringProperty(cd.getValue().getKeeper()));
 		
-		TableColumn<Copy, String> loanCol = new TableColumn<Copy, String>("Loan Duration");
-		loanCol.setCellValueFactory(cd -> 
+		TableColumn<ExplorerRow, String> copyIDCol = new TableColumn<ExplorerRow, String>("Copy ID");
+		copyIDCol.setCellValueFactory(cd -> 
+		new SimpleStringProperty(Integer.toString(cd.getValue().getCopyID())));
+		
+		TableColumn<ExplorerRow, String> resourceIDCol = new TableColumn<ExplorerRow, String>("Resource ID");
+		resourceIDCol.setCellValueFactory(cd -> 
+		new SimpleStringProperty(Integer.toString(cd.getValue().getCopyID())));
+		
+		TableColumn<ExplorerRow, String> loanDurationCol = new TableColumn<ExplorerRow, String>("Loan Duration");
+		loanDurationCol.setCellValueFactory(cd -> 
 		new SimpleStringProperty(Integer.toString(cd.getValue().getLoanDuration())));
 		
-		TableColumn<Copy, String> borrowCol = new TableColumn<Copy, String>("Borrowed");
-		borrowCol.setCellValueFactory(new PropertyValueFactory<>("borrowDate"));
+		TableColumn<ExplorerRow, String> orderNumberCol = new TableColumn<ExplorerRow, String>("Order Number");
+		orderNumberCol.setCellValueFactory(cd -> 
+		new SimpleStringProperty(Integer.toString(cd.getValue().getOrderNumber())));
 		
-		TableColumn<Copy, String> renewalCol = new TableColumn<Copy, String>("Last Renewal");
-		renewalCol.setCellValueFactory(new PropertyValueFactory<>("lastRenewal"));
+		TableColumn<ExplorerRow, String> borrowDateCol = new TableColumn<ExplorerRow, String>("Borrow Date");
+		borrowDateCol.setCellValueFactory(cd -> 
+		new SimpleStringProperty(cd.getValue().getBorrowDate()));
 		
-		TableColumn<Copy, String> dueCol = new TableColumn<Copy, String>("Due");
-		dueCol.setCellValueFactory(new PropertyValueFactory<>("dueDate"));
+		TableColumn<ExplorerRow, String> lastRenewalCol = new TableColumn<ExplorerRow, String>("Last Renewal");
+		lastRenewalCol.setCellValueFactory(cd -> 
+		new SimpleStringProperty(cd.getValue().getLastRenewal()));
 		
+		TableColumn<ExplorerRow, String> dueDateCol = new TableColumn<ExplorerRow, String>("Due Date");
+		dueDateCol.setCellValueFactory(cd -> 
+		new SimpleStringProperty(cd.getValue().getDueDate()));
 		
 		switch (tableToLoad) {				
 			case "all":
 				staffCopiesExplorerTable.getColumns().clear();
-				staffCopiesExplorerTable.getColumns().addAll(copyIDCol,
-						rIDCol,keeperCol,loanCol,borrowCol,renewalCol,dueCol);
+				staffCopiesExplorerTable.getColumns().addAll(
+						copyIDCol,resourceIDCol,titleCol,keeperCol,loanDurationCol,
+						borrowDateCol,lastRenewalCol,dueDateCol);
 				break;
 			case "overdue":
 				staffCopiesExplorerTable.getColumns().clear();
+				staffCopiesExplorerTable.getColumns().addAll(
+						titleCol,keeperCol,copyIDCol,resourceIDCol,borrowDateCol,
+						dueDateCol);
 				break;
 				
 			case "requested":
 				staffCopiesExplorerTable.getColumns().clear();
+				staffCopiesExplorerTable.getColumns().addAll(
+						keeperCol,resourceIDCol,orderNumberCol);
 				break;
 		}
 		
