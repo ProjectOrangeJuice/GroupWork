@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Accordion?>
 <?import javafx.scene.control.Button?>
@@ -23,7 +29,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane focusTraversable="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="400.0" minWidth="600.0" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.ProfileController">
+<BorderPane focusTraversable="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="400.0" minWidth="600.0" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.ProfileController">
 
    <center>
       <TabPane fx:id="tabs" prefHeight="972.0" prefWidth="1920.0" BorderPane.alignment="CENTER">
@@ -56,6 +62,13 @@
                            </children>
                         </AnchorPane>
                      </center>
+                     <right>
+                        <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                           <children>
+                              <fx:include source="recommended.fxml" />
+                           </children>
+                        </AnchorPane>
+                     </right>
                   </BorderPane>
                </content></Tab>
           <Tab fx:id="userProfileTab" closable="false" text="My Profile">
@@ -129,7 +142,7 @@
                         </VBox>
                      </left>
                      <center>
-                        <SplitPane dividerPositions="0.41786447638603696, 0.5" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0" scaleShape="false" BorderPane.alignment="CENTER">
+                        <SplitPane dividerPositions="0.41786447638603696" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0" scaleShape="false" BorderPane.alignment="CENTER">
                           <items>
                             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
                                  <children>
@@ -146,11 +159,6 @@
                             <AnchorPane minHeight="300.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
                                  <children>
                                     <fx:include fx:id="child" source="transactions.fxml" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                                 </children>
-                              </AnchorPane>
-                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
-                                 <children>
-                                    <fx:include source="recommended.fxml" />
                                  </children>
                               </AnchorPane>
                           </items>
