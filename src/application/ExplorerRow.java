@@ -3,7 +3,6 @@ package application;
 import java.sql.Date;
 
 public class ExplorerRow {
-	private String username;
 	private String resourceTitle;
 	private String keeper;
 	
@@ -12,11 +11,11 @@ public class ExplorerRow {
 	private int loanDuration;
 	private int orderNumber;
 	
-	private Date borrowDate;
-	private Date lastRenewal;
-	private Date dueDate;
+	private String borrowDate;
+	private String lastRenewal;
+	private String dueDate;
 	
-	public ExplorerRow(String resourceTitle, String keeper, int copyID, int resourceID, int loanDuration, Date borrowDate, Date lastRenewal, Date dueDate) {
+	public ExplorerRow(String resourceTitle, String keeper, int copyID, int resourceID, int loanDuration, String borrowDate, String lastRenewal, String dueDate) {
 		this.resourceTitle = resourceTitle;
 		this.keeper = keeper;
 		this.copyID = copyID;
@@ -27,7 +26,7 @@ public class ExplorerRow {
 		this.dueDate = dueDate;
 	}
 
-	public ExplorerRow(String resourceTitle, String keeper, int copyID, int resourceID, Date borrowDate, Date dueDate) {
+	public ExplorerRow(String resourceTitle, String keeper, int copyID, int resourceID, String borrowDate, String dueDate) {
 		super();
 		this.resourceTitle = resourceTitle;
 		this.keeper = keeper;
@@ -37,19 +36,11 @@ public class ExplorerRow {
 		this.dueDate = dueDate;
 	}
 
-	public ExplorerRow(String username, int resourceID, int orderNumber) {
+	public ExplorerRow(String keeper, int resourceID, int orderNumber) {
 		super();
-		this.username = username;
+		this.keeper = keeper;
 		this.resourceID = resourceID;
 		this.orderNumber = orderNumber;
-	}
-
-	public String getUsername() {
-		return username;
-	}
-
-	public void setUsername(String username) {
-		this.username = username;
 	}
 
 	public String getResourceTitle() {
@@ -100,27 +91,27 @@ public class ExplorerRow {
 		this.orderNumber = orderNumber;
 	}
 
-	public Date getBorrowDate() {
+	public String getBorrowDate() {
 		return borrowDate;
 	}
 
-	public void setBorrowDate(Date borrowDate) {
+	public void setBorrowDate(String borrowDate) {
 		this.borrowDate = borrowDate;
 	}
 
-	public Date getLastRenewal() {
+	public String getLastRenewal() {
 		return lastRenewal;
 	}
 
-	public void setLastRenewal(Date lastRenewal) {
+	public void setLastRenewal(String lastRenewal) {
 		this.lastRenewal = lastRenewal;
 	}
 
-	public Date getDueDate() {
+	public String getDueDate() {
 		return dueDate;
 	}
 
-	public void setDueDate(Date dueDate) {
+	public void setDueDate(String dueDate) {
 		this.dueDate = dueDate;
 	}
 	
