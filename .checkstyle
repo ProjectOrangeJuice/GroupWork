@@ -4,7 +4,7 @@
   <local-check-config name="LiamChecks" location="LiamChecks.xml" type="project" description="">
     <additional-data name="protect-config-file" value="false"/>
   </local-check-config>
-  <fileset name="all" enabled="true" check-config-name="My_Code_Convention" local="false">
+  <fileset name="all" enabled="true" check-config-name="LiamChecks" local="true">
     <file-match-pattern match-pattern="." include-pattern="true"/>
   </fileset>
 </fileset-config>
