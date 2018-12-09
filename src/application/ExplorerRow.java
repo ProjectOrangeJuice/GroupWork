@@ -15,6 +15,9 @@ public class ExplorerRow {
 	private String lastRenewal;
 	private String dueDate;
 	
+	private String history;
+	
+	//Filter: All
 	public ExplorerRow(String resourceTitle, String keeper, int copyID, int resourceID, int loanDuration, String borrowDate, String lastRenewal, String dueDate) {
 		this.resourceTitle = resourceTitle;
 		this.keeper = keeper;
@@ -25,7 +28,8 @@ public class ExplorerRow {
 		this.lastRenewal = lastRenewal;
 		this.dueDate = dueDate;
 	}
-
+	
+	//Filter: Overdue
 	public ExplorerRow(String resourceTitle, String keeper, int copyID, int resourceID, String borrowDate, String dueDate) {
 		this.resourceTitle = resourceTitle;
 		this.keeper = keeper;
@@ -34,10 +38,18 @@ public class ExplorerRow {
 		this.borrowDate = borrowDate;
 		this.dueDate = dueDate;
 	}
-
+	
+	//Filter: Requested
 	public ExplorerRow(String keeper, int resourceID) {
 		this.keeper = keeper;
 		this.resourceID = resourceID;
+	}
+	
+	//Filter: History
+		public ExplorerRow(int copyID, String keeper, String History) {
+			this.copyID = copyID;
+			this.keeper = keeper;
+			this.history = history;
 	}
 
 	public String getResourceTitle() {
@@ -54,6 +66,14 @@ public class ExplorerRow {
 
 	public void setKeeper(String keeper) {
 		this.keeper = keeper;
+	}
+	
+	public String getHistory() {
+		return history;
+	}
+
+	public void setHistory(String History) {
+		this.history = history;
 	}
 
 	public int getCopyID() {
