@@ -7,6 +7,13 @@ import java.sql.Statement;
 
 import javafx.scene.image.Image;
 
+/**
+ * This class represents a resource of type laptop that the library has to offer.
+ * It has a manufacturer, operating system and model. It consists of multiple 
+ * copies that can be borrowed or requested.
+ * @author Alexandru Dascalu
+ * @author Kane Miles
+ */
 public class Laptop extends Resource {
 
     private static final int MAX_FINE_AMOUNT = 100;
@@ -16,6 +23,10 @@ public class Laptop extends Resource {
     private String model;
     private String operatingSystem;
 
+    /**
+     * Method that loads the details of all dvd resources from the dvd database table and
+     * adds them to the list of all resources.
+     */
     public static void loadDatabaseLaptops() {
         try {
             Connection conn = DBHelper.getConnection(); // get the connection
@@ -35,48 +46,103 @@ public class Laptop extends Resource {
 
     }
 
-    public Laptop(int uniqueID, String title, int year, Image thumbnail, String manufacturer, String model, String OS) {
+    /**
+     * Makes a new laptop with the given data.
+     * @param uniqueID The unique number that identifies this resource.
+     * @param title The title of this resource.
+     * @param year The year this resource appeared.
+     * @param thumbnail A small image of this resource.
+     * @param manufacturer The manufacturer of the laptop.
+     * @param model The model of the laptop.
+     * @param operatingSystem The operating system of the laptop.
+     */
+    public Laptop(int uniqueID, String title, int year, Image thumbnail, String manufacturer, String model, String operatingSystem) {
         super(uniqueID, title, year, thumbnail);
         this.manufacturer = manufacturer;
         this.model = model;
-        this.operatingSystem = OS;
+        this.operatingSystem = operatingSystem;
     }
 
+    /**
+     * Gets the manufacturer of the laptop.
+     * @return The manufacturer of the laptop.
+     */
     public String getManufacturer() {
         return manufacturer;
     }
 
+    /**
+     * Sets the manufacturer of the laptop to a new value and updates the data
+     * base.
+     * @param manufacturer The new value of the manufacturer.
+     */
     public void setManufacturer(String manufacturer) {
         this.manufacturer = manufacturer;
         updateDbValue("laptop", this.uniqueID, "manufacturer", manufacturer);
     }
 
+    /**
+     * Gets the model of the laptop.
+     * @return The model of the laptop.
+     */
     public String getModel() {
         return model;
     }
 
+    /**
+     * Sets the manufacturer of the laptop to a new value and updates the data
+     * base.
+     * @param model The new value of the model.
+     */
     public void setModel(String model) {
         this.model = model;
         updateDbValue("laptop", this.uniqueID, "model", model);
     }
 
+    /**
+     * Gets the operating system of the laptop.
+     * @return The operating system of the laptop.
+     */
     public String getOS() {
         return operatingSystem;
     }
 
-    public void setOS(String OS) {
-        this.operatingSystem = OS;
-        updateDbValue("laptop", this.uniqueID, "OS", OS);
+    /**
+     * Sets the operating system of the laptop to a new value and updates the 
+     * data base.
+     * @param operatingSystem The new OS of the laptop.
+     */
+    public void setOS(String operatingSystem) {
+        this.operatingSystem = operatingSystem;
+        updateDbValue("laptop", this.uniqueID, "OS", operatingSystem);
     }
 
+    /**
+     * Getter for the daily fine amount for over due copies of this type of
+     * resource.
+     * @return The daily fine amount for over due copies of this type of resource.
+     */
     public int getDailyFineAmount() {
         return DAILY_FINE_AMOUNT;
     }
 
+    /**
+     * Getter for the maximum fine amount for over due copies of this type of
+     * resource.
+     * @return The maximum fine amount for over due copies of this type of resource.
+     */
     public int getMaxFineAmount() {
         return MAX_FINE_AMOUNT;
     }
 
+    /**
+     * Calculates an integer representing how similar this resource is to the
+     * given resource. Takes into account if the other resource is also a laptop 
+     * and compares their attributes.
+     * @param otherResource The resource this resource is compared with.
+     * @return an integer representing how similar this resource is to the
+     * given resource.
+     */
     public int getLikenessScore(Resource otherResource) {
         int score = 0;
 

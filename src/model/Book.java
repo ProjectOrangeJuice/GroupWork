@@ -39,35 +39,6 @@ public class Book extends Resource {
     private String language;
 
     /**
-     * Method that loads the details of a book resource from the book table and
-     * adds it to the list of all resources.
-     */
-    public static void loadDatabaseBooks() {
-        try {
-
-            Connection conn = DBHelper.getConnection(); // get the connection
-            Statement stmt = conn.createStatement(); // prep a statement
-            ResultSet rs = stmt.executeQuery(
-                "SELECT resource.rID, resource.year, resource.title, resource.thumbnail, author, publisher," +
-                    "genre, ISBN, language FROM book, resource WHERE book.rID = resource.rID"); 
-
-            while (rs.next()) {
-                Image resourceImage = new Image(rs.getString("thumbnail"), true);
-                
-                resources.add(new Book(rs.getInt("rID"), rs.getString("title"), rs.getInt("year"), resourceImage,
-                    rs.getString("author"), rs.getString("publisher"), rs.getString("genre"), rs.getString("ISBN"),
-                    rs.getString("language")));
-
-                System.out.println("New book added!");
-            }
-
-        }
-        catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
      * Makes a new book with the given data, representing all the fields of this book.
      * 
      * @param uniqueID The unique number that identifies this resource.
@@ -103,6 +74,35 @@ public class Book extends Resource {
         super(uniqueID, title, year, thumbnail);
         this.author = author;
         this.publisher = publisher;
+    }
+    
+    /**
+     * Method that loads the details of all book resources from the book database table and
+     * adds them to the list of all resources.
+     */
+    public static void loadDatabaseBooks() {
+        try {
+
+            Connection conn = DBHelper.getConnection(); // get the connection
+            Statement stmt = conn.createStatement(); // prep a statement
+            ResultSet rs = stmt.executeQuery(
+                "SELECT resource.rID, resource.year, resource.title, resource.thumbnail, author, publisher," +
+                    "genre, ISBN, language FROM book, resource WHERE book.rID = resource.rID"); 
+
+            while (rs.next()) {
+                Image resourceImage = new Image(rs.getString("thumbnail"), true);
+                
+                resources.add(new Book(rs.getInt("rID"), rs.getString("title"), rs.getInt("year"), resourceImage,
+                    rs.getString("author"), rs.getString("publisher"), rs.getString("genre"), rs.getString("ISBN"),
+                    rs.getString("language")));
+
+                System.out.println("New book added!");
+            }
+
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
