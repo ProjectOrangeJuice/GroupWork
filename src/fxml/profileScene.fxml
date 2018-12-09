@@ -10,7 +10,6 @@
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
-<?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.TitledPane?>
@@ -221,14 +220,7 @@
                                                 </ToolBar>
                                                 <Pane prefHeight="698.0" prefWidth="1323.0" VBox.vgrow="ALWAYS">
                                                    <children>
-                                                      <TableView fx:id="staffCopiesExplorerTable" prefHeight="824.0" prefWidth="967.0">
-                                                         <columns>
-                                                            <TableColumn editable="false" prefWidth="75.0" text="Username" />
-                                                            <TableColumn editable="false" prefWidth="75.0" text="Title" />
-                                                            <TableColumn editable="false" prefWidth="75.0" text="CopyID" />
-                                                            <TableColumn editable="false" prefWidth="75.0" text="State" />
-                                                         </columns>
-                                                      </TableView>
+                                                      <TableView fx:id="staffCopiesExplorerTable" prefHeight="824.0" prefWidth="967.0" />
                                                    </children>
                                                 </Pane>
                                              </children>

@@ -521,11 +521,13 @@ public class ProfileController {
 	@FXML
 	private void displayAll() {
 		System.out.println("Display All!");
+		loadTables("all");
 	}
 	
 	@FXML
 	private void displayOverdue() {
 		System.out.println("Display Overdue!");
+		loadTables("overdue");
 	}
 	
 	@FXML
@@ -617,7 +619,12 @@ public class ProfileController {
 				break;
 				
 			case "all":
-				staffCopiesExplorerTable.getItems().clear();
+				staffCopiesExplorerTable.getColumns().clear();
+				staffCopiesExplorerTable.getColumns().addAll(copyIDCol,
+						rIDCol,keeperCol,loanCol,borrowCol,renewalCol,dueCol);
+				break;
+			case "overdue":
+				staffCopiesExplorerTable.getColumns().clear();
 				break;
 		}
 		
