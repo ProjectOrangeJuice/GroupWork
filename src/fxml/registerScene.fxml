@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Label?>
@@ -7,7 +11,7 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.Pane?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.RegisterController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.RegisterController">
    <children>
       <ImageView fx:id="avatar" fitHeight="188.0" fitWidth="243.0" layoutX="32.0" layoutY="27.0" pickOnBounds="true" preserveRatio="true" />
       <TextField fx:id="username" layoutX="377.0" layoutY="33.0" promptText="Username" />
@@ -18,7 +22,7 @@
       <TextField fx:id="postCode" layoutX="377.0" layoutY="236.0" promptText="Post code" />
       <Button fx:id="browseButton" layoutX="32.0" layoutY="236.0" mnemonicParsing="false" onAction="#browseAvatarAction" text="Browse avatars" />
       <Button fx:id="registerButt" layoutX="116.0" layoutY="303.0" mnemonicParsing="false" onAction="#createAccount" text="Register" />
-      <Button fx:id="createButton" layoutX="162.0" layoutY="236.0" mnemonicParsing="false" onMouseClicked="#customAvatarAction" onMouseReleased="#customAvatarAction" text="Create custom" />
+      <Button fx:id="createButton" layoutX="162.0" layoutY="236.0" mnemonicParsing="false" onMouseClicked="#openAvatarEditor" text="Create custom" />
       <Label fx:id="usernameError" layoutX="491.0" layoutY="58.0" text="Invalid" textFill="RED" />
       <Label fx:id="firstNameError" layoutX="491.0" layoutY="100.0" text="Invalid" textFill="RED" />
       <Label fx:id="lastNameError" layoutX="491.0" layoutY="139.0" text="Invalid" textFill="RED" />

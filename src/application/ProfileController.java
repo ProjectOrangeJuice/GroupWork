@@ -724,26 +724,8 @@ public class ProfileController {
 	 */
 	@FXML
 	private void approveCopy() {
-		ExplorerRow row  = (ExplorerRow) staffCopiesExplorerTable.getSelectionModel().getSelectedItem();
-		int resourceID = row.getResourceID();
-		String username = row.getKeeper();
-		
-		User user = (User)Person.loadPerson(username);
-		Resource.getResource(resourceID).loanToUser(user);
-		
-		try {
-			Connection conn = DBHelper.getConnection();
-			PreparedStatement sqlStatement = conn.prepareStatement("DELETE FROM requestsToApprove WHERE rID = ? AND userName = ?");
-			sqlStatement.setInt(1, resourceID);
-			sqlStatement.setString(2, username);
-			sqlStatement.executeUpdate();
-				
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		
-		System.out.println("Approved copy!");
-		displayRequested();
+		System.out.println("Approve copy!");
+		staffCopyIDField.setText("");
 	}
 	
 	/**
@@ -751,20 +733,9 @@ public class ProfileController {
 	 */
 	@FXML
 	private void returnCopy() {
-		ExplorerRow row  = (ExplorerRow) staffCopiesExplorerTable.getSelectionModel().getSelectedItem();
-		int copyID = row.getCopyID();
-		
-		for (Resource res : Resource.getResources()) {
-			for (Copy copy : res.getCopies()) {
-				if (copy.getCopyID() == copyID) {
-					res.processReturn(copy);
-				}
-			}
-		}
-		
-		
-		System.out.println("Returned copy!");
-		displayAll();
+		System.out.println("Return copy!");
+		staffCopyIDField.setText("");
+
 	}
 	
 	private boolean checkCopyID(String copyID) {
@@ -824,7 +795,6 @@ public class ProfileController {
             Parent root1 = (Parent) fxmlLoader.load();
             Stage stage = new Stage();
             stage.initModality(Modality.APPLICATION_MODAL);
-            //stage.initStyle(StageStyle.UNDECORATED);
             stage.setTitle("Resource Information");
             stage.setScene(new Scene(root1));  
             stage.show();
@@ -840,26 +810,20 @@ public class ProfileController {
 	 */
 	@FXML
 	private void openAvatarEditor(MouseEvent event) {
-		
 		try {
 			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/drawAvatar.fxml"));
 			Parent root1 = (Parent) fxmlLoader.load();
 			Stage stage = new Stage();
 			stage.initModality(Modality.APPLICATION_MODAL);
-			// stage.initStyle(StageStyle.UNDECORATED);
 			stage.setTitle("Avatar!");
 			stage.setScene(new Scene(root1));
 			stage.show();
+			
 		} catch (IOException e2) {
 			// TODO Auto-generated catch block
 			e2.printStackTrace();
 		}
-		
-		//AvatarDrawingController avatarDrawingController = new AvatarDrawingController();
-		//avatarDrawingController.setPrevScene("profile");
 		System.out.println("Launch avatar editor.");
-		
-		//changeScene(event,"/fxml/drawAvatar.fxml");
 	}
 	
 
@@ -1080,3 +1044,4 @@ public class ProfileController {
 	}
 
 }
+

@@ -609,9 +609,12 @@ public abstract class Resource {
      * @param copyToBeReturned The copy being returned.
      */
     private void applyFines(Copy copyToBeReturned) {
-        Date today = new Date();
         Date dueDate = copyToBeReturned.getDueDate();
-
+        if(dueDate==null) {
+            return;
+        }
+        
+        Date today = new Date();
         int daysOverDue = (int) ((today.getTime() - dueDate.getTime()) /
             MILLISECONDS_IN_DAY);
         if (daysOverDue > 0) {
