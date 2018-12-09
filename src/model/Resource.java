@@ -60,21 +60,25 @@ public abstract class Resource {
 		DVD.loadDatabaseDVDs();
 	}
 	
-	protected static void updateDbValue(String tableName, int resourceId, String field, String data) {
+	protected static void updateDbValue(String tableName, int resourceID, String field, String data) {
 		try {
-			Connection conn = DBHelper.getConnection(); //get the connection
-			Statement stmt = conn.createStatement(); //prep a statement
-			stmt.executeQuery("update " + tableName + " set " + field + " = " + data + " where rID = " + resourceId); //Your sql goes here
+			Connection connectionToDB = DBHelper.getConnection(); //get the connection
+			PreparedStatement sqlStatement = connectionToDB.prepareStatement("update "+tableName+" set "+field+"=? where rID=?"); //prep a statement
+			sqlStatement.setString(1, data);
+			sqlStatement.setInt(2, resourceID);
+			sqlStatement.executeUpdate();
 		} catch (SQLException e) { 
 			e.printStackTrace();
 		}
 	}
 	
-	protected static void updateDbValue(String tableName, int resourceId, String field, int data) {
+	protected static void updateDbValue(String tableName, int resourceID, String field, int data) {
 		try {
-			Connection conn = DBHelper.getConnection(); //get the connection
-			Statement stmt = conn.createStatement(); //prep a statement
-			stmt.executeQuery("update " + tableName + " set " + field + " = " + data + " where rID = " + resourceId); //Your sql goes here
+			Connection connectionToDB = DBHelper.getConnection(); //get the connection
+			PreparedStatement sqlStatement = connectionToDB.prepareStatement("update "+tableName+" set "+field+"=? where rID=?"); //prep a statement
+			sqlStatement.setInt(1, data);
+			sqlStatement.setInt(2, resourceID);
+			sqlStatement.executeUpdate();
 		} catch (SQLException e) { 
 			e.printStackTrace();
 		}
@@ -139,20 +143,14 @@ public abstract class Resource {
 		loadCopyList();
 		loadCopyPriorityQueue();
 		loadUserQueue();
+		loadPendingRequests();
 	} 
 	
 	public void addCopy(Copy copy) {
 		copyList.add(copy);
 		freeCopies.addFirst(copy);
 		
-		try {
-			Connection conn = DBHelper.getConnection(); //get the connection
-			Statement stmt = conn.createStatement(); //prep a statement
-			
-			stmt.executeUpdate("insert into copies values ("+copy.getCopyID()+","+getUniqueID()+",null,null)");
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+		saveCopyToDB(copy);
 	}
 	
 	public void addCopies(Collection<Copy> copies) {
@@ -160,14 +158,7 @@ public abstract class Resource {
 		freeCopies.addAll(copies);
 		
 		for(Copy copy: copies) {
-			try {
-				Connection conn = DBHelper.getConnection(); //get the connection
-				Statement stmt = conn.createStatement(); //prep a statement
-				
-				stmt.executeUpdate("insert into copies values ("+copy.getCopyID()+","+getUniqueID()+",null,null)");
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
+			saveCopyToDB(copy);
 		}
 	}
 	
@@ -200,6 +191,8 @@ public abstract class Resource {
 			returnedCopy.getBorrower().removeBorrowedCopy(returnedCopy);
 			returnedCopy.setBorrower(null);
 			returnedCopy.resetDates();
+			
+			saveCopyToDB(returnedCopy);
 		} 
 		/*If the are user in the queue, reserve this copy for the first user 
 		 * in the queue and take that person out of the queue.*/
@@ -209,6 +202,7 @@ public abstract class Resource {
 			returnedCopy.resetDates();
 			returnedCopy.setBorrower(firstRequest);
 			returnedCopy.setBorrowDate(new Date());
+			saveCopyToDB(returnedCopy);
 			
 			noDueDateCopies.add(returnedCopy);
 			firstRequest.addBorrowedCopy(returnedCopy);
@@ -265,6 +259,8 @@ public abstract class Resource {
 			
 			noDueDateCopies.add(copyToBorrow);
 			user.addBorrowedCopy(copyToBorrow);
+			
+			saveCopyToDB(copyToBorrow);
 			return true;
 		} 
 		/*Else, add the user to the request queue and set the due date
@@ -274,6 +270,8 @@ public abstract class Resource {
 			userRequestQueue.enqueue(user);
 			Copy firstCopy = noDueDateCopies.poll();
 			firstCopy.setDueDate();
+			
+			saveCopyToDB(firstCopy);
 			return false;
 		}
 	}
@@ -352,7 +350,7 @@ public abstract class Resource {
 		return copiesInfo;
 	}
 	
-	private void loadCopyList() {
+	public void loadCopyList() {
 		try {
 			Connection dbConnection = DBHelper.getConnection(); //get the connection
 			Statement sqlStatement = dbConnection.createStatement(); //prep a statement
@@ -394,6 +392,7 @@ public abstract class Resource {
 							borrowDate, lastRenewalDate, dueDate));
 				} else {
 					Copy freeCopy=new Copy(this, savedCopies.getInt("copyID"),null,savedCopies.getInt("loanDuration"));
+					copyList.add(freeCopy);
 					freeCopies.add(freeCopy);
 				}
 			} 
@@ -446,6 +445,47 @@ public abstract class Resource {
 		}
 	}
 	
+	private void saveCopyToDB(Copy copy) {
+		try {
+			Connection dbConnection = DBHelper.getConnection();
+			PreparedStatement sqlStatement=dbConnection.prepareStatement
+					("DELETE FROM copies WHERE copyID="+copy.getCopyID());
+			sqlStatement.executeUpdate();
+			
+			SimpleDateFormat normalDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+			sqlStatement = dbConnection.prepareStatement("INSERT INTO copies VALUES(?,?,?,?,?,?,?)");
+			
+			
+			sqlStatement.setInt(1, copy.getCopyID());
+			sqlStatement.setInt(2, uniqueID);
+			sqlStatement.setInt(4, copy.getLoanDuration());
+			sqlStatement.setString(5, formatDate(copy.getBorrowDate(),normalDateFormat));
+			sqlStatement.setString(6, formatDate(copy.getLastRenewal(),normalDateFormat));
+			sqlStatement.setString(7, formatDate(copy.getDueDate(),normalDateFormat));
+			
+			String userName = null;
+			if(copy.getBorrower()!=null) {
+				userName = copy.getBorrower().getUsername();
+				sqlStatement.setString(3, userName);
+			} else {
+				sqlStatement.setString(3, null);
+				
+			}
+			
+			sqlStatement.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	private String formatDate(Date date, SimpleDateFormat dateFormater) {
+		if(date==null) {
+			return null;
+		} else {
+			return dateFormater.format(date);
+		}
+	}
+	
 	public void saveUserQueue() {
 		LinkedList<User> orderedUsers = userRequestQueue.getOrderedList();
 		try {
@@ -462,34 +502,6 @@ public abstract class Resource {
 				sqlStatement.executeUpdate();
 				current = orderedUsers.pollFirst();
 				orderNr++;
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-	}
-	
-	public void saveCopiesToDB() {
-		try {
-			Connection dbConnection = DBHelper.getConnection();
-			PreparedStatement sqlStatement=dbConnection.prepareStatement("DELETE FROM copies WHERE rID="+uniqueID);
-			sqlStatement.executeUpdate();
-			
-			SimpleDateFormat normalDateFormat = new SimpleDateFormat("dd/MM/yyyy");
-			sqlStatement = dbConnection.prepareStatement("INSERT INTO copies VALUES(?,?,?,?,?,?,?)");
-			sqlStatement.setInt(2, uniqueID);
-			
-			for(Copy copy: copyList) {
-				sqlStatement.setInt(1, copy.getCopyID());
-				
-				String userName = null;
-				if(copy.getBorrower()!=null) {
-					userName = copy.getBorrower().getUsername();
-				}
-				sqlStatement.setString(3, userName);
-				sqlStatement.setInt(4, copy.getLoanDuration());
-				sqlStatement.setString(5, normalDateFormat.format(copy.getBorrowDate()));
-				sqlStatement.setString(6, normalDateFormat.format(copy.getLastRenewal()));
-				sqlStatement.setString(7, normalDateFormat.format(copy.getDueDate()));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -520,6 +532,7 @@ public abstract class Resource {
 			PreparedStatement sqlStatement = dbConnection.prepareStatement("INSERT INTO requestsToApprove VALUES (?,?)");
 			sqlStatement.setInt(1, uniqueID);
 			sqlStatement.setString(2,requester.getUsername());
+			sqlStatement.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -538,9 +551,53 @@ public abstract class Resource {
 		
 		System.out.println(r1.noDueDateCopies.poll().getCOPY_ID());
 		System.out.println(r1.noDueDateCopies.poll().getCOPY_ID());*/
-		
-		//BHelper.tableCheck();
 		/*
+		loadDatabaseResources();
+		
+		Resource winter=null;
+		
+		for(Resource r: resources) {
+			if(r.getUniqueID()==3) {
+				winter=r;
+				break;
+			}
+		}
+		
+		Copy copy=null;
+		for(Copy c: winter.getCopies()) {
+			if(c.getCopyID()==1) {
+				copy=c;
+				break;
+			}
+		}
+		
+		try {
+			Connection conn = DBHelper.getConnection(); //get the connection
+			Statement stmt = conn.createStatement(); //prep a statement
+			ResultSet rs = stmt.executeQuery("SELECT * FROM copies where copyID=1"); //Your sql goes here
+			while(rs.next()) {
+				System.out.println("loan duration "+rs.getInt("loanDuration"));
+			} //Think of this a bit like the file reader for the games project
+		} catch (SQLException e) { //if your SQL is incorrect this will display it
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		copy.setLoanDuration(7);
+		System.out.println("bor");
+		try {
+			Connection conn = DBHelper.getConnection(); //get the connection
+			Statement stmt = conn.createStatement(); //prep a statement
+			ResultSet rs = stmt.executeQuery("SELECT * FROM copies where copyID=1"); //Your sql goes here
+			while(rs.next()) {
+				System.out.println("loan duration "+rs.getInt("loanDuration"));
+			} //Think of this a bit like the file reader for the games project
+		} catch (SQLException e) { //if your SQL is incorrect this will display it
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}*/
+		/*DBHelper.tableCheck();
+		
 		Laptop l = new Laptop(1,"VX15", 2017,null,"Acer","Aspire","Windows");
 		Book b = new Book(2,"Great Expectations", 1880, null, "CharlesDickens", "Wanker");
 		DVD d =  new DVD(3,"Iron Man", 2008, null, "Favreau", 200);
@@ -549,20 +606,31 @@ public abstract class Resource {
 		Copy test =  new Copy(b, 1, user, 7);
 		test.setBorrowDate(new Date(118,10,30));
 		test.checkRenewal();
-		System.out.println(test.getLastRenewal().toString());*/
+		System.out.println(test.getLastRenewal().toString());
 		
-		//test.setDueDate(new Date(118,11,2));
+		test.setDueDate();
 		
-		/*System.out.println("----Displaying resource table----");
+		System.out.println("----Displaying resource table----");
 		try {
 			Connection conn = DBHelper.getConnection(); //get the connection
 			Statement stmt = conn.createStatement(); //prep a statement
-			ResultSet rs = stmt.executeQuery("SELECT * FROM fines"); //Your sql goes here
+			ResultSet rs = stmt.executeQuery("SELECT * FROM requestsToApprove"); //Your sql goes here
 			while(rs.next()) {
-				System.out.println("ID: "+rs.getInt("fineId")+" username: " +rs.getString("username") //The index is either a number of the name
-				+ " rID: "+rs.getInt("rID")+" daysOver: "+rs.getInt("daysOver")+
-				" amount: "+rs.getDouble("amount")+" date and time: "+
-				rs.getString("dateTime")+" paid: "+rs.getInt("paid"));
+				System.out.println("rID: "+rs.getInt("rID")+" username: " +rs.getString("userName"));
+			} //Think of this a bit like the file reader for the games project
+		} catch (SQLException e) { //if your SQL is incorrect this will display it
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		l.addPendingRequest(user);
+		System.out.println("----Displaying resource table----");
+		try {
+			Connection conn = DBHelper.getConnection(); //get the connection
+			Statement stmt = conn.createStatement(); //prep a statement
+			ResultSet rs = stmt.executeQuery("SELECT * FROM requestsToApprove"); //Your sql goes here
+			while(rs.next()) {
+				System.out.println("rID: "+rs.getInt("rID")+" username: " +rs.getString("userName"));
 			} //Think of this a bit like the file reader for the games project
 		} catch (SQLException e) { //if your SQL is incorrect this will display it
 			// TODO Auto-generated catch block

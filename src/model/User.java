@@ -5,6 +5,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import javafx.scene.image.Image;
+import sun.security.tools.keytool.Resources;
 
 /**This class represents a user of the library, allowing them to borrow copies
  * of recourses and make payments towards any fines against them. It has all
@@ -23,7 +24,7 @@ public class User extends Person {
 	
 	/**
 	 * Creates a new User object from the given arguments.
-	 * @param userName
+	 * @param username
 	 * @param firstName
 	 * @param lastName
 	 * @param phoneNumber
@@ -161,7 +162,7 @@ public class User extends Person {
 		try {
 			Connection conn = DBHelper.getConnection();
 			PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM copies WHERE keeper = ?");
-            pstmt.setString(1, userName);
+            pstmt.setString(1, username);
             ResultSet rs = pstmt.executeQuery();
             
             while(rs.next()) {
@@ -200,5 +201,32 @@ public class User extends Person {
 			}
 		}
 		return false;
+	}
+	
+	public ArrayList<Resource> getRecommendations() throws SQLException{
+		Connection connectionToDB = DBHelper.getConnection();
+		PreparedStatement sqlStatement = connectionToDB.prepareStatement
+				("select distinct copyID from borrowRecords where username=?");
+		sqlStatement.setString(1, username);
+		ResultSet borrowedCopiesID = sqlStatement.executeQuery();
+	
+		sqlStatement = connectionToDB.prepareStatement("select rID from copies where copyID=?");
+		ArrayList<Resource> borrowedResources = new ArrayList<>();
+		
+		while(borrowedCopiesID.next()) {
+			int copyID = borrowedCopiesID.getInt("copyID");
+			
+			sqlStatement.setInt(1, copyID);
+			ResultSet resourceIDResult = sqlStatement.executeQuery();
+			
+			/*Since copyID is the primary key of copies, the result to selecting
+			 *  rID will always have only one row.*/
+			int resourceID = resourceIDResult.getInt("rID");
+			Resource borrowedResource = Resource.getResource(resourceID);
+			
+			borrowedResources.add(borrowedResource);
+		}
+		
+		return new ArrayList<Resource>();
 	}
 }

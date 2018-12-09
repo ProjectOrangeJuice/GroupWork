@@ -26,73 +26,82 @@ import model.User;
 
 public class CheckoutController {
 
-	
 	@FXML
-	private VBox checkoutVbox;
-	
-	private TableView<Request> tableRequest = new TableView<>();
-	
-	@FXML
-	private TextField checkoutSearch;
+	private VBox checkoutVbox; //vbox that holds the checkoutsearch textfield 
 
+	private TableView<Request> tableRequest = new TableView<>(); //request to view the table
+
+	@FXML
+	private TextField checkoutSearch; //the search bar that allows the person to search.
 
 	ObservableList<Request> requestData = FXCollections.observableArrayList();
 	FilteredList<Request> requestList = new FilteredList<>(requestData);
-	
+
+	/**
+	 * Loads requests when the program starts up.
+	 */
 	@FXML
 	public void initialize() {
-		
+
 		loadRequests();
-		
+
 	}
-	
-	
+
+	/**
+	 * Performs the search that the user wants to do.
+	 * 
+	 * @param event the search being confirmed.
+	 */
 	@FXML
 	public void checkoutDoSearch(KeyEvent event) {
 		requestList.setPredicate(s -> s.contains(checkoutSearch.getText()));
 	}
-	
-	
-	
+
+	/**
+	 * A method that makes an alert to make the user confirm the request of a resource.
+	 * @param request the request to get a copy
+	 */
 	private void confirmRequest(Request request) {
 		Alert alert = new Alert(AlertType.CONFIRMATION);
 		alert.setTitle("Are you sure?");
-		alert.setHeaderText("Taking "+request.getResourceName());
+		alert.setHeaderText("Taking " + request.getResourceName());
 
-
-Optional<ButtonType> result = alert.showAndWait();
-if (result.get() == ButtonType.OK){
-    takeOut(request);
-} else {
-    // ... user chose CANCEL or closed the dialog
-}
+		Optional<ButtonType> result = alert.showAndWait();
+		if (result.get() == ButtonType.OK) {
+			takeOut(request);
+		} else {
+			// ... user chose CANCEL or closed the dialog
+		}
 	}
-	
-	
+
+	/**
+	 * A method that makes the takeout request alert which pops up after a request is accepted.
+	 * @param request the request to take a copy.
+	 */
 	private void takeOut(Request request) {
-		
-		//make the user
-		
+
+		// make the user
+
 		User user = (User) User.loadPerson(request.getUsername());
-		if(request.getResource().loanToUser(user)) {
+		if (request.getResource().loanToUser(user)) {
 			alertDone("Copy given");
-		}else {
+		} else {
 			alertDone("In queue");
 		}
-		
+
 		checkoutVbox.getChildren().remove(tableRequest);
-		requestData =  FXCollections.observableArrayList();
+		requestData = FXCollections.observableArrayList();
 		requestList.removeAll();
 		tableRequest = new TableView<>();
 		loadRequests();
-		
-		
-		
+
 	}
-	
+
 	/**
 	 * Generate a popup.
-	 * @param text The text to be displayed.
+	 * 
+	 * @param text
+	 *            The text to be displayed.
 	 */
 	private void alertDone(String text) {
 		Alert alert = new Alert(AlertType.INFORMATION);
@@ -103,51 +112,43 @@ if (result.get() == ButtonType.OK){
 		alert.showAndWait();
 	}
 
-	
+	/**
+	 * A method that will load the array of requests and get the username and the resource they requested,
+	 */
 	@SuppressWarnings("unchecked")
 	private void loadRequests() {
 		ArrayList<Request> requests = Request.loadRequests();
-		
-		
+
+		//adds a request to the array list
 		for (Request request : requests) {
 			requestData.add(request);
 		}
-		
-		
 
-		
-		TableColumn<Request, String> userCol = 
-				new TableColumn<Request, String>("User");
+		//creates the request table
+		TableColumn<Request, String> userCol = new TableColumn<Request, String>("User");
 		userCol.setCellValueFactory(new PropertyValueFactory<>("username"));
 
-		TableColumn<Request, String> resourceCol = 
-				new TableColumn<Request, String>("Resource");
+		TableColumn<Request, String> resourceCol = new TableColumn<Request, String>("Resource");
 		resourceCol.setCellValueFactory(new PropertyValueFactory<>("resourceName"));
 
 		tableRequest.setItems(requestList);
-		
-		
-		tableRequest.setRowFactory( tv -> {
+
+		tableRequest.setRowFactory(tv -> {
 			TableRow<Request> row = new TableRow<>();
 			row.setOnMouseClicked(event -> {
-				if (event.getClickCount() == 2 && (! row.isEmpty()) ) {
+				if (event.getClickCount() == 2 && (!row.isEmpty())) {
 					Request rowData = row.getItem();
 					confirmRequest(rowData);
 				}
 			});
-			return row ;
+			return row;
 		});
-		
-		tableRequest.getColumns().addAll(userCol,resourceCol);
+
+		//adds all the usernames and resources to the table and resizes it.
+		tableRequest.getColumns().addAll(userCol, resourceCol);
 		tableRequest.autosize();
 		checkoutVbox.getChildren().add(tableRequest);
 
-
-		
 	}
-	
-	
-	
-	
-	
+
 }

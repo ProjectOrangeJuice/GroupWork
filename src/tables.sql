@@ -47,7 +47,7 @@ DROP TABLE IF EXISTS `system`;
 CREATE TABLE IF NOT EXISTS `system` (
 	`ver`	INTEGER
 );
-INSERT INTO `system` VALUES (11);
+INSERT INTO `system` VALUES (13);
 
 DROP TABLE IF EXISTS `resource`;
 CREATE TABLE IF NOT EXISTS `resource` (
@@ -164,8 +164,12 @@ CREATE TABLE IF NOT EXISTS `borrowRecords` (
 	`borrowId`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
 	`copyId`	INTEGER NOT NULL,
 	`username`	TEXT NOT NULL,
-	`description`	TEXT
+	`description`	TEXT,
+	FOREIGN KEY (copyId) REFERENCES `copies`(`copyID`) ON UPDATE CASCADE ON DELETE CASCADE,
+	FOREIGN KEY (username) REFERENCES `users`(`username`) ON UPDATE CASCADE ON DELETE CASCADE
 );
+
+INSERT INTO `borrowRecords` VALUES (1,2,'Manny','Returned on 08/12/2018');
 
 DROP TABLE IF EXISTS `requestsToApprove`;
 CREATE TABLE IF NOT EXISTS `requestsToApprove` (

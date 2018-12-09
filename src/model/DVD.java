@@ -1,5 +1,6 @@
 package model;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -28,7 +29,7 @@ public class DVD extends Resource {
 				//ArrayList<String> subtitleLanguages = loadSubtitles(stmt, rs.getInt("rID"));
 				
 				Image resourceImage = new Image(rs.getString("thumbnail"), true);
-				
+				//Image resourceImage=null;
 				resources.add(new DVD(rs.getInt("rID"), rs.getString("title"), rs.getInt("year"),
 						resourceImage, rs.getString("director"), rs.getInt("runTime"), rs.getString("language"), null)); //NEED TO FIX
 				
@@ -100,21 +101,47 @@ public class DVD extends Resource {
 		return result;
 	}
 
-	public void addSubtitle(String language) {
+	public void addSubtitle(String subtitleLanguage) {
 		//go through the list and make sure the language is not in there already
 		for(String s: subtitleLanguages) {
-			if(s.equals(language)) {
+			if(s.equals(subtitleLanguage)) {
 				return;
 			}
 		}
 		
-		subtitleLanguages.add(language);
+		subtitleLanguages.add(subtitleLanguage);
 		try {
-			Connection conn = DBHelper.getConnection(); //get the connection
-			Statement stmt = conn.createStatement(); //prep a statement
-			stmt.executeUpdate("INSERT INTO subtitles VALUES ("+uniqueID+","+language+")");
+			Connection connectionToDB = DBHelper.getConnection(); //get the connection
+			Statement sqlStatement = connectionToDB.createStatement(); //prep a statement
+			sqlStatement.executeUpdate("INSERT INTO subtitles VALUES ("+uniqueID+","+subtitleLanguage+")");
 		} catch (SQLException e) { 
 			e.printStackTrace();
+		}
+	}
+	
+	public void deleteSubtitle(String subtitleLanguage) {
+		int languageIndex=-1;
+		
+		for(int i=0; i<subtitleLanguages.size(); i++) {
+			if(subtitleLanguages.get(i).equals(subtitleLanguage)) {
+				languageIndex=i;
+			}
+		}
+		
+		if(languageIndex != -1) {
+			subtitleLanguages.remove(languageIndex);
+			
+			try {
+				Connection connectionToDB = DBHelper.getConnection(); //get the connection
+				PreparedStatement sqlStatement = connectionToDB.prepareStatement
+						("DELETE FROM subtitles WHERE dvdID=? and subtitleLanguage=?"); //prep a statement
+				
+				sqlStatement.setInt(1, uniqueID);
+				sqlStatement.setString(2, subtitleLanguage);
+				sqlStatement.executeUpdate();
+			} catch (SQLException e) { 
+				e.printStackTrace();
+			}
 		}
 	}
 	

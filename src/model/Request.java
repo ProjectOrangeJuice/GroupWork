@@ -9,9 +9,10 @@ import java.util.ArrayList;
 public class Request {
 
 	private String username;
-	private Resource resource;
-
+	
 	private String resourceName;
+	
+	private Resource resource;
 	
 	public Request(String username, Resource resource) {
 		this.username = username;
@@ -19,7 +20,6 @@ public class Request {
 		this.resourceName = resource.getTitle(); 
 	
 	}
-	
 	
 	public static ArrayList<Request>  loadRequests() {
 		ArrayList<Request> requests = new ArrayList<Request>();
@@ -61,8 +61,6 @@ public class Request {
 		return resource;
 	}
 	
-
-	
 	public boolean contains(String search) {
 		
 		if(username.toLowerCase().contains(search.toLowerCase())) {
@@ -70,6 +68,5 @@ public class Request {
 		}
 		return false;
 	}
-	
 	
 }
