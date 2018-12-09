@@ -122,6 +122,9 @@ public class EditCopiesController {
 		Copy copy = copiesTable.getSelectionModel().getSelectedItem();
 		if(copy.getBorrower() != null) {
 			alertDone("Copy is being borrowed");
+		}else {
+			Resource resource = ScreenManager.getCurrentResource();
+			resource.removeCopy(copy);
 		}
 	}
 	
