@@ -19,6 +19,7 @@ import javafx.scene.CacheHint;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
@@ -28,6 +29,7 @@ import javafx.scene.control.TabPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.effect.BlendMode;
 import javafx.scene.image.Image;
@@ -801,12 +803,35 @@ public class ProfileController {
 			System.out.println("No user selected!");
 		} else {
 			System.out.println("Delete User: " + selectedUserLabel.getText());
+			if(selectedUserLabel.getText().equals(ScreenManager.getCurrentUser().getUsername())) {
+				alertDone("You can't delete yourself!");
+			}else {
+				if(Person.removePerson(selectedUserLabel.getText())) {
+					
+				}else {
+					alertDone("They can't be deleted at the moment");
+				}
+			}
 			//Delete user
 			selectedUserLabel.setText("-");
 			staffUsersTable.getItems().clear();
 			loadUsersTable(null);
 		}
 		
+	}
+	
+	
+	/**
+	 * Generate a popup.
+	 * @param text The text to be displayed.
+	 */
+	private void alertDone(String text) {
+		Alert alert = new Alert(AlertType.INFORMATION);
+		alert.setTitle("Information Dialog");
+		alert.setHeaderText(null);
+		alert.setContentText(text);
+
+		alert.showAndWait();
 	}
 	
 	/**
