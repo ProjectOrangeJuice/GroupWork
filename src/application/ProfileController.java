@@ -73,6 +73,7 @@ public class ProfileController {
 	@FXML
 	private LoginController TextField;//log out link
 	
+	//User Profile
 	@FXML
 	private Label userLabel;//label displaying "Username"
 	@FXML
@@ -86,6 +87,7 @@ public class ProfileController {
 	@FXML
 	private Label balanceLabel;//label displaying "Balance"
 	
+	//Staff Profile
 	@FXML
 	private Label userLabel1;//label displaying the username from the database 
 	@FXML
@@ -145,6 +147,12 @@ public class ProfileController {
 	private Button staffRequestedFilter;
 	@FXML
 	private Button staffHistoryFind;
+	@FXML
+	private Button staffAllFilter;
+	@FXML
+	private Button staffApproveCopy;
+	@FXML
+	private Button staffReturnCopy;
 	@FXML
 	private TextField staffCopyIDField;
 	@FXML
@@ -495,6 +503,13 @@ public class ProfileController {
 			}
 		}
 	}
+	
+	@FXML
+	private void loadBorrowHistory() {
+		if(currentUser instanceof User) {
+			System.out.println("things");
+		}
+	}
 
 	/**
 	 * intialize method that starts when the scene is intialized
@@ -509,19 +524,53 @@ public class ProfileController {
 		loadUserInformation();
 		loadCopies();
 		loadRequested();
-		loadTables();
+		loadTables()
+		
+		loadTables("users");
+		loadTables("all");
 		
 		scrollPane.setHvalue(0.5);
 	
 	 }
 	
 	//
+	//Staff Profile -----------------------------------------------------------
+	//
+	
+	//
 	// Staff: Copies Explorer
 	//
 	
 	@FXML
+	private void displayAll() {
+		System.out.println("Display All!");
+		loadTables("all");
+	}
+	
+	@FXML
 	private void displayOverdue() {
-		
+		System.out.println("Display Overdue!");
+		loadTables("overdue");
+	}
+	
+	@FXML
+	private void displayRequested() {
+		System.out.println("Display Requested!");
+	}
+	
+	@FXML
+	private void displayHistory() {
+		System.out.println("Display History!");
+	}
+	
+	@FXML
+	private void approveCopy() {
+		System.out.println("Approve copy!");
+	}
+	
+	@FXML
+	private void returnCopy() {
+		System.out.println("Return copy!");
 	}
 	
 	/**
@@ -544,6 +593,7 @@ public class ProfileController {
 		changeScene(event,"/fxml/drawAvatar.fxml");
 	}
 	
+<<<<<<< HEAD
 	//
 	// Manage Users Tab
 	//
@@ -552,6 +602,11 @@ public class ProfileController {
 	 * Loads the user table so the staff can manage the users.
 	 */
 	private void loadTables() {
+=======
+
+	private void loadTables(String tableToLoad) {
+		//Manage Users Columns
+>>>>>>> aafe31e85e305ed5ea15ea3f5e1ce4ed1aec9b1d
 		TableColumn<Person, String> usernameCol = new TableColumn<Person, String>("Username");
         usernameCol.setCellValueFactory(new PropertyValueFactory<>("username"));
 		
@@ -576,15 +631,60 @@ public class ProfileController {
 		TableColumn<Person, String> accountBalanceCol = new TableColumn<Person, String>("accountBalance");
 		accountBalanceCol.setCellValueFactory(new PropertyValueFactory<>("accountBalance"));
 		
-		staffUsersTable.getColumns().addAll(usernameCol,firstnameCol,lastnameCol,
-				addressCol,postcodeCol,accountBalanceCol);
+		staffUsersTable.getColumns().addAll(usernameCol, firstnameCol, lastnameCol,addressCol,postcodeCol,accountBalanceCol);
+		
+		//Copies Explorer columns.
+		TableColumn<Copy, String> copyIDCol = new TableColumn<Copy, String>("Copy ID");
+		copyIDCol.setCellValueFactory(new PropertyValueFactory<>("copyID"));
+		
+		TableColumn<Copy, String> rIDCol = new TableColumn<Copy, String>("Resource ID");
+		rIDCol.setCellValueFactory(new PropertyValueFactory<>("rID"));
+		
+		TableColumn<Copy, String> keeperCol = new TableColumn<Copy, String>("Keeper");
+		keeperCol.setCellValueFactory(new PropertyValueFactory<>("keeper"));
+		
+		TableColumn<Copy, String> loanCol = new TableColumn<Copy, String>("Loan Duration");
+		loanCol.setCellValueFactory(new PropertyValueFactory<>("duration"));
+		
+		TableColumn<Copy, String> borrowCol = new TableColumn<Copy, String>("Borrowed");
+		borrowCol.setCellValueFactory(new PropertyValueFactory<>("borrowDate"));
+		
+		TableColumn<Copy, String> renewalCol = new TableColumn<Copy, String>("Last Renewal");
+		renewalCol.setCellValueFactory(new PropertyValueFactory<>("lastRenewal"));
+		
+		TableColumn<Copy, String> dueCol = new TableColumn<Copy, String>("Due");
+		dueCol.setCellValueFactory(new PropertyValueFactory<>("dueDate"));
+		
+		
+		switch (tableToLoad) {
+			case "users":
+				staffUsersTable.getColumns().addAll(usernameCol,firstnameCol,
+						lastnameCol,addressCol,postcodeCol,accountBalanceCol);
+				break;
+				
+			case "all":
+				staffCopiesExplorerTable.getColumns().clear();
+				staffCopiesExplorerTable.getColumns().addAll(copyIDCol,
+						rIDCol,keeperCol,loanCol,borrowCol,renewalCol,dueCol);
+				break;
+			case "overdue":
+				staffCopiesExplorerTable.getColumns().clear();
+				break;
+		}
 		
 	}
 	
+
 	/**
 	 * loads all the users from the table which aren't staff when the button is clicked
 	 * @param event the button being clicked
 	 */
+
+	//
+	// Staff: Manage Users
+	//
+	
+
 	@FXML
 	private void loadUsersTable(MouseEvent event) {
 		ObservableList<Person> usersList = FXCollections.observableArrayList();
