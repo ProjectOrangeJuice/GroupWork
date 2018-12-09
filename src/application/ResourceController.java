@@ -1,5 +1,7 @@
 package application;
 
+import java.io.File;
+
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -214,7 +216,7 @@ public class ResourceController {
 				}
 				try {
 					if(!img.equals("")) {
-					image = new Image(img,true);
+					image = new Image(new File(img).toURI().toString());
 					}
 				}catch (Exception e) {
 					goAhead = false;
@@ -252,7 +254,7 @@ public class ResourceController {
 		
 		try {
 			if(!img.equals("")) {
-			image = new Image(img,true);
+				image = new Image(new File(img).toURI().toString());
 			}
 		}catch (Exception e) {
 			goAhead = false;
@@ -293,7 +295,7 @@ public class ResourceController {
 		
 		try {
 			if(!img.equals("")) {
-			image = new Image(img,true);
+				image = new Image(new File(img).toURI().toString());
 			}
 		}catch (Exception e) {
 			goAhead = false;

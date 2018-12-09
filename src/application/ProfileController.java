@@ -246,30 +246,23 @@ public class ProfileController {
 	 */
 	private void loadUserInformation() {
 		if (ScreenManager.getCurrentUser() instanceof User) {
-			//get all information in about user from ScreenManager class.
-			String username = currentUser.getUsername();
-			String fullname = currentUser.getFirstName() + " " + currentUser.getLastName();
-			String address = currentUser.getAddress();
-			String postcode = currentUser.getPostcode();
-			String phoneNumber = currentUser.getPhoneNumber();
-			String avatarPath = currentUser.getAvatar();
-			
+
 			//change text in labels to appropriate user information.
-			userLabel.setText(username);
-			fullnameLabel.setText("Full Name: " + fullname);
-			addressLabel.setText("Address: " + address);
-			postcodeLabel.setText("Post Code: " + postcode);
-			phoneLabel.setText("Phone Number: " + phoneNumber);
+			userLabel.setText(currentUser.getUsername());
+			fullnameLabel.setText("Full Name: " + currentUser.getFirstName() + " "
+			+ currentUser.getLastName());
+			addressLabel.setText("Address: " + currentUser.getAddress());
+			postcodeLabel.setText("Post Code: " + currentUser.getPostcode());
+			phoneLabel.setText("Phone Number: " + currentUser.getPhoneNumber());
 			
 			Double userBalance = ((User) currentUser).getAccountBalance();
-			accountBalance.setText("Â£" + Double.toString(userBalance));
+			accountBalance.setText("£" + Double.toString(userBalance));
 			
-			userAvatarView.setImage(new Image(avatarPath));
+			userAvatarView.setImage(new Image(currentUser.getAvatar()));
 		}else {
 			//get all information in about user from ScreenManager class.
 			Librarian staff = (Librarian) currentUser;
 			String fullname = staff.getFirstName() + " " + staff.getLastName();
-			String avatarPath = currentUser.getAvatar();
 			
 			userLabel1.setText(staff.getUsername());
 			fullnameLabel1.setText(fullnameLabel1.getText() + " " + fullname);
@@ -279,7 +272,7 @@ public class ProfileController {
 			dateLabel1.setText(dateLabel1.getText() + " " + staff.getEmploymentDate());
 			staffIDLabel1.setText(staffIDLabel1.getText() + " " + staff.getStaffID());
 			
-			staffAvatarView.setImage(new Image(avatarPath));
+			staffAvatarView.setImage(new Image(currentUser.getAvatar()));
 		}
 	}
 	
@@ -429,38 +422,6 @@ public class ProfileController {
 	
 	
 	/**
-	 * Method that loads copies that the user is currently borrowing
-	 */
-	private void loadCopies() {
-		if (currentUser instanceof User) {
-			
-			//get user copies that they're currently borrowing.
-			((User) currentUser).loadUserCopies();
-			ArrayList<Copy> userCopies = ((User) currentUser).getBorrowedCopies();
-			System.out.println("sizee: " + userCopies.size());
-			for(int i = 0 ; i < userCopies.size() ; i++) {
-				System.out.println(userCopies.get(i).getResource().getTitle());
-				Resource copyResource = userCopies.get(i).getResource();
-				
-				StackPane imagePane = createImage(copyResource, COPY_IMG_WIDTH, COPY_IMG_HEIGHT);
-				
-				((ImageView) imagePane.getChildren().get(2)).setFitWidth(COPY_IMG_WIDTH);
-				((ImageView) imagePane.getChildren().get(2)).setImage(new Image("/graphics/borrowed.png"));
-				((ImageView) imagePane.getChildren().get(2)).setPreserveRatio(true);
-				
-				resourceImages.getChildren().add(imagePane);
-				
-				imagePane.setOnMouseEntered(enterHandler);
-				imagePane.setOnMouseExited(exitHandler);
-				//imagePane.setOnMouseClicked(clickHandler);
-			}
-		}
-		//get user copies that they have requested.
-
-	}
-	
-	
-	/**
 	 * Loads resource images from Resource class, so that they can
 	 * be displayed within the UI.
 	 */
@@ -487,6 +448,7 @@ public class ProfileController {
 			
 			//get last image in last resource HBox.
 			HBox latestHBox = (HBox) vResourceBox.getChildren().get(vResourceBox.getChildren().size() - 1);
+			latestHBox.setSpacing(5);
 			
 			//if there is at least one image in last resource HBox
 			if(!latestHBox.getChildren().isEmpty()) {
@@ -516,51 +478,62 @@ public class ProfileController {
 		
 	}
 	
+	private void loadCopyImages(ArrayList<Resource> resources, String bannerName) {
+
+		for(Resource resource : resources) {
+			
+			StackPane imagePane = createImage(resource, COPY_IMG_WIDTH, COPY_IMG_HEIGHT);
+			
+			((ImageView) imagePane.getChildren().get(2)).setFitWidth(COPY_IMG_WIDTH);
+			((ImageView) imagePane.getChildren().get(2)).setImage(new Image("/graphics/" + bannerName));
+			((ImageView) imagePane.getChildren().get(2)).setPreserveRatio(true);
+			
+			resourceImages.getChildren().add(imagePane);
+			
+			imagePane.setOnMouseEntered(enterHandler);
+			imagePane.setOnMouseExited(exitHandler);
+			imagePane.setOnMouseClicked(clickHandler);
+				
+			}
+	}
+	
+	/**
+	 * Method that loads copies that the user is currently borrowing
+	 */
+	private void loadCopies() {
+		
+		if(currentUser instanceof User) {
+			((User) currentUser).loadUserCopies();
+			ArrayList<Copy> userCopies = ((User) currentUser).getBorrowedCopies();
+			ArrayList<Resource> copyResources = new ArrayList<Resource>();
+			
+			for(Copy copy : userCopies) {
+				copyResources.add(copy.getResource());
+			}
+			
+			loadCopyImages(copyResources, "borrowed.png");
+		}
+		
+
+	}
+	
 	/**
 	 * Loads the resources that have been requested so the librarian can confirm then
 	 */
 	@FXML
 	private void loadRequested() {
-		
 		if(currentUser instanceof User) {
 			ArrayList<Resource> requestedResources = ((User) currentUser).getRequestedResources();
-			System.out.println("request size: " + requestedResources.size());
-			for(Resource request : requestedResources) {
-				
-				StackPane imagePane = createImage(request, COPY_IMG_WIDTH, COPY_IMG_HEIGHT);
-				
-				((ImageView) imagePane.getChildren().get(2)).setFitWidth(COPY_IMG_WIDTH);
-				((ImageView) imagePane.getChildren().get(2)).setImage(new Image("/graphics/requested.png"));
-				((ImageView) imagePane.getChildren().get(2)).setPreserveRatio(true);
-				
-				resourceImages.getChildren().add(imagePane);
-				
-				imagePane.setOnMouseEntered(enterHandler);
-				imagePane.setOnMouseExited(exitHandler);
-				
-			}
+			loadCopyImages(requestedResources, "requested.png");
 		}
+		
 	}
 	
 	@FXML
 	private void loadBorrowHistory() {
 		if(currentUser instanceof User) {
 			ArrayList<Resource> borrowHistory = ((User) currentUser).loadUserHistory();
-			for(Resource resource : borrowHistory) {
-				
-				StackPane imagePane = createImage(resource, COPY_IMG_WIDTH, COPY_IMG_HEIGHT);
-				
-				((ImageView) imagePane.getChildren().get(2)).setFitWidth(COPY_IMG_WIDTH);
-				((ImageView) imagePane.getChildren().get(2)).setImage(new Image("/graphics/returned.png"));
-				((ImageView) imagePane.getChildren().get(2)).setPreserveRatio(true);
-				
-				resourceImages.getChildren().add(imagePane);
-				
-				imagePane.setOnMouseEntered(enterHandler);
-				imagePane.setOnMouseExited(exitHandler);
-				imagePane.setOnMouseClicked(clickHandler);
-				
-			}
+			loadCopyImages(borrowHistory, "returned.png");
 		}
 	}
 

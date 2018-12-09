@@ -333,7 +333,7 @@ public class AvatarDrawingController implements Initializable {
         	RegisterController registerController = new RegisterController();
             //If user has created an image, get the file path.
             if (!customDrawingFileLocation.equals("")) {
-                registerController.setAvatarImagePath(customDrawingFileLocation);
+                registerController.setAvatarPath(customDrawingFileLocation);
             }
 
             //Load up register page with the new saved avatar.
