@@ -103,7 +103,8 @@ public class StaffEdit {
      */
     @FXML
     void cancelEditProfile(MouseEvent event) {
-        changeScene(event, "/fxml/profileScene.fxml");
+        Stage stage = (Stage) cancelButton.getScene().getWindow();
+        stage.close();
     }
 
     /**
