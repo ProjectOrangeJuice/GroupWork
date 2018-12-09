@@ -147,9 +147,9 @@ public class ProfileController {
 	@FXML
 	private Button staffRequestedFilter;
 	@FXML
-	private Button staffHistoryFind;
-	@FXML
 	private Button staffAllFilter;
+	@FXML
+	private Button staffHistoryFind;
 	@FXML
 	private Button staffApproveCopy;
 	@FXML
@@ -526,16 +526,9 @@ public class ProfileController {
 		loadCopies();
 		loadRequested();
 
-	
-		
 		loadTables("users");
-		loadTables("all");
+		displayAll();
 
-		
-		loadTables("users");
-		//displayAll();
-
-		
 		scrollPane.setHvalue(0.5);
 	
 	 }
@@ -545,15 +538,15 @@ public class ProfileController {
 	//
 	
 	//
-	// Staff: Copies Explorer
+	//Staff: Copies Explorer
 	//
 	
 	@FXML
 	private void displayAll() {
-
-		System.out.println("Display All!");
-		loadTables("all");
-
+		staffHistoryFind.setDisable(false);
+		staffApproveCopy.setDisable(true);
+		staffReturnCopy.setDisable(false);
+		
 		loadTables("all");
 		
 		ObservableList<Copy> copiesList = FXCollections.observableArrayList();
@@ -572,6 +565,10 @@ public class ProfileController {
 	 */
 	@FXML
 	private void displayOverdue() {
+		staffHistoryFind.setDisable(false);
+		staffApproveCopy.setDisable(true);
+		staffReturnCopy.setDisable(false);
+		
 		System.out.println("Display Overdue!");
 		loadTables("overdue");
 	}
@@ -581,6 +578,9 @@ public class ProfileController {
 	 */
 	@FXML
 	private void displayRequested() {
+		staffHistoryFind.setDisable(true);
+		staffApproveCopy.setDisable(false);
+		staffReturnCopy.setDisable(true);
 		System.out.println("Display Requested!");
 
 	}
@@ -616,6 +616,17 @@ public class ProfileController {
 	 * @param event button being clicked
 	 */
 	@FXML
+	private void explorerTableClicked(MouseEvent event) {
+		//Person selectedUser = staffCopiesExplorerTable.getSelectionModel().getSelectedItem();
+		//selectedUserLabel.setText(selectedUser.getUsername());
+		//System.out.println("Cell clicked?");
+	}
+	
+	//
+	//Staff: Profile
+	//
+	
+	@FXML
 	private void openProfileEditor(MouseEvent event) {
 		System.out.println("Launch staff editing profile.");
 		changeScene(event,"/fxml/StaffEdit.fxml");
@@ -633,7 +644,7 @@ public class ProfileController {
 	
 
 	//
-	// Manage Users Tab
+	//Staff: Manage Users
 	//
 	
 	/**
@@ -697,6 +708,7 @@ public class ProfileController {
 		
 		switch (tableToLoad) {
 			case "users":
+				staffUsersTable.getColumns().clear();
 				staffUsersTable.getColumns().addAll(usernameCol,firstnameCol,
 						lastnameCol,addressCol,postcodeCol,accountBalanceCol);
 				break;
@@ -721,7 +733,7 @@ public class ProfileController {
 	 */
 
 	//
-	// Staff: Manage Users
+	//Staff: Manage Users
 	//
 	
 	@FXML

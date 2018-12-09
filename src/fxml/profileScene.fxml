@@ -220,7 +220,7 @@
                                                 </ToolBar>
                                                 <Pane prefHeight="698.0" prefWidth="1323.0" VBox.vgrow="ALWAYS">
                                                    <children>
-                                                      <TableView fx:id="staffCopiesExplorerTable" prefHeight="824.0" prefWidth="967.0" />
+                                                      <TableView fx:id="staffCopiesExplorerTable" onMouseClicked="#explorerTableClicked" prefHeight="824.0" prefWidth="967.0" />
                                                    </children>
                                                 </Pane>
                                              </children>

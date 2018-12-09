@@ -25,45 +25,49 @@ import model.Person;
 public class StaffEdit {
 
     @FXML
-    private ImageView profileImageView;
+    private ImageView profileImageView;//storage for profile image
 
     @FXML
-    private SplitMenuButton changeProfileImageButton;
+    private SplitMenuButton changeProfileImageButton;//change profile image buton
 
     @FXML
+<<<<<<< HEAD
     private Label usernameLabel;
+=======
+    private TextField usernameText;//username text box
+>>>>>>> branch 'master' of https://github.com/The-Juggernaut/Group6.git
 
     @FXML
-    private TextField firstnameText;
+    private TextField firstnameText;//firstname text box
 
     @FXML
-    private TextField lastnameText;
+    private TextField lastnameText;//lastname text box
 
     @FXML
-    private TextField addressText;
+    private TextField addressText;//address text box
 
     @FXML
-    private TextField postcodeText;
+    private TextField postcodeText;//postcode text box
 
     @FXML
-    private TextField staffIDText;
+    private TextField staffIDText;//staffid text box
 
     @FXML
-    private TextField employmentDateText;
+    private TextField employmentDateText;//employmentdate text box
 
     @FXML
-    private TextField phoneNumberText;
+    private TextField phoneNumberText;//phone number text box
 
     @FXML
     private TextField lastnameText1;
 
     @FXML
-    private Button saveButton;
+    private Button saveButton;//save button
 
     @FXML
-    private Button cancelButton;
+    private Button cancelButton;//cancel button
     
-    private Person currentUser;
+    private Person currentUser;//current user instance
     
     private Pane rootPane;
     
@@ -89,11 +93,19 @@ public class StaffEdit {
 
 	}
 
+	/**
+	 * canceledit button
+	 * @param event when the button is pressed
+	 */
     @FXML
     void cancelEditProfile(MouseEvent event) {
     	changeScene(event, "/fxml/profileScene.fxml");
     }
 
+    /**
+     * Saves profile information about the user
+     * @param event button is presed
+     */
     @FXML
     void saveEditedProfile(MouseEvent event) {
     	String firstName = firstnameText.getText();
@@ -106,6 +118,7 @@ public class StaffEdit {
     	String username = usernameLabel.getText();
     	
     	try {
+    		//SQL that saves the profile information into the table
     		Connection conn = model.DBHelper.getConnection();
     		PreparedStatement pstmt = conn.prepareStatement("UPDATE users SET firstName = ?, lastName = ?, telephone = ?, address = ?, postcode = ? WHERE username = ?");
     		pstmt.setString(1, firstName);
@@ -133,6 +146,9 @@ public class StaffEdit {
     	changeScene(event, "/fxml/profileScene.fxml");
     }
     
+    /**
+     * Method that loads the staff information and adds them to the text fields
+     */
     public void loadStaffInformation() {
     	if (currentUser instanceof Librarian) {
     		Librarian currentStaff = (Librarian) currentUser;
@@ -159,6 +175,9 @@ public class StaffEdit {
     	}
     }
     
+    /**
+     * Intialize method that is called when the program starts
+     */
     @FXML
 	 public void initialize() {
 		
