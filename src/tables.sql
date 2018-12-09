@@ -67,6 +67,7 @@ INSERT INTO `resource` VALUES (8,'Sapiens',2015,'/graphics/sapiens.jpg');
 INSERT INTO `resource` VALUES (9,'Waking Gods',2015,'/graphics/wakingGods.jpg');
 INSERT INTO `resource` VALUES (10,'American Gods',2015,'/graphics/americanGods.jpg');
 INSERT INTO `resource` VALUES (11,'Iron Man 3',2013,'/graphics/ironMan3.jpg');
+INSERT INTO `resource` VALUES (12,'Lenovo',2017,'/graphics/laptop.png');
 
 
 DROP TABLE IF EXISTS `fines`;
@@ -153,6 +154,8 @@ CREATE TABLE IF NOT EXISTS `laptop` (
 	PRIMARY KEY (rID),
 	FOREIGN KEY (rID) REFERENCES `resource`(`rID`) ON UPDATE CASCADE ON DELETE CASCADE
 );
+
+INSERT INTO `laptop` VALUES ('Lenovo',1,'Windows `10',12);
 
 INSERT INTO `copies` VALUES (1,3,'Manny',8,'12/03/2018',NULL,NULL);
 INSERT INTO `copies` VALUES (2,1,NULL,7,NULL,NULL,NULL);
