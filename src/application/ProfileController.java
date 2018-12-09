@@ -403,14 +403,7 @@ public class ProfileController {
 		vResourceBox.getChildren().clear();
 		vResourceBox.getChildren().add(new HBox());
 		loadResourceImages();
-		loadUserInformation();
-		loadCopies();
-		loadRequested();
 
-		loadTables("users");
-		displayAll();
-
-		scrollPane.setHvalue(0.5);
 		
 	}
 	
