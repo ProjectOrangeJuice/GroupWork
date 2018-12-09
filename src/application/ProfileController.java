@@ -350,6 +350,7 @@ public class ProfileController {
 		copyResource.getTitle() + "\n" + copyResource.getYear());
 		resourceText.setVisible(false);
 		resourceText.setTextAlignment(TextAlignment.CENTER);
+		resourceText.setWrappingWidth(width);
 		
 		//create new resource image to be added.
 		ImageView image = new ImageView();
