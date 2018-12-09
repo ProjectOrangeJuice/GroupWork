@@ -162,6 +162,25 @@ public abstract class Resource {
 		}
 	}
 	
+	public void removeCopy(Copy copy) {
+		if(copy.getResource().equals(this)) {
+			copyList.remove(copy);
+			freeCopies.remove(copy);
+			noDueDateCopies.remove(copy);
+			
+			try {
+				Connection dbConnection = DBHelper.getConnection();
+				PreparedStatement sqlStatement=dbConnection.prepareStatement
+						("DELETE FROM copies WHERE copyID="+copy.getCopyID());
+				sqlStatement.executeUpdate();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		} else {
+			throw new IllegalArgumentException("Copy argument is not a copy of this resource!");
+		}
+	}
+	
 	/*public void saveFreeCopies() {
 		try {
 			Connection conn = DBHelper.getConnection(); //get the connection
