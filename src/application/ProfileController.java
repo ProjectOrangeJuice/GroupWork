@@ -479,24 +479,22 @@ public class ProfileController {
 	}
 	
 	private void loadCopyImages(ArrayList<Resource> resources, String bannerName) {
-		
-		if(currentUser instanceof User) {
-			for(Resource resource : resources) {
-				
-				StackPane imagePane = createImage(resource, COPY_IMG_WIDTH, COPY_IMG_HEIGHT);
-				
-				((ImageView) imagePane.getChildren().get(2)).setFitWidth(COPY_IMG_WIDTH);
-				((ImageView) imagePane.getChildren().get(2)).setImage(new Image("/graphics/" + bannerName));
-				((ImageView) imagePane.getChildren().get(2)).setPreserveRatio(true);
-				
-				resourceImages.getChildren().add(imagePane);
-				
-				imagePane.setOnMouseEntered(enterHandler);
-				imagePane.setOnMouseExited(exitHandler);
-				imagePane.setOnMouseClicked(clickHandler);
+
+		for(Resource resource : resources) {
+			
+			StackPane imagePane = createImage(resource, COPY_IMG_WIDTH, COPY_IMG_HEIGHT);
+			
+			((ImageView) imagePane.getChildren().get(2)).setFitWidth(COPY_IMG_WIDTH);
+			((ImageView) imagePane.getChildren().get(2)).setImage(new Image("/graphics/" + bannerName));
+			((ImageView) imagePane.getChildren().get(2)).setPreserveRatio(true);
+			
+			resourceImages.getChildren().add(imagePane);
+			
+			imagePane.setOnMouseEntered(enterHandler);
+			imagePane.setOnMouseExited(exitHandler);
+			imagePane.setOnMouseClicked(clickHandler);
 				
 			}
-		}
 	}
 	
 	/**
@@ -504,15 +502,18 @@ public class ProfileController {
 	 */
 	private void loadCopies() {
 		
-		((User) currentUser).loadUserCopies();
-		ArrayList<Copy> userCopies = ((User) currentUser).getBorrowedCopies();
-		ArrayList<Resource> copyResources = new ArrayList<Resource>();
-		
-		for(Copy copy : userCopies) {
-			copyResources.add(copy.getResource());
+		if(currentUser instanceof User) {
+			((User) currentUser).loadUserCopies();
+			ArrayList<Copy> userCopies = ((User) currentUser).getBorrowedCopies();
+			ArrayList<Resource> copyResources = new ArrayList<Resource>();
+			
+			for(Copy copy : userCopies) {
+				copyResources.add(copy.getResource());
+			}
+			
+			loadCopyImages(copyResources, "borrowed.png");
 		}
 		
-		loadCopyImages(copyResources, "borrowed.png");
 
 	}
 	
@@ -521,14 +522,19 @@ public class ProfileController {
 	 */
 	@FXML
 	private void loadRequested() {
-		ArrayList<Resource> requestedResources = ((User) currentUser).getRequestedResources();
-		loadCopyImages(requestedResources, "requested.png");
+		if(currentUser instanceof User) {
+			ArrayList<Resource> requestedResources = ((User) currentUser).getRequestedResources();
+			loadCopyImages(requestedResources, "requested.png");
+		}
+		
 	}
 	
 	@FXML
 	private void loadBorrowHistory() {
-		ArrayList<Resource> borrowHistory = ((User) currentUser).loadUserHistory();
-		loadCopyImages(borrowHistory, "returned.png");
+		if(currentUser instanceof User) {
+			ArrayList<Resource> borrowHistory = ((User) currentUser).loadUserHistory();
+			loadCopyImages(borrowHistory, "returned.png");
+		}
 	}
 
 	/**
