@@ -566,28 +566,43 @@ public class ProfileController {
 
 	}
 	
+	/**
+	 * Displays what is overdue 
+	 */
 	@FXML
 	private void displayOverdue() {
 		System.out.println("Display Overdue!");
 		loadTables("overdue");
 	}
 	
+	/**
+	 * Displays what is requested
+	 */
 	@FXML
 	private void displayRequested() {
 		System.out.println("Display Requested!");
 
 	}
 	
+	/**
+	 * prints display history
+	 */
 	@FXML
 	private void displayHistory() {
 		System.out.println("Display History!");
 	}
 	
+	/**
+	 * prints out approval of the copy
+	 */
 	@FXML
 	private void approveCopy() {
 		System.out.println("Approve copy!");
 	}
 	
+	/**
+	 * 
+	 */
 	@FXML
 	private void returnCopy() {
 		System.out.println("Return copy!");

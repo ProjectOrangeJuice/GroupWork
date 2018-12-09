@@ -80,10 +80,13 @@ public class ResourceController {
 		
 	}
 	
-
+/**
+ * setups the DVD resource
+ */
 	private void setupDVD() {
 		DVD dvd = (DVD) ScreenManager.getCurrentResource();
 		
+		//sets up the common attributes of all resrouces
 		HBox titleBox = new HBox();
 		Text titleText = new Text("Title");
 		TextField titleField = new TextField (dvd.getTitle());
