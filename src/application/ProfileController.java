@@ -772,7 +772,7 @@ public class ProfileController {
 		
 		TableColumn<ExplorerRow, String> resourceIDCol = new TableColumn<ExplorerRow, String>("Resource ID");
 		resourceIDCol.setCellValueFactory(cd -> 
-		new SimpleStringProperty(Integer.toString(cd.getValue().getCopyID())));
+		new SimpleStringProperty(Integer.toString(cd.getValue().getResourceID())));
 		
 		TableColumn<ExplorerRow, String> loanDurationCol = new TableColumn<ExplorerRow, String>("Loan Duration");
 		loanDurationCol.setCellValueFactory(cd -> 
