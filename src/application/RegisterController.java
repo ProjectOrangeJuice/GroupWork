@@ -39,6 +39,11 @@ import model.Person;
 import model.SavedAvatar;
 import model.User;
 
+/**
+ * 
+ * @author James Finlayson
+ *
+ */
 public class RegisterController implements Initializable {
 
 	@FXML
