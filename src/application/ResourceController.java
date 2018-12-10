@@ -95,7 +95,7 @@ public class ResourceController {
 	
 	
 /**
- * setups the DVD resource
+ * Setups the DVD resource.
  */
 	private void setupDVD() {
 		DVD dvd = (DVD) ScreenManager.getCurrentResource();
@@ -166,7 +166,7 @@ public class ResourceController {
 	
 	
 /**
- * setups the Laptop resource
+ * Setups the Laptop resource.
  */
 	private void setupLaptop() {
 		Laptop laptop = (Laptop) ScreenManager.getCurrentResource();
@@ -219,6 +219,15 @@ public class ResourceController {
 	}
 	
 
+	/**
+	 * Updates a laptop in the database.
+	 * @param title of laptop.
+	 * @param year of laptop.
+	 * @param manu of laptop.
+	 * @param model of laptop.
+	 * @param OS of laptop.
+	 * @param img of laptop.
+	 */
 	private void updateLaptop(String title,String year,String manu,String model,
 			String OS, String img) {
 		//Checks if the year is a number
@@ -257,7 +266,18 @@ public class ResourceController {
 		
 	}
 	
-	
+		
+	/**
+	 * Updates a book in the database.
+	 * @param title of the book.
+	 * @param year of the book.
+	 * @param author of the book.
+	 * @param publish of the book.
+	 * @param genre of the book.
+	 * @param ISBN of the book.
+	 * @param language of the book.
+	 * @param img of the book.
+	 */
 	private void updateBook(String title, String year, String author,
 			String publish, String genre, String ISBN, String language, 
 			String img){
@@ -301,7 +321,16 @@ public class ResourceController {
 		}
 	}
 	
-	
+	/**
+	 * Updates the DVD in the database.
+	 * @param title of dvd.
+	 * @param year of dvd.
+	 * @param director of dvd.
+	 * @param runtime of dvd.
+	 * @param language of dvd.
+	 * @param subtitles of dvd.
+	 * @param img of dvd.
+	 */
 	private void updateDVD(String title, String year, String director, 
 			String runtime, String language, String subtitles, String img){
 		boolean goAhead = true;
