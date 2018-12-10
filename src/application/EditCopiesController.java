@@ -95,7 +95,7 @@ public class EditCopiesController {
 	}
 	
 	/**
-	 * repopulates the copies table
+	 * repopulates the copies table.
 	 */
 	private void repop() {
 		ScreenManager.currentResource.loadCopyList();
@@ -111,8 +111,8 @@ public class EditCopiesController {
 	}
 	
 	/**
-	 * removes the copy from the table
-	 * @param event the event of the button being clicked
+	 * removes the copy from the table.
+	 * @param event the event of the button being clicked.
 	 */
 	@FXML
 	private void deleteButton(ActionEvent event) {
@@ -127,8 +127,8 @@ public class EditCopiesController {
 	}
 	
 	/**
-	 * adds the copy to the table
-	 * @param event the event of the button being clicked
+	 * adds the copy to the table.
+	 * @param event the event of the button being clicked.
 	 */
 	@FXML
 	private void addCopy(ActionEvent event) {
@@ -155,8 +155,8 @@ public class EditCopiesController {
 	}
 
 	/**
-	 * Randomly makes an id for a copy
-	 * @return the random id
+	 * Randomly makes an id for a copy.
+	 * @return n the random id.
 	 */
 	private int makeId() {
 		Random rand = new Random();
@@ -171,9 +171,9 @@ public class EditCopiesController {
 	}
 	
 	/**
-	 * A method that checks if the id that is generated is the same as an existing id
-	 * @param id the randomly generated id
-	 * @return true if its a new id, false if its the same
+	 * A method that checks if the id that is generated is the same as an existing id.
+	 * @param id the randomly generated id.
+	 * @return true if its a new id, false if its the same.
 	 */
 	private boolean checkId(int id) {
 		try {
@@ -195,8 +195,8 @@ public class EditCopiesController {
 	}
 	
 	/**
-	 * updates the duration of a copy
-	 * @param copy passes through a copy			
+	 * updates the duration of a copy.
+	 * @param copy passes through a copy.		
 	 */
 	private void updateDuration(Copy copy){
 		String duration = loanDur.getText();
