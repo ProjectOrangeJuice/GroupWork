@@ -12,7 +12,7 @@ public enum PresetImage {
     IMAGE_4("Avatar4.png");
 
     // The file path to saved avatars.
-    private static final String FILE_PATH = "Group6/src/SavedAvatars";
+    private static final String FILE_PATH = "src/SavedAvatars";
     private final Image presetAvatar; // The preset JavaFX image.
 
     /**
