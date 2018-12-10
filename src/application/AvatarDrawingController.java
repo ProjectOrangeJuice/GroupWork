@@ -205,6 +205,7 @@ public class AvatarDrawingController implements Initializable {
 	 *
 	 * @param path location of directory.
 	 * @param fileName  file name.
+	 * @return The image.
 	 */
 	public BufferedImage convertToFile(String fileName, String path) {
 
