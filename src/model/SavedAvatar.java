@@ -6,6 +6,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 /**
+ * This class  holds information about a saved avatar.
  * @author James Finlayson
  * @version 1.0
  */
@@ -21,7 +22,7 @@ public class SavedAvatar extends Avatar {
      */
     public SavedAvatar(String fileName) {
         super(DEFAULT_SIZE, 0, 0);
-        
+
         System.out.println("Location given: " + fileName);
         this.Avatar = new Image(new File(fileName).toURI().toString());
     }

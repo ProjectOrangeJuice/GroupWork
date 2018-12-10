@@ -5,6 +5,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
 /**
+ * Class which holds information about a straight line
  * @author James Finlayson
  * @version 1.0
  */
