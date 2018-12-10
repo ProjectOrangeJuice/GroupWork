@@ -5,6 +5,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
 /**
+ * Create circle shape in avatar for user profile picture.
  * @author James Finlayson
  * @version 1.0
  */

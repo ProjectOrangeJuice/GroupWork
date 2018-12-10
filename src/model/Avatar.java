@@ -3,6 +3,7 @@ package model;
 import javafx.scene.image.ImageView;
 
 /**
+ * Create avatar for user profile picture.
  * @author James Finlayson
  */
 public abstract class Avatar {
