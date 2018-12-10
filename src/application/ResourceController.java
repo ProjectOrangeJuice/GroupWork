@@ -17,8 +17,9 @@ import model.Laptop;
 import model.Resource;
 
 /**
+ * Resource Controller is a class that setups up the resources and updates them.
 *@author Oliver Harris
-*Resource Controller is a class that setups up the resources and updates them.
+*
 */
 public class ResourceController {
 

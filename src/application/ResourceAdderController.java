@@ -17,8 +17,9 @@ import model.DBHelper;
 import model.Resource;
 
 /**
+ * Resourceadder is the controller for the GUI which allows a librarian to insert a new resource.
 *@author Unknown.
-*Resourceadder is the controller for the GUI which allows a librarian to insert a new resource.
+*
 */
 public class ResourceAdderController {
 
