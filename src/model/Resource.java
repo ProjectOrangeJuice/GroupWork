@@ -164,6 +164,10 @@ public abstract class Resource {
             saveCopyToDB(copy);
         }
     }
+    
+    public int freeCopiesNo() {
+    	return freeCopies.size();
+    }
 
     /**
      * Removes a copy from the list of copies and updates the database.
