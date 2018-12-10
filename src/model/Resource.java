@@ -204,7 +204,8 @@ public abstract class Resource {
      */
     public void processReturn(Copy returnedCopy) {
         applyFines(returnedCopy);
-
+        Resource.insertReturnDate(returnedCopy.getBorrower(), returnedCopy);
+        
         /*
          * If the user request queue is empty, add the copy to the list of free
          * copies and mark it as free.
@@ -235,6 +236,8 @@ public abstract class Resource {
             noDueDateCopies.add(returnedCopy);
             firstRequest.addBorrowedCopy(returnedCopy);
             userRequestQueue.dequeue();
+            
+            Resource.insertBorrowRecord(firstRequest, returnedCopy);
         }
     }
 
@@ -261,6 +264,7 @@ public abstract class Resource {
             user.addBorrowedCopy(copyToBorrow);
 
             saveCopyToDB(copyToBorrow);
+            insertBorrowRecord(user, copyToBorrow);
             return true;
         }
         /*
@@ -600,6 +604,50 @@ public abstract class Resource {
                 "update " + tableName + " set " + field + "=? where rID=?");
             sqlStatement.setInt(1, data);
             sqlStatement.setInt(2, resourceID);
+            sqlStatement.executeUpdate();
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    private static void insertBorrowRecord(User borrower, Copy copyToBorrow) {
+        try {
+            Connection connectionToDB = DBHelper.getConnection();
+            PreparedStatement sqlStatement = connectionToDB.prepareStatement(
+                "INSERT INTO borrowRecords (copyID,username,description) VALUES (?,?,?)");
+            
+            sqlStatement.setInt(1, copyToBorrow.getCopyID());
+            sqlStatement.setString(2, borrower.getUsername());
+            
+            SimpleDateFormat normalDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+            sqlStatement.setString(3, "Borrow Date:" + normalDateFormat.format(
+               copyToBorrow.getBorrowDate()));
+            sqlStatement.executeUpdate();
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    private static void insertReturnDate(User borrower, Copy copyToBorrow) {
+        try {
+            Connection connectionToDB = DBHelper.getConnection();
+            PreparedStatement sqlStatement = connectionToDB.prepareStatement(
+                "UPDATE borrowRecords SET description=? WHERE copyID=? AND username=? AND description=?");
+            
+            SimpleDateFormat normalDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+            
+            String oldDescription = "Borrow Date:" + normalDateFormat.format(
+                copyToBorrow.getBorrowDate());
+            
+            String newDescription = oldDescription + "Return Date: " + 
+                normalDateFormat.format(new Date());
+            
+            sqlStatement.setString(1, newDescription);
+            sqlStatement.setInt(2, copyToBorrow.getCopyID());
+            sqlStatement.setString(3, borrower.getUsername());
+            sqlStatement.setString(4, oldDescription);
             sqlStatement.executeUpdate();
         }
         catch (SQLException e) {
