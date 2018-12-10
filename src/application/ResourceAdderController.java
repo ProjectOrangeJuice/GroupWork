@@ -16,6 +16,10 @@ import javafx.stage.Stage;
 import model.DBHelper;
 import model.Resource;
 
+/**
+*@author Unknown.
+*Resourceadder is the controller for the GUI which allows a librarian to insert a new resource.
+*/
 public class ResourceAdderController {
 
 	@FXML
