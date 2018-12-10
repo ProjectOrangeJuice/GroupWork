@@ -16,8 +16,16 @@ import javafx.stage.Stage;
 import model.DBHelper;
 import model.Resource;
 
+/**
+*@author Unknown.
+*Resourceadder is the controller for the GUI which allows a librarian to insert a new resource.
+*/
 public class ResourceAdderController {
 
+	/**
+	*A method that adds a book to the database.
+	*@param event button being pressed.
+	*/
 	@FXML
 	public void addBook(Event event) {
 		Connection connection;
@@ -37,7 +45,10 @@ public class ResourceAdderController {
 	
 	
 	
-	
+	/**
+	*A method that adds a DVD to the database.
+	*@param event button being pressed
+	*/
 	@FXML
 	public void addDVD(Event event) {
 		Connection connection;

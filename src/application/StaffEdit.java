@@ -1,5 +1,6 @@
 package application;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -10,6 +11,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
@@ -20,6 +22,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import model.DBHelper;
 import model.Librarian;
@@ -172,8 +175,19 @@ public class StaffEdit {
     			e.printStackTrace();
     		}
         	alertDone("Details have been saved");
-        	Stage stage = (Stage) saveButton.getScene().getWindow();
-        	stage.close();
+        	//Stage stage = (Stage) saveButton.getScene().getWindow();
+        	//stage.close();
+        	try {
+    			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/loginScene.fxml"));
+    			Parent root1 = (Parent) fxmlLoader.load();
+    			Stage stage = new Stage();
+    			stage.initModality(Modality.APPLICATION_MODAL);
+    			stage.setScene(new Scene(root1));
+    			stage.show();
+
+    		} catch (IOException e2) {
+    			e2.printStackTrace();
+    		}
     	}
     }
 
