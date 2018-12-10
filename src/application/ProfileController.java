@@ -195,7 +195,8 @@ public class ProfileController {
 
 	/**
 	 * Sets new scene on stage within program using fxml file provided.
-	 * @param sceneFXML
+	 * @param event changes that will be made
+	 * @param sceneFXML scene that will be used
 	 */
 	public void changeScene(MouseEvent event, String sceneFXML) {
 		try {
@@ -770,7 +771,7 @@ public class ProfileController {
 	/**
 	 * Checks whether a copyID exists in the database
 	 * @param copyID String
-	 * @return
+	 * @return true is copy exists
 	 */
 	private boolean checkCopyID(String copyID) {
 		try {
@@ -865,6 +866,7 @@ public class ProfileController {
 
 	/**
 	 * Loads the user table so the staff can manage the users.
+	 * @param tableToLoad table that will be loaded
 	 */
 	private void loadExplorerTableColumns(String tableToLoad) {
 

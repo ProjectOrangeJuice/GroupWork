@@ -140,8 +140,8 @@ public class RegisterController implements Initializable {
 
 	/**
 	 * Sets new scene on stage within program using fxml file provided.
-	 *
-	 * @param sceneFXML
+	 * @param event changed that will be made after mous
+	 * @param sceneFXML scene that will be changed into
 	 */
 	public void changeScene(MouseEvent event, String sceneFXML) {
 		try {
@@ -154,29 +154,21 @@ public class RegisterController implements Initializable {
 		}
 
 	}
-
+	
 	/**
 	 * Returns user to main login scene.
-	 *
-	 * @param event
-	 *            event.
-	 * @throws IOException
-	 *             io exception.
+	 * @param event changes that will be made
 	 */
 	@FXML
 	public void backToLogin(MouseEvent event) {
 		changeScene(event, "/fxml/loginScene.fxml");
 	}
-
+	
 	/**
 	 * Creates an account with the details provided if they are valid. If there is a
 	 * problem with the details displays error message indicating where the problem
 	 * is.
-	 *
-	 * @param event
-	 *            event.
-	 * @throws IOException
-	 *             io exception.
+	 * @param event changes that will be made
 	 */
 	@FXML
 	void createAccount(ActionEvent event) {
@@ -324,7 +316,7 @@ public class RegisterController implements Initializable {
 
 	/**
 	 * Validates if the username already exists in the database.
-	 *
+	 * @param username username created by the user
 	 * @return true if username is valid.
 	 */
 	private boolean validateExistingUser(String username) {
@@ -357,7 +349,7 @@ public class RegisterController implements Initializable {
 
 	/**
 	 * Validates if the staffId already exists in the database.
-	 *
+	 * @param staffId unique number assigned to staff
 	 * @return true if staffId is valid.
 	 */
 	private boolean validateExistingStaffId(String staffId) {
@@ -388,12 +380,11 @@ public class RegisterController implements Initializable {
 		boolean selected = librarianCheckBox.isSelected();
 		return selected;
 	}
-
+	
 	/**
 	 * Builds account in database using inputted info and chosen avatar. Then return
 	 * user to login page.
-	 *
-	 * @param event
+	 * @param event changes that will be made
 	 */
 	private void insertIntoUser(ActionEvent event) {
 
@@ -496,8 +487,7 @@ public class RegisterController implements Initializable {
 
 	/**
 	 * Sets avatar image.
-	 *
-	 * @param image
+	 * @param image either a png file or custom drawing by user
 	 */
 	public void setAvatar(Image image) {
 		this.avatar.setImage(image);
@@ -505,8 +495,7 @@ public class RegisterController implements Initializable {
 
 	/**
 	 * Sets path to avatar image.
-	 *
-	 * @param path
+	 * @param path path where the image has been stored
 	 */
 	public void setAvatarPath(String path) {
 		this.avatarPath = path;
@@ -514,8 +503,7 @@ public class RegisterController implements Initializable {
 
 	/**
 	 * select a preset avatar
-	 *
-	 * @param event
+	 * @param event changes that will be made
 	 */
 	@FXML
 	protected void browseAvatarAction(ActionEvent event) {
