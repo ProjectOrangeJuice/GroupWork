@@ -104,7 +104,7 @@ public class StaffEdit {
     }
 
     /**
-     * canceledit button
+     * cancel edit button
      * 
      * @param event when the button is pressed
      */
