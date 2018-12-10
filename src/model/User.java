@@ -26,13 +26,13 @@ public class User extends Person {
     /**
      * Creates a new User object from the given arguments.
      * 
-     * @param username users username
-     * @param firstName users firstname
-     * @param lastName users lastname
-     * @param phoneNumber users phonenumber
-     * @param address users address
-     * @param postcode users postcode
-     * @param avatar users avatar
+     * @param username user's username
+     * @param firstName user's firstname
+     * @param lastName user's lastname
+     * @param phoneNumber user's phonenumber
+     * @param address users' address
+     * @param postcode user's postcode
+     * @param avatarPath user's avatar
      * @param accountBalance users account balance
      */
     public User(String username, String firstName, String lastName,
@@ -46,7 +46,7 @@ public class User extends Person {
     /**
      * Adds a copy of a resource that the user has withdrawn.
      * 
-     * @param copy of the resource
+     * @param copy to be added
      */
     public void addBorrowedCopy(Copy copy) {
         this.copiesList.add(copy);
@@ -56,15 +56,15 @@ public class User extends Person {
     /**
      * Returns all copies that the user has currently withdrawn.
      * 
-     * @return copiesList ArrayList
+     * @return The list of all borrowed copies.
      */
     public ArrayList<Copy> getBorrowedCopies() {
         return copiesList;
     }
 
     /**
-     * Method that gets the arraylist of all requested resources
-     * @return the arraylist of all requested resources 
+     * Method that gets the list of all requested resources.
+     * @return the list of all requested resources 
      */
     public ArrayList<Resource> getRequestedResources() {
 
@@ -94,7 +94,7 @@ public class User extends Person {
     /**
      * Removes a copy from the list of copies withdrawn.
      * 
-     * @param copy copy of the resource
+     * @param copy to be removed
      */
     public void removeBorrowedCopy(Copy copy) {
         copiesList.remove(copy);
@@ -140,11 +140,11 @@ public class User extends Person {
     }
 
     /**
-     * Checks the users balance
+     * Checks the users balance.
      * 
-     * @param username The username in the database.
+     * @param username The user name in the database.
      * @param amount The amount to check it exceeds.
-     * @return If the user has enough in their balance.
+     * @return True f the user has enough in their balance, false if not.
      * @throws SQLException The database was unable to check.
      */
     public static boolean checkBalance(String username, double amount)
@@ -161,7 +161,7 @@ public class User extends Person {
     }
 
     /**
-     * A method that adds a balance to the user in the database
+     * A method that adds a balance to the user in the database.
      * @param username username of the user
      * @param value their balance
      * @return returns that it updated the database or false otherwise
@@ -177,7 +177,7 @@ public class User extends Person {
             sqlStatement2.setString(2, username);
 
             int updates = sqlStatement2.executeUpdate();
-            return (updates >= 1);
+            return updates >= 1;
         }
         catch (SQLException e) {
             e.printStackTrace();
@@ -186,8 +186,8 @@ public class User extends Person {
     }
 
     /**
-     * Method that loads the users borrow history
-     * @return borrow history
+     * Method that loads the users borrow history.
+     * @return The list of all resources whose copies this user has ever borrowed.
      */
     public ArrayList<Resource> loadUserHistory() {
 
@@ -215,7 +215,8 @@ public class User extends Person {
     }
 
     /**
-     * Loads the copies the user currently is borrowing
+     * Loads the copies the user is currently is borrowing and adds them to
+     * this object's copy list.
      */
     public void loadUserCopies() {
 
@@ -224,7 +225,7 @@ public class User extends Person {
         try {
             Connection dbConnection = DBHelper.getConnection();
             PreparedStatement sqlStatement = dbConnection.prepareStatement("SELECT * FROM " + 
-               "copies WHERE keeper = ?");
+                "copies WHERE keeper = ?");
             sqlStatement.setString(1, username);
             ResultSet rs = sqlStatement.executeQuery();
 
@@ -240,8 +241,10 @@ public class User extends Person {
     }
     
     /**
-     * A method that checks if a user has any outstanding fines by getting their name and see if they have paid 0
-     * @return if the paid = 0 then they have no outstanding fines and returns false otherwise returns true
+     * A method that checks if a user has any outstanding fines by seeing if
+     * they have paid 0.
+     * @return if they paid 0 then they have no outstanding fines and returns
+     *  false otherwise returns true.
      */
     public boolean hasOutstandingFines() {
         try {
@@ -266,7 +269,7 @@ public class User extends Person {
     }
 
     /**
-     * Boolean method that checks if the resource is being borrowed
+     * Boolean method that checks if the resource is being borrowed.
      * @param resource that is being borrowed
      * @return true if the resource is being borrowed, false otherwise
      */
@@ -280,9 +283,10 @@ public class User extends Person {
     }
 
     /**
-     * A method that gets recommendations for the user based on what they have previously borrowed
+     * A method that gets a list of resources recommended for the user based on what they 
+     * have previously borrowed.
      * @return the recommended resource based on the user
-     * @throws SQLException
+     * @throws SQLException If the connection to the data base fails.
      */
     public ArrayList<Resource> getRecommendations() throws SQLException {
         Connection connectionToDB = DBHelper.getConnection();
@@ -338,13 +342,4 @@ public class User extends Person {
 
         return recommendedResource;
     }
-
-    /*
-     * public static void main(String args[]) { User manny = (User)
-     * Person.loadPerson("Manny");
-     * 
-     * DBHelper.tableCheck(); Resource.loadDatabaseResources();
-     * ArrayList<Resource> recs=null; try { recs = manny.getRecommendations(); }
-     * catch (SQLException e) { e.printStackTrace(); } }
-     */
 }
