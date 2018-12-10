@@ -226,6 +226,7 @@ public class ResourceController {
 					Laptop laptop = (Laptop) ScreenManager.getCurrentResource();
 					if(!img.equals("")) {
 						laptop.setThumbnail(image);
+						laptop.setThumbnailDatabase(img);
 						}
 					laptop.setTitle(title);
 					laptop.setYear(Integer.parseInt(year));
@@ -267,6 +268,7 @@ public class ResourceController {
 			Book resource = (Book) ScreenManager.getCurrentResource();
 			if(!img.equals("")) {
 				resource.setThumbnail(image);
+				resource.setThumbnailDatabase(img);
 				}
 			resource.setTitle(title);
 			resource.setYear(Integer.parseInt(year));
@@ -317,6 +319,7 @@ public class ResourceController {
 			
 			if(!img.equals("")) {
 				resource.setThumbnail(image);
+				resource.setThumbnailDatabase(img);
 				}
 			resource.setRuntime(Integer.parseInt(runtime));
 			

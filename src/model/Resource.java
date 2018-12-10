@@ -312,6 +312,15 @@ public abstract class Resource {
     public void setThumbnail(Image thumbnail) {
         this.thumbnail = thumbnail;
     }
+    
+    /**
+     * Sets the database value
+     * @param thumbnail New location.
+     */
+    public void setThumbnailDatabase(String thumbnail) {
+    	updateDbValue("resource",uniqueID,"thumbnail",thumbnail);
+
+    }
 
     /**
      * Gets the title of this resource.
