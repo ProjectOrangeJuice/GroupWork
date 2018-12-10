@@ -67,7 +67,7 @@ import model.User;
  * This class allows user to view their registered information as well as using the library system.
  * As for librarians, they can also view their information but in their system they can manage resources,
  * copies and transactions.
- * @author Charlie Day
+ * @author Charlie Day.
  */
 public class ProfileController {
 
@@ -201,8 +201,8 @@ public class ProfileController {
 
 	/**
 	 * Sets new scene on stage within program using fxml file provided.
-	 * @param event changes that will be made
-	 * @param sceneFXML scene that will be used
+	 * @param event changes that will be made.
+	 * @param sceneFXML scene that will be used.
 	 */
 	public void changeScene(MouseEvent event, String sceneFXML) {
 		try {
@@ -223,8 +223,8 @@ public class ProfileController {
 	}
 
 	/**
-	 * Method that searches for resources
-	 * @param event when something is typed into the search box
+	 * Method that searches for resources.
+	 * @param event when something is typed into the search box.
 	 */
 	@FXML
     void searchThis(Event event) {
@@ -239,7 +239,7 @@ public class ProfileController {
 
 	/**
 	 * Called when logout link is clicked.
-	 * @param event Passed when mouse event occurs
+	 * @param event Passed when mouse event occurs.
 	 */
 	@FXML
 	public void logoutAction(MouseEvent event) {
@@ -336,11 +336,11 @@ public class ProfileController {
 	};
 
 	/**
-	 * Makes the image and resource text for the resource
-	 * @param copyResource the copy of the resource
-	 * @param width width of image
-	 * @param height height of image
-	 * @return the image pane
+	 * Makes the image and resource text for the resource.
+	 * @param copyResource the copy of the resource.
+	 * @param width width of image.
+	 * @param height height of image.
+	 * @return the image pane.
 	 */
 	private StackPane createImage(Resource copyResource, int width, int height) {
 
@@ -405,9 +405,9 @@ public class ProfileController {
 	}
 
 	/**
-	 * Search resources and checks to see if the checkboxes are selected which filter the search
-	 * @param i loop to get the resources
-	 * @return the search results or false
+	 * Search resources and checks to see if the checkboxes are selected which filter the search.
+	 * @param i loop to get the resources.
+	 * @return the search results or false.
 	 */
 	private boolean search(int i ) {
 		//get the resource
@@ -505,6 +505,11 @@ public class ProfileController {
 
 	}
 
+	/**
+	 * Loads the resource images from the arraylist.
+	 * @param resources instances of the resources.
+	 * @param bannerName name of the banner.
+	 */
 	private void loadCopyImages(ArrayList<Resource> resources, String bannerName) {
 
 		for(Resource resource : resources) {
@@ -547,7 +552,7 @@ public class ProfileController {
 	}
 
 	/**
-	 * Loads the resources that have been requested so the librarian can confirm then
+	 * Loads the resources that have been requested so the librarian can confirm them.
 	 */
 	@FXML
 	private void loadRequested() {
@@ -559,6 +564,10 @@ public class ProfileController {
 
 	}
 
+	/**
+	*Method that loads the borrow history of a user.
+	*
+        */
 	@FXML
 	private void loadBorrowHistory() {
 		if(currentUser instanceof User) {
@@ -569,7 +578,7 @@ public class ProfileController {
 	}
 
 	/**
-	 * intialize method that starts when the scene is intialized
+	 * intialize method that starts when the scene is intialized.
 	 */
 	@FXML
 	 public void initialize() {
@@ -594,6 +603,10 @@ public class ProfileController {
 	//Staff: Copies Explorer
 	//
 
+	/**
+	*
+	*Displays all the copies.
+	*/
 	@FXML
 	private void displayAll() {
 		staffHistoryFind.setDisable(false);
@@ -631,7 +644,7 @@ public class ProfileController {
 	}
 
 	/**
-	 * Displays what is overdue
+	 * Displays what is overdue.
 	 */
 	@FXML
 	private void displayOverdue() {
@@ -670,7 +683,7 @@ public class ProfileController {
 	}
 
 	/**
-	 * Displays what is requested
+	 * Displays what is requested.
 	 */
 	@FXML
 	private void displayRequested() {
@@ -703,7 +716,7 @@ public class ProfileController {
 	}
 
 	/**
-	 * prints display history
+	 * Prints display history.
 	 */
 	@FXML
 	private void displayHistory() {
@@ -747,7 +760,7 @@ public class ProfileController {
 	}
 
 	/**
-	 * Approves the loaning of a copy to a user from the Staff Copies Explorer
+	 * Approves the loaning of a copy to a user from the Staff Copies Explorer.
 	 */
 	@FXML
 	private void approveCopy() {
@@ -779,7 +792,7 @@ public class ProfileController {
 	}
 
 	/**
-	 * Returns the selected copy from a user in the Copies Explorer
+	 * Returns the selected copy from a user in the Copies Explorer.
 	 */
 	@FXML
 	private void returnCopy() {
@@ -799,9 +812,9 @@ public class ProfileController {
 	}
 
 	/**
-	 * Checks whether a copyID exists in the database
-	 * @param copyID String
-	 * @return true is copy exists
+	 * Checks whether a copyID exists in the database.
+	 * @param copyID String.
+	 * @return true is copy exists.
 	 */
 	private boolean checkCopyID(String copyID) {
 		try {
@@ -823,8 +836,8 @@ public class ProfileController {
 
 
 	/**
-	 * Opens the profile editor when the button is clicked
-	 * @param event button being clicked
+	 * Opens the profile editor when the button is clicked.
+	 * @param event button being clicked.
 	 */
 	@FXML
 	private void explorerTableClicked(MouseEvent event) {
@@ -838,6 +851,10 @@ public class ProfileController {
 	//
 
 
+	/**
+	*
+	*Allows the user to pick an avatar.
+	*/
 	@FXML
 	void pickAvatar(Event e) {
 		    FileChooser chooser = new FileChooser();
@@ -865,6 +882,10 @@ public class ProfileController {
 	        staffAvatarView.setImage(new Image(currentUser.getAvatar()));
 	}
 
+	/**
+	*Opens the profile editor window.
+	*@param event button being clicked.
+        */
 	@FXML
 	private void openProfileEditor(MouseEvent event) {
 		System.out.println("Launch staff editing profile.");
@@ -885,8 +906,8 @@ public class ProfileController {
 	}
 
 	/**
-	 * Opens the avatar drawing scene when the button is clicked
-	 * @param event button being clicked
+	 * Opens the avatar drawing scene when the button is clicked.
+	 * @param event button being clicked.
 	 */
 	@FXML
 	private void openAvatarEditor(MouseEvent event) {
@@ -912,7 +933,7 @@ public class ProfileController {
 
 	/**
 	 * Loads the user table so the staff can manage the users.
-	 * @param tableToLoad table that will be loaded
+	 * @param tableToLoad table that will be loaded.
 	 */
 	private void loadExplorerTableColumns(String tableToLoad) {
 
@@ -998,6 +1019,9 @@ public class ProfileController {
 	//Staff: Manage Users
 	//
 
+	/**
+	*Loads user tables columns.
+	*/
 	private void loadUserTableColumns() {
 		TableColumn<Person, String> usernameCol = 
 				new TableColumn<Person, String>("Username");
@@ -1037,8 +1061,8 @@ public class ProfileController {
 				lastnameCol,addressCol,postcodeCol,accountBalanceCol);
 	}
 	/**
-	 * loads all the users from the table which aren't staff when the button is clicked
-	 * @param event the button being clicked
+	 * Loads all the users from the table which aren't staff when the button is clicked.
+	 * @param event the button being clicked.
 	 */
 	@FXML
 	private void loadUsersTable(MouseEvent event) {
@@ -1066,8 +1090,8 @@ public class ProfileController {
 	}
 
 	/**
-	 * Method that shows the table of the selected user when button is clicked
-	 * @param event when the button is clicked
+	 * Method that shows the table of the selected user when button is clicked.
+	 * @param event when the button is clicked.
 	 */
 	@FXML
 	private void userTableClicked(MouseEvent event) {
@@ -1077,8 +1101,8 @@ public class ProfileController {
 	}
 
 	/**
-	 * Deletes a user from the database when the button is clicked
-	 * @param event the button being clicked
+	 * Deletes a user from the database when the button is clicked.
+	 * @param event the button being clicked.
 	 */
 	@FXML
 	private void userDeleteButton(MouseEvent event) {
@@ -1122,8 +1146,8 @@ public class ProfileController {
 	}
 
 	/**
-	 * Method that allows librarian to add funds to a user when the button is clicked
-	 * @param event the button being pressed
+	 * Method that allows librarian to add funds to a user when the button is clicked.
+	 * @param event the button being pressed.
 	 */
 	@FXML
 	private void userAddFundsButton(MouseEvent event) {
