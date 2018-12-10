@@ -51,7 +51,8 @@ public class Book extends Resource {
      * @param isbn The ISBN code of the book.
      * @param language The language of the book.
      */
-    public Book(int uniqueID, String title, int year, Image thumbnail, String author, String publisher, String genre,
+    public Book(int uniqueID, String title, int year, Image thumbnail, 
+    		String author, String publisher, String genre,
             String isbn, String language) {
         super(uniqueID, title, year, thumbnail);
         this.author = author;
@@ -70,7 +71,8 @@ public class Book extends Resource {
     * @param author The author of the book.
      * @param publisher The publisher of the book.
      */
-    public Book(int uniqueID, String title, int year, Image thumbnail, String author, String publisher) {
+    public Book(int uniqueID, String title, int year, Image thumbnail, 
+    		String author, String publisher) {
         super(uniqueID, title, year, thumbnail);
         this.author = author;
         this.publisher = publisher;
@@ -86,14 +88,18 @@ public class Book extends Resource {
             Connection conn = DBHelper.getConnection(); // get the connection
             Statement stmt = conn.createStatement(); // prep a statement
             ResultSet rs = stmt.executeQuery(
-                "SELECT resource.rID, resource.year, resource.title, resource.thumbnail, author, publisher," +
-                    "genre, ISBN, language FROM book, resource WHERE book.rID = resource.rID"); 
+                "SELECT resource.rID, resource.year, resource.title, "
+                + "resource.thumbnail, author, publisher," +
+                    "genre, ISBN, language FROM book, resource WHERE book.rID "
+                    + "= resource.rID"); 
 
             while (rs.next()) {
                 Image resourceImage = new Image(rs.getString("thumbnail"), true);
                 
-                resources.add(new Book(rs.getInt("rID"), rs.getString("title"), rs.getInt("year"), resourceImage,
-                    rs.getString("author"), rs.getString("publisher"), rs.getString("genre"), rs.getString("ISBN"),
+                resources.add(new Book(rs.getInt("rID"), rs.getString("title"), 
+                		rs.getInt("year"), resourceImage,
+                    rs.getString("author"), rs.getString("publisher"), 
+                    rs.getString("genre"), rs.getString("ISBN"),
                     rs.getString("language")));
 
                 System.out.println("New book added!");

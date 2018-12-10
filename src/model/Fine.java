@@ -30,7 +30,8 @@ public class Fine {
      * @param fineId The fineId in the database.
      * @param isPaid If the fine has been paid fully.
      */
-    public Fine(double amount, String dateTime, String user, int resource, int daysOver, int fineId, boolean isPaid) {
+    public Fine(double amount, String dateTime, String user, int resource,
+    		int daysOver, int fineId, boolean isPaid) {
         this.amount = amount;
         this.username = user;
         this.dateTime = dateTime;
@@ -50,7 +51,8 @@ public class Fine {
         ArrayList<Fine> fines = new ArrayList<Fine>();
         try {
             Connection connection = DBHelper.getConnection();
-            PreparedStatement statement = connection.prepareStatement("SELECT *" + " FROM fines WHERE username=?");
+            PreparedStatement statement = connection.prepareStatement("SELECT *" + 
+            " FROM fines WHERE username=?");
             statement.setString(1, username);
             ResultSet results = statement.executeQuery();
             while (results.next()) {
@@ -63,8 +65,10 @@ public class Fine {
                 }
 
                 fines.add(
-                    new Fine(results.getDouble("amount"), results.getString("dateTime"), results.getString("username"),
-                        results.getInt("rID"), results.getInt("daysOver"), results.getInt("fineID"), finePaid));
+                    new Fine(results.getDouble("amount"), 
+                    		results.getString("dateTime"), results.getString("username"),
+                        results.getInt("rID"), results.getInt("daysOver"), 
+                        results.getInt("fineID"), finePaid));
             }
             return fines;
         }
@@ -83,7 +87,8 @@ public class Fine {
         ArrayList<Fine> fines = new ArrayList<Fine>();
         try {
             Connection connection = DBHelper.getConnection();
-            PreparedStatement statement = connection.prepareStatement("SELECT * " + "FROM fines");
+            PreparedStatement statement = connection.prepareStatement("SELECT "
+            		+ "* " + "FROM fines");
             ResultSet results = statement.executeQuery();
             while (results.next()) {
                 boolean finePaid;
@@ -95,8 +100,11 @@ public class Fine {
                 }
 
                 fines.add(
-                    new Fine(results.getDouble("amount"), results.getString("dateTime"), results.getString("username"),
-                        results.getInt("rID"), results.getInt("daysOver"), results.getInt("fineID"), finePaid));
+                    new Fine(results.getDouble("amount"), 
+                    		results.getString("dateTime"), 
+                    		results.getString("username"),
+                        results.getInt("rID"), results.getInt("daysOver"), 
+                        results.getInt("fineID"), finePaid));
             }
             return fines;
         }
@@ -124,7 +132,8 @@ public class Fine {
         try {
             Connection connection = DBHelper.getConnection();
             int paidInt = isPaid ? 1 : 0; // replace true with 1, 0 with false
-            PreparedStatement pstmt = connection.prepareStatement("UPDATE fines " + "set paid = ? WHERE fineId = ?");
+            PreparedStatement pstmt = connection.prepareStatement("UPDATE fines "
+            + "set paid = ? WHERE fineId = ?");
             pstmt.setInt(1, paidInt);
             pstmt.setInt(2, fineId);
             pstmt.executeUpdate();

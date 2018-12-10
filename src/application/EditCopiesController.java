@@ -74,7 +74,8 @@ public class EditCopiesController {
 		TableColumn<Copy, String> idCol = new TableColumn<Copy, String>("ID");
 		idCol.setCellValueFactory(new PropertyValueFactory<>("copyID"));
 
-		TableColumn<Copy, Number> loanDurCol = new TableColumn<Copy, Number>("Duration");
+		TableColumn<Copy, Number> loanDurCol = 
+				new TableColumn<Copy, Number>("Duration");
 		loanDurCol.setCellValueFactory(new PropertyValueFactory<>("loanDuration"));
 		
 		
@@ -152,7 +153,8 @@ public class EditCopiesController {
 		if(goAhead) {
 			System.out.println("Copy adding");
 			int id = makeId();
-			Copy copy = new Copy(ScreenManager.getCurrentResource(),id,null,Integer.parseInt(duration));
+			Copy copy = new Copy(ScreenManager.getCurrentResource(),
+					id,null,Integer.parseInt(duration));
 			ScreenManager.getCurrentResource().addCopy(copy);
 			System.out.println("Copy.. "+copy.getLoanDuration());
 			

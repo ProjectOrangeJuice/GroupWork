@@ -273,12 +273,18 @@ public class ProfileController {
 			String fullname = staff.getFirstName() + " " + staff.getLastName();
 
 			userLabel1.setText(staff.getUsername());
-			fullnameLabel1.setText(fullnameLabel1.getText() + " " + fullname);
-			addressLabel1.setText(addressLabel1.getText() + " " + staff.getAddress());
-			phoneLabel1.setText(phoneLabel1.getText() + " " + staff.getPhoneNumber());
-			postcodeLabel1.setText(postcodeLabel1.getText() + " " + staff.getPostcode());
-			dateLabel1.setText(dateLabel1.getText() + " " + staff.getEmploymentDate());
-			staffIDLabel1.setText(staffIDLabel1.getText() + " " + staff.getStaffID());
+			fullnameLabel1.setText(fullnameLabel1.getText() + " " + 
+			fullname);
+			addressLabel1.setText(addressLabel1.getText() + " " + 
+			staff.getAddress());
+			phoneLabel1.setText(phoneLabel1.getText() + " " + 
+			staff.getPhoneNumber());
+			postcodeLabel1.setText(postcodeLabel1.getText() + " " +
+			staff.getPostcode());
+			dateLabel1.setText(dateLabel1.getText() + " " + 
+			staff.getEmploymentDate());
+			staffIDLabel1.setText(staffIDLabel1.getText() + " " + 
+			staff.getStaffID());
 
 			staffAvatarView.setImage(new Image(currentUser.getAvatar()));
 		}
@@ -306,13 +312,15 @@ public class ProfileController {
 
 		//find the resource that was clicked.
 		for(Resource resource : resources) {
-			if(resource.getUniqueID() == Integer.parseInt(((StackPane) event.getSource()).getId())) {
+			if(resource.getUniqueID() == Integer.parseInt(((StackPane)
+					event.getSource()).getId())) {
 				ScreenManager.setCurrentResource(resource);
 			}
 		}
 
 		try {
-			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/copyScene.fxml"));
+			FXMLLoader fxmlLoader = new FXMLLoader(
+					getClass().getResource("/fxml/copyScene.fxml"));
             Parent root1 = (Parent) fxmlLoader.load();
             Stage stage = new Stage();
             stage.initModality(Modality.APPLICATION_MODAL);
@@ -461,10 +469,12 @@ public class ProfileController {
 		//for each resource in resources array
 		for(int i = 0; i < resources.size(); i++) {
 			if(search(i)) {
-			StackPane imagePane = createImage(resources.get(i), RES_IMG_WIDTH, RES_IMG_HEIGHT);
+			StackPane imagePane = createImage(resources.get(i),
+					RES_IMG_WIDTH, RES_IMG_HEIGHT);
 
 			//get last image in last resource HBox.
-			HBox latestHBox = (HBox) vResourceBox.getChildren().get(vResourceBox.getChildren().size() - 1);
+			HBox latestHBox = (HBox) vResourceBox.getChildren().get(
+					vResourceBox.getChildren().size() - 1);
 			latestHBox.setSpacing(5);
 
 			//if there is at least one image in last resource HBox
@@ -499,10 +509,12 @@ public class ProfileController {
 
 		for(Resource resource : resources) {
 
-			StackPane imagePane = createImage(resource, COPY_IMG_WIDTH, COPY_IMG_HEIGHT);
+			StackPane imagePane = createImage(resource, 
+					COPY_IMG_WIDTH, COPY_IMG_HEIGHT);
 
 			((ImageView) imagePane.getChildren().get(2)).setFitWidth(COPY_IMG_WIDTH);
-			((ImageView) imagePane.getChildren().get(2)).setImage(new Image("/graphics/" + bannerName));
+			((ImageView) imagePane.getChildren().get(2)).setImage(
+					new Image("/graphics/" + bannerName));
 			((ImageView) imagePane.getChildren().get(2)).setPreserveRatio(true);
 
 			resourceImages.getChildren().add(imagePane);
@@ -540,7 +552,8 @@ public class ProfileController {
 	@FXML
 	private void loadRequested() {
 		if(currentUser instanceof User) {
-			ArrayList<Resource> requestedResources = ((User) currentUser).getRequestedResources();
+			ArrayList<Resource> requestedResources = 
+					((User) currentUser).getRequestedResources();
 			loadCopyImages(requestedResources, "requested.png");
 		}
 
@@ -549,7 +562,8 @@ public class ProfileController {
 	@FXML
 	private void loadBorrowHistory() {
 		if(currentUser instanceof User) {
-			ArrayList<Resource> borrowHistory = ((User) currentUser).loadUserHistory();
+			ArrayList<Resource> borrowHistory = 
+					((User) currentUser).loadUserHistory();
 			loadCopyImages(borrowHistory, "returned.png");
 		}
 	}
@@ -592,7 +606,8 @@ public class ProfileController {
 		try {
 			Connection conn = DBHelper.getConnection();
 			Statement stmt = conn.createStatement();
-			ResultSet rs = stmt.executeQuery("SELECT * FROM copies, resource WHERE copies.rID = resource.rID");
+			ResultSet rs = stmt.executeQuery
+					("SELECT * FROM copies, resource WHERE copies.rID = resource.rID");
 
 			while(rs.next()) {
 				copiesList.add(new ExplorerRow(
@@ -630,7 +645,10 @@ public class ProfileController {
 		try {
 			Connection conn = DBHelper.getConnection();
 			Statement stmt = conn.createStatement();
-			ResultSet rs = stmt.executeQuery("SELECT * FROM fines, resource, copies WHERE fines.rID = resource.rID AND copies.rID = resource.rID AND copies.keeper = fines.username");
+			ResultSet rs = stmt.executeQuery("SELECT * "
+					+ "FROM fines, resource, copies WHERE fines.rID = "
+					+ "resource.rID AND copies.rID = resource.rID AND "
+					+ "copies.keeper = fines.username");
 
 			while(rs.next()) {
 				copiesList.add(new ExplorerRow(
@@ -666,7 +684,8 @@ public class ProfileController {
 		try {
 			Connection conn = DBHelper.getConnection();
 			Statement stmt = conn.createStatement();
-			ResultSet rs = stmt.executeQuery("SELECT * FROM requestsToApprove, users where requestsToApprove.userName = users.username");
+			ResultSet rs = stmt.executeQuery("SELECT * FROM requestsToApprove, "
+					+ "users where requestsToApprove.userName = users.username");
 
 			while(rs.next()) {
 				copiesList.add(new ExplorerRow(
@@ -695,11 +714,13 @@ public class ProfileController {
 		} else {
 			if (checkCopyID(copyID) == true) {
 				loadExplorerTableColumns("history");
-				ObservableList<ExplorerRow> historyList = FXCollections.observableArrayList();
+				ObservableList<ExplorerRow> historyList = 
+						FXCollections.observableArrayList();
 
 				try {
 					Connection conn = DBHelper.getConnection();
-					PreparedStatement sqlStatement = conn.prepareStatement("SELECT * FROM borrowRecords WHERE copyID = ?");
+					PreparedStatement sqlStatement = conn.prepareStatement(
+							"SELECT * FROM borrowRecords WHERE copyID = ?");
 					sqlStatement.setInt(1, Integer.parseInt(copyID));
 					ResultSet rs = sqlStatement.executeQuery();
 
@@ -730,7 +751,8 @@ public class ProfileController {
 	 */
 	@FXML
 	private void approveCopy() {
-		ExplorerRow row  = (ExplorerRow) staffCopiesExplorerTable.getSelectionModel().getSelectedItem();
+		ExplorerRow row  = (ExplorerRow) 
+				staffCopiesExplorerTable.getSelectionModel().getSelectedItem();
 		int resourceID = row.getResourceID();
 		String username = row.getKeeper();
 
@@ -741,7 +763,8 @@ public class ProfileController {
 
 		try {
 			Connection conn = DBHelper.getConnection();
-			PreparedStatement sqlStatement = conn.prepareStatement("DELETE FROM requestsToApprove WHERE rID = ? AND userName = ?");
+			PreparedStatement sqlStatement = conn.prepareStatement(
+					"DELETE FROM requestsToApprove WHERE rID = ? AND userName = ?");
 			sqlStatement.setInt(1, resourceID);
 			sqlStatement.setString(2, username);
 			sqlStatement.executeUpdate();
@@ -760,7 +783,8 @@ public class ProfileController {
 	 */
 	@FXML
 	private void returnCopy() {
-		ExplorerRow row  = (ExplorerRow) staffCopiesExplorerTable.getSelectionModel().getSelectedItem();
+		ExplorerRow row  = (ExplorerRow) 
+				staffCopiesExplorerTable.getSelectionModel().getSelectedItem();
 		int copyID = row.getCopyID();
 
 		for (Resource res : Resource.getResources()) {
@@ -782,7 +806,9 @@ public class ProfileController {
 	private boolean checkCopyID(String copyID) {
 		try {
 			Connection conn = DBHelper.getConnection();
-			PreparedStatement sqlStatement = conn.prepareStatement("SELECT COUNT(*) FROM copies WHERE copyID = ?");
+			PreparedStatement sqlStatement = 
+					conn.prepareStatement("SELECT COUNT(*) FROM "
+							+ "copies WHERE copyID = ?");
 			sqlStatement.setString(1, copyID);
 			ResultSet rs = sqlStatement.executeQuery();
             if (rs.getInt(1) == 1) {
@@ -802,7 +828,8 @@ public class ProfileController {
 	 */
 	@FXML
 	private void explorerTableClicked(MouseEvent event) {
-		ExplorerRow row  = (ExplorerRow) staffCopiesExplorerTable.getSelectionModel().getSelectedItem();
+		ExplorerRow row  = (ExplorerRow) 
+				staffCopiesExplorerTable.getSelectionModel().getSelectedItem();
 		staffCopyIDField.setText(Integer.toString(row.getCopyID()));
 	}
 
@@ -814,14 +841,16 @@ public class ProfileController {
 	@FXML
 	void pickAvatar(Event e) {
 		  FileChooser chooser = new FileChooser();
-		    FileChooser.ExtensionFilter extentionFilter = new FileChooser.ExtensionFilter("PNG files (*.png)", "*.png");
+		    FileChooser.ExtensionFilter extentionFilter = 
+		    		new FileChooser.ExtensionFilter("PNG files (*.png)", "*.png");
 			chooser.getExtensionFilters().add(extentionFilter);
 		    chooser.setTitle("Open File");
 		    File file = chooser.showOpenDialog(new Stage());
 		    System.out.println(file.getAbsolutePath());
 
 
-		    ScreenManager.getCurrentUser().setAvatar(new File(file.getAbsolutePath()).toURI().toString());
+		    ScreenManager.getCurrentUser().setAvatar(new 
+		    		File(file.getAbsolutePath()).toURI().toString());
 		    userAvatarView.setImage(new Image(currentUser.getAvatar()));
 		    staffAvatarView.setImage(new Image(currentUser.getAvatar()));
 
@@ -832,7 +861,8 @@ public class ProfileController {
 		System.out.println("Launch staff editing profile.");
 
 		try {
-			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/staffEdit.fxml"));
+			FXMLLoader fxmlLoader = new FXMLLoader(
+					getClass().getResource("/fxml/staffEdit.fxml"));
             Parent root1 = (Parent) fxmlLoader.load();
             Stage stage = new Stage();
             stage.initModality(Modality.APPLICATION_MODAL);
@@ -852,7 +882,8 @@ public class ProfileController {
 	@FXML
 	private void openAvatarEditor(MouseEvent event) {
 		try {
-			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/drawAvatar.fxml"));
+			FXMLLoader fxmlLoader = new FXMLLoader(
+					getClass().getResource("/fxml/drawAvatar.fxml"));
 			Parent root1 = (Parent) fxmlLoader.load();
 			Stage stage = new Stage();
 			stage.initModality(Modality.APPLICATION_MODAL);
@@ -876,43 +907,53 @@ public class ProfileController {
 	 */
 	private void loadExplorerTableColumns(String tableToLoad) {
 
-		TableColumn<ExplorerRow, String> titleCol = new TableColumn<ExplorerRow, String>("Title");
+		TableColumn<ExplorerRow, String> titleCol = 
+				new TableColumn<ExplorerRow, String>("Title");
 		titleCol.setCellValueFactory(cd ->
 		new SimpleStringProperty(cd.getValue().getResourceTitle()));
 
-		TableColumn<ExplorerRow, String> keeperCol = new TableColumn<ExplorerRow, String>("Keeper");
+		TableColumn<ExplorerRow, String> keeperCol = 
+				new TableColumn<ExplorerRow, String>("Keeper");
 		keeperCol.setCellValueFactory(cd ->
 		new SimpleStringProperty(cd.getValue().getKeeper()));
 
-		TableColumn<ExplorerRow, String> copyIDCol = new TableColumn<ExplorerRow, String>("Copy ID");
+		TableColumn<ExplorerRow, String> copyIDCol = 
+				new TableColumn<ExplorerRow, String>("Copy ID");
 		copyIDCol.setCellValueFactory(cd ->
 		new SimpleStringProperty(Integer.toString(cd.getValue().getCopyID())));
 
-		TableColumn<ExplorerRow, String> resourceIDCol = new TableColumn<ExplorerRow, String>("Resource ID");
+		TableColumn<ExplorerRow, String> resourceIDCol =
+				new TableColumn<ExplorerRow, String>("Resource ID");
 		resourceIDCol.setCellValueFactory(cd ->
 		new SimpleStringProperty(Integer.toString(cd.getValue().getResourceID())));
 
-		TableColumn<ExplorerRow, String> loanDurationCol = new TableColumn<ExplorerRow, String>("Loan Duration");
+		TableColumn<ExplorerRow, String> loanDurationCol = 
+				new TableColumn<ExplorerRow, String>("Loan Duration");
 		loanDurationCol.setCellValueFactory(cd ->
 		new SimpleStringProperty(Integer.toString(cd.getValue().getLoanDuration())));
 
-		TableColumn<ExplorerRow, String> orderNumberCol = new TableColumn<ExplorerRow, String>("Order Number");
+		TableColumn<ExplorerRow, String> orderNumberCol = 
+				new TableColumn<ExplorerRow, String>("Order Number");
 		orderNumberCol.setCellValueFactory(cd ->
 		new SimpleStringProperty(Integer.toString(cd.getValue().getOrderNumber())));
 
-		TableColumn<ExplorerRow, String> borrowDateCol = new TableColumn<ExplorerRow, String>("Borrow Date");
+		TableColumn<ExplorerRow, String> borrowDateCol = 
+				new TableColumn<ExplorerRow, String>("Borrow Date");
 		borrowDateCol.setCellValueFactory(cd ->
 		new SimpleStringProperty(cd.getValue().getBorrowDate()));
 
-		TableColumn<ExplorerRow, String> lastRenewalCol = new TableColumn<ExplorerRow, String>("Last Renewal");
+		TableColumn<ExplorerRow, String> lastRenewalCol = 
+				new TableColumn<ExplorerRow, String>("Last Renewal");
 		lastRenewalCol.setCellValueFactory(cd ->
 		new SimpleStringProperty(cd.getValue().getLastRenewal()));
 
-		TableColumn<ExplorerRow, String> dueDateCol = new TableColumn<ExplorerRow, String>("Due Date");
+		TableColumn<ExplorerRow, String> dueDateCol = 
+				new TableColumn<ExplorerRow, String>("Due Date");
 		dueDateCol.setCellValueFactory(cd ->
 		new SimpleStringProperty(cd.getValue().getDueDate()));
 
-		TableColumn<ExplorerRow, String> historyCol = new TableColumn<ExplorerRow, String>("History");
+		TableColumn<ExplorerRow, String> historyCol = 
+				new TableColumn<ExplorerRow, String>("History");
 		historyCol.setCellValueFactory(cd ->
 		new SimpleStringProperty(cd.getValue().getHistory()));
 
@@ -949,29 +990,38 @@ public class ProfileController {
 	//
 
 	private void loadUserTableColumns() {
-		TableColumn<Person, String> usernameCol = new TableColumn<Person, String>("Username");
+		TableColumn<Person, String> usernameCol = 
+				new TableColumn<Person, String>("Username");
         usernameCol.setCellValueFactory(new PropertyValueFactory<>("username"));
 
-		TableColumn<Person, String> firstnameCol = new TableColumn<Person, String>("Firstname");
+		TableColumn<Person, String> firstnameCol = 
+				new TableColumn<Person, String>("Firstname");
 		firstnameCol.setCellValueFactory(new PropertyValueFactory<>("firstName"));
 
-		TableColumn<Person, String> lastnameCol = new TableColumn<Person, String>("Lastname");
+		TableColumn<Person, String> lastnameCol = 
+				new TableColumn<Person, String>("Lastname");
 		lastnameCol.setCellValueFactory(new PropertyValueFactory<>("lastName"));
 
-		TableColumn<Person, Integer> telephoneCol = new TableColumn<Person, Integer>("Telephone");
+		TableColumn<Person, Integer> telephoneCol = 
+				new TableColumn<Person, Integer>("Telephone");
 		telephoneCol.setCellValueFactory(new PropertyValueFactory<>("phoneNumber"));
 
-		TableColumn<Person, String> addressCol = new TableColumn<Person, String>("Address");
+		TableColumn<Person, String> addressCol = 
+				new TableColumn<Person, String>("Address");
 		addressCol.setCellValueFactory(new PropertyValueFactory<>("address"));
 
-		TableColumn<Person, String> postcodeCol = new TableColumn<Person, String>("Postcode");
+		TableColumn<Person, String> postcodeCol = 
+				new TableColumn<Person, String>("Postcode");
 		postcodeCol.setCellValueFactory(new PropertyValueFactory<>("postcode"));
 
-		TableColumn<Person, String> avatarCol = new TableColumn<Person, String>("Avatar Path");
+		TableColumn<Person, String> avatarCol = 
+				new TableColumn<Person, String>("Avatar Path");
 		avatarCol.setCellValueFactory(new PropertyValueFactory<>("avatarPath"));
 
-		TableColumn<Person, String> accountBalanceCol = new TableColumn<Person, String>("accountBalance");
-		accountBalanceCol.setCellValueFactory(new PropertyValueFactory<>("accountBalance"));
+		TableColumn<Person, String> accountBalanceCol = 
+				new TableColumn<Person, String>("accountBalance");
+		accountBalanceCol.setCellValueFactory(
+				new PropertyValueFactory<>("accountBalance"));
 
 		staffUsersTable.getColumns().clear();
 		staffUsersTable.getColumns().addAll(usernameCol,firstnameCol,
@@ -986,7 +1036,9 @@ public class ProfileController {
 		ObservableList<Person> usersList = FXCollections.observableArrayList();
 		try {
 			Connection conn = DBHelper.getConnection();
-			PreparedStatement pstmt = conn.prepareStatement("SELECT username FROM users WHERE username NOT IN (SELECT username FROM staff);");
+			PreparedStatement pstmt = conn.prepareStatement(
+					"SELECT username FROM users WHERE username NOT IN (SELECT "
+					+ "username FROM staff);");
             ResultSet rs = pstmt.executeQuery();
 
             while(rs.next()) {
@@ -1025,7 +1077,8 @@ public class ProfileController {
 			System.out.println("No user selected!");
 		} else {
 			System.out.println("Delete User: " + selectedUserLabel.getText());
-			if(selectedUserLabel.getText().equals(ScreenManager.getCurrentUser().getUsername())) {
+			if(selectedUserLabel.getText().equals(
+					ScreenManager.getCurrentUser().getUsername())) {
 				alertDone("You can't delete yourself!");
 			}else {
 				if(Person.removePerson(selectedUserLabel.getText())) {
@@ -1071,7 +1124,8 @@ public class ProfileController {
 			try {
 				double amount = Float.parseFloat(staffAmountField.getText());
 				if (amount > 0.01) {
-					System.out.println("Add: " + amount + " to " + selectedUserLabel.getText());
+					System.out.println("Add: " + amount + 
+							" to " + selectedUserLabel.getText());
 					User.addBalance(selectedUserLabel.getText(), amount);
 				}
 			} catch (RuntimeException e) {

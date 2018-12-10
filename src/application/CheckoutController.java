@@ -128,10 +128,12 @@ public class CheckoutController {
 		}
 
 		//creates the request table
-		TableColumn<Request, String> userCol = new TableColumn<Request, String>("User");
+		TableColumn<Request, String> userCol = new TableColumn<Request,
+				String>("User");
 		userCol.setCellValueFactory(new PropertyValueFactory<>("username"));
 
-		TableColumn<Request, String> resourceCol = new TableColumn<Request, String>("Resource");
+		TableColumn<Request, String> resourceCol = new TableColumn<Request,
+				String>("Resource");
 		resourceCol.setCellValueFactory(new PropertyValueFactory<>("resourceName"));
 
 		tableRequest.setItems(requestList);

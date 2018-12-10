@@ -107,7 +107,8 @@ public class CopyController {
 
 		// Adds all the common attributes to the text area
 		centertextarea.appendText(
-				"uniqueID: " + Integer.toString(uniqueId) + "\ntitle: " + title + "\nyear: " + Integer.toString(year));
+				"uniqueID: " + Integer.toString(uniqueId) + "\ntitle: " +
+		title + "\nyear: " + Integer.toString(year));
 
 		// If the resource is a Book, it will add the book attributes to the
 		// text area.
@@ -119,7 +120,8 @@ public class CopyController {
 			String ISBN = ScreenManager.currentBook.getISBN();
 			String language = ScreenManager.currentBook.getLanguage();
 
-			centertextarea.appendText("\nauthor: " + author + "\npublisher: " + publisher + "\ngenre: " + genre
+			centertextarea.appendText("\nauthor: " + author + "\npublisher: " +
+			publisher + "\ngenre: " + genre
 					+ "\nISBN: " + ISBN + "\nlanguage: " + language);
 
 			// If the resource is a Laptop, it will add the laptop attributes to
@@ -130,7 +132,8 @@ public class CopyController {
 			String model = ScreenManager.currentLaptop.getModel();
 			String OS = ScreenManager.currentLaptop.getOS();
 
-			centertextarea.appendText("\nmanufacturer: " + manufacturer + "\nmodel: " + model + "\nOS: " + OS);
+			centertextarea.appendText("\nmanufacturer: " + manufacturer +
+					"\nmodel: " + model + "\nOS: " + OS);
 
 			// If the resource is a DVD, it will add the attributes of a dvd to
 			// the text area.
@@ -141,7 +144,8 @@ public class CopyController {
 			String language = ScreenManager.currentDVD.getLanguage();
 
 			centertextarea.appendText(
-					"\ndirector: " + director + "\nruntime: " + Integer.toString(runtime) + "\nlanguage: " + language);
+					"\ndirector: " + director + "\nruntime: " + 
+			Integer.toString(runtime) + "\nlanguage: " + language);
 
 		}
 
@@ -150,7 +154,8 @@ public class CopyController {
 		if (ScreenManager.currentResource.getNrOfCopies() == 0) {
 			copytext.setText("All Copies are currently being borrowed.");
 		} else {
-			copytext.setText("Copies: " + Integer.toString(ScreenManager.currentResource.getNrOfCopies()));
+			copytext.setText("Copies: " + Integer.toString(
+					ScreenManager.currentResource.getNrOfCopies()));
 		}
 
 	}
@@ -174,7 +179,8 @@ public class CopyController {
 	 */
 	@FXML
 	public void requestCopy(MouseEvent event) {
-		ScreenManager.currentResource.addPendingRequest((User) ScreenManager.getCurrentUser());
+		ScreenManager.currentResource.addPendingRequest((User) 
+				ScreenManager.getCurrentUser());
 		// ScreenManager.currentResource.loanToUser((User)ScreenManager.getCurrentUser());
 	}
 
@@ -199,7 +205,8 @@ public class CopyController {
 		Button editCopies = new Button("Edit copies");
 		editCopies.setOnAction(e -> {
 			try {
-				FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/editCopies.fxml"));
+				FXMLLoader fxmlLoader = new FXMLLoader(
+						getClass().getResource("/fxml/editCopies.fxml"));
 				Parent root1 = (Parent) fxmlLoader.load();
 				Stage stage = new Stage();
 				stage.initModality(Modality.APPLICATION_MODAL);
@@ -215,7 +222,8 @@ public class CopyController {
 		Button editResource = new Button("Edit resource");
 		editResource.setOnAction(e -> {
 			try {
-				FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/editResource.fxml"));
+				FXMLLoader fxmlLoader = new FXMLLoader(
+						getClass().getResource("/fxml/editResource.fxml"));
 				Parent root1 = (Parent) fxmlLoader.load();
 				Stage stage = new Stage();
 				stage.initModality(Modality.APPLICATION_MODAL);

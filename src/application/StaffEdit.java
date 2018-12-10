@@ -142,7 +142,10 @@ public class StaffEdit {
     		try {
         		//SQL that saves the profile information into the table
         		Connection conn = model.DBHelper.getConnection();
-        		PreparedStatement pstmt = conn.prepareStatement("UPDATE users SET firstName = ?, lastName = ?, telephone = ?, address = ?, postcode = ? WHERE username = ?");
+        		PreparedStatement pstmt = conn.prepareStatement(
+        				"UPDATE users SET firstName = ?, lastName = ?, "
+        				+ "telephone = ?, address = ?, postcode = ? WHERE "
+        				+ "username = ?");
         		pstmt.setString(1, firstName);
        			pstmt.setString(2, lastName);
        			pstmt.setString(3, phoneNumber);
@@ -152,7 +155,9 @@ public class StaffEdit {
         		pstmt.executeUpdate();
         		//conn.commit();
         		
-        		PreparedStatement pstmt1 = conn.prepareStatement("UPDATE staff SET staffID = ?, employmentDate = ?  WHERE staff.username = ?");
+        		PreparedStatement pstmt1 = conn.prepareStatement("UPDATE "
+        				+ "staff SET staffID = ?, employmentDate = ?  WHERE "
+        				+ "staff.username = ?");
         		pstmt1.setInt(1, Integer.parseInt(staffID));
        			pstmt1.setString(2, employmentDate);
        			pstmt.setString(3,  username);
@@ -256,7 +261,8 @@ public class StaffEdit {
 	 */
 	private boolean validatePhoneNumber() {
 		String phoneNumber = phoneNumberText.getText();
-		return !(phoneNumber.length() > 11 || phoneNumber.length() < 9 || !isNumeric(phoneNumber));
+		return !(phoneNumber.length() > 11 || phoneNumber.length() < 9 
+				|| !isNumeric(phoneNumber));
 	}
 	
 	/**

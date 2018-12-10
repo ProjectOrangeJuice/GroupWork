@@ -38,7 +38,8 @@ public class DVD extends Resource {
      * @param language The language the movie is in.
      * @param subtitleList The list of all subtitle languages.
      */
-    public DVD(int uniqueID, String title, int year, Image thumbnail, String director, int runtime, String language,
+    public DVD(int uniqueID, String title, int year, Image thumbnail, 
+    		String director, int runtime, String language,
             ArrayList<String> subtitleList) {
         super(uniqueID, title, year, thumbnail);
         this.director = director;
@@ -63,7 +64,8 @@ public class DVD extends Resource {
      * @param director The director of the movie.
      * @param runtime The run time of the movie.
      */
-    public DVD(int uniqueID, String title, int year, Image thumbnail, String director, int runtime) {
+    public DVD(int uniqueID, String title, int year, Image thumbnail,
+    		String director, int runtime) {
         super(uniqueID, title, year, thumbnail);
         this.director = director;
         this.runTime = runtime;
@@ -79,14 +81,17 @@ public class DVD extends Resource {
         try {
             Connection conn = DBHelper.getConnection(); // get the connection
             Statement stmt = conn.createStatement(); // prep a statement
-            ResultSet rs = stmt.executeQuery("SELECT resource.rID, resource.title, resource.year, resource.thumbnail," +
+            ResultSet rs = stmt.executeQuery("SELECT resource.rID, "
+            		+ "resource.title, resource.year, resource.thumbnail," +
                 "director, runTime, language FROM dvd, resource WHERE dvd.rID = resource.rID");
 
             while (rs.next()) {
                 Image resourceImage = new Image(rs.getString("thumbnail"), true);
                 
-                resources.add(new DVD(rs.getInt("rID"), rs.getString("title"), rs.getInt("year"), resourceImage,
-                    rs.getString("director"), rs.getInt("runTime"), rs.getString("language"), null));
+                resources.add(new DVD(rs.getInt("rID"), rs.getString("title"), 
+                		rs.getInt("year"), resourceImage,
+                    rs.getString("director"), rs.getInt("runTime"),
+                    rs.getString("language"), null));
 
                 System.out.println("New DVD added!");
             }
@@ -173,7 +178,9 @@ public class DVD extends Resource {
         subtitleLanguages.add(subtitleLanguage);
         try {
             Connection connectionToDB = DBHelper.getConnection();
-            PreparedStatement sqlStatement = connectionToDB.prepareStatement("INSERT INTO subtitles VALUES (?,?)");
+            PreparedStatement sqlStatement = 
+            		connectionToDB.prepareStatement("INSERT INTO subtitles "
+            				+ "VALUES (?,?)");
 
             sqlStatement.setInt(1, uniqueID);
             sqlStatement.setString(2, subtitleLanguage);
@@ -284,7 +291,8 @@ public class DVD extends Resource {
         try {
             Connection conn = DBHelper.getConnection(); // get the connection
             Statement stmt = conn.createStatement(); // prep a statement
-            ResultSet subtitles = stmt.executeQuery("SELECT * FROM SUBTITLES WHERE dvdID=" + uniqueID);
+            ResultSet subtitles = stmt.executeQuery("SELECT * FROM SUBTITLES "
+            		+ "WHERE dvdID=" + uniqueID);
             while (subtitles.next()) {
                 subtitleLanguages.add(subtitles.getString("subtitleLanguage"));
             }

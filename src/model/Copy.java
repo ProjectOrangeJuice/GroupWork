@@ -161,7 +161,8 @@ public class Copy implements Comparable<Copy> {
     public void setDueDate() {
         if (dueDate == null) {
             Date afterBorrowDuration = (Date) borrowDate.clone();
-            afterBorrowDuration.setDate(afterBorrowDuration.getDate() + loanDuration);
+            afterBorrowDuration.setDate(afterBorrowDuration.getDate() +
+            		loanDuration);
             Date today = new Date(System.currentTimeMillis());
 
             if (afterBorrowDuration.after(today)) {
@@ -201,8 +202,10 @@ public class Copy implements Comparable<Copy> {
             if (nextRenewal.before(today)) {
                 lastRenewal = nextRenewal;
 
-                SimpleDateFormat normalDateFormat = new SimpleDateFormat("dd/MM/yyyy");
-                updateDBValue(copyID, "lastRenewal", normalDateFormat.format(lastRenewal));
+                SimpleDateFormat normalDateFormat = 
+                		new SimpleDateFormat("dd/MM/yyyy");
+                updateDBValue(copyID, "lastRenewal", 
+                		normalDateFormat.format(lastRenewal));
                 return true;
             }
             else {

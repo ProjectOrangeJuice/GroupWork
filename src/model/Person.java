@@ -46,7 +46,8 @@ public abstract class Person {
      * @param postcode Post code of this person.
      * @param avatarPath Path to the avatar image of this person.
      */
-    public Person(String username, String firstName, String lastName, String phoneNumber, String address,
+    public Person(String username, String firstName, String lastName,
+    		String phoneNumber, String address,
             String postcode, String avatarPath) {
         this.username = username;
         this.firstName = firstName;
@@ -80,7 +81,8 @@ public abstract class Person {
      */
     public void setFirstName(String firstName) {
         this.firstName = firstName;
-        Person.updateDatabase("users", this.getUsername(), "firstName", firstName);
+        Person.updateDatabase("users", this.getUsername(), "firstName",
+firstName);
     }
 
     /**
@@ -190,14 +192,16 @@ public abstract class Person {
 
             //Selects the amount of people who are staff
             if (rs.getInt(1) == 1) {
-                sqlStatement = dbConnection.prepareStatement("SELECT COUNT (*) FROM staff WHERE username = ?");
+                sqlStatement = dbConnection.prepareStatement("SELECT COUNT "
+                		+ "(*) FROM staff WHERE username = ?");
                 sqlStatement.setString(1, userName);
                 rs = sqlStatement.executeQuery();
 
                 //Loads up all staff users
                 if (rs.getInt(1) == 1) {
                     sqlStatement = dbConnection.prepareStatement(
-                        "SELECT * FROM users, staff WHERE users.username = staff.username and users.username = ?");
+                        "SELECT * FROM users, staff WHERE users.username = "
+                        + "staff.username and users.username = ?");
                     sqlStatement.setString(1, userName);
                     rs = sqlStatement.executeQuery();
 
@@ -218,7 +222,8 @@ public abstract class Person {
                 }
                 else {
                     //Loads up normal users
-                    sqlStatement = dbConnection.prepareStatement("SELECT * FROM users WHERE username = ?");
+                    sqlStatement = dbConnection.prepareStatement("SELECT * "
+                    		+ "FROM users WHERE username = ?");
                     sqlStatement.setString(1, userName);
                     rs = sqlStatement.executeQuery();
 

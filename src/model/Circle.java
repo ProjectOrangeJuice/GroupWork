@@ -19,7 +19,8 @@ public class Circle extends AvatarComponent {
      * @param colour The colour of the circle.
      * @param radius The radius of the circle.
      */
-    public Circle(double xStartPosition, double yStartPosition, Color colour, double radius) {
+    public Circle(double xStartPosition, double yStartPosition, 
+    		Color colour, double radius) {
         super(xStartPosition, yStartPosition, colour);
         this.radius = radius;
     }
@@ -46,6 +47,7 @@ public class Circle extends AvatarComponent {
     public void displayComponent(Canvas canvas) {
         GraphicsContext graphicsContext = canvas.getGraphicsContext2D();
         graphicsContext.setFill(getColour());
-        graphicsContext.fillOval(getXStartPosition(), getYStartPosition(), getRadius(), getRadius());
+        graphicsContext.fillOval(getXStartPosition(), 
+        		getYStartPosition(), getRadius(), getRadius());
     }
 }

@@ -21,7 +21,8 @@ public abstract class AvatarComponent {
      * @param yStartPosition The y start position.
      * @param colour The colour of the component.
      */
-    public AvatarComponent(double xStartPosition, double yStartPosition, Color colour) {
+    public AvatarComponent(double xStartPosition, double yStartPosition, 
+    		Color colour) {
         startPosition = new double[NO_OF_DIMENSIONS];
         this.startPosition[X_INDEX] = xStartPosition;
         this.startPosition[Y_INDEX] = yStartPosition;

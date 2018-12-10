@@ -96,7 +96,8 @@ public class LoginController {
 	public void registerAction(MouseEvent event) {
 		System.out.println("Register button pressed.");
 		try {
-			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/registerScene.fxml"));
+			FXMLLoader fxmlLoader = new FXMLLoader(
+					getClass().getResource("/fxml/registerScene.fxml"));
 			Parent root1 = (Parent) fxmlLoader.load();
 			Stage stage = new Stage();
 			stage.initModality(Modality.APPLICATION_MODAL);

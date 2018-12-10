@@ -222,7 +222,8 @@ public class RegisterController implements Initializable {
 		}
 
 		// if all text fields are valid create account.
-		if (validateUsername() && validateFirstName() && validateLastName() && validatePhoneNumber()
+		if (validateUsername() && validateFirstName() && 
+				validateLastName() && validatePhoneNumber()
 				&& validateAddress() && validatePostCode()) {
 
 			if (isLibrarian(event)) {
@@ -270,7 +271,8 @@ public class RegisterController implements Initializable {
 	 */
 	private boolean validatePhoneNumber() {
 		String phoneNumberText = phoneNumber.getText();
-		return !(phoneNumberText.length() > 11 || phoneNumberText.length() < 11 || !isNumeric(phoneNumberText));
+		return !(phoneNumberText.length() > 11 || phoneNumberText.length()
+				< 11 || !isNumeric(phoneNumberText));
 	}
 
 	/**
@@ -311,7 +313,8 @@ public class RegisterController implements Initializable {
 	private boolean validateUsername() {
 		String usernameText = username.getText();
 
-		return !(usernameText.length() > 15 || usernameText.length() <= 0 || validateExistingUser(usernameText));
+		return !(usernameText.length() > 15 || usernameText.length() <= 0
+				|| validateExistingUser(usernameText));
 	}
 
 	/**
@@ -322,7 +325,8 @@ public class RegisterController implements Initializable {
 	private boolean validateExistingUser(String username) {
 		try {
 			Connection conn = DBHelper.getConnection();
-			PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM users WHERE username=?");
+			PreparedStatement pstmt = conn.prepareStatement("SELECT * "
+					+ "FROM users WHERE username=?");
 			pstmt.setString(1, username);
 			ResultSet rs = pstmt.executeQuery();
 			if (rs.next()) {
@@ -344,7 +348,8 @@ public class RegisterController implements Initializable {
 	private boolean validateStaffId() {
 		String staffIdText = staffId.getText();
 
-		return !(staffIdText.length() > 2 || staffIdText.length() < 2 || validateExistingStaffId(staffIdText));
+		return !(staffIdText.length() > 2 || staffIdText.length() < 2 || 
+				validateExistingStaffId(staffIdText));
 	}
 
 	/**
@@ -355,7 +360,8 @@ public class RegisterController implements Initializable {
 	private boolean validateExistingStaffId(String staffId) {
 		try {
 			Connection conn = DBHelper.getConnection();
-			PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM staff WHERE staffId=?");
+			PreparedStatement pstmt = conn.prepareStatement("SELECT * "
+					+ "FROM staff WHERE staffId=?");
 			pstmt.setString(1, staffId);
 			ResultSet rs = pstmt.executeQuery();
 			if (rs.next()) {
@@ -390,7 +396,8 @@ public class RegisterController implements Initializable {
 
 		try {
 			Connection conn = DBHelper.getConnection();
-			PreparedStatement pstmt = conn.prepareStatement("INSERT INTO users VALUES (?,?,?,?,?,?,?,0)");
+			PreparedStatement pstmt = conn.prepareStatement("INSERT INTO "
+					+ "users VALUES (?,?,?,?,?,?,?,0)");
 			pstmt.setString(1, username.getText());
 			pstmt.setString(2, firstName.getText());
 			pstmt.setString(3, lastName.getText());
@@ -416,7 +423,8 @@ public class RegisterController implements Initializable {
 
 		try {
 			Connection conn = DBHelper.getConnection();
-			PreparedStatement pstmt = conn.prepareStatement("INSERT INTO staff VALUES (?, ?, ?)");// make current date
+			PreparedStatement pstmt = conn.prepareStatement("INSERT INTO "
+					+ "staff VALUES (?, ?, ?)");// make current date
 			pstmt.setString(1, username.getText());
 			pstmt.setString(2, staffId.getText());
 			pstmt.setString(3, employmentDate.getText());
@@ -436,7 +444,8 @@ public class RegisterController implements Initializable {
 	@FXML
 	private void openAvatarEditor(MouseEvent event) {
 		try {
-			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/drawAvatar.fxml"));
+			FXMLLoader fxmlLoader = new FXMLLoader(
+					getClass().getResource("/fxml/drawAvatar.fxml"));
 			Parent root1 = (Parent) fxmlLoader.load();
 			Stage stage = new Stage();
 			stage.initModality(Modality.APPLICATION_MODAL);
@@ -474,7 +483,8 @@ public class RegisterController implements Initializable {
 				 * Convert a snapshot of the canvas to a buffered image and the write it to
 				 * file.
 				 */
-				BufferedImage bImage = SwingFXUtils.fromFXImage(avatar.snapshot(null, null), null);
+				BufferedImage bImage = SwingFXUtils.fromFXImage(
+						avatar.snapshot(null, null), null);
 				ImageIO.write(bImage, "png", file);
 			} catch (Exception e) {
 				/*
@@ -508,7 +518,8 @@ public class RegisterController implements Initializable {
 	@FXML
 	protected void browseAvatarAction(ActionEvent event) {
 		FileChooser chooser = new FileChooser();
-		FileChooser.ExtensionFilter extentionFilter = new FileChooser.ExtensionFilter("PNG files (*.png)", "*.png");
+		FileChooser.ExtensionFilter extentionFilter = 
+				new FileChooser.ExtensionFilter("PNG files (*.png)", "*.png");
 		chooser.getExtensionFilters().add(extentionFilter);
 		chooser.setTitle("Open File");
 		File file = chooser.showOpenDialog(new Stage());

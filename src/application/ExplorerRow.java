@@ -36,7 +36,9 @@ public class ExplorerRow {
 	 * @param lastRenewal lastrenewal date of the resource
 	 * @param dueDate when the resource is due
 	 */
-	public ExplorerRow(String resourceTitle, String keeper, int copyID, int resourceID, int loanDuration, String borrowDate, String lastRenewal, String dueDate) {
+	public ExplorerRow(String resourceTitle, String keeper, 
+			int copyID, int resourceID, int loanDuration, String borrowDate,
+			String lastRenewal, String dueDate) {
 		this.resourceTitle = resourceTitle;
 		this.keeper = keeper;
 		this.copyID = copyID;
@@ -57,7 +59,8 @@ public class ExplorerRow {
 	 * @param borrowDate borrowdate of the resource
 	 * @param dueDate duedate of the resource
 	 */
-	public ExplorerRow(String resourceTitle, String keeper, int copyID, int resourceID, String borrowDate, String dueDate) {
+	public ExplorerRow(String resourceTitle, String keeper, int copyID,
+			int resourceID, String borrowDate, String dueDate) {
 		this.resourceTitle = resourceTitle;
 		this.keeper = keeper;
 		this.copyID = copyID;

@@ -34,9 +34,11 @@ public class MainFX extends Application {
 
 		try {
 			//create initial scene object.
-			Parent root = FXMLLoader.load(getClass().getResource("/fxml/loginScene.fxml"));
+			Parent root = FXMLLoader.load(
+					getClass().getResource("/fxml/loginScene.fxml"));
 			currentScene = new Scene(root);
-			currentScene.getStylesheets().add(getClass().getResource("/css/application.css").toExternalForm());
+			currentScene.getStylesheets().add(
+					getClass().getResource("/css/application.css").toExternalForm());
 			//set stage attributes.
 			primaryStage.setScene(currentScene); //set scene within stage
 			primaryStage.setMinWidth(MIN_WIDTH); //set minimum width of stage

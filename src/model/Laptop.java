@@ -31,13 +31,17 @@ public class Laptop extends Resource {
         try {
             Connection conn = DBHelper.getConnection(); // get the connection
             Statement stmt = conn.createStatement(); // prep a statement
-            ResultSet rs = stmt.executeQuery("SELECT resource.rID, resource.title, resource.year, resource.thumbnail, manufacturer," +
-                " model, os FROM laptop, resource WHERE resource.rID = laptop.rID");
+            ResultSet rs = stmt.executeQuery("SELECT resource.rID, "
+            		+ "resource.title, resource.year, resource.thumbnail, manufacturer," +
+                " model, os FROM laptop, resource WHERE "
+                + "resource.rID = laptop.rID");
 
             while (rs.next()) {
             	Image resourceImage = new Image(rs.getString("thumbnail"), true);
-                resources.add(new Laptop(rs.getInt("rID"), rs.getString("title"), rs.getInt("year"), resourceImage,
-                    rs.getString("manufacturer"), rs.getString("model"), rs.getString("os")));
+                resources.add(new Laptop(rs.getInt("rID"), rs.getString("title"),
+                		rs.getInt("year"), resourceImage,
+                    rs.getString("manufacturer"), rs.getString("model"),
+                    rs.getString("os")));
             }
         }
         catch (SQLException e) {
@@ -56,7 +60,8 @@ public class Laptop extends Resource {
      * @param model The model of the laptop.
      * @param operatingSystem The operating system of the laptop.
      */
-    public Laptop(int uniqueID, String title, int year, Image thumbnail, String manufacturer, String model, String operatingSystem) {
+    public Laptop(int uniqueID, String title, int year, Image thumbnail, 
+    		String manufacturer, String model, String operatingSystem) {
         super(uniqueID, title, year, thumbnail);
         this.manufacturer = manufacturer;
         this.model = model;

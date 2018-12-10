@@ -119,7 +119,8 @@ public class DBHelper {
             if (results.next()) {
                 int databaseVersion = results.getInt("ver");
                 results.close();
-                System.out.println("Table is at " + databaseVersion + " program is at " + VERSION);
+                System.out.println("Table is at " + databaseVersion 
+                		+ " program is at " + VERSION);
                 if (databaseVersion != VERSION) {
                     createTables();
                     System.out.println("Updating database");

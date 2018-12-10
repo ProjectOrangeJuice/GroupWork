@@ -79,11 +79,15 @@ public class ResourceController {
 		
 		Button button = new Button("Save");
 		button.setOnAction(e -> {
-			updateBook(titleField.getText(), yearField.getText(), authorField.getText(), publishField.getText(), genreField.getText(), iField.getText(), languageField.getText(), imgField.getText());
+			updateBook(titleField.getText(), yearField.getText(), 
+					authorField.getText(), publishField.getText(), 
+					genreField.getText(), iField.getText(), 
+					languageField.getText(), imgField.getText());
 		});
 		
 		
-		resourceBlock.getChildren().addAll(titleBox,yearBox,authorBox,publishBox,genreBox,iBox,languageBox,imgBox,button);
+		resourceBlock.getChildren().addAll(titleBox,yearBox,
+				authorBox,publishBox,genreBox,iBox,languageBox,imgBox,button);
 		
 	}
 	
@@ -147,11 +151,15 @@ public class ResourceController {
 		
 		Button button = new Button("Save");
 		button.setOnAction(e -> {
-			updateDVD(titleField.getText(),yearField.getText(),directorField.getText(),runtimeField.getText(),langField.getText(),subtitlesField.getText(),imgField.getText());
+			updateDVD(titleField.getText(),yearField.getText(),
+					directorField.getText(),runtimeField.getText(),
+					langField.getText(),subtitlesField.getText(),
+					imgField.getText());
 		});
 		
 		
-		resourceBlock.getChildren().addAll(titleBox,yearBox,directorBox,runtimeBox,langBox,subtitlesBox,imgBox,button);
+		resourceBlock.getChildren().addAll(titleBox,yearBox,
+				directorBox,runtimeBox,langBox,subtitlesBox,imgBox,button);
 		
 	}
 	
@@ -199,16 +207,20 @@ public class ResourceController {
 		
 		Button button = new Button("Save");
 		button.setOnAction(e -> {
-			updateLaptop(titleField.getText(),yearField.getText(),manuField.getText(),modelField.getText(),OSField.getText(),imgField.getText());
+			updateLaptop(titleField.getText(),yearField.getText(),
+					manuField.getText(),modelField.getText(),OSField.getText(),
+					imgField.getText());
 		});
 		
 		
-		resourceBlock.getChildren().addAll(titleBox,yearBox,manuBox,modelBox,OSBox,imgBox,button);
+		resourceBlock.getChildren().addAll(titleBox,yearBox,manuBox,modelBox,
+				OSBox,imgBox,button);
 		
 	}
 	
 
-	private void updateLaptop(String title,String year,String manu,String model,String OS, String img) {
+	private void updateLaptop(String title,String year,String manu,String model,
+			String OS, String img) {
 		//Checks if the year is a number
 				boolean goAhead = true;
 				Image image = null;
@@ -246,7 +258,9 @@ public class ResourceController {
 	}
 	
 	
-	private void updateBook(String title, String year, String author, String publish, String genre, String ISBN, String language, String img){
+	private void updateBook(String title, String year, String author,
+			String publish, String genre, String ISBN, String language, 
+			String img){
 		//Checks if the year is a number
 		boolean goAhead = true;
 		Image image = null;
@@ -288,7 +302,8 @@ public class ResourceController {
 	}
 	
 	
-	private void updateDVD(String title, String year, String director, String runtime, String language, String subtitles, String img){
+	private void updateDVD(String title, String year, String director, 
+			String runtime, String language, String subtitles, String img){
 		boolean goAhead = true;
 		Image image = null;
 		try {

@@ -196,8 +196,10 @@ public class User extends Person {
         try {
             Connection dbConnection = DBHelper.getConnection();
             PreparedStatement sqlStatement = dbConnection.prepareStatement(
-                "SELECT borrowRecords.copyId, rId FROM borrowRecords, copies WHERE username = ? " +
-                    "AND copies.copyId = borrowRecords.copyId AND copies.keeper <> ?");
+                "SELECT borrowRecords.copyId, rId FROM borrowRecords, copies "
+                + "WHERE username = ? " +
+                    "AND copies.copyId = borrowRecords.copyId AND"
+                    + " copies.keeper <> ?");
             sqlStatement.setString(1, username);
             sqlStatement.setString(2, username);
             ResultSet rs = sqlStatement.executeQuery();

@@ -57,13 +57,15 @@ public class RecommendedController {
 		
 		//find the resource that was clicked.
 		for(Resource resource : ScreenManager.getResources()) {
-			if(resource.getUniqueID() == Integer.parseInt(((StackPane) event.getSource()).getId())) {
+			if(resource.getUniqueID() == 
+					Integer.parseInt(((StackPane) event.getSource()).getId())) {
 				ScreenManager.setCurrentResource(resource);
 			}
 		}
 		
 		try {
-			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/copyScene.fxml"));
+			FXMLLoader fxmlLoader = new FXMLLoader(
+					getClass().getResource("/fxml/copyScene.fxml"));
             Parent root1 = (Parent) fxmlLoader.load();
             Stage stage = new Stage();
             stage.initModality(Modality.APPLICATION_MODAL);
@@ -160,7 +162,8 @@ public class RecommendedController {
 			try {
 				ArrayList<Resource> recommendations = user.getRecommendations();
 				for(Resource recommendedR : recommendations) {
-					StackPane imagePane = createImage(recommendedR, RES_IMG_WIDTH, RES_IMG_HEIGHT);
+					StackPane imagePane = createImage(
+							recommendedR, RES_IMG_WIDTH, RES_IMG_HEIGHT);
 						
 					recommended.getChildren().add(imagePane);
 					

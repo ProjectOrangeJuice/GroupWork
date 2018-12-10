@@ -651,7 +651,8 @@ public abstract class Resource {
         try {
             Connection connectionToDB = DBHelper.getConnection();
             PreparedStatement sqlStatement = connectionToDB.prepareStatement(
-                "UPDATE borrowRecords SET description=? WHERE copyID=? AND username=? AND description=?");
+                "UPDATE borrowRecords SET description=? WHERE copyID=? AND "
+                + "username=? AND description=?");
             
             SimpleDateFormat normalDateFormat = new SimpleDateFormat("dd/MM/yyyy");
             
@@ -696,7 +697,8 @@ public abstract class Resource {
             try {
                 Connection dbConnection = DBHelper.getConnection();
                 PreparedStatement sqlStatement = dbConnection.prepareStatement(
-                    "INSERT INTO fines (userName,rID,daysOver,amount,dateTime,paid) VALUES (?,?,?,?,?,?)");
+                    "INSERT INTO fines (userName,rID,daysOver,amount,dateTime,"
+                    + "paid) VALUES (?,?,?,?,?,?)");
 
                 sqlStatement.setString(1,
                     copyToBeReturned.getBorrower().getUsername());

@@ -41,7 +41,8 @@ public class Payment {
      * @param full If the fine is being paid in full.
      * @return The payment object.
      */
-    public static Payment makePayment(String username, double amount, int fine, boolean full) {
+    public static Payment makePayment(String username, double amount, 
+    		int fine, boolean full) {
         Date date = new Date();
 
         try {
@@ -72,7 +73,8 @@ public class Payment {
      * @param date The date it was paid.
      * @throws SQLException The database did not update.
      */
-    private static void insertTransaction(String username, double amount, String date) throws SQLException {
+    private static void insertTransaction(String username, double amount, 
+    		String date) throws SQLException {
 
         Connection connection = DBHelper.getConnection();
         PreparedStatement statement = connection.prepareStatement("INSERT INTO " + 

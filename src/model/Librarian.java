@@ -34,9 +34,12 @@ public class Librarian extends Person {
     * @param employmentDate The date the librarian as employed.
     * @param staffID The ID of the librarian.
     */
-    public Librarian(String userName, String firstName, String lastName, String phoneNumber, String address,
-            String postcode, String avatarPath, String employmentDate, int staffID) {
-        super(userName, firstName, lastName, phoneNumber, address, postcode, avatarPath);
+    public Librarian(String userName, String firstName, String lastName, 
+    		String phoneNumber, String address,
+            String postcode, String avatarPath, String employmentDate, 
+            int staffID) {
+        super(userName, firstName, lastName, phoneNumber, address, 
+        		postcode, avatarPath);
         this.staffID = staffID;
 
         Date date = null;
