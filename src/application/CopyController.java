@@ -7,11 +7,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -33,42 +31,42 @@ import model.User;
 public class CopyController {
 
 	@FXML
-	private BorderPane borderpane1;
+	private BorderPane borderpane1;//borderpane
 
 	@FXML
-	private AnchorPane leftanchor;
+	private AnchorPane leftanchor;//anchor for left side of borderpane
 
 	@FXML
-	private VBox leftvbox;
+	private VBox leftvbox;//vbox in left anchor
 
 	@FXML
-	private ImageView resourceimage;
+	private ImageView resourceimage;//resource image holder
 
 	@FXML
-	private AnchorPane centeranchor;
+	private AnchorPane centeranchor;//anchor pane in the center of borderpane
 
 	@FXML
-	private VBox centervbox;
+	private VBox centervbox;//vbox in center anchor
 
 	@FXML
-	private TextArea centertextarea;
+	private TextArea centertextarea;//textarea in center anchor
 
 	@FXML
-	private AnchorPane bottomanchor;
+	private AnchorPane bottomanchor;//anchor for bottom of borderpane
 
 	@FXML
-	private Button requestbutt;
+	private Button requestbutt;//request copy button
 
 	@FXML
-	private VBox leftVbox;
+	private VBox leftVbox;//vbox in left anchor pane
 
 	@FXML
-	private Label copytext;
+	private Label copytext;//textbox showing copies available
 
 	@FXML
-	private Label resourceName;
+	private Label resourceName;//resources name
 
-	private Resource currentResource;
+	private Resource currentResource;//current instance of resource
 
 	private int RES_IMG_WIDTH = 200;
 	private int RES_IMG_HEIGHT = 200;
@@ -76,7 +74,7 @@ public class CopyController {
 	/**
 	 * Sets new scene on stage within program using fxml file provided.
 	 * 
-	 * @param sceneFXML
+	 * @param sceneFXML the new scene its changing too
 	 */
 	public void changeScene(MouseEvent event, String sceneFXML) {
 		try {
@@ -149,7 +147,7 @@ public class CopyController {
 		if (ScreenManager.currentResource.getNrOfCopies() == 0) {
 			copytext.setText("All Copies are currently being borrowed.");
 		} else {
-			copytext.setText("There are " + Integer.toString(ScreenManager.currentResource.freeCopiesNo()));
+			copytext.setText("Copies free: " + Integer.toString(ScreenManager.currentResource.getNrOfCopies()));
 		}
 
 	}
@@ -169,12 +167,11 @@ public class CopyController {
 	 * When the button is clicked, it will send a request to a librarian and
 	 * they can either decline or accept said request.
 	 * 
-	 * @param event
+	 * @param event button being pressed
 	 */
 	@FXML
 	public void requestCopy(MouseEvent event) {
 		ScreenManager.currentResource.addPendingRequest((User) ScreenManager.getCurrentUser());
-		alertDone("You've requested the copy");
 		// ScreenManager.currentResource.loanToUser((User)ScreenManager.getCurrentUser());
 	}
 
@@ -229,22 +226,6 @@ public class CopyController {
 		});
 		leftVbox.getChildren().addAll(editCopies, editResource);
 	}
-	
-	/**
-	 * Generate a popup.
-	 * 
-	 * @param text
-	 *            The text to be displayed.
-	 */
-	private void alertDone(String text) {
-		Alert alert = new Alert(AlertType.INFORMATION);
-		alert.setTitle("Information Dialog");
-		alert.setHeaderText(null);
-		alert.setContentText(text);
-
-		alert.showAndWait();
-	}
-
 
 	/**
 	 * An initialize method that checks the user if its a staff, and loads the resource image and information when started.
