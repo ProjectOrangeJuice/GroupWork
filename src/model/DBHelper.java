@@ -12,7 +12,7 @@ import java.util.Scanner;
 
 /**
  * Contains static helper methods used to communicate with the database.
- * 
+ *
  * @author Oliver Harris.
  */
 public class DBHelper {
@@ -23,10 +23,10 @@ public class DBHelper {
 
     /**
      * Execute a simple SQL command.
-     * 
+     *
      * @param sql The sql to execute.
      * @return ResultSet The results from the database.
-     * @throws SQLException. Unable to execute the query given.
+     * @throws SQLException Unable to execute the query given.
      */
     private static ResultSet selectKnown(String sql) throws SQLException {
 
@@ -39,7 +39,7 @@ public class DBHelper {
 
     /**
      * Get the connection for the database.
-     * 
+     *
      * @param keyCheck True if the database should check foreign keys.
      * @return Connection The connection to database.
      * @throws SQLException If unable to connect to database.
@@ -56,9 +56,9 @@ public class DBHelper {
 
     /**
      * Get the connection for the database.
-     * 
+     *
      * @return Connection. The connection with foreign key enabled.
-     * @throws SQLException. Unable to connect to database.
+     * @throws SQLException Unable to connect to database.
      */
     public static Connection getConnection() throws SQLException {
         return getConnection(true);
@@ -71,11 +71,11 @@ public class DBHelper {
 
         try {
             // Opens up the file
-            InputStream input = new FileInputStream(SQL); 
+            InputStream input = new FileInputStream(SQL);
 
             Scanner scanner = new Scanner(input);
             // Each statement is split with ";"
-            scanner.useDelimiter(";"); 
+            scanner.useDelimiter(";");
             Statement statement = null;
 
             Connection connection = getConnection(false); // Connection without foreign key checks
@@ -89,13 +89,13 @@ public class DBHelper {
                     }
                     catch (SQLException e) { // Error on the SQL table.
                         System.out.println(line);
-                        
+
                         // The tables.sql is incorrect
                         e.printStackTrace();
                     }
                 }
             }
-            
+
             scanner.close();
         }
         catch (SQLException e) {

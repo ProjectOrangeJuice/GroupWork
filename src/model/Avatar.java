@@ -16,9 +16,9 @@ public abstract class Avatar {
     /**
      * Creates an avatar.
      *
-     * @param size
-     * @param posX
-     * @param posY
+     * @param size The size of image.
+     * @param posX The x pos.
+     * @param posY The y pos.
      */
     public Avatar(double size, double posX, double posY) {
         this.size = size;
@@ -46,7 +46,7 @@ public abstract class Avatar {
 
     /**
      * Gets y-axis centre position.
-     * 
+     *
      * @return The y position of the centre of the avatar.
      */
     public double getYPosition() {
@@ -73,7 +73,7 @@ public abstract class Avatar {
 
     /**
      * Sets y-axis centre position.
-     * 
+     *
      * @param y The y position at the centre of the avatar.
      */
     public void setYPosition(double y) {
@@ -94,7 +94,7 @@ public abstract class Avatar {
 
     /**
      * Displays the avatar on an ImageView.
-     * 
+     *
      * @param imageView The ImageView that the avatar is being displayed on.
      */
     public abstract void displayAvatar(ImageView imageView);
