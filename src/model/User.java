@@ -73,7 +73,7 @@ public class User extends Person {
         try {
             Connection dbConnection = DBHelper.getConnection();
             PreparedStatement sqlStatement = dbConnection.prepareStatement(
-                "SELECT rID FROM userRequests WHERE userName = ?");
+                "SELECT rID FROM requestsToApprove WHERE userName = ?");
             sqlStatement.setString(1, this.getUsername());
             ResultSet rs = sqlStatement.executeQuery();
 

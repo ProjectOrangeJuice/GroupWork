@@ -14,6 +14,11 @@ public class Request {
 
     private Resource resource;
 
+    /**
+     * Class constructor
+     * @param username users username
+     * @param resource the instance of the resource
+     */
     public Request(String username, Resource resource) {
         this.username = username;
         this.resource = resource;
@@ -21,6 +26,10 @@ public class Request {
 
     }
 
+    /**
+     * Method to load requests so they can be approved
+     * @return the requests
+     */
     public static ArrayList<Request> loadRequests() {
         ArrayList<Request> requests = new ArrayList<Request>();
         try {
@@ -47,18 +56,35 @@ public class Request {
         return null;
     }
 
+    /**
+     * Getter method for the username
+     * @return users username
+     */
     public String getUsername() {
         return username;
     }
 
+    /**
+     * Getter method for the resourcename
+     * @return the resources name
+     */
     public String getResourceName() {
         return resourceName;
     }
 
+    /**
+     * Getter method for the resource
+     * @return the instance of the resource
+     */
     public Resource getResource() {
         return resource;
     }
 
+    /**
+     * Method that matches the username to what the librarian has searched
+     * @param search what is being searched
+     * @return true if it matches, false otherwise
+     */
     public boolean contains(String search) {
 
         if (username.toLowerCase().contains(search.toLowerCase())) {
