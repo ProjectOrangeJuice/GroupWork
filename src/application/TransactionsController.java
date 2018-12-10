@@ -167,18 +167,18 @@ public class TransactionsController {
         if (result.isPresent()) {
             boolean goAhead = true;
             try {
-                Float.valueOf(result.get());
+                System.out.println(Double.valueOf(result.get()));
             }
             catch (NumberFormatException e) {
                 alertDone("Invalid input");
                 goAhead = false;
             }
 
-            if (Float.valueOf(result.get()) > MIN_PAY &&
-                Float.valueOf(result.get()) <= fine.getAmount() && goAhead) {
+            if (Double.valueOf(result.get()) >= MIN_PAY &&
+                Double.valueOf(result.get()) <= fine.getAmount() && goAhead) {
                 System.out.println("paying.. " + result.get());
                 if (Payment.makePayment(fine.getUsername(),
-                    Float.valueOf(result.get()), fine.getFineId(), (Float
+                    Double.valueOf(result.get()), fine.getFineId(), (Double
                         .valueOf(result.get()) == fine.getAmount())) != null) {
                     alertDone("Fine has been paid");
                     

@@ -109,7 +109,7 @@ public class Payment {
         }
         else {
             PreparedStatement statement = connection.prepareStatement("UPDATE " + 
-                "fines set paid=0, amount=? WHERE fineId=?");
+                "fines set paid=0, amount=amount - ? WHERE fineId=?");
             statement.setInt(2, fine);
             statement.setDouble(1, amount);
 

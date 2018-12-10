@@ -133,8 +133,8 @@ public class User extends Person {
         Connection connection = DBHelper.getConnection();
         PreparedStatement statement = connection.prepareStatement(
             "UPDATE users set accountBalance = accountBalance - ? WHERE username=?");
-        statement.setString(1, username);
-        statement.setDouble(2, amount);
+        statement.setString(2, username);
+        statement.setDouble(1, amount);
 
         statement.executeUpdate();
     }
