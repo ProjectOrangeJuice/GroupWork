@@ -74,8 +74,9 @@ public class CopyController {
 	/**
 	 * Sets new scene on stage within program using fxml file provided.
 	 *
-	 * @param sceneFXML the new scene its changing too
 	 * @param sceneFXML The scene location.
+	 * @param event The event.
+	 * 
 	 */
 	public void changeScene(MouseEvent event, String sceneFXML) {
 		try {

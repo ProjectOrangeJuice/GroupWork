@@ -88,7 +88,8 @@ public class StaffEdit {
     /**
      * Sets new scene on stage within program using fxml file provided.
      * 
-     * @param sceneFXML scene that will be changed into
+     * @param sceneFXML scene that will be changed into.
+     * @param event Mouse event.
      */
     public void changeScene(MouseEvent event, String sceneFXML) {
         try {
