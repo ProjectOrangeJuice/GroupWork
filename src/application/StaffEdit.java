@@ -133,7 +133,7 @@ public class StaffEdit {
     /**
      * Saves profile information about the user
      * 
-     * @param event button is presed
+     * @param event button is pressed
      */
     @FXML
     void saveEditedProfile(MouseEvent event) {
@@ -145,36 +145,6 @@ public class StaffEdit {
     	String staffID = staffIDLabel.getText();
     	String employmentDate = employmentDateLabel.getText();
     	String username = usernameLabel.getText();
-    	
-    	if (validateFirstName()) {
-            firstNameError.setVisible(false);
-        } else {
-            firstNameError.setVisible(true);
-        }
-    	
-    	if (validateLastName()) {
-            lastNameError.setVisible(false);
-        } else {
-            lastNameError.setVisible(true);
-        }
-    	
-    	if (validatePhoneNumber()) {
-            phoneNumberError.setVisible(false);
-        } else {
-            phoneNumberError.setVisible(true);
-        }
-    	
-    	if (validateAddress()) {
-            addressError.setVisible(false);
-        } else {
-            addressError.setVisible(true);
-        }
-    	
-    	if (validatePostCode()) {
-            postcodeError.setVisible(false);
-        } else {
-            postcodeError.setVisible(true);
-        }
     	
     	if (validateFirstName() && validateLastName() && validatePhoneNumber() 
     			&& validateAddress() && validatePostCode()) {
@@ -206,7 +176,8 @@ public class StaffEdit {
     			e.printStackTrace();
     		}
         	alertDone("Details have been saved");
-        	changeScene(event, "/fxml/LoginScene.fxml");
+        	Stage stage = (Stage) saveButton.getScene().getWindow();
+        	stage.close();
     	}
     }
 
@@ -236,6 +207,36 @@ public class StaffEdit {
 	    	postcodeText.setText(postcode);
 	    	staffIDLabel.setText(Integer.toString(staffID));
 	    	employmentDateLabel.setText(employmentDate);
+	    	
+	    	if (validateFirstName()) {
+	            firstNameError.setVisible(false);
+	        } else {
+	            firstNameError.setVisible(true);
+	        }
+	    	
+	    	if (validateLastName()) {
+	            lastNameError.setVisible(false);
+	        } else {
+	            lastNameError.setVisible(true);
+	        }
+	    	
+	    	if (validatePhoneNumber()) {
+	            phoneNumberError.setVisible(false);
+	        } else {
+	            phoneNumberError.setVisible(true);
+	        }
+	    	
+	    	if (validateAddress()) {
+	            addressError.setVisible(false);
+	        } else {
+	            addressError.setVisible(true);
+	        }
+	    	
+	    	if (validatePostCode()) {
+	            postcodeError.setVisible(false);
+	        } else {
+	            postcodeError.setVisible(true);
+	        }
     	}
     }
 
@@ -256,7 +257,7 @@ public class StaffEdit {
 	
 	private boolean validatePhoneNumber() {
 		String phoneNumber = phoneNumberText.getText();
-		return !(phoneNumber.length() > 11 || phoneNumber.length() < 11 || !isNumeric(phoneNumber));
+		return !(phoneNumber.length() > 11 || phoneNumber.length() < 9 || !isNumeric(phoneNumber));
 	}
 	
 	private boolean validateLastName() {
