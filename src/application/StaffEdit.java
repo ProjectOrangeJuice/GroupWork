@@ -3,7 +3,6 @@ package application;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 
@@ -17,20 +16,17 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.control.SplitMenuButton;
 import javafx.scene.control.TextField;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import model.DBHelper;
 import model.Librarian;
 import model.Person;
 
 /**
  * This class allows staff/librarians to view and edit their details when they register to the system.
- * Also, they can edit some information adn update it back to the database with their latest information.
+ * Also, they can edit some information and update it back to the database with their latest information.
  * @author leezhinghang
  */
 public class StaffEdit {
