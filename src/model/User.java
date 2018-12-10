@@ -154,10 +154,16 @@ public class User extends Person {
             "SELECT accountBalance FROM users where username=?");
         statement.setString(1, username);
         ResultSet results = statement.executeQuery();
+        boolean balance = false;
         if (results.next()) {
-            return results.getDouble("accountBalance") >= amount;
+        	
+            balance =  results.getDouble("accountBalance") >= amount;
         }
-        return false;
+        results.close();
+        connection.close();
+        return balance;
+        
+
     }
 
     /**

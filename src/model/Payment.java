@@ -50,6 +50,7 @@ public class Payment {
                 ResultSet results = updateFine(fine, amount, full);
                 if (results.next()) {
                     int id = results.getInt(1);
+                    results.close();
                     insertTransaction(username, amount, date.toString());
                     User.reduceBalance(username, amount);
                     return new Payment(id, username, amount, date.toString());
@@ -115,6 +116,7 @@ public class Payment {
             statement.executeUpdate();
             return statement.getGeneratedKeys();
         }
+        
     }
 
     /**
