@@ -278,9 +278,13 @@ public abstract class Resource {
         else {
             userRequestQueue.enqueue(user);
             Copy firstCopy = noDueDateCopies.poll();
+            try {
             firstCopy.setDueDate();
-
             saveCopyToDB(firstCopy);
+            }catch(Exception e) {
+            	//all have due date set
+            }
+            
             return false;
         }
     }
@@ -774,42 +778,87 @@ public abstract class Resource {
     private void saveCopyToDB(Copy copy) {
         try {
             Connection dbConnection = DBHelper.getConnection();
-            PreparedStatement sqlStatement = dbConnection.prepareStatement(
-                "DELETE FROM copies WHERE copyID=" + copy.getCopyID());
-            sqlStatement.executeUpdate();
+            //PreparedStatement sqlStatement = dbConnection.prepareStatement(
+             //   "DELETE FROM copies WHERE copyID=" + copy.getCopyID());
+            //sqlStatement.executeUpdate();
 
+            PreparedStatement statement = dbConnection.prepareStatement(
+                    "SELECT * FROM copies WHERE copyID=?");
+                statement.setInt(1, copy.getCopyID());
+                ResultSet results = statement.executeQuery();
+                if(!results.next()) {
+                	results.close();
+                	 SimpleDateFormat normalDateFormat = new SimpleDateFormat(
+                             "dd/MM/yyyy");
+                	 PreparedStatement sqlStatement = dbConnection
+                             .prepareStatement("INSERT INTO copies "
+                             		+ "VALUES(?,?,?,?,?,?,?)");
+
+                         sqlStatement.setInt(1, copy.getCopyID());
+                         sqlStatement.setInt(2, uniqueID);
+                         sqlStatement.setInt(4, copy.getLoanDuration());
+                         sqlStatement.setString(5,
+                             formatDate(copy.getBorrowDate(), normalDateFormat));
+                         sqlStatement.setString(6,
+                             formatDate(copy.getLastRenewal(), normalDateFormat));
+                         sqlStatement.setString(7,
+                             formatDate(copy.getDueDate(), normalDateFormat));
+
+                         String userName = null;
+                         if (copy.getBorrower() != null) {
+                             userName = copy.getBorrower().getUsername();
+                             sqlStatement.setString(3, userName);
+                         }
+                         else {
+                             sqlStatement.setString(3, null);
+
+                         }
+
+                         sqlStatement.executeUpdate();
+                         dbConnection.close();
+
+                }else {
+            
+            
             SimpleDateFormat normalDateFormat = new SimpleDateFormat(
                 "dd/MM/yyyy");
-            sqlStatement = dbConnection
-                .prepareStatement("INSERT INTO copies VALUES(?,?,?,?,?,?,?)");
-
-            sqlStatement.setInt(1, copy.getCopyID());
-            sqlStatement.setInt(2, uniqueID);
-            sqlStatement.setInt(4, copy.getLoanDuration());
-            sqlStatement.setString(5,
+            PreparedStatement sqlStatement = dbConnection
+                .prepareStatement("UPDATE copies SET rID=?,keeper=?,"
+                		+ "loanDuration=?,borrowDate=?,lastRenewal=?,"
+                		+ "dueDate=? WHERE copyID=?");
+            copy.getCopyID();
+            sqlStatement.setInt(7, copy.getCopyID());
+            sqlStatement.setInt(1, uniqueID);
+            sqlStatement.setInt(3, copy.getLoanDuration());
+            sqlStatement.setString(4,
                 formatDate(copy.getBorrowDate(), normalDateFormat));
-            sqlStatement.setString(6,
+            sqlStatement.setString(5,
                 formatDate(copy.getLastRenewal(), normalDateFormat));
-            sqlStatement.setString(7,
+            sqlStatement.setString(6,
                 formatDate(copy.getDueDate(), normalDateFormat));
 
             String userName = null;
             if (copy.getBorrower() != null) {
                 userName = copy.getBorrower().getUsername();
-                sqlStatement.setString(3, userName);
+                sqlStatement.setString(2, userName);
             }
             else {
-                sqlStatement.setString(3, null);
+                sqlStatement.setString(2, null);
 
             }
 
             sqlStatement.executeUpdate();
+                }
+                dbConnection.close();
         }
         catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
+    
+    
+    
     /**
      * A wrapper function that returns a string representing a date, or null if 
      * the given date is null. Necessary because format method for DateFormat
