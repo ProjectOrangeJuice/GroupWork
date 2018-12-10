@@ -7,7 +7,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
- * 
+ *
  * @author Joe Wright
  */
 public class Copy implements Comparable<Copy> {
@@ -25,7 +25,7 @@ public class Copy implements Comparable<Copy> {
      * @param resource The resource this copy belongs to.
      * @param copyID The ID of the new copy.
      * @param borrower The user borrowing the copy currently.
-     * @param loanDuration The duration in days that a loan is valid, untill it 
+     * @param loanDuration The duration in days that a loan is valid, untill it
      * is renewed or until the user needs to bring it back.
      * @param borrowDate Date copy was borrowed.
      * @param lastRenewal Last date the loan was renewed.
@@ -48,7 +48,7 @@ public class Copy implements Comparable<Copy> {
      * @param resource The resource this copy belongs to.
      * @param copyID The ID of the new copy.
      * @param borrower The user borrowing the copy currently.
-     * @param loanDuration The duration in days that a loan is valid, until it 
+     * @param loanDuration The duration in days that a loan is valid, until it
      * is renewed or until the user needs to bring it back.
      */
     public Copy(Resource resource, int copyID, User borrower, int loanDuration) {
@@ -68,22 +68,22 @@ public class Copy implements Comparable<Copy> {
      */
     public void setBorrower(User user) {
         if (user != null) {
-            try {
-                Connection dbConnection = DBHelper.getConnection();
-                PreparedStatement preparedUpdateStatement = dbConnection
-                    .prepareStatement("INSERT INTO borrowRecords (copyId," + 
-                    " username, description)" + " VALUES (?,?,?)");
-                
-                preparedUpdateStatement.setInt(1, getCopyID());
-                preparedUpdateStatement.setString(2, user.getUsername());
-                preparedUpdateStatement.setString(3, "Not sure what to put in description.");
-                preparedUpdateStatement.executeUpdate();
-                dbConnection.close();
-            }
-            catch (SQLException e) {
-                System.out.println("Failed to add copy borrow to borrowRecoreds.");
-                e.printStackTrace();
-            }
+            // try {
+            //     Connection dbConnection = DBHelper.getConnection();
+            //     PreparedStatement preparedUpdateStatement = dbConnection
+            //         .prepareStatement("INSERT INTO borrowRecords (copyId," +
+            //         " username, description)" + " VALUES (?,?,?)");
+            //
+            //     preparedUpdateStatement.setInt(1, getCopyID());
+            //     preparedUpdateStatement.setString(2, user.getUsername());
+            //     preparedUpdateStatement.setString(3, "");
+            //     preparedUpdateStatement.executeUpdate();
+            //     dbConnection.close();
+            // }
+            // catch (SQLException e) {
+            //     System.out.println("Failed to add copy borrow to borrowRecoreds.");
+            //     e.printStackTrace();
+            // }
         }
 
         try {
@@ -110,8 +110,8 @@ public class Copy implements Comparable<Copy> {
 
     /**
      * Method that gets the loan duration variable.
-     * 
-     * @return The duration in days that a loan is valid, untill it 
+     *
+     * @return The duration in days that a loan is valid, untill it
      * is renewed or until the user needs to bring it back.
      */
     public int getLoanDuration() {
@@ -120,7 +120,7 @@ public class Copy implements Comparable<Copy> {
 
     /**
      * Method that gets the resource variable.
-     * 
+     *
      * @return resource The resource this copy belongs to.
      */
     public Resource getResource() {
@@ -129,7 +129,7 @@ public class Copy implements Comparable<Copy> {
 
     /**
      * Method that gets the COPY_ID final variable.
-     * 
+     *
      * @return the unique id of this copy.
      */
     public int getCopyID() {
@@ -155,7 +155,7 @@ public class Copy implements Comparable<Copy> {
 
     /**
      * Sets the due date according to the specification, such that it is tomorrow
-     * or the earliest date at which the borrower has had this copy for the 
+     * or the earliest date at which the borrower has had this copy for the
      * entire loan duration.
      */
     public void setDueDate() {
@@ -178,11 +178,11 @@ public class Copy implements Comparable<Copy> {
     }
 
     /**
-     * Boolean method that checks if the renewal date is before current date, and 
-     * returns true if it is otherwise returns false, and sets the renewal date 
+     * Boolean method that checks if the renewal date is before current date, and
+     * returns true if it is otherwise returns false, and sets the renewal date
      * forward in time by the loan duration.
-     * @return true if renewal date is before todays date otherwise 
-     * returns false. 
+     * @return true if renewal date is before todays date otherwise
+     * returns false.
      */
     public boolean checkRenewal() {
         if (dueDate == null) {
@@ -273,18 +273,18 @@ public class Copy implements Comparable<Copy> {
             updateDBValue(copyID, "lastRenewal", null);
       //  }
        // else {
-       //     throw new IllegalStateException("You are trying to reset borrow," + 
+       //     throw new IllegalStateException("You are trying to reset borrow," +
      //          " due and last renewal dates while this copy is still borrowed!");
     //    }
 
     }
 
     /**
-     * Returns a string representation of this copy suitable to display to any 
-     * user browsing the library. For this reason, it only says the copy ID 
-     * and whether it is available or not and leaves the rest of the 
+     * Returns a string representation of this copy suitable to display to any
+     * user browsing the library. For this reason, it only says the copy ID
+     * and whether it is available or not and leaves the rest of the
      * information, which should not be publicly accessible.
-     * @return Shortened representation of this copy suitable for public 
+     * @return Shortened representation of this copy suitable for public
      * viewing.
      */
     public String toString() {
@@ -305,7 +305,7 @@ public class Copy implements Comparable<Copy> {
     /**
      * Compares a copy date with another copy of that resource based on their due date.
      * @param otherCopy The other copy being compared to this one.
-     * @return -1 if it is before another copy's due date, 1 if its after a another 
+     * @return -1 if it is before another copy's due date, 1 if its after a another
      * copy's due date, otherwise return 0.
      */
     public int compareTo(Copy otherCopy) {
@@ -332,7 +332,7 @@ public class Copy implements Comparable<Copy> {
             return this.borrower.getUsername();
         }
     }
-    
+
     /**
      * Updates the dabatabase value in the given field of the given copy.
      * @param copyID Unique ID of copy that is updated.
@@ -343,9 +343,9 @@ public class Copy implements Comparable<Copy> {
         try {
             Connection connectionToDB = DBHelper.getConnection();
             PreparedStatement sqlStatement = connectionToDB
-                .prepareStatement("UPDATE copies " + "set " + field + 
+                .prepareStatement("UPDATE copies " + "set " + field +
                 " = ? WHERE copyID=?");
-            
+
             sqlStatement.setString(1, data);
             sqlStatement.setInt(2, copyID);
             sqlStatement.executeUpdate();
@@ -365,9 +365,9 @@ public class Copy implements Comparable<Copy> {
         try {
             Connection connectionToDB = DBHelper.getConnection();
             PreparedStatement sqlStatement = connectionToDB
-                .prepareStatement("UPDATE copies " + "set " + field + 
+                .prepareStatement("UPDATE copies " + "set " + field +
                 " = ? WHERE copyID=?");
-            
+
             sqlStatement.setInt(1, data);
             sqlStatement.setInt(2, copyID);
             sqlStatement.executeUpdate();
