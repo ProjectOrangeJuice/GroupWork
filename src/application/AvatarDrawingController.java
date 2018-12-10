@@ -112,8 +112,7 @@ public class AvatarDrawingController implements Initializable {
 	/**
 	 * Starts drawing if the mouse is pressed on the canvas.
 	 *
-	 * @param event
-	 *            event.
+	 * @param event The mouse event.
 	 */
 	@FXML
 	public void onCanvasMousePressed(MouseEvent event) {
@@ -137,8 +136,7 @@ public class AvatarDrawingController implements Initializable {
 	/**
 	 * Draw when the mouse is dragged over the canvas, if appropriate.
 	 *
-	 * @param event
-	 *            event.
+	 * @param event The mouse event.
 	 */
 	@FXML
 	public void onCanvasMouseDragged(MouseEvent event) {
@@ -154,8 +152,7 @@ public class AvatarDrawingController implements Initializable {
 	/**
 	 * Stops drawing when mouse is released, if appropriate.
 	 *
-	 * @param event
-	 *            event.
+	 * @param event The mouse event.
 	 */
 	@FXML
 	public void onCanvasMouseReleased(MouseEvent event) {
@@ -176,8 +173,7 @@ public class AvatarDrawingController implements Initializable {
 	/**
 	 * Saves the custom avatar when the "Save Image" button is pressed.
 	 *
-	 * @param event
-	 *            button press.
+	 * @param event The action event.
 	 */
 	@FXML
 	public void onSaveImageAction(ActionEvent event) {
@@ -203,10 +199,8 @@ public class AvatarDrawingController implements Initializable {
 	/**
 	 * Convert custom avatar to file.
 	 *
-	 * @param path
-	 *            location of directory.
-	 * @param fileName
-	 *            file name.
+	 * @param path location of directory.
+	 * @param fileName  file name.
 	 */
 	public void convertToFile(String fileName, String path) {
 
@@ -238,8 +232,7 @@ public class AvatarDrawingController implements Initializable {
 	/**
 	 * Creates file relative to the project.
 	 *
-	 * @param fileName
-	 *            name of file.
+	 * @param fileName name of file.
 	 * @return the avatar.
 	 */
 	public SavedAvatar createSavedAvatar(String fileName) {
@@ -250,8 +243,8 @@ public class AvatarDrawingController implements Initializable {
 
 	/**
 	 * Sets new scene on stage within program using fxml file provided.
-	 * 
-	 * @param sceneFXML
+	 * @param event The action event.
+	 * @param sceneFXML The scene location
 	 */
 	public void changeScene(ActionEvent event, String sceneFXML) {
 		try {
@@ -268,8 +261,7 @@ public class AvatarDrawingController implements Initializable {
 	/**
 	 * Draws a straight line.
 	 *
-	 * @param event
-	 *            event.
+	 * @param event The mouse event.
 	 */
 	public void drawStraightLine(MouseEvent event) {
 		/*
@@ -298,8 +290,7 @@ public class AvatarDrawingController implements Initializable {
 	/**
 	 * Draws a new circle on the particle trace.
 	 *
-	 * @param event
-	 *            event.
+	 * @param event The mouse event.
 	 */
 	public void drawParticleTrace(MouseEvent event) {
 		// Creates a black circle at the current position of the mouse.
@@ -314,16 +305,15 @@ public class AvatarDrawingController implements Initializable {
 	}
 
 	/**
-	 * 
-	 * @param user
-	 *            the user to be set
+	 *
+	 * @param user The user to be set
 	 */
 	public void setUser(Person user) {
 		this.user = user;
 	}
 
 	/**
-	 * 
+	 *
 	 * @return the user
 	 */
 	public Person getUser() {
@@ -338,8 +328,7 @@ public class AvatarDrawingController implements Initializable {
 	}
 
 	/**
-	 * @param customDrawingFileLocation
-	 *            the customDrawingFileLocation to set
+	 * @param customDrawingFileLocation The customDrawingFileLocation to set
 	 */
 	public void setCustomDrawingFileLocation(String customDrawingFileLocation) {
 		this.customDrawingFileLocation = customDrawingFileLocation;

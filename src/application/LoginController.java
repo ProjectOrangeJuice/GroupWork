@@ -21,23 +21,23 @@ import model.Person;
 import model.User;
 
 public class LoginController {
-	
+
 	@FXML
 	private TextField usernameTextBox;
-	
+
 	@FXML
 	private Label errorLabel;
-	
+
 	@FXML
 	private Button registerButton;
-	
+
 	@FXML
 	private Button loginButton;
-	
-	
+
+
 	/**
 	 * Sets new scene on stage within program using fxml file provided.
-	 * @param sceneFXML 
+	 * @param sceneFXML The scence location.
 	 */
 	public void changeScene(MouseEvent event, String sceneFXML) {
 		try {
@@ -57,9 +57,9 @@ public class LoginController {
 	 */
 	@FXML
 	public void loginAction(MouseEvent event) {
-		
+
 		Person User1 = Person.loadPerson(usernameTextBox.getText());
-		
+
 		if(User1 != null) {
 			ScreenManager.setCurrentUser((Person) User1);
 			if(User1 instanceof User) {
@@ -70,9 +70,9 @@ public class LoginController {
 		} else {
 			errorLabel.setText("User cannot be found.");
 		}
-		
+
 	}
-	
+
 	/**
 	 * Called when log out link is clicked.
 	 * @param the event of the link being clicked
@@ -81,7 +81,7 @@ public class LoginController {
 	public void logoutAction(MouseEvent event) {
 		changeScene(event, "/fxml/loginScene.fxml");
 	}
-	
+
 	/**
 	 * changes to the register screen when button is clicked
 	 * @param event the button being clicked
@@ -104,10 +104,10 @@ public class LoginController {
 		}
 		//changeScene(event, "/fxml/registerScene.fxml");
 	}
-	
+
 	@FXML
 	public void initialize() {
-		
-	 }    
+
+	 }
 
 }
