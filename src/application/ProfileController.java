@@ -915,7 +915,7 @@ public class ProfileController {
 
 	/**
 	 * Loads the user table so the staff can manage the users.
-	 * @param tableToLoan The table requested (all,overdue,history,requested)
+	 * @param tableToLoad The table requested (all,overdue,history,requested)
 	 */
 	private void loadExplorerTableColumns(String tableToLoad) {
 
