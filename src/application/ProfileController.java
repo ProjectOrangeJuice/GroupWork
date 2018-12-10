@@ -68,7 +68,6 @@ import model.User;
  * As for librarians, they can also view their information but in their system they can manage resources,
  * copies and transactions.
  * @author Charlie Day
- *
  */
 public class ProfileController {
 

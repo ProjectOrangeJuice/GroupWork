@@ -24,7 +24,6 @@ import model.User;
  * This class allows user or librarians to log in to the library system.
  * If the user or librarian foes not have an account, they can register a new account as well.
  * @author Kane Miles
- *
  */
 public class LoginController {
 
