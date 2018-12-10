@@ -113,9 +113,9 @@ public class StaffEdit {
     }
 
     /**
-     * cancel edit button
+     * Cancel edit button.
      * 
-     * @param event when the button is pressed
+     * @param event when the button is pressed.
      */
     @FXML
     void cancelEditProfile(MouseEvent event) {
@@ -125,9 +125,9 @@ public class StaffEdit {
     }
 
     /**
-     * Saves profile information about the user
+     * Saves profile information about the user.
      * 
-     * @param event button is pressed
+     * @param event button is pressed.
      */
     @FXML
     void saveEditedProfile(MouseEvent event) {
@@ -192,7 +192,7 @@ public class StaffEdit {
     }
 
     /**
-     * Method that loads the staff information and adds them to the text fields
+     * Method that loads the staff information and adds them to the text fields.
      */
     public void loadStaffInformation() {
     	if (currentUser instanceof Librarian) {
@@ -251,7 +251,7 @@ public class StaffEdit {
     }
 
     /**
-     * Intialize method that is called when the program starts
+     * Intialize method that is called when the program starts.
      */
     @FXML
     public void initialize() {
@@ -261,8 +261,8 @@ public class StaffEdit {
     }
 	
     /**
-     * validation to ensure address is valid
-     * @return true if it's a valid address, false if the address is not valid
+     * Validation to ensure address is valid.
+     * @return true if it's a valid address, false if the address is not valid.
      */
 	private boolean validateAddress() {
 		String address = addressText.getText();
@@ -270,8 +270,8 @@ public class StaffEdit {
 	}
 	
 	/**
-	 * validation to ensure phone number is in correct form
-	 * @return true if number is exactly 10 digits and consists of all numbers, false otherwise
+	 * Validation to ensure phone number is in correct form.
+	 * @return true if number is exactly 10 digits and consists of all numbers, false otherwise.
 	 */
 	private boolean validatePhoneNumber() {
 		String phoneNumber = phoneNumberText.getText();
@@ -280,8 +280,8 @@ public class StaffEdit {
 	}
 	
 	/**
-	 * validate to ensure last name is valid
-	 * @return true if the name is within given length, false otherwise
+	 * Validate to ensure last name is valid.
+	 * @return true if the name is within given length, false otherwise.
 	 */
 	private boolean validateLastName() {
 		 String lastName = lastnameText.getText();
@@ -304,8 +304,8 @@ public class StaffEdit {
     }
 
     /**
-     * validate to ensure first name is valid
-     * @return true if name is within given length, false otherwise
+     * Validate to ensure first name is valid.
+     * @return true if name is within given length, false otherwise.
      */
 	private boolean validateFirstName() {
 		String firstName = firstnameText.getText();
@@ -326,8 +326,8 @@ public class StaffEdit {
 	}
 	
 	/**
-	 * validate to ensure post code is valid
-	 * @return true is post code is entered with given format, false otherwise
+	 * Validate to ensure post code is valid.
+	 * @return true is post code is entered with given format, false otherwise.
 	 */
 	private boolean validatePostCode() {
 		String postCode = postcodeText.getText();
