@@ -6,6 +6,7 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.image.ImageView;
 
 /**
+ * Drawing custom avatar for profile picture.
  * @author James Finlayson
  * @version 1.0
  */
