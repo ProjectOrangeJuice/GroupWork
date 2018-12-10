@@ -3,6 +3,7 @@ package model;
 import javafx.scene.image.Image;
 
 /**
+ * Preset image for user profile.
  * @author James Finlayson
  * @version 1.0
  */
