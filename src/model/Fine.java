@@ -229,7 +229,7 @@ public class Fine {
      * @return If this fine contains the search value.
      */
     public boolean containsUser(String search) {
-        if (this.getUsername().toUpperCase().contains(search)) {
+        if (this.getUsername().toUpperCase().contains(search.toUpperCase())) {
             return true;
         }
         else {
