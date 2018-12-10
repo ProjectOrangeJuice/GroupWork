@@ -728,7 +728,9 @@ public class ProfileController {
 		String username = row.getKeeper();
 		
 		User user = (User)Person.loadPerson(username);
-		Resource.getResource(resourceID).loanToUser(user);
+		if(!Resource.getResource(resourceID).loanToUser(user)) {
+			alertDone("Waiting for free copy");
+		}else {
 		
 		try {
 			Connection conn = DBHelper.getConnection();
@@ -739,6 +741,7 @@ public class ProfileController {
 				
 		} catch (SQLException e) {
 			e.printStackTrace();
+		}
 		}
 		
 		System.out.println("Approved copy!");

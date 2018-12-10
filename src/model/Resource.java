@@ -165,6 +165,10 @@ public abstract class Resource {
         }
     }
     
+    /**
+     * Returns to number of free copies available for this resource.
+     * @return int No. of free copies.
+     */
     public int freeCopiesNo() {
     	return freeCopies.size();
     }

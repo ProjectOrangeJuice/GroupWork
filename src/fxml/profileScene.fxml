@@ -90,7 +90,7 @@
                               <HBox prefHeight="100.0" prefWidth="200.0" spacing="10.0">
                                  <children>
                                     <Button mnemonicParsing="false" onAction="#pickAvatar" text="Pick avatar" />
-                                    <Button fx:id="userEditAvatar" mnemonicParsing="false" onMouseClicked="#openAvatarEditor" text="Edit Avatar" />
+                                    <Button fx:id="userEditAvatar" mnemonicParsing="false" onMouseClicked="#openAvatarEditor" text="Make avatar" />
                                  </children>
                               </HBox>
                               <Separator prefWidth="200.0">
@@ -187,7 +187,7 @@
                                     <HBox prefHeight="100.0" prefWidth="200.0" spacing="10.0">
                                        <children>
                                           <Button mnemonicParsing="false" onAction="#pickAvatar" text="Pick avatar" />
-                                          <Button fx:id="userEditAvatar1" mnemonicParsing="false" onMouseClicked="#openAvatarEditor" text="Edit Avatar" />
+                                          <Button fx:id="userEditAvatar1" mnemonicParsing="false" onMouseClicked="#openAvatarEditor" text="Make avatar" />
                                        </children>
                                     </HBox>
                                     <Separator prefWidth="200.0">
