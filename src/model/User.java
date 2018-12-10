@@ -242,10 +242,8 @@ public class User extends Person {
     }
     
     /**
-     * A method that checks if a user has any outstanding fines by seeing if
-     * they have paid 0.
-     * @return if they paid 0 then they have no outstanding fines and returns
-     *  false otherwise returns true.
+     * A method that checks if a user has any outstanding fines.
+     * @return If they have outstanding fines.
      */
     public boolean hasOutstandingFines() {
         try {

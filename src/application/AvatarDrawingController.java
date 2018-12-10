@@ -90,13 +90,15 @@ public class AvatarDrawingController implements Initializable {
 	/**
 	 * Constructor
 	 *
-	 * @param user
-	 *            The user the custom avatar is being created for.
+	 * @param user The user the custom avatar is being created for.
 	 */
 	public AvatarDrawingController(User user) {
 		this.user = user;
 	}
 
+	/**
+	 * Empty constructor
+	 */
 	public AvatarDrawingController() {
 
 	}
@@ -121,7 +123,8 @@ public class AvatarDrawingController implements Initializable {
 		 */
 		if (optionsToggleGroup.getSelectedToggle() == selectStraightLine) {
 			drawStraightLine(event);
-		} else if (optionsToggleGroup.getSelectedToggle() == selectParticleTrace) {
+		} else if (optionsToggleGroup.getSelectedToggle()
+				== selectParticleTrace) {
 			/*
 			 * If particle trace radio button is selected, start drawing particle trace.
 			 */
@@ -206,7 +209,8 @@ public class AvatarDrawingController implements Initializable {
 
 		// Create path for File class as absolute path to project
 
-		path = path.substring(0, path.length() - 2) + "/src/SavedAvatars/" + fileName;
+		path = path.substring(0, path.length() - 2) + 
+				"/src/SavedAvatars/" + fileName;
 
 		// Create the file that will be saved.
 		File file = new File(path);
@@ -218,7 +222,8 @@ public class AvatarDrawingController implements Initializable {
 				 * Convert a snapshot of the canvas to a buffered image and the write it to
 				 * file.
 				 */
-				BufferedImage bImage = SwingFXUtils.fromFXImage(canvas.snapshot(null, null), null);
+				BufferedImage bImage = SwingFXUtils.fromFXImage(
+						canvas.snapshot(null, null), null);
 				ImageIO.write(bImage, "png", file);
 			} catch (Exception e) {
 				/*
@@ -244,7 +249,7 @@ public class AvatarDrawingController implements Initializable {
 	/**
 	 * Sets new scene on stage within program using fxml file provided.
 	 * @param event The action event.
-	 * @param sceneFXML The scene location
+	 * @param sceneFXML The scene location.
 	 */
 	public void changeScene(ActionEvent event, String sceneFXML) {
 		try {
@@ -277,7 +282,8 @@ public class AvatarDrawingController implements Initializable {
 			 * of the mouse.
 			 */
 			Color lineColour = Color.BLACK;
-			StraightLine s = new StraightLine(mouseX, mouseY, event.getX(), event.getY(), lineColour);
+			StraightLine s = new StraightLine(mouseX, mouseY,
+					event.getX(), event.getY(), lineColour);
 			s.displayComponent(canvas);
 			customAvatar.addComponent(s);
 
@@ -305,30 +311,32 @@ public class AvatarDrawingController implements Initializable {
 	}
 
 	/**
-	 *
-	 * @param user The user to be set
+	 * Set the user.
+	 * @param user The user to be set.
 	 */
 	public void setUser(Person user) {
 		this.user = user;
 	}
 
 	/**
-	 *
-	 * @return the user
+	 * Get the user.
+	 * @return the user.
 	 */
 	public Person getUser() {
 		return user;
 	}
 
 	/**
-	 * @return the customDrawingFileLocation
+	 * Get the location for the custom drawing.
+	 * @return the customDrawingFileLocation.
 	 */
 	public String getCustomDrawingFileLocation() {
 		return customDrawingFileLocation;
 	}
 
 	/**
-	 * @param customDrawingFileLocation The customDrawingFileLocation to set
+	 * Set the custom drawing location.
+	 * @param customDrawingFileLocation The customDrawingFileLocation to set.
 	 */
 	public void setCustomDrawingFileLocation(String customDrawingFileLocation) {
 		this.customDrawingFileLocation = customDrawingFileLocation;

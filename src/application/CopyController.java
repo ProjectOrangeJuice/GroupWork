@@ -169,7 +169,7 @@ public class CopyController {
 	 * When the button is clicked, it will send a request to a librarian and
 	 * they can either decline or accept said request.
 	 *
-	 * @param event button being pressed
+	 * @param event button being pressed.
 	 */
 	@FXML
 	public void requestCopy(MouseEvent event) {
@@ -179,7 +179,7 @@ public class CopyController {
 
 	/**
 	 * This checks if the current user is currently borrowing the resource, if
-	 * they have then it will disable the request copy button
+	 * they have then it will disable the request copy button.
 	 */
 	private void checkIfBorrowed() {
 		User user = (User) ScreenManager.getCurrentUser();
@@ -191,7 +191,8 @@ public class CopyController {
 	}
 
 	/**
-	 * These are only buttons that appear when the user is a staff, these buttons allow the librarian to manage the resources.
+	 * These are only buttons that appear when the user is a staff, 
+	 * these buttons allow the librarian to manage the resources.
 	 */
 	private void setupStaffButtons() {
 		Button editCopies = new Button("Edit copies");
