@@ -825,6 +825,17 @@ public class ProfileController {
 	
 	}
 	
+	/**
+     * Sets the current user avatar to the image in the given file.
+     * @param imageFile The file containing the new avatar image.
+     */
+    public void changeUserAvatar(File imageFile) {
+            ScreenManager.getCurrentUser().setAvatar(new 
+                File(imageFile.getAbsolutePath()).toURI().toString());
+            userAvatarView.setImage(new Image(currentUser.getAvatar()));
+            staffAvatarView.setImage(new Image(currentUser.getAvatar()));
+    }
+	
 	@FXML
 	private void openProfileEditor(MouseEvent event) {
 		System.out.println("Launch staff editing profile.");
