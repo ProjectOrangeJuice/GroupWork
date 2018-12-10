@@ -128,7 +128,7 @@ public class ResourceAdderController {
 	
 	/**
 	*A method that inserts a laptop by its rid and all its values into the  database.
-	*@param ID int id of the laptop
+	*@param ID int id of the laptop.
         */
 	private void addActualLaptop(int ID) {
 		Connection connection;
