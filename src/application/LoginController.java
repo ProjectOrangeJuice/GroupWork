@@ -23,7 +23,7 @@ import model.User;
 /**
  * This class allows user or librarians to log in to the library system.
  * If the user or librarian foes not have an account, they can register a new account as well.
- * @author Kane Miles
+ * @author Kane Miles.
  */
 public class LoginController {
 
@@ -43,7 +43,7 @@ public class LoginController {
 	/**
 	 * Sets new scene on stage within program using fxml file provided.
 	 * @param sceneFXML The scene location.
-	 * @param event The event.
+	 * @param event The event of button being pressed.
 	 */
 	public void changeScene(MouseEvent event, String sceneFXML) {
 		try {
@@ -89,8 +89,8 @@ public class LoginController {
 	}
 
 	/**
-	 * changes to the register screen when button is clicked
-	 * @param event the button being clicked
+	 * changes to the register screen when button is clicked.
+	 * @param event the button being clicked.
 	 */
 	@FXML
 	public void registerAction(MouseEvent event) {

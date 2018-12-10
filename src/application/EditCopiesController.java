@@ -95,7 +95,7 @@ public class EditCopiesController {
 	}
 	
 	/**
-	 * repopulates the copies table.
+	 * Repopulates the copies table.
 	 */
 	private void repop() {
 		ScreenManager.currentResource.loadCopyList();
@@ -111,7 +111,7 @@ public class EditCopiesController {
 	}
 	
 	/**
-	 * removes the copy from the table.
+	 * Removes the copy from the table.
 	 * @param event the event of the button being clicked.
 	 */
 	@FXML
@@ -127,7 +127,7 @@ public class EditCopiesController {
 	}
 	
 	/**
-	 * adds the copy to the table.
+	 * Adds the copy to the table.
 	 * @param event the event of the button being clicked.
 	 */
 	@FXML
@@ -195,7 +195,7 @@ public class EditCopiesController {
 	}
 	
 	/**
-	 * updates the duration of a copy.
+	 * Updates the duration of a copy.
 	 * @param copy passes through a copy.		
 	 */
 	private void updateDuration(Copy copy){

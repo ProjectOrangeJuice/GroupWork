@@ -9,8 +9,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 /**
  *
- * @author Kane Miles
- * @version 1
+ * @author Kane Miles.
+ * @version 1.
  */
 public class MainFX extends Application {
 
@@ -23,7 +23,7 @@ public class MainFX extends Application {
 
 	/**
 	 * Initialises stage object and shows login scene on start-up.
-	 * @param primaryStage stage the main screen
+	 * @param primaryStage stage the main screen.
 	 */
 	@Override
 	public void start(Stage primaryStage) {
