@@ -7,7 +7,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
- *
+ * This class represents a copy of a particular resource within the system.
  * @author Joe Wright
  */
 public class Copy implements Comparable<Copy> {
