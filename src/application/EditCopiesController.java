@@ -30,8 +30,10 @@ import model.Transactions;
 import model.User;
 
 /**
-*@author Oliver Harris.
-*EditCopiesController is a class that creates a GUI for the librarian to edit the copies table.
+ * EditCopiesController is a class that creates a GUI for the librarian to edit
+ * the copies table.
+* @author Oliver Harris.
+*
 */
 public class EditCopiesController {
 
@@ -64,12 +66,7 @@ public class EditCopiesController {
 	 */
 	private void setupCopy() {
 		
-		
-		
-
 		repop();
-		
-
 		//create the table
 		TableColumn<Copy, String> idCol = new TableColumn<Copy, String>("ID");
 		idCol.setCellValueFactory(new PropertyValueFactory<>("copyID"));
@@ -78,8 +75,6 @@ public class EditCopiesController {
 				new TableColumn<Copy, Number>("Duration");
 		loanDurCol.setCellValueFactory(new PropertyValueFactory<>("loanDuration"));
 		
-		
-
 		//generates rows of copyid and loanduration for each copy
 		copiesTable.setItems(copyData);
 		
@@ -97,9 +92,6 @@ public class EditCopiesController {
 		//adds the columns to the tables and auto sizes them
 		copiesTable.getColumns().addAll(idCol,loanDurCol);
 		copiesTable.autosize();
-
-		
-
 	}
 	
 	/**
@@ -198,8 +190,7 @@ public class EditCopiesController {
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
-			
-	}
+		}
 		return false;
 	}
 	
@@ -233,6 +224,4 @@ public class EditCopiesController {
 	 public void initialize() {
 		setupCopy();
 	}
-	
-	
 }
