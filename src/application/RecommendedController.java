@@ -26,7 +26,10 @@ import model.Laptop;
 import model.Person;
 import model.Resource;
 import model.User;
-
+/**
+*@author Unknown
+*Recommend controller is a class that deals with showing our extra feature, the recommended resource feature.
+*/
 
 public class RecommendedController {
 	
