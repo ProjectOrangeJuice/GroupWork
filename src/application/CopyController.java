@@ -24,7 +24,7 @@ import model.Resource;
 import model.User;
 
 /**
- * 
+ *
  * @author Joe Wright
  *
  */
@@ -73,7 +73,7 @@ public class CopyController {
 
 	/**
 	 * Sets new scene on stage within program using fxml file provided.
-	 * 
+	 *
 	 * @param sceneFXML the new scene its changing too
 	 */
 	public void changeScene(MouseEvent event, String sceneFXML) {
@@ -147,7 +147,7 @@ public class CopyController {
 		if (ScreenManager.currentResource.getNrOfCopies() == 0) {
 			copytext.setText("All Copies are currently being borrowed.");
 		} else {
-			copytext.setText("Copies free: " + Integer.toString(ScreenManager.currentResource.getNrOfCopies()));
+			copytext.setText("Copies: " + Integer.toString(ScreenManager.currentResource.getNrOfCopies()));
 		}
 
 	}
@@ -166,7 +166,7 @@ public class CopyController {
 	/**
 	 * When the button is clicked, it will send a request to a librarian and
 	 * they can either decline or accept said request.
-	 * 
+	 *
 	 * @param event button being pressed
 	 */
 	@FXML
@@ -189,7 +189,7 @@ public class CopyController {
 	}
 
 	/**
-	 * These are only buttons that appear when the user is a staff, these buttons allow the librarian to manage the resources. 
+	 * These are only buttons that appear when the user is a staff, these buttons allow the librarian to manage the resources.
 	 */
 	private void setupStaffButtons() {
 		Button editCopies = new Button("Edit copies");
