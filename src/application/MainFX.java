@@ -8,30 +8,30 @@ import model.Resource;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 /**
- * 
+ *
  * @author Kane Miles
  * @version 1
  */
 public class MainFX extends Application {
-	
+
 	//stores current scene (updated during each scene change).
 	private static Scene currentScene;
-	
+
 	//stores minimum width and height of stage.
 	private final int MIN_WIDTH = 600;
 	private final int MIN_HEIGHT = 400;
-	
+
 	/**
 	 * Initialises stage object and shows login scene on start-up.
-	 * @param primary stage the main screen
+	 * @param primaryStage stage the main screen
 	 */
 	@Override
 	public void start(Stage primaryStage) {
-		
+
 		//Check to see if the database ready
 		DBHelper.tableCheck();
 		Resource.loadDatabaseResources();
-		
+
 		try {
 			//create initial scene object.
 			Parent root = FXMLLoader.load(getClass().getResource("/fxml/loginScene.fxml"));
@@ -47,5 +47,5 @@ public class MainFX extends Application {
 			e.printStackTrace();
 		}
 	}
-	
+
 }
