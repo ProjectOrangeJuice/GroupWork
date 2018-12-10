@@ -26,7 +26,7 @@ import model.User;
 /**
  * CheckoutController is a class that controls the checkout system GUI
  * and the functions behind it.
- *@author Oliver Harriss
+ *@author Oliver Harris
  *
  */
 public class CheckoutController {
@@ -64,7 +64,7 @@ public class CheckoutController {
 
 	/**
 	 * A method that makes an alert to make the user confirm the request of a resource.
-	 * @param request the request to get a copy
+	 * @param request the request to get a copy.
 	 */
 	private void confirmRequest(Request request) {
 		Alert alert = new Alert(AlertType.CONFIRMATION);
@@ -118,7 +118,7 @@ public class CheckoutController {
 	}
 
 	/**
-	 * A method that will load the array of requests and get the username and the resource they requested,
+	 * A method that will load the array of requests and get the username and the resource they requested.
 	 */
 	@SuppressWarnings("unchecked")
 	private void loadRequests() {
