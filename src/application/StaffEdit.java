@@ -28,37 +28,28 @@ import model.Person;
 public class StaffEdit {
 
     @FXML
-    private ImageView profileImageView;// storage for profile image
-
-    @FXML
-    private SplitMenuButton changeProfileImageButton;// change profile image
-                                                     // button
-
-    @FXML
-    private Label usernameLabel;
+    private Label usernameLabel; // username label
 
     @FXML
     private TextField usernameText;// username text box
 
     @FXML
-    private TextField firstnameText;//firstname text box
+    private TextField firstnameText;//first name text box
     
     @FXML
-    private Label firstNameError;
+    private Label firstNameError; // first name error label
     
     @FXML
-    private Label lastNameError;
+    private Label lastNameError; // last name error label
     
     @FXML
-    private Label phoneNumberError;
+    private Label phoneNumberError; // phone number error label
     
     @FXML
-    private Label addressError;
+    private Label addressError; // address error label
     
     @FXML
-    private Label postcodeError;
-
-    //private TextField firstnameText;// firstname text box
+    private Label postcodeError; // postcode error label
 
     @FXML
     private TextField lastnameText;// lastname text box
@@ -72,17 +63,11 @@ public class StaffEdit {
     @FXML
     private Label staffIDLabel;//staffid text box
 
-    private TextField staffIDText;// staffid text box
-
-
     @FXML
     private Label employmentDateLabel;//employmentdate text box
 
     @FXML
     private TextField phoneNumberText;// phone number text box
-
-    @FXML
-    private TextField lastnameText1;
 
     @FXML
     private Button saveButton;// save button
@@ -250,16 +235,28 @@ public class StaffEdit {
         loadStaffInformation();
     }
 	
+    /**
+     * validation to ensure address is valid
+     * @return true if it's a valid address, false if the address is not valid
+     */
 	private boolean validateAddress() {
 		String address = addressText.getText();
 		return !(address.length() > 1000 || address.length() <= 0);
 	}
 	
+	/**
+	 * validation to ensure phone number is in correct form
+	 * @return true if number is exactly 10 digits and consists of all numbers, false otherwise
+	 */
 	private boolean validatePhoneNumber() {
 		String phoneNumber = phoneNumberText.getText();
 		return !(phoneNumber.length() > 11 || phoneNumber.length() < 9 || !isNumeric(phoneNumber));
 	}
 	
+	/**
+	 * validate to ensure last name is valid
+	 * @return true if the name is within given length, false otherwise
+	 */
 	private boolean validateLastName() {
 		 String lastName = lastnameText.getText();
 		 
@@ -280,6 +277,10 @@ public class StaffEdit {
         alert.showAndWait();
     }
 
+    /**
+     * validate to ensure first name is valid
+     * @return true if name is within given length, false otherwise
+     */
 	private boolean validateFirstName() {
 		String firstName = firstnameText.getText();
 		 
@@ -298,6 +299,10 @@ public class StaffEdit {
 		return str.matches(".*\\d+.*");
 	}
 	
+	/**
+	 * validate to ensure post code is valid
+	 * @return true is post code is entered with given format, false otherwise
+	 */
 	private boolean validatePostCode() {
 		String postCode = postcodeText.getText();
 		if (postCode.contains(" ")) {
