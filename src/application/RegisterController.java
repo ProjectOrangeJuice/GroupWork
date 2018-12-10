@@ -34,7 +34,8 @@ import javafx.stage.Stage;
 import model.DBHelper;
 
 /**
- *
+ * This class allows user to register into the library system. They can toggle choose whether they would like to
+ * register as a new user or a new librarian.
  * @author James Finlayson
  *
  */
