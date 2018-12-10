@@ -29,7 +29,7 @@ import model.User;
 /**
  * Recommend controller is a class that deals with showing our extra feature,
  * the recommended resource feature.
- * @author Unknown
+ * @author Unknown.
  *
  */
 
@@ -86,11 +86,11 @@ public class RecommendedController {
 	};
 		
 	/**
-	 * Makes the image and resource text for the resource
-	 * @param copyResource the copy of the resource 
-	 * @param width width of image
-	 * @param height height of image
-	 * @return the image pane
+	 * Makes the image and resource text for the resource.
+	 * @param copyResource the copy of the resource.
+	 * @param width width of image.
+	 * @param height height of image.
+	 * @return the image pane.
 	 */
 	private StackPane createImage(Resource copyResource, int width, int height) {
 		
