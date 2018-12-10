@@ -34,7 +34,7 @@ import javafx.stage.Stage;
 import model.DBHelper;
 
 /**
- * 
+ *
  * @author James Finlayson
  *
  */
@@ -42,7 +42,7 @@ public class RegisterController implements Initializable {
 
 	@FXML
 	private Label regMessage;
-	
+
 	@FXML
 	private TextField firstName;
 
@@ -140,7 +140,7 @@ public class RegisterController implements Initializable {
 
 	/**
 	 * Sets new scene on stage within program using fxml file provided.
-	 * 
+	 *
 	 * @param sceneFXML
 	 */
 	public void changeScene(MouseEvent event, String sceneFXML) {
@@ -251,7 +251,7 @@ public class RegisterController implements Initializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return true if post code is valid
 	 */
 	private boolean validatePostCode() {
@@ -264,7 +264,7 @@ public class RegisterController implements Initializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return true if address is valid
 	 */
 	private boolean validateAddress() {
@@ -273,7 +273,7 @@ public class RegisterController implements Initializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return true if phone number is valid
 	 */
 	private boolean validatePhoneNumber() {
@@ -293,7 +293,7 @@ public class RegisterController implements Initializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return true if last name is valid
 	 */
 	private boolean validateLastName() {
@@ -303,7 +303,7 @@ public class RegisterController implements Initializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return true if first name is valid
 	 */
 	private boolean validateFirstName() {
@@ -313,7 +313,7 @@ public class RegisterController implements Initializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return true if username is valid
 	 */
 	private boolean validateUsername() {
@@ -346,7 +346,7 @@ public class RegisterController implements Initializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return true if staff ID is valid
 	 */
 	private boolean validateStaffId() {
@@ -379,7 +379,7 @@ public class RegisterController implements Initializable {
 
 	/**
 	 * Checks to see if the user is an librarian
-	 * 
+	 *
 	 * @param event
 	 *            checkbox being checked
 	 * @return boolean of whehter checkbox was selected
@@ -417,7 +417,7 @@ public class RegisterController implements Initializable {
 
 	/**
 	 * Inserts the librarin attributes into the staff table
-	 * 
+	 *
 	 * @param event
 	 *            button being pressed
 	 */
@@ -438,7 +438,7 @@ public class RegisterController implements Initializable {
 
 	/**
 	 * Opens the avatar drawing scene when the button is clicked
-	 * 
+	 *
 	 * @param event
 	 *            button being clicked
 	 */
@@ -514,7 +514,7 @@ public class RegisterController implements Initializable {
 
 	/**
 	 * select a preset avatar
-	 * 
+	 *
 	 * @param event
 	 */
 	@FXML
@@ -525,7 +525,7 @@ public class RegisterController implements Initializable {
 		chooser.setTitle("Open File");
 		File file = chooser.showOpenDialog(new Stage());
 		System.out.println(file.getAbsolutePath());
-		setAvatarPath(file.getAbsolutePath());
+		setAvatarPath(new File(file.getAbsolutePath()).toURI().toString());
 		Image selectedAvatar = new Image(new File(this.avatarPath).toURI().toString());
 		// Image selectedAvatar = new Image(this.avatarPath);
 		avatar.setImage(selectedAvatar);
