@@ -149,7 +149,7 @@ public class CopyController {
 		if (ScreenManager.currentResource.getNrOfCopies() == 0) {
 			copytext.setText("All Copies are currently being borrowed.");
 		} else {
-			copytext.setText("There are " + Integer.toString(ScreenManager.currentResource.getNrOfCopies()));
+			copytext.setText("There are " + Integer.toString(ScreenManager.currentResource.freeCopiesNo()));
 		}
 
 	}

@@ -164,6 +164,14 @@ public abstract class Resource {
             saveCopyToDB(copy);
         }
     }
+    
+    /**
+     * Returns to number of free copies available for this resource.
+     * @return int No. of free copies.
+     */
+    public int freeCopiesNo() {
+    	return freeCopies.size();
+    }
 
     /**
      * Removes a copy from the list of copies and updates the database.
