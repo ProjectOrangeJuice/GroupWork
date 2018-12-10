@@ -840,20 +840,29 @@ public class ProfileController {
 
 	@FXML
 	void pickAvatar(Event e) {
-		  FileChooser chooser = new FileChooser();
+		    FileChooser chooser = new FileChooser();
 		    FileChooser.ExtensionFilter extentionFilter = 
 		    		new FileChooser.ExtensionFilter("PNG files (*.png)", "*.png");
 			chooser.getExtensionFilters().add(extentionFilter);
 		    chooser.setTitle("Open File");
 		    File file = chooser.showOpenDialog(new Stage());
-		    System.out.println(file.getAbsolutePath());
+		    
+		    if(file!=null) {
+		        System.out.println(file.getAbsolutePath());
+		    }
 
-
-		    ScreenManager.getCurrentUser().setAvatar(new 
-		    		File(file.getAbsolutePath()).toURI().toString());
-		    userAvatarView.setImage(new Image(currentUser.getAvatar()));
-		    staffAvatarView.setImage(new Image(currentUser.getAvatar()));
-
+		    changeUserAvatar(file);
+	}
+	
+	/**
+	 * Sets the current user avatar to the image in the given file.
+	 * @param imageFile The file containing the new avatar image.
+	 */
+	public void changeUserAvatar(File imageFile) {
+	        ScreenManager.getCurrentUser().setAvatar(new 
+	            File(imageFile.getAbsolutePath()).toURI().toString());
+	        userAvatarView.setImage(new Image(currentUser.getAvatar()));
+	        staffAvatarView.setImage(new Image(currentUser.getAvatar()));
 	}
 
 	@FXML

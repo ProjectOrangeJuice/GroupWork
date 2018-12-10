@@ -21,6 +21,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
@@ -190,8 +191,8 @@ public class AvatarDrawingController implements Initializable {
 		// Create file name.
 		fileName = System.currentTimeMillis() + ".png";
 
-		convertToFile(fileName, path);
-
+		BufferedImage newAvatar = convertToFile(fileName, path);
+   
 		String total = "src/SaveAvatar/" + fileName;
 		createSavedAvatar(total);
 
@@ -205,7 +206,7 @@ public class AvatarDrawingController implements Initializable {
 	 * @param path location of directory.
 	 * @param fileName  file name.
 	 */
-	public void convertToFile(String fileName, String path) {
+	public BufferedImage convertToFile(String fileName, String path) {
 
 		// Create path for File class as absolute path to project
 
@@ -215,6 +216,9 @@ public class AvatarDrawingController implements Initializable {
 		// Create the file that will be saved.
 		File file = new File(path);
 
+		BufferedImage bImage = SwingFXUtils.fromFXImage(
+            canvas.snapshot(null, null), null);
+		
 		// If the file isn't null, try to save it.
 		if (!(file == null)) {
 			try {
@@ -222,16 +226,17 @@ public class AvatarDrawingController implements Initializable {
 				 * Convert a snapshot of the canvas to a buffered image and the write it to
 				 * file.
 				 */
-				BufferedImage bImage = SwingFXUtils.fromFXImage(
-						canvas.snapshot(null, null), null);
 				ImageIO.write(bImage, "png", file);
+				//ProfileImage.changeUserAvatar(file);
+				
 			} catch (Exception e) {
 				/*
 				 * If an exception is caused, print the error message on the console.
 				 */
-				System.out.println(e.getMessage());
+				System.err.println(e.getMessage());
 			}
 		}
+		return bImage;
 	}
 
 	/**
