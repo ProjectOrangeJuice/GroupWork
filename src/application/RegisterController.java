@@ -140,8 +140,8 @@ public class RegisterController implements Initializable {
 
 	/**
 	 * Sets new scene on stage within program using fxml file provided.
-	 * @param event changed that will be made after mous
-	 * @param sceneFXML scene that will be changed into
+	 * @param event changed that will be made after mouseevent.
+	 * @param sceneFXML scene that will be changed into.
 	 */
 	public void changeScene(MouseEvent event, String sceneFXML) {
 		try {
@@ -157,7 +157,7 @@ public class RegisterController implements Initializable {
 	
 	/**
 	 * Returns user to main login scene.
-	 * @param event changes that will be made
+	 * @param event changes that will be made.
 	 */
 	@FXML
 	public void backToLogin(MouseEvent event) {
@@ -168,7 +168,7 @@ public class RegisterController implements Initializable {
 	 * Creates an account with the details provided if they are valid. If there is a
 	 * problem with the details displays error message indicating where the problem
 	 * is.
-	 * @param event changes that will be made
+	 * @param event changes that will be made.
 	 */
 	@FXML
 	void createAccount(ActionEvent event) {
@@ -244,8 +244,8 @@ public class RegisterController implements Initializable {
 	}
 
 	/**
-	 *
-	 * @return true if post code is valid
+	 *Valiadates postcode.
+	 * @return true if post code is valid.
 	 */
 	private boolean validatePostCode() {
 		String postCodeText = postCode.getText();
@@ -257,8 +257,8 @@ public class RegisterController implements Initializable {
 	}
 
 	/**
-	 *
-	 * @return true if address is valid
+	 *Validates address.
+	 * @return true if address is valid.
 	 */
 	private boolean validateAddress() {
 		String addressText = address.getText();
@@ -266,8 +266,8 @@ public class RegisterController implements Initializable {
 	}
 
 	/**
-	 *
-	 * @return true if phone number is valid
+	 *Validates phone number.
+	 * @return true if phone number is valid.
 	 */
 	private boolean validatePhoneNumber() {
 		String phoneNumberText = phoneNumber.getText();
@@ -287,8 +287,8 @@ public class RegisterController implements Initializable {
 	}
 
 	/**
-	 *
-	 * @return true if last name is valid
+	 *Validates last name.
+	 * @return true if last name is valid.
 	 */
 	private boolean validateLastName() {
 		String lastNameText = lastName.getText();
@@ -297,8 +297,8 @@ public class RegisterController implements Initializable {
 	}
 
 	/**
-	 *
-	 * @return true if first name is valid
+	 *Validates first name based on length.
+	 * @return true if first name is valid.
 	 */
 	private boolean validateFirstName() {
 		String firstNameText = firstName.getText();
@@ -307,8 +307,8 @@ public class RegisterController implements Initializable {
 	}
 
 	/**
-	 *
-	 * @return true if username is valid
+	 *Validates username.
+	 * @return true if username is valid.
 	 */
 	private boolean validateUsername() {
 		String usernameText = username.getText();
@@ -319,7 +319,7 @@ public class RegisterController implements Initializable {
 
 	/**
 	 * Validates if the username already exists in the database.
-	 * @param username username created by the user
+	 * @param username username created by the user.
 	 * @return true if username is valid.
 	 */
 	private boolean validateExistingUser(String username) {
@@ -342,8 +342,8 @@ public class RegisterController implements Initializable {
 	}
 
 	/**
-	 *
-	 * @return true if staff ID is valid
+	 *Validate staff ID.
+	 * @return true if staff ID is valid.
 	 */
 	private boolean validateStaffId() {
 		String staffIdText = staffId.getText();
@@ -354,7 +354,7 @@ public class RegisterController implements Initializable {
 
 	/**
 	 * Validates if the staffId already exists in the database.
-	 * @param staffId unique number assigned to staff
+	 * @param staffId unique number assigned to staff.
 	 * @return true if staffId is valid.
 	 */
 	private boolean validateExistingStaffId(String staffId) {
@@ -376,11 +376,11 @@ public class RegisterController implements Initializable {
 	}
 
 	/**
-	 * Checks to see if the user is an librarian
+	 * Checks to see if the user is an librarian.
 	 *
 	 * @param event
-	 *            checkbox being checked
-	 * @return boolean of whehter checkbox was selected
+	 *            checkbox being checked.
+	 * @return boolean of whehter checkbox was selected.
 	 */
 	public boolean isLibrarian(ActionEvent event) {
 		boolean selected = librarianCheckBox.isSelected();
@@ -390,7 +390,7 @@ public class RegisterController implements Initializable {
 	/**
 	 * Builds account in database using inputted info and chosen avatar. Then return
 	 * user to login page.
-	 * @param event changes that will be made
+	 * @param event changes that will be made.
 	 */
 	private void insertIntoUser(ActionEvent event) {
 
@@ -414,10 +414,10 @@ public class RegisterController implements Initializable {
 	}
 
 	/**
-	 * Inserts the librarin attributes into the staff table
+	 * Inserts the librarin attributes into the staff table.
 	 *
 	 * @param event
-	 *            button being pressed
+	 *            button being pressed.
 	 */
 	private void insertIntoLibrarian(ActionEvent event) {
 
@@ -436,10 +436,10 @@ public class RegisterController implements Initializable {
 	}
 
 	/**
-	 * Opens the avatar drawing scene when the button is clicked
+	 * Opens the avatar drawing scene when the button is clicked.
 	 *
 	 * @param event
-	 *            button being clicked
+	 *            button being clicked.
 	 */
 	@FXML
 	private void openAvatarEditor(MouseEvent event) {
@@ -497,7 +497,7 @@ public class RegisterController implements Initializable {
 
 	/**
 	 * Sets avatar image.
-	 * @param image either a png file or custom drawing by user
+	 * @param image either a png file or custom drawing by user.
 	 */
 	public void setAvatar(Image image) {
 		this.avatar.setImage(image);
@@ -505,15 +505,15 @@ public class RegisterController implements Initializable {
 
 	/**
 	 * Sets path to avatar image.
-	 * @param path path where the image has been stored
+	 * @param path path where the image has been stored.
 	 */
 	public void setAvatarPath(String path) {
 		this.avatarPath = path;
 	}
 
 	/**
-	 * select a preset avatar
-	 * @param event changes that will be made
+	 * select a preset avatar.
+	 * @param event changes that will be made.
 	 */
 	@FXML
 	protected void browseAvatarAction(ActionEvent event) {
