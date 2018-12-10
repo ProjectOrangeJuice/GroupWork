@@ -6,6 +6,7 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.paint.Color;
 
 /**
+ * This class holds information about the partical trace.
  * @author James Finlayson
  * @version 1.0
  */
@@ -14,7 +15,7 @@ public class ParticleTrace extends AvatarComponent {
 
     /**
      * Creates a blank particle trace.
-     * 
+     *
      * @param xStartPosition The x start coordinate.
      * @param yStartPosition The y start coordinate.
      * @param colour The colour of the component.
@@ -26,7 +27,7 @@ public class ParticleTrace extends AvatarComponent {
 
     /**
      * Extends the particle trace.
-     * 
+     *
      * @param c The circle that extends the particle trace.
      */
     public void addToTrace(Circle c) {

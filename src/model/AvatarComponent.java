@@ -4,6 +4,7 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.paint.Color;
 
 /**
+ * This class holds information about the AvatarComponent.
  * @author James Finlayson
  * @version 1.0
  */
@@ -21,7 +22,7 @@ public abstract class AvatarComponent {
      * @param yStartPosition The y start position.
      * @param colour The colour of the component.
      */
-    public AvatarComponent(double xStartPosition, double yStartPosition, 
+    public AvatarComponent(double xStartPosition, double yStartPosition,
     		Color colour) {
         startPosition = new double[NO_OF_DIMENSIONS];
         this.startPosition[X_INDEX] = xStartPosition;
@@ -97,7 +98,7 @@ public abstract class AvatarComponent {
 
     /**
      * Displays the component on the canvas provided.
-     * 
+     *
      * @param canvas The canvas the component will be displayed on.
      */
     public abstract void displayComponent(Canvas canvas);
