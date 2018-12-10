@@ -23,7 +23,10 @@ import model.Payment;
 import model.Request;
 import model.Transactions;
 import model.User;
-
+/**
+*@author Oliver Harriss
+*CheckoutController is a class that controls the checkout system GUI and the functions behind it
+*/
 public class CheckoutController {
 
 	@FXML
