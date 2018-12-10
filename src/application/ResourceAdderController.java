@@ -23,7 +23,7 @@ import model.Resource;
 public class ResourceAdderController {
 
 	/**
-	*A method that adds a book to the database.
+	*A method that adds a book image to the database.
 	*@param event button being pressed.
 	*/
 	@FXML
@@ -46,8 +46,8 @@ public class ResourceAdderController {
 	
 	
 	/**
-	*A method that adds a DVD to the database.
-	*@param event button being pressed
+	*A method that adds a DVD image to the database.
+	*@param event button being pressed.
 	*/
 	@FXML
 	public void addDVD(Event event) {
@@ -66,6 +66,10 @@ public class ResourceAdderController {
 	}
 	}
 	
+	/**
+	*A method that adds a laptop image to the database.
+	*@param event button being pressed.
+	*/
 	@FXML
 	public void addLaptop(Event event) {
 		Connection connection;
@@ -83,7 +87,10 @@ public class ResourceAdderController {
 	}
 	}
 	
-	
+	/**
+	*A method that inserts a book by its rid and all its values into the database.
+	*@param ID int id of the resource.
+	*/
 	private void addActualBook(int ID) {
 		Connection connection;
 		try {
@@ -119,7 +126,10 @@ public class ResourceAdderController {
 	}
 	}
 	
-	
+	/**
+	*A method that inserts a laptop by its rid and all its values into the  database.
+	*@param ID int id of the laptop
+        */
 	private void addActualLaptop(int ID) {
 		Connection connection;
 		try {
@@ -155,6 +165,10 @@ public class ResourceAdderController {
 	}
 	}
 	
+	/**
+	*A method that inserts a dvd by its ID and all its values into the database.
+	*@param ID int id of the dvd.
+        */
 	private void addActualDVD(int ID) {
 		Connection connection;
 		try {
