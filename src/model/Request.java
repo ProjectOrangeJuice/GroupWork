@@ -6,6 +6,13 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+/**
+ * Models a pending user request to borrowe a book. This request needs to
+ * be approved by a librarian before the user is able to get a copy from 
+ * the system.
+ * @author Oliver Harris
+ *
+ */
 public class Request {
 
     private String username;
@@ -15,8 +22,8 @@ public class Request {
     private Resource resource;
 
     /**
-     * Class constructor
-     * @param username users username
+     * Makes a new request.
+     * @param username user's username
      * @param resource the instance of the resource
      */
     public Request(String username, Resource resource) {
@@ -27,8 +34,8 @@ public class Request {
     }
 
     /**
-     * Method to load requests so they can be approved
-     * @return the requests
+     * Method to load requests so they can be approved.
+     * @return the requests to be approved.
      */
     public static ArrayList<Request> loadRequests() {
         ArrayList<Request> requests = new ArrayList<Request>();
@@ -57,23 +64,23 @@ public class Request {
     }
 
     /**
-     * Getter method for the username
-     * @return users username
+     * Getter method for the user name of the user.
+     * @return user's username
      */
     public String getUsername() {
         return username;
     }
 
     /**
-     * Getter method for the resourcename
-     * @return the resources name
+     * Getter method for the name of the resource being requested.
+     * @return the resource's name
      */
     public String getResourceName() {
         return resourceName;
     }
 
     /**
-     * Getter method for the resource
+     * Getter method for the resource requested.
      * @return the instance of the resource
      */
     public Resource getResource() {
@@ -81,7 +88,7 @@ public class Request {
     }
 
     /**
-     * Method that matches the username to what the librarian has searched
+     * Method that matches the username to what the librarian has searched.
      * @param search what is being searched
      * @return true if it matches, false otherwise
      */
