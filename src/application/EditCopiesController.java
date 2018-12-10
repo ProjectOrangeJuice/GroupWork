@@ -29,6 +29,10 @@ import model.Resource;
 import model.Transactions;
 import model.User;
 
+/**
+*@author Oliver Harris.
+*EditCopiesController is a class that creates a GUI for the librarian to edit the copies table.
+*/
 public class EditCopiesController {
 
 	private ArrayList<Copy> copies; //arraylist of the copies

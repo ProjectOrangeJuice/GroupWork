@@ -25,6 +25,11 @@ import model.DBHelper;
 import model.Librarian;
 import model.Person;
 
+/**
+ * This class allows staff/librarians to view and edit their details when they register to the system.
+ * Also, they can edit some information adn update it back to the database with their latest information.
+ * @author leezhinghang
+ */
 public class StaffEdit {
 
     @FXML

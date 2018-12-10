@@ -63,6 +63,12 @@ import model.Person;
 import model.Resource;
 import model.User;
 
+/**
+ * This class allows user to view their registered information as well as using the library system.
+ * As for librarians, they can also view their information but in their system they can manage resources,
+ * copies and transactions.
+ * @author Charlie Day
+ */
 public class ProfileController {
 
 	@FXML

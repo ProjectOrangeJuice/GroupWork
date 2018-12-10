@@ -26,7 +26,8 @@ import model.User;
 /**
  *
  * @author Joe Wright
- *
+ *The gui that appears when a resource is clicked, shows the information about a resource and allows the user to request a copy
+ *if theres a free copy available.
  */
 public class CopyController {
 

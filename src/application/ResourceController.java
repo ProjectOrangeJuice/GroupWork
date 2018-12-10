@@ -16,13 +16,17 @@ import model.DVD;
 import model.Laptop;
 import model.Resource;
 
+/**
+*@author Oliver Harris
+*Resource Controller is a class that setups up the resources and updates them.
+*/
 public class ResourceController {
 
 	@FXML
 	VBox resourceBlock;
 	
 	/**
-	 * Sets up the book resource screen
+	 * Sets up the book resource screen.
 	 */
 	private void setupBook() {
 		//creates instance of a book
