@@ -34,7 +34,7 @@ import model.Transactions;
  */
 public class TransactionsController {
 
-    private final double MIN_PAY = 0.1;
+    private final double MIN_PAY = 0.01;
 
     private Transactions transactions;
     private ArrayList<Fine> fines;
