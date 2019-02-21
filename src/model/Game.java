@@ -8,7 +8,7 @@ import java.sql.Statement;
 import javafx.scene.image.Image;
 
 /**
- * TODO: Update description
+ * TODO: Update all Javadocs
  * This class represents a resource of type Game that the library has to offer.
  * It has an author, publisher, genre, ISBN and language. It consists of
  * multiple copies that can be borrowed or requested.
@@ -23,9 +23,6 @@ public class Game extends Resource {
     
     /**The maximum fine amount for over due copies of this type of resource.*/
     private static final int DAILY_FINE_AMOUNT = 2;
-
-    /**Author of the book.*/
-    private String author;
     
     /**Publisher of the book.*/
     private String publisher;
@@ -34,10 +31,10 @@ public class Game extends Resource {
     private String genre;
     
     /**ISBN code of the book.*/
-    private String isbn;
+    private String rating;
     
     /**Language of the book.*/
-    private String language;
+    private Boolean multiplayerSupport;
 
     /**
      * Makes a new book with the given data, representing all the fields of this book.
@@ -54,16 +51,17 @@ public class Game extends Resource {
      */
     public Game(int uniqueID, String title, int year, Image thumbnail, 
     		String author, String publisher, String genre,
-            String isbn, String language) {
+            String rating, Boolean multiplayerSupport) {
         super(uniqueID, title, year, thumbnail);
-        this.author = author;
         this.publisher = publisher;
         this.genre = genre;
-        this.isbn = isbn;
-        this.language = language;
+        this.rating = rating;
+        this.multiplayerSupport = multiplayerSupport;
     }
 
-    /**
+//---------------------------------------------------------
+//TODO: Ask if the Games attributes are all required
+/*    *//**
      *  Makes a new book with the given data.
      * @param uniqueID The unique number that identifies this resource.
      * @param title The title of this resource.
@@ -71,7 +69,7 @@ public class Game extends Resource {
      * @param thumbnail A small image of this resource.
     * @param author The author of the book.
      * @param publisher The publisher of the book.
-     */
+     *//*
     public Game(int uniqueID, String title, int year, Image thumbnail, 
     		String author, String publisher) {
         super(uniqueID, title, year, thumbnail);
@@ -79,10 +77,11 @@ public class Game extends Resource {
         this.publisher = publisher;
     }
     
-    /**
+//TODO: Make database tables and make new loader
+    *//**
      * Method that loads the details of all book resources from the book database table and
      * adds them to the list of all resources.
-     */
+     *//*
     public static void loadDatabaseBooks() {
         try {
 
@@ -110,8 +109,11 @@ public class Game extends Resource {
         catch (SQLException e) {
             e.printStackTrace();
         }
-    }
-
+    }*/
+    
+//---------------------------------------------------------    
+    
+    
     /**
      * Gets the genre of the book.
      * @return The genre of book
@@ -126,24 +128,7 @@ public class Game extends Resource {
      */
     public void setGenre(String genre) {
         this.genre = genre;
-        updateDbValue("book", this.uniqueID, "genre", genre);
-    }
-
-    /**
-     * Gets the author of the book.
-     * @return The author of book
-     */
-    public String getAuthor() {
-        return author;
-    }
-
-    /**
-     * Sets the author variable of this resource and updates the database.
-     * @param author New author of the book.
-     */
-    public void setAuthor(String author) {
-        this.author = author;
-        updateDbValue("book", this.uniqueID, "author", author);
+        //updateDbValue("book", this.uniqueID, "genre", genre);
     }
 
     /**
@@ -160,44 +145,45 @@ public class Game extends Resource {
      */
     public void setPublisher(String publisher) {
         this.publisher = publisher;
-        updateDbValue("book", this.uniqueID, "publisher", publisher);
+        //updateDbValue("book", this.uniqueID, "publisher", publisher);
     }
-
+    
+    
     /**
-     * Gets the ISBN of the book.
-     * @return The ISBN of book.
+     * Gets the rating of the Game.
+     * @return The rating of book
      */
-    public String getISBN() {
-        return isbn;
-    }
-
+    public String getRating() {
+		return rating;
+	}
+    
     /**
-     * Sets the ISBN variable of this resource and updates the database.
-     * @param isbn New ISBN of the book.
+     * Sets the rating variable of this resource and updates the database.
+     * @param publisher New publisher of the book.
      */
-    public void setISBN(String isbn) {
-        this.isbn = isbn;
-        updateDbValue("book", this.uniqueID, "ISBN", isbn);
-    }
-
+	public void setRating(String rating) {
+		this.rating = rating;
+		//updateDbValue("book", this.uniqueID, "publisher", publisher);
+	}
+	
     /**
-     * Gets the language of the book.
-     * @return The language of book.
+     * Returns whether or not the game has multiplayer support
+     * @return The publisher of book
      */
-    public String getLanguage() {
-        return language;
-    }
-
-    /**
-     * Sets the language variable of this resource and updates the database.
-     * @param language New language of the book.
+	public Boolean getMultiplayerSupport() {
+		return multiplayerSupport;
+	}
+	
+	/**
+     * Sets the publisher variable of this resource and updates the database.
+     * @param publisher New publisher of the book.
      */
-    public void setLanguage(String language) {
-        this.language = language;
-        updateDbValue("book", this.uniqueID, "language", language);
-    }
+	public void setMultiplayerSupport(Boolean multiplayerSupport) {
+		this.multiplayerSupport = multiplayerSupport;
+		//updateDbValue("book", this.uniqueID, "publisher", publisher);
+	}
 
-    /**
+	/**
      * Getter for the daily fine amount for over due copies of this type of
      * resource.
      * @return The daily fine amount for over due copies of this type of resource.
@@ -215,6 +201,8 @@ public class Game extends Resource {
         return MAX_FINE_AMOUNT;
     }
 
+//---------------------------------------------------------
+//TODO: Update with new attributes
     /**
      * Calculates an integer representing how similar this resource is to the
      *  given resource, taking into account if the other resource is a book.
@@ -222,6 +210,7 @@ public class Game extends Resource {
      *  @return an integer representing how similar this resource is to the
      *   given resource.
      */
+    /*
     public int getLikenessScore(Resource otherResource) {
         int score = 0;
 
@@ -259,4 +248,6 @@ public class Game extends Resource {
         score += super.getLikenessScore(otherResource);
         return score;
     }
+    */
+//---------------------------------------------------------
 }
