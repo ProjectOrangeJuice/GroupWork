@@ -1,0 +1,8 @@
+/bin/
+
+.settings/
+*.class
+*.db
+.classpath
+.project
+*.png
