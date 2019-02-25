@@ -54,20 +54,21 @@ CREATE TABLE IF NOT EXISTS `resource` (
 	`rID`	INTEGER PRIMARY KEY AUTOINCREMENT,
 	`title`	TEXT,
 	`year`  INTEGER,
-	`thumbnail`	TEXT
+	`thumbnail`	TEXT,
+	`timestamp` DATETIME DEFAULT CURRENT_TIMESTAMP
 );
-INSERT INTO `resource` VALUES (1,'Homo Deus',2017,'/graphics/homoDeus.png');
-INSERT INTO `resource` VALUES (2,'Iron Man',2008,'/graphics/ironMan.jpg');
-INSERT INTO `resource` VALUES (3,'The Winter Soldier',2014,'/graphics/winterSoldier.jpg');
-INSERT INTO `resource` VALUES (4,'Thor',2011,'/graphics/thor.jpg');
-INSERT INTO `resource` VALUES (5,'Creed 2',2018,'/graphics/creed2.jpg');
-INSERT INTO `resource` VALUES (6,'Creed',2015,'/graphics/creed.jpg');
-INSERT INTO `resource` VALUES (7,'The Martian',2015,'/graphics/theMartian.jpg');
-INSERT INTO `resource` VALUES (8,'Sapiens',2015,'/graphics/sapiens.jpg');
-INSERT INTO `resource` VALUES (9,'Waking Gods',2015,'/graphics/wakingGods.jpg');
-INSERT INTO `resource` VALUES (10,'American Gods',2015,'/graphics/americanGods.jpg');
-INSERT INTO `resource` VALUES (11,'Iron Man 3',2013,'/graphics/ironMan3.jpg');
-INSERT INTO `resource` VALUES (12,'Lenovo',2017,'/graphics/laptop.jpg');
+INSERT INTO `resource`(rID,title,year,thumbnail) VALUES (1,'Homo Deus',2017,'/graphics/homoDeus.png');
+INSERT INTO `resource`(rID,title,year,thumbnail) VALUES (2,'Iron Man',2008,'/graphics/ironMan.jpg');
+INSERT INTO `resource`(rID,title,year,thumbnail) VALUES (3,'The Winter Soldier',2014,'/graphics/winterSoldier.jpg');
+INSERT INTO `resource`(rID,title,year,thumbnail) VALUES (4,'Thor',2011,'/graphics/thor.jpg');
+INSERT INTO `resource`(rID,title,year,thumbnail) VALUES (5,'Creed 2',2018,'/graphics/creed2.jpg');
+INSERT INTO `resource`(rID,title,year,thumbnail) VALUES (6,'Creed',2015,'/graphics/creed.jpg');
+INSERT INTO `resource`(rID,title,year,thumbnail) VALUES (7,'The Martian',2015,'/graphics/theMartian.jpg');
+INSERT INTO `resource`(rID,title,year,thumbnail) VALUES (8,'Sapiens',2015,'/graphics/sapiens.jpg');
+INSERT INTO `resource`(rID,title,year,thumbnail) VALUES (9,'Waking Gods',2015,'/graphics/wakingGods.jpg');
+INSERT INTO `resource`(rID,title,year,thumbnail) VALUES (10,'American Gods',2015,'/graphics/americanGods.jpg');
+INSERT INTO `resource`(rID,title,year,thumbnail) VALUES (11,'Iron Man 3',2013,'/graphics/ironMan3.jpg');
+INSERT INTO `resource`(rID,title,year,thumbnail) VALUES (12,'Lenovo',2017,'/graphics/laptop.jpg');
 
 
 DROP TABLE IF EXISTS `fines`;
