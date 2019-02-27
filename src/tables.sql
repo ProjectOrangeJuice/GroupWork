@@ -104,6 +104,16 @@ INSERT INTO `book` VALUES ('Yuval Noah Harari','Harvill Secker','Non-Fiction','9
 INSERT INTO `book` VALUES ('Unknown Author','Harvill Secker','Fiction','978-191-070-187-6','English',9);
 INSERT INTO `book` VALUES ('Neil Gaimen','Harvill Secker','Fiction','978-191-070-187-7','English',10);
 
+DROP TABLE IF EXISTS `events`;
+CREATE TABLE IF NOT EXISTS `events` (
+	`eID`		INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
+	`title`		TEXT,
+	`details`	TEXT,
+	`date`		TEXT,
+	`ISBN`		TEXT,
+	`language`	TEXT
+);
+
 DROP TABLE IF EXISTS `dvd`;
 CREATE TABLE IF NOT EXISTS `dvd` (
 	`director`	TEXT,
