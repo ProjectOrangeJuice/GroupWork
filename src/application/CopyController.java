@@ -103,6 +103,7 @@ public class CopyController {
 		int uniqueId = ScreenManager.currentResource.getUniqueID();
 		String title = ScreenManager.currentResource.getTitle();
 		int year = ScreenManager.currentResource.getYear();
+		boolean hasReviews = model.Review.hasReviews(ScreenManager.currentResource.getUniqueID());
 
 		resourceName.setText(title);
 
@@ -149,7 +150,18 @@ public class CopyController {
 			Integer.toString(runtime) + "\nlanguage: " + language);
 
 		}
-
+		
+		
+		//Olivers review code
+		
+		if(!hasReviews) {
+			centertextarea.appendText("\n\nNo reviews");
+		}
+		
+		
+		
+		//**********
+		
 		// This sets the textbox depending if the number of copies is equal to 0
 		// or not.
 		if (ScreenManager.currentResource.getNrOfCopies() == 0) {
