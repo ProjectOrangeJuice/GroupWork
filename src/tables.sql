@@ -234,6 +234,7 @@ CREATE TABLE `reviews` (
 	`resourceId`	INTEGER,
 	`star`	INTEGER,
 	`review`	TEXT,
+	`timestamp` DATETIME DEFAULT CURRENT_TIMESTAMP,
 		FOREIGN KEY (resourceId) REFERENCES `resource` (`rID`) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
