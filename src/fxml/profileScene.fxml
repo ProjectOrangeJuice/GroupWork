@@ -308,7 +308,7 @@
                                                             <TableColumn fx:id="eventTimeField" prefWidth="150.0" text="Event Date &amp; Time" />
                                                         </columns>
                                                       </TableView>
-                                                      <Button fx:id="createEventButton" layoutX="364.0" layoutY="14.0" mnemonicParsing="false" text="Create Event" AnchorPane.leftAnchor="375.0" AnchorPane.topAnchor="14.0" />
+                                                      <Button fx:id="createEventButton" layoutX="364.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#openEventCreator" text="Create Event" AnchorPane.leftAnchor="375.0" AnchorPane.topAnchor="14.0" />
                                                    </children>
                                                 </AnchorPane>
                                              </children>
