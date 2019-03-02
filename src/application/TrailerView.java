@@ -3,15 +3,12 @@ package application;
 import model.MovieDescription;
 
 import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.Unirest;
-//import com.mashape.unirest.http.ObjectMapper;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import java.io.IOException;
-import javafx.scene.media.MediaView;
 
 public class TrailerView
 {
@@ -46,8 +43,9 @@ public class TrailerView
             }
         });*/
         
-        HttpResponse<String> response = Unirest.get("https://api.themoviedb.org/3/search/movie?api_key=fde767385d9021cca4adc2853f21a53f&language=en-US&query=Iron%20Man&page=1&include_adult=false")
-                .asString();
+        HttpResponse<String> response = Unirest.get("https://api.themoviedb.org/3/search/movie?")
+                .queryString("api_key", "fde767385d9021cca4adc2853f21a53f")
+                .queryString("query", "Iron Man").queryString("page", 1).queryString("include_adult", false).asString();
         
         String firstResult = getFirstResult(response.getBody());
         System.out.println(firstResult);
