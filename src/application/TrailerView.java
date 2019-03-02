@@ -1,6 +1,7 @@
 package application;
 
 import model.MovieDescription;
+import model.VideoDescription;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -18,6 +19,8 @@ public class TrailerView
     private static final String SEARCH_URL = "https://api.themoviedb.org/3/search/movie?";
     
     private static final String GET_VIDEOS_URL = "https://api.themoviedb.org/3/movie/{movieID}/videos?";
+    
+    private static final String YOUTUBE_URL = "https://www.youtube.com/watch?v=";
     
     public static void main(String args[]) throws UnirestException, JsonParseException, JsonMappingException, IOException
     {
@@ -69,9 +72,24 @@ public class TrailerView
             }
         }
         
+        System.out.println(result.getID());
         response = Unirest.get(GET_VIDEOS_URL).routeParam("movieID", result.getID() + "")
                 .queryString("api_key", API_KEY).asString();
-        System.out.println(response.getBody());
+        resultList = getResultList(response.getBody());
+        
+        List<VideoDescription> videoDescriptions = jsonMapper.readValue(resultList, new TypeReference<List<VideoDescription>>() {});
+        
+        VideoDescription video = null;
+        for(VideoDescription vd: videoDescriptions)
+        {
+            if(vd.getType().equalsIgnoreCase("Trailer") && vd.getSite().equalsIgnoreCase("YouTube"))
+            {
+                video = vd;
+                break;
+            }
+        }
+        
+        System.out.println(video.getKey());
         
         /*System.out.println(result.getID());
         System.out.println(result.getVoteCount());
