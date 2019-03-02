@@ -1,5 +1,8 @@
 package application;
 
+import com.mashape.unirest.http.HttpResponse;
+import com.mashape.unirest.http.Unirest;
+
 import javafx.scene.media.MediaView;
 
 public class TrailerView extends MediaView
