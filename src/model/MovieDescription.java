@@ -1,52 +1,63 @@
 package model;
 
+import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.annotation.JsonSetter;
+
 public class MovieDescription 
 {
-    private int vote_count;
-    private int id;
-    private boolean video;
-    private double vote_average;
+    private int voteCount;
+    private int movieID;
+    private boolean isVideo;
+    private double voteAverage;
     private String title;
     private double popularity;
-    private String poster_path;
-    private String original_language;
-    private String original_title;
-    private int[] genre_ids;
-    private String backdrop_path;
-    private boolean adult;
+    private String posterPath;
+    private String originalLanguage;
+    private String originalTitle;
+    private int[] genreIDs;
+    private String backdropPath;
+    private boolean isAdult;
     private String overview;
-    private String release_date;
+    private String releaseDate;
     
-    public int getVote_count() {
-        return vote_count;
+    @JsonGetter("vote_count")
+    public int getVoteCount() {
+        return voteCount;
     }
     
-    public void setVote_count(int vote_count) {
-        this.vote_count = vote_count;
+    @JsonSetter("vote_count")
+    public void setVoteCount(int voteCount) {
+        this.voteCount = voteCount;
     }
     
-    public int getId() {
-        return id;
+    @JsonGetter("id")
+    public int getID() {
+        return movieID;
     }
     
-    public void setId(int id) {
-        this.id = id;
+    @JsonSetter("id")
+    public void setID(int id) {
+        this.movieID = id;
     }
     
+    @JsonGetter("video")
     public boolean isVideo() {
-        return video;
+        return isVideo;
     }
     
-    public void setVideo(boolean video) {
-        this.video = video;
+    @JsonSetter("video")
+    public void setVideo(boolean isVideo) {
+        this.isVideo = isVideo;
     }
     
-    public double getVote_average() {
-        return vote_average;
+    @JsonGetter("vote_average")
+    public double getVoteAverage() {
+        return voteAverage;
     }
     
-    public void setVote_average(double vote_average) {
-        this.vote_average = vote_average;
+    @JsonSetter("vote_average")
+    public void setVoteAverage(double voteAverage) {
+        this.voteAverage = voteAverage;
     }
     
     public String getTitle() {
@@ -65,52 +76,64 @@ public class MovieDescription
         this.popularity = popularity;
     }
     
-    public String getPoster_path() {
-        return poster_path;
+    @JsonGetter("poster_path")
+    public String getPosterPath() {
+        return posterPath;
     }
     
-    public void setPoster_path(String poster_path) {
-        this.poster_path = poster_path;
+    @JsonSetter("poster_path")
+    public void setPosterPath(String posterPath) {
+        this.posterPath = posterPath;
     }
     
-    public String getOriginal_language() {
-        return original_language;
+    @JsonGetter("original_language")
+    public String getOriginalLanguage() {
+        return originalLanguage;
     }
     
-    public void setOriginal_language(String original_language) {
-        this.original_language = original_language;
+    @JsonSetter("original_language")
+    public void setOriginalLanguage(String originalLanguage) {
+        this.originalLanguage = originalLanguage;
     }
     
-    public String getOriginal_title() {
-        return original_title;
+    @JsonGetter("original_title")
+    public String getOriginalTitle() {
+        return originalTitle;
     }
     
-    public void setOriginal_title(String original_title) {
-        this.original_title = original_title;
+    @JsonSetter("original_title")
+    public void setOriginalTitle(String originalTitle) {
+        this.originalTitle = originalTitle;
     }
     
-    public int[] getGenre_ids() {
-        return genre_ids;
+    @JsonGetter("genre_ids")
+    public int[] getGenreIDs() {
+        return genreIDs;
     }
     
-    public void setGenre_ids(int[] genre_ids) {
-        this.genre_ids = genre_ids;
+    @JsonSetter("genre_ids")
+    public void setGenreIDs(int[] genreIDs) {
+        this.genreIDs = genreIDs;
     }
     
-    public String getBackdrop_path() {
-        return backdrop_path;
+    @JsonGetter("backdrop_path")
+    public String getBackdropPath() {
+        return backdropPath;
     }
     
-    public void setBackdrop_path(String backdrop_path) {
-        this.backdrop_path = backdrop_path;
+    @JsonSetter("backdrop_path")
+    public void setBackdropPath(String backdropPath) {
+        this.backdropPath = backdropPath;
     }
     
+    @JsonGetter("adult")
     public boolean isAdult() {
-        return adult;
+        return isAdult;
     }
     
-    public void setAdult(boolean adult) {
-        this.adult = adult;
+    @JsonSetter("adult")
+    public void setAdult(boolean isAdult) {
+        this.isAdult = isAdult;
     }
     
     public String getOverview() {
@@ -121,11 +144,13 @@ public class MovieDescription
         this.overview = overview;
     }
     
-    public String getRelease_date() {
-        return release_date;
+    @JsonGetter("release_date")
+    public String getReleaseDate() {
+        return releaseDate;
     }
     
-    public void setRelease_date(String release_date) {
-        this.release_date = release_date;
+    @JsonSetter("release_date")
+    public void setReleaseDate(String releaseDate) {
+        this.releaseDate = releaseDate;
     }
 }
