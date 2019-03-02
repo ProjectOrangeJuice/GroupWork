@@ -17,6 +17,8 @@ public class TrailerView
     
     private static final String SEARCH_URL = "https://api.themoviedb.org/3/search/movie?";
     
+    private static final String GET_VIDEOS_URL = "https://api.themoviedb.org/3/movie/{movieID}/videos?";
+    
     public static void main(String args[]) throws UnirestException, JsonParseException, JsonMappingException, IOException
     {
         /*Unirest.setObjectMapper(new ObjectMapper() {
@@ -55,20 +57,31 @@ public class TrailerView
         ObjectMapper jsonMapper = new ObjectMapper();
         
         String resultList = getResultList(response.getBody());
-        System.out.println(resultList);
         List<MovieDescription> movieDescriptions = jsonMapper.readValue(resultList, new TypeReference<List<MovieDescription>>() {});
       
         MovieDescription result = null;
         for(MovieDescription md: movieDescriptions)
         {
-            if(md.getTitle().equals("The Man in the Iron Mask"))
+            if(md.getTitle().equals("Iron Man"))
             {
                 result = md;
                 break;
             }
         }
         
-        System.out.println(result.getId());
+        response = Unirest.get(GET_VIDEOS_URL).routeParam("movieID", result.getID() + "")
+                .queryString("api_key", API_KEY).asString();
+        System.out.println(response.getBody());
+        
+        /*System.out.println(result.getID());
+        System.out.println(result.getVoteCount());
+        System.out.println(result.isVideo());
+        System.out.println(result.getVoteAverage());
+        System.out.println(result.getPopularity());
+        System.out.println(result.getOriginalLanguage());
+        System.out.println(result.getOriginalTitle());
+        System.out.println(result.getGenreIDs()[1]);
+        System.out.println(result.getReleaseDate());*/
     }
     
     private static String getFirstResult(String jsonSearchResult)
