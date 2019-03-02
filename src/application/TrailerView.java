@@ -1,17 +1,22 @@
 package application;
 
 import model.MovieDescription;
-
 import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import java.io.IOException;
+import java.util.List;
 
 public class TrailerView
 {
+    private static final String API_KEY = "fde767385d9021cca4adc2853f21a53f";
+    
+    private static final String SEARCH_URL = "https://api.themoviedb.org/3/search/movie?";
+    
     public static void main(String args[]) throws UnirestException, JsonParseException, JsonMappingException, IOException
     {
         /*Unirest.setObjectMapper(new ObjectMapper() {
@@ -43,16 +48,27 @@ public class TrailerView
             }
         });*/
         
-        HttpResponse<String> response = Unirest.get("https://api.themoviedb.org/3/search/movie?")
-                .queryString("api_key", "fde767385d9021cca4adc2853f21a53f")
-                .queryString("query", "Iron Man").queryString("page", 1).queryString("include_adult", false).asString();
+        HttpResponse<String> response = Unirest.get(SEARCH_URL).queryString("api_key", API_KEY)
+                .queryString("query", "Iron Man").queryString("page", 1)
+                .queryString("include_adult", false).asString();
         
-        String firstResult = getFirstResult(response.getBody());
-        System.out.println(firstResult);
         ObjectMapper jsonMapper = new ObjectMapper();
-        MovieDescription movieDescription = jsonMapper.readValue(firstResult, MovieDescription.class);
         
-        System.out.println(movieDescription.getId());
+        String resultList = getResultList(response.getBody());
+        System.out.println(resultList);
+        List<MovieDescription> movieDescriptions = jsonMapper.readValue(resultList, new TypeReference<List<MovieDescription>>() {});
+      
+        MovieDescription result = null;
+        for(MovieDescription md: movieDescriptions)
+        {
+            if(md.getTitle().equals("The Man in the Iron Mask"))
+            {
+                result = md;
+                break;
+            }
+        }
+        
+        System.out.println(result.getId());
     }
     
     private static String getFirstResult(String jsonSearchResult)
@@ -61,5 +77,13 @@ public class TrailerView
         int movieDescriptionEnd = jsonSearchResult.indexOf("}");
         
         return jsonSearchResult.substring(movieDescriptionStart, movieDescriptionEnd + 1);
+    }
+    
+    private static String getResultList(String jsonSearchResult)
+    {
+        int resultStart = jsonSearchResult.indexOf("[");
+        int resultEnd = jsonSearchResult.lastIndexOf("]");
+        
+        return jsonSearchResult.substring(resultStart, resultEnd + 1);
     }
 }
