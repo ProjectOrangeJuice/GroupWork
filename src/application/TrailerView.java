@@ -131,6 +131,10 @@ public class TrailerView
         return video;
     }
     
+    public void stop() {
+        youtubeView.getEngine().load(null);
+    }
+    
     public WebView getWebView()
     {
         return youtubeView;
