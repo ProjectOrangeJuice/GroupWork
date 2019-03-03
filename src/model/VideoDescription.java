@@ -1,38 +1,47 @@
 package model;
 
+import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.annotation.JsonSetter;
+
 public class VideoDescription 
 {
-    private String id;
-    private String iso_639_1;
-    private String iso_3166_1;
+    private String videoID;
+    private String iso6391;
+    private String iso31661;
     private String key;
     private String name;
     private String site;
     private String size;
     private String type;
     
-    public String getId() {
-        return id;
+    @JsonGetter("id")
+    public String getID() {
+        return videoID;
     }
     
-    public void setId(String id) {
-        this.id = id;
+    @JsonSetter("id")
+    public void setId(String videoID) {
+        this.videoID = videoID;
     }
     
-    public String getIso_639_1() {
-        return iso_639_1;
+    @JsonGetter("iso_639_1")
+    public String getIso6391() {
+        return iso6391;
     }
     
-    public void setIso_639_1(String iso_639_1) {
-        this.iso_639_1 = iso_639_1;
+    @JsonSetter("iso_639_1")
+    public void setIso6391(String iso6391) {
+        this.iso6391 = iso6391;
     }
     
-    public String getIso_3166_1() {
-        return iso_3166_1;
+    @JsonGetter("iso_3166_1")
+    public String getISO31661() {
+        return iso31661;
     }
     
-    public void setIso_3166_1(String iso_3166_1) {
-        this.iso_3166_1 = iso_3166_1;
+    @JsonSetter("iso_3166_1")
+    public void setISO31661(String iso31661) {
+        this.iso31661 = iso31661;
     }
     
     public String getKey() {
