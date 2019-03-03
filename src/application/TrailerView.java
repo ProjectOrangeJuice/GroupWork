@@ -9,10 +9,27 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
+
+import javafx.animation.Animation.Status;
+import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import javafx.scene.media.MediaView;
+import javafx.scene.web.WebView;
+import javafx.stage.Stage;
+
 import java.io.IOException;
+import java.net.URL;
 import java.util.List;
 
-public class TrailerView
+public class TrailerView extends Application
 {
     private static final String API_KEY = "fde767385d9021cca4adc2853f21a53f";
     
@@ -20,9 +37,14 @@ public class TrailerView
     
     private static final String GET_VIDEOS_URL = "https://api.themoviedb.org/3/movie/{movieID}/videos?";
     
-    private static final String YOUTUBE_URL = "https://www.youtube.com/watch?v=";
+    private static final String YOUTUBE_URL = "https://www.youtube.com/embed/";
     
-    public static void main(String args[]) throws UnirestException, JsonParseException, JsonMappingException, IOException
+    public static void main(String args[])
+    {
+        launch();
+    }
+    
+    public void start(Stage stage) throws UnirestException, JsonParseException, JsonMappingException, IOException
     {
         /*Unirest.setObjectMapper(new ObjectMapper() {
             com.fasterxml.jackson.databind.ObjectMapper mapper 
@@ -89,17 +111,16 @@ public class TrailerView
             }
         }
         
-        System.out.println(video.getKey());
+        String trailerURL = YOUTUBE_URL + video.getKey();
         
-        /*System.out.println(result.getID());
-        System.out.println(result.getVoteCount());
-        System.out.println(result.isVideo());
-        System.out.println(result.getVoteAverage());
-        System.out.println(result.getPopularity());
-        System.out.println(result.getOriginalLanguage());
-        System.out.println(result.getOriginalTitle());
-        System.out.println(result.getGenreIDs()[1]);
-        System.out.println(result.getReleaseDate());*/
+        System.out.println(trailerURL);
+ 
+        WebView webview = new WebView();
+        webview.getEngine().load(trailerURL);
+        webview.setPrefSize(640, 390);
+
+        stage.setScene(new Scene(webview));
+        stage.show();
     }
     
     private static String getFirstResult(String jsonSearchResult)
