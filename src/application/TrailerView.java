@@ -35,12 +35,12 @@ public class TrailerView
     {
         jsonMapper = new ObjectMapper();
         
+        
         movieDescription = getMovieFromTMDB(movieName);
         trailerDescription = getTrailerFromTMDB(movieDescription);
-        
         youtubeView = new WebView();
         youtubeView.getEngine().load(YOUTUBE_URL + trailerDescription.getKey());
-        youtubeView.setPrefSize(640, 390);
+        youtubeView.setPrefSize(1600, 900);
     }
     
     public MovieDescription getMovieFromTMDB(String movieName)
@@ -54,7 +54,7 @@ public class TrailerView
         }
         catch (UnirestException e) {
             e.printStackTrace();
-            System.exit(-1);
+            //System.exit(-1);
         }
         
         String resultList = getResultList(response.getBody());
@@ -66,11 +66,11 @@ public class TrailerView
         catch (IOException e) 
         {
             e.printStackTrace();
-            System.exit(-1);
+            //System.exit(-1);
         }
       
-        MovieDescription result = null;
-        boolean search = true;
+        MovieDescription result = movieDescriptions.get(0);
+        /*boolean search = true;
         int i = 0;
         while(search && i < movieDescriptions.size())
         {
@@ -81,7 +81,7 @@ public class TrailerView
             }
             
             i++;
-        }
+        }*/
         
         return result;
     }
@@ -96,7 +96,7 @@ public class TrailerView
         catch (UnirestException e) 
         {
             e.printStackTrace();
-            System.exit(-1);
+            //System.exit(-1);
         }
         
         String resultList = getResultList(response.getBody());
@@ -109,7 +109,7 @@ public class TrailerView
         catch (IOException e) 
         {
             e.printStackTrace();
-            System.exit(-1);
+           // System.exit(-1);
         }
         
         VideoDescription video = null;
@@ -124,6 +124,8 @@ public class TrailerView
                 video = currentVideo;
                 break;
             }
+            
+            i++;
         }
         
         return video;

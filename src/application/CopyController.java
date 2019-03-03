@@ -2,6 +2,7 @@ package application;
 
 import java.io.IOException;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -59,6 +60,9 @@ public class CopyController {
 	@FXML
 	private Button requestbutt;//request copy button
 
+	@FXML
+	private Button viewTrailerButton;
+	
 	@FXML
 	private VBox leftVbox;//vbox in left anchor pane
 
@@ -196,6 +200,21 @@ public class CopyController {
 				ScreenManager.getCurrentUser());
 		// ScreenManager.currentResource.loanToUser((User)ScreenManager.getCurrentUser());
 	}
+	
+	@FXML
+	public void showTrailerWindow(ActionEvent actioEvent)
+	{
+	    DVD movie = (DVD)ScreenManager.currentResource;
+	    String title = movie.getTitle();
+	    
+	    TrailerView trailerView = new TrailerView(title);
+	    
+	    Scene trailerScene = new Scene(trailerView.getWebView(), 1600, 900);
+	    
+	    Stage trailerWindow = new Stage();
+	    trailerWindow.setScene(trailerScene);
+	    trailerWindow.show();
+	}
 
 	/**
 	 * This checks if the current user is currently borrowing the resource, if
@@ -266,6 +285,11 @@ public class CopyController {
 		}
 		loadResourceImage();
 		loadResourceInformation();
+		
+		if(!(ScreenManager.currentResource.getClass() == DVD.class))
+		{
+		    viewTrailerButton.setDisable(true);
+		}
 
 	}
 
