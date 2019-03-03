@@ -2,22 +2,18 @@ package application;
 
 import model.MovieDescription;
 import model.VideoDescription;
-import com.fasterxml.jackson.core.JsonParseException;
+
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
 
-import javafx.application.Application;
-import javafx.scene.Scene;
 import javafx.scene.web.WebView;
-import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.List;
 
-public class TrailerView extends Application
+public class TrailerView
 {
     private static final String API_KEY = "fde767385d9021cca4adc2853f21a53f";
     
@@ -27,88 +23,125 @@ public class TrailerView extends Application
     
     private static final String YOUTUBE_URL = "https://www.youtube.com/embed/";
     
-    public static void main(String args[])
+    private ObjectMapper jsonMapper;
+    
+    private MovieDescription movieDescription;
+    
+    private VideoDescription trailerDescription;
+    
+    private WebView youtubeView;
+    
+    public TrailerView(String movieName)
     {
-        launch();
+        jsonMapper = new ObjectMapper();
+        
+        movieDescription = getMovieFromTMDB(movieName);
+        trailerDescription = getTrailerFromTMDB(movieDescription);
+        
+        youtubeView = new WebView();
+        youtubeView.getEngine().load(YOUTUBE_URL + trailerDescription.getKey());
+        youtubeView.setPrefSize(640, 390);
     }
     
-    public void start(Stage stage) throws UnirestException, JsonParseException, JsonMappingException, IOException
+    public MovieDescription getMovieFromTMDB(String movieName)
     {
-        /*Unirest.setObjectMapper(new ObjectMapper() {
-            com.fasterxml.jackson.databind.ObjectMapper mapper 
-              = new com.fasterxml.jackson.databind.ObjectMapper();
-         
-            public String writeValue(Object value) 
-            {
-                try 
-                {
-                    return mapper.writeValueAsString(value);
-                }
-                catch (JsonProcessingException e) {
-                    e.printStackTrace();
-                    return null;
-                }
-            }
-         
-            public <T> T readValue(String value, Class<T> valueType) 
-            {
-                try 
-                {
-                    return mapper.readValue(value, valueType);
-                }
-                catch (IOException e) {
-                    e.printStackTrace();
-                    return null;
-                }
-            }
-        });*/
+        HttpResponse<String> response = null;
         
-        HttpResponse<String> response = Unirest.get(SEARCH_URL).queryString("api_key", API_KEY)
-                .queryString("query", "Iron Man").queryString("page", 1)
-                .queryString("include_adult", false).asString();
-        
-        ObjectMapper jsonMapper = new ObjectMapper();
+        try {
+            response = Unirest.get(SEARCH_URL).queryString("api_key", API_KEY)
+                    .queryString("query", movieName).queryString("page", 1)
+                    .queryString("include_adult", false).asString();
+        }
+        catch (UnirestException e) {
+            e.printStackTrace();
+            System.exit(-1);
+        }
         
         String resultList = getResultList(response.getBody());
-        List<MovieDescription> movieDescriptions = jsonMapper.readValue(resultList, new TypeReference<List<MovieDescription>>() {});
+        List<MovieDescription> movieDescriptions = null;
+        
+        try {
+            movieDescriptions = jsonMapper.readValue(resultList, new TypeReference<List<MovieDescription>>() {});
+        }
+        catch (IOException e) 
+        {
+            e.printStackTrace();
+            System.exit(-1);
+        }
       
         MovieDescription result = null;
-        for(MovieDescription md: movieDescriptions)
+        boolean search = true;
+        int i = 0;
+        while(search && i < movieDescriptions.size())
         {
-            if(md.getTitle().equals("Iron Man"))
+            if(movieDescriptions.get(i).getTitle().equals(movieName))
             {
-                result = md;
-                break;
+                result = movieDescriptions.get(i);
+                search = false;
             }
+            
+            i++;
         }
         
-        System.out.println(result.getID());
-        response = Unirest.get(GET_VIDEOS_URL).routeParam("movieID", result.getID() + "")
-                .queryString("api_key", API_KEY).asString();
-        resultList = getResultList(response.getBody());
+        return result;
+    }
+    
+    public VideoDescription getTrailerFromTMDB(MovieDescription movieDescription)
+    {
+        HttpResponse<String> response = null;
+        try {
+            response = Unirest.get(GET_VIDEOS_URL).routeParam("movieID", movieDescription.getID() + "")
+                    .queryString("api_key", API_KEY).asString();
+        }
+        catch (UnirestException e) 
+        {
+            e.printStackTrace();
+            System.exit(-1);
+        }
         
-        List<VideoDescription> videoDescriptions = jsonMapper.readValue(resultList, new TypeReference<List<VideoDescription>>() {});
+        String resultList = getResultList(response.getBody());
+        
+        List<VideoDescription> videoDescriptions = null;
+        try {
+            videoDescriptions = jsonMapper.readValue(resultList, 
+                new TypeReference<List<VideoDescription>>() {});
+        }
+        catch (IOException e) 
+        {
+            e.printStackTrace();
+            System.exit(-1);
+        }
         
         VideoDescription video = null;
-        for(VideoDescription vd: videoDescriptions)
+        boolean search = true;
+        int i = 0;
+        while(search && i < videoDescriptions.size())
         {
-            if(vd.getType().equalsIgnoreCase("Trailer") && vd.getSite().equalsIgnoreCase("YouTube"))
+            VideoDescription currentVideo = videoDescriptions.get(i);
+            if(currentVideo.getType().equalsIgnoreCase("Trailer") && 
+                    currentVideo.getSite().equalsIgnoreCase("YouTube"))
             {
-                video = vd;
+                video = currentVideo;
                 break;
             }
         }
         
-        String trailerURL = YOUTUBE_URL + video.getKey();
-        
-        System.out.println(trailerURL);
- 
-        WebView webview = new WebView();
-        webview.getEngine().load(trailerURL);
-        webview.setPrefSize(640, 390);
-
-        stage.setScene(new Scene(webview));
-        stage.show();
+        return video;
+    }
+    
+    public WebView getWebView()
+    {
+        return youtubeView;
+    }
+    
+    public MovieDescription getMovieDescription()
+    {
+        return movieDescription;
+    }
+    
+    public VideoDescription getTrailerDescription()
+    {
+        return trailerDescription;
     }
     
     private static String getFirstResult(String jsonSearchResult)
