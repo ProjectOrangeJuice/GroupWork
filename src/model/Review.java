@@ -83,10 +83,13 @@ public class Review {
             ResultSet results = statement.executeQuery();
             ArrayList<String[]> reviews = new ArrayList<String[]>();
             while(results.next()) {
-            	String[] re = {String.valueOf(results.getInt(3)),results.getString(5),results.getString(4)};
+            	
+            	//star, name,what,when
+            	String[] re = {String.valueOf(results.getInt(4)),results.getString(3),results.getString(5),results.getString(6)};
             	reviews.add(re);
             	
             }
+            return reviews;
           
         }
         catch (SQLException e) {

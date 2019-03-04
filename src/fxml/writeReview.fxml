@@ -36,7 +36,7 @@
                      </children>
                   </HBox>
                   <TextArea fx:id="reviewBox" editable="false" prefHeight="85.0" prefWidth="247.0" />
-                  <Button mnemonicParsing="false" onAction="#submitReview" prefHeight="29.0" prefWidth="115.0" text="Submit" />
+                  <Button mnemonicParsing="false" onMouseReleased="#submitReview" prefHeight="29.0" prefWidth="115.0" text="Submit" />
                </children></VBox>
          </children>
       </AnchorPane>

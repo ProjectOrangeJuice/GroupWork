@@ -17,6 +17,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -24,6 +25,7 @@ import model.Book;
 import model.DVD;
 import model.Laptop;
 import model.Resource;
+import model.Review;
 import model.User;
 
 /**
@@ -110,9 +112,33 @@ public class CopyController {
 		if(hasReviews) {
 	
 			HBox avg = new HBox(); //ready for images
-			Text avgText = new Text("Rating: "+model.Review.getAvgStar(resourceId));
+			Text avgText = new Text("Rating: "+Math.round(model.Review.getAvgStar(resourceId)*100.0)/100.0);
+			avgText.setStyle("-fx-font: 24 arial;");
 			avg.getChildren().add(avgText);
 			seeReviews.getChildren().add(avg);
+			
+			//Now for the actual reviews
+			for(String[] review : Review.getReviews(resourceId)) {
+				VBox topV = new VBox();
+				HBox topH = new HBox();
+				//star, name,what,when
+				Text title = new Text(" from "+review[1]);
+				Text when = new Text(" ["+review[3]+"]");
+				when.setStyle("-fx-font:12 arial;");
+				Text star = new Text("Rating: "+review[0]);
+				star.setFill(Color.GREEN);
+				Text reviewText = new Text(review[2]);
+				reviewText.setStyle("-fx-font:15 arial;");
+				topH.getChildren().addAll(star,title,when);
+				topV.getChildren().addAll(topH,reviewText);
+				seeReviews.getChildren().add(topV);
+				
+				//if staff , add button.
+				
+			}
+			
+			seeReviews.setSpacing(8);
+			
 			
 		}else {
 			Text avgText = new Text("No reviews yet!");
