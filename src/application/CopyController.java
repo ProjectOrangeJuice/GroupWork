@@ -15,7 +15,9 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import model.Book;
@@ -73,6 +75,10 @@ public class CopyController {
 	private Label resourceName;//resources name
 
 	private Resource currentResource;//current instance of resource
+	
+	
+	@FXML
+	private VBox seeReviews;
 
 	private int RES_IMG_WIDTH = 200;
 	private int RES_IMG_HEIGHT = 200;
@@ -95,6 +101,29 @@ public class CopyController {
 		}
 
 	}
+	
+	
+	private void dealWithReviews() {
+		int resourceId = ScreenManager.currentResource.getUniqueID();
+		boolean hasReviews = model.Review.hasReviews(resourceId);
+		
+		if(hasReviews) {
+	
+			HBox avg = new HBox(); //ready for images
+			Text avgText = new Text("Rating: "+model.Review.getAvgStar(resourceId));
+			avg.getChildren().add(avgText);
+			seeReviews.getChildren().add(avg);
+			
+		}else {
+			Text avgText = new Text("No reviews yet!");
+			seeReviews.getChildren().add(avgText);
+		}
+		
+	
+		
+	}
+	
+	
 
 	/**
 	 * Loads resource information from Screen Manager class, so that it can be
@@ -107,7 +136,7 @@ public class CopyController {
 		int uniqueId = ScreenManager.currentResource.getUniqueID();
 		String title = ScreenManager.currentResource.getTitle();
 		int year = ScreenManager.currentResource.getYear();
-		boolean hasReviews = model.Review.hasReviews(ScreenManager.currentResource.getUniqueID());
+		dealWithReviews();
 
 		resourceName.setText(title);
 
@@ -156,11 +185,6 @@ public class CopyController {
 		}
 		
 		
-		//Olivers review code
-		
-		if(!hasReviews) {
-			centertextarea.appendText("\n\nNo reviews");
-		}
 		
 		
 		
