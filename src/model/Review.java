@@ -56,11 +56,12 @@ public class Review {
 		try {
             Connection connection = DBHelper.getConnection();
             PreparedStatement statement = connection.prepareStatement(
-                "SELECT avg(start) FROM reviews WHERE resourceId=?");
+                "SELECT avg(star) FROM reviews WHERE resourceId=?");
             statement.setInt(1, resourceId);
             ResultSet results = statement.executeQuery();
             if(results.next()) {
-            	return results.getDouble(0);
+            	
+            	return results.getDouble(1);
             }else {
             	return 0;
             }
