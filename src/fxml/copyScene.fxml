@@ -11,11 +11,11 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="borderpane1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8.0.201" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.CopyController">
+<BorderPane fx:id="borderpane1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="668.0" prefWidth="924.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.CopyController">
    <center>
-      <AnchorPane fx:id="centeranchor" prefHeight="600.0" prefWidth="409.0" BorderPane.alignment="CENTER">
+      <AnchorPane fx:id="centeranchor" prefHeight="553.0" prefWidth="700.0" BorderPane.alignment="CENTER">
          <children>
-            <VBox fx:id="leftVbox" alignment="CENTER" layoutX="46.0" layoutY="45.0" spacing="10.0">
+            <VBox fx:id="leftVbox" alignment="CENTER" layoutY="51.0" spacing="10.0">
                <children>
                   <Label fx:id="resourceName" text="Name">
                      <font>
@@ -35,12 +35,21 @@
                   <Button fx:id="viewTrailerButton" mnemonicParsing="false" onAction="#showTrailerWindow" text="View Trailer" />
                </children>
             </VBox>
-            <TextArea fx:id="centertextarea" editable="false" layoutX="234.0" layoutY="88.0" prefHeight="267.0" prefWidth="308.0" />
-            <Label fx:id="copytext" layoutX="234.0" layoutY="51.0" text="Available Copies: ">
-               <font>
-                  <Font size="20.0" />
-               </font>
-            </Label>
+            <VBox layoutX="216.0" layoutY="44.0" prefHeight="364.0" prefWidth="484.0">
+               <children>
+                  <Label fx:id="copytext" text="Available Copies: ">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                  </Label>
+                  <TextArea fx:id="centertextarea" editable="false" prefHeight="267.0" prefWidth="308.0" />
+                  <AnchorPane prefHeight="369.0" prefWidth="573.0">
+                     <children>
+                        <fx:include source="writeReview.fxml" />
+                     </children>
+                  </AnchorPane>
+               </children>
+            </VBox>
          </children>
       </AnchorPane>
    </center>
