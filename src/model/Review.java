@@ -8,6 +8,30 @@ import java.util.ArrayList;
 
 public class Review {
 	
+	public static boolean hasRead(String username, int rId) {
+		
+		try {
+            Connection connection = DBHelper.getConnection();
+            PreparedStatement statement = connection.prepareStatement(
+                "SELECT * FROM copies,borrowRecords,resource WHERE copies.rID = resource.rID AND borrowRecords.copyId = copies.copyID AND borrowRecords.username = ?"
+                + " AND copies.rID=?");
+            statement.setString(1, username);
+            statement.setInt(2, rId);
+            ResultSet results = statement.executeQuery();
+            if(results.next()) {
+            	return true;
+            }else {
+            	return false;
+            }
+          
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+		return false;
+	}
+	
+	
 	public static boolean hasReviews(int resourceId) {
 		try {
             Connection connection = DBHelper.getConnection();
