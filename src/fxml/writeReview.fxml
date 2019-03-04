@@ -4,33 +4,40 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="borderpane1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.CopyController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="197.0" prefWidth="473.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.WriteReviewController">
    <right>
-      <AnchorPane fx:id="centeranchor" prefHeight="600.0" prefWidth="409.0" BorderPane.alignment="CENTER">
+      <AnchorPane fx:id="writeReviewBox" prefHeight="600.0" prefWidth="409.0" BorderPane.alignment="CENTER">
          <children>
-            <VBox fx:id="leftVbox" alignment="CENTER" layoutX="46.0" layoutY="45.0" prefHeight="87.0" prefWidth="117.0" spacing="10.0" />
-            <TextArea fx:id="centertextarea" editable="false" layoutX="24.0" layoutY="88.0" prefHeight="267.0" prefWidth="406.0" />
-            <Button fx:id="requestbutt" layoutX="571.0" layoutY="326.0" mnemonicParsing="false" onMouseClicked="#requestCopy" prefHeight="29.0" prefWidth="115.0" text="Submit" />
-            <Label fx:id="copytext" layoutX="468.0" layoutY="45.0" prefHeight="30.0" prefWidth="122.0" text="Rating">
-               <font>
-                  <Font size="20.0" />
-               </font>
-            </Label>
-            <RadioButton layoutX="458.0" layoutY="102.0" mnemonicParsing="false" text="1" />
-            <RadioButton layoutX="458.0" layoutY="159.0" mnemonicParsing="false" text="2" />
-            <RadioButton layoutX="458.0" layoutY="214.0" mnemonicParsing="false" text="3" />
-            <RadioButton layoutX="458.0" layoutY="273.0" mnemonicParsing="false" text="4" />
-            <RadioButton layoutX="458.0" layoutY="326.0" mnemonicParsing="false" text="5" />
-            <Label fx:id="copytext1" layoutX="-3.0" layoutY="27.0" prefHeight="30.0" prefWidth="170.0" text="Write a review">
-               <font>
-                  <Font size="20.0" />
-               </font>
-            </Label>
+            <VBox alignment="CENTER" layoutX="-4.0" layoutY="-3.0" prefHeight="188.0" prefWidth="477.0" spacing="10.0">
+               <children>
+                  <Label prefHeight="30.0" prefWidth="170.0" text="Write a review">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                  </Label>
+                  <HBox prefHeight="18.0" prefWidth="382.0" spacing="40.0">
+                     <children>
+                        <RadioButton mnemonicParsing="false" text="1">
+                           <toggleGroup>
+                              <ToggleGroup fx:id="star" />
+                           </toggleGroup>
+                        </RadioButton>
+                        <RadioButton mnemonicParsing="false" text="2" toggleGroup="$star" />
+                        <RadioButton mnemonicParsing="false" text="3" toggleGroup="$star" />
+                        <RadioButton mnemonicParsing="false" text="4" toggleGroup="$star" />
+                        <RadioButton mnemonicParsing="false" text="5" toggleGroup="$star" />
+                     </children>
+                  </HBox>
+                  <TextArea fx:id="reviewBox" editable="false" prefHeight="85.0" prefWidth="247.0" />
+                  <Button mnemonicParsing="false" onAction="#submitReview" prefHeight="29.0" prefWidth="115.0" text="Submit" />
+               </children></VBox>
          </children>
       </AnchorPane>
    </right>
