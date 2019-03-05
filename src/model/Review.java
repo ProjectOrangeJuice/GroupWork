@@ -33,6 +33,32 @@ public class Review {
 		return false;
 	}
 	
+public static boolean hasReviewed(String username, int rId) {
+		
+		try {
+            Connection connection = DBHelper.getConnection();
+            PreparedStatement statement = connection.prepareStatement(
+                "SELECT * FROM reviews WHERE username=? AND resourceId=?");
+            statement.setString(1, username);
+            statement.setInt(2, rId);
+            ResultSet results = statement.executeQuery();
+            if(results.next()) {
+            	connection.close();
+            	return true;
+            }else {
+            	connection.close();
+            	return false;
+            }
+          
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+		return false;
+	}
+	
+	
+	
 	
 	public static boolean hasReviews(int resourceId) {
 		try {
@@ -64,7 +90,7 @@ public class Review {
             statement.setInt(1, resourceId);
             ResultSet results = statement.executeQuery();
             if(results.next()) {
-            	connection.close();
+            	//connection.close();
             	return results.getDouble(1);
             }else {
             	connection.close();
@@ -78,6 +104,22 @@ public class Review {
 		return 0;
 	}
 	
+	public static void addReview(String username, int resource, int star, String text) {
+		try {
+            Connection connection = DBHelper.getConnection();
+            PreparedStatement statement = connection.prepareStatement(
+                "INSERT INTO reviews(resourceId,username,star,review) VALUES(?,?,?,?)");
+                statement.setInt(1, resource);
+                statement.setString(2, username);
+                statement.setInt(3, star);
+                statement.setString(4, text);
+          statement.execute();
+          
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+	}
 	
 	public static ArrayList<String[]> getReviews(int resourceId){
 		try {
