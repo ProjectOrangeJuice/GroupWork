@@ -116,9 +116,10 @@ public class CopyController {
 			avgText.setStyle("-fx-font: 24 arial;");
 			avg.getChildren().add(avgText);
 			seeReviews.getChildren().add(avg);
-			
+
 			//Now for the actual reviews
 			for(String[] review : Review.getReviews(resourceId)) {
+			
 				VBox topV = new VBox();
 				HBox topH = new HBox();
 				//star, name,what,when
@@ -130,10 +131,28 @@ public class CopyController {
 				Text reviewText = new Text(review[2]);
 				reviewText.setStyle("-fx-font:15 arial;");
 				topH.getChildren().addAll(star,title,when);
-				topV.getChildren().addAll(topH,reviewText);
+			
+				//if staff , add button.
+				if(ScreenManager.getCurrentUser() instanceof model.Librarian) {
+				
+					Button removeReview = new Button("Remove");
+					removeReview.setOnAction((event) -> {
+					   Review.removeReview(Integer.valueOf(review[4]));
+					   seeReviews.getChildren().clear();
+			
+					   dealWithReviews();
+					});
+					topV.getChildren().addAll(topH,reviewText,removeReview);
+				}else {
+					topV.getChildren().addAll(topH,reviewText);
+				}
+				
+				
+				
+				
 				seeReviews.getChildren().add(topV);
 				
-				//if staff , add button.
+				
 				
 			}
 			

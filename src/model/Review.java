@@ -19,8 +19,10 @@ public class Review {
             statement.setInt(2, rId);
             ResultSet results = statement.executeQuery();
             if(results.next()) {
+            	connection.close();
             	return true;
             }else {
+            	connection.close();
             	return false;
             }
           
@@ -40,8 +42,10 @@ public class Review {
             statement.setInt(1, resourceId);
             ResultSet results = statement.executeQuery();
             if(results.next()) {
+            	connection.close();
             	return true;
             }else {
+            	connection.close();
             	return false;
             }
           
@@ -60,9 +64,10 @@ public class Review {
             statement.setInt(1, resourceId);
             ResultSet results = statement.executeQuery();
             if(results.next()) {
-            	
+            	connection.close();
             	return results.getDouble(1);
             }else {
+            	connection.close();
             	return 0;
             }
           
@@ -85,7 +90,7 @@ public class Review {
             while(results.next()) {
             	
             	//star, name,what,when
-            	String[] re = {String.valueOf(results.getInt(4)),results.getString(3),results.getString(5),results.getString(6)};
+            	String[] re = {String.valueOf(results.getInt(4)),results.getString(3),results.getString(5),results.getString(6),String.valueOf(results.getInt(1))};
             	reviews.add(re);
             	
             }
@@ -100,6 +105,7 @@ public class Review {
 	
 	
 	public static ArrayList<String[]> getReviews(){
+
 		try {
             Connection connection = DBHelper.getConnection();
             PreparedStatement statement = connection.prepareStatement(
@@ -108,11 +114,13 @@ public class Review {
             ResultSet results = statement.executeQuery();
             ArrayList<String[]> reviews = new ArrayList<String[]>();
             while(results.next()) {
-            	String[] re = {String.valueOf(results.getInt(0)),String.valueOf(results.getInt(3)),results.getString(5),results.getString(4)};
+            	String[] re = {String.valueOf(results.getInt(1)),String.valueOf(results.getInt(3)),results.getString(5),results.getString(4)};
+            
             	reviews.add(re);
             	
             }
-          
+            
+          return reviews;
         }
         catch (SQLException e) {
             e.printStackTrace();
@@ -122,12 +130,15 @@ public class Review {
 	
 	
 	public static void removeReview(int reviewId) {
+		System.out.println("to remove.. "+reviewId);
 		try {
             Connection connection = DBHelper.getConnection();
+         
             PreparedStatement statement = connection.prepareStatement(
-                "DELETE * FROM reviews WHERE reviewId=?");
+                "DELETE FROM reviews WHERE reviewId=?");
             statement.setInt(1, reviewId);
-            ResultSet results = statement.executeQuery();
+            statement.execute();
+          
           
         }
         catch (SQLException e) {
