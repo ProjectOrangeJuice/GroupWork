@@ -137,6 +137,7 @@ public static boolean hasReviewed(String username, int rId) {
             	reviews.add(re);
             	
             }
+            connection.close();
             return reviews;
           
         }
