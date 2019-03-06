@@ -114,6 +114,7 @@ public static boolean hasReviewed(String username, int rId) {
                 statement.setInt(3, star);
                 statement.setString(4, text);
           statement.execute();
+          connection.close();
           
         }
         catch (SQLException e) {
@@ -180,6 +181,7 @@ public static boolean hasReviewed(String username, int rId) {
                 "DELETE FROM reviews WHERE reviewId=?");
             statement.setInt(1, reviewId);
             statement.execute();
+            connection.close();
           
           
         }

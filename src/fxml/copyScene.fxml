@@ -44,7 +44,7 @@
                      </font>
                   </Label>
                   <TextArea fx:id="centertextarea" editable="false" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="150.0" prefWidth="308.0" />
-                  <ScrollPane minViewportHeight="250.0" prefHeight="200.0" prefViewportHeight="250.0" prefWidth="200.0">
+                  <ScrollPane minViewportHeight="250.0" prefHeight="200.0" prefViewportHeight="250.0" prefWidth="200.0" vbarPolicy="ALWAYS">
                      <content>
                         <VBox fx:id="seeReviews" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="250.0" prefWidth="100.0" />
                      </content>
