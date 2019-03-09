@@ -29,6 +29,8 @@ public class WriteReviewController {
 	  private RadioButton r3;
 	  @FXML
 	  private RadioButton r4;
+	  @FXML
+	  private RadioButton r5;
 	 
 	
 	@FXML
@@ -46,8 +48,11 @@ public class WriteReviewController {
 			starValue = 3;
 		}else if(selected.equals(r4)) {
 			starValue = 4;
-		}else{
+		}else if(selected.equals(r5)) {
 			starValue = 5;
+		}else {
+			System.out.println("No value selected, this shouldn't be possible");
+			return;
 		}
 		
 		String text = reviewBox.getText();

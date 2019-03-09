@@ -24,7 +24,7 @@
                   </Label>
                   <HBox prefHeight="18.0" prefWidth="382.0" spacing="40.0">
                      <children>
-                        <RadioButton fx:id="r1" mnemonicParsing="false" text="1">
+                        <RadioButton fx:id="r1" mnemonicParsing="false" selected="true" text="1">
                            <toggleGroup>
                               <ToggleGroup fx:id="star" />
                            </toggleGroup>
@@ -32,7 +32,7 @@
                         <RadioButton fx:id="r2" mnemonicParsing="false" text="2" toggleGroup="$star" />
                         <RadioButton fx:id="r3" mnemonicParsing="false" text="3" toggleGroup="$star" />
                         <RadioButton fx:id="r4" mnemonicParsing="false" text="4" toggleGroup="$star" />
-                        <RadioButton mnemonicParsing="false" text="5" toggleGroup="$star" />
+                        <RadioButton fx:id="r5" mnemonicParsing="false" text="5" toggleGroup="$star" />
                      </children>
                   </HBox>
                   <TextArea fx:id="reviewBox" prefHeight="85.0" prefWidth="247.0" />
