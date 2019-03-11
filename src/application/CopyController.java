@@ -104,7 +104,10 @@ public class CopyController {
 
 	}
 	
-	
+	/**
+	*Method that deals with reviews and if the user is staff, a remove button appears
+	*
+	*/
 	private void dealWithReviews() {
 		int resourceId = ScreenManager.currentResource.getUniqueID();
 		boolean hasReviews = model.Review.hasReviews(resourceId);
