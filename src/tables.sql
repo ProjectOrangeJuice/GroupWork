@@ -110,8 +110,7 @@ CREATE TABLE IF NOT EXISTS `events` (
 	`title`		TEXT,
 	`details`	TEXT,
 	`date`		TEXT,
-	`ISBN`		TEXT,
-	`language`	TEXT
+	`maxAllowed` INTEGER
 );
 
 DROP TABLE IF EXISTS `dvd`;
