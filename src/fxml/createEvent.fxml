@@ -5,7 +5,7 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="558.0" prefWidth="576.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.EventCreationController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="558.0" prefWidth="576.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <TextField fx:id="eventNameField" layoutX="237.0" layoutY="88.0" prefHeight="25.0" prefWidth="200.0" AnchorPane.bottomAnchor="445.0" AnchorPane.leftAnchor="237.0" AnchorPane.rightAnchor="139.0" AnchorPane.topAnchor="88.0" />
       <TextArea fx:id="eventDetailsField" layoutX="237.0" layoutY="127.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="231.0" AnchorPane.leftAnchor="237.0" AnchorPane.rightAnchor="139.0" AnchorPane.topAnchor="127.0" />
