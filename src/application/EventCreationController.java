@@ -7,6 +7,7 @@ import java.time.format.DateTimeFormatter;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import model.DBHelper;
 
@@ -16,7 +17,7 @@ public class EventCreationController {
 	private TextField eventNameField;
 	
 	@FXML
-	private TextField eventDetailsField;
+	private TextArea eventDetailsField;
 	
 	@FXML
 	private DatePicker datePickerField;
@@ -45,9 +46,7 @@ public class EventCreationController {
         catch (SQLException e) {
             e.printStackTrace();
         }
-		
-		
-		
+
 	}
 
 }
