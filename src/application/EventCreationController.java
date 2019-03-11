@@ -2,7 +2,9 @@ package application;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.time.format.DateTimeFormatter;
 
 import javafx.fxml.FXML;
@@ -24,10 +26,24 @@ public class EventCreationController {
 	
 	@FXML
 	private TextField maxAttendingField;
+	
+	public void testReturnEvent() throws SQLException {
+		
+		Connection conn = DBHelper.getConnection();
+		Statement stmt = conn.createStatement();
+		ResultSet rs = stmt.executeQuery("SELECT * FROM events");
+
+		while(rs.next()) {
+			System.out.println(rs.getString(1));
+		}
+		
+	}
 
 	public void createEvent() {
 		
 		try {
+			
+			System.out.println("hello");
 			
             Connection connectionToDB = DBHelper.getConnection();
             PreparedStatement sqlStatement = connectionToDB.prepareStatement("INSERT INTO events VALUES (?,?,?,?)");
@@ -41,6 +57,8 @@ public class EventCreationController {
             sqlStatement.setString(2, eventDetails);
             sqlStatement.setString(3, eventDate);
             sqlStatement.setInt(4, maxAttending);
+            
+            testReturnEvent();
             
         }
         catch (SQLException e) {
