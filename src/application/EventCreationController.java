@@ -27,6 +27,11 @@ public class EventCreationController {
 	@FXML
 	private TextField maxAttendingField;
 	
+	@FXML
+	 public void initialize() {
+		
+	}
+	
 	public void testReturnEvent() throws SQLException {
 		
 		Connection conn = DBHelper.getConnection();
