@@ -18,7 +18,7 @@
             <Font size="25.0" />
          </font>
       </Label>
-      <Button fx:id="createEventButton" layoutX="500.0" layoutY="511.0" mnemonicParsing="false" text="Create" AnchorPane.bottomAnchor="22.0" AnchorPane.leftAnchor="500.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="511.0" />
+      <Button fx:id="createEventButton" layoutX="500.0" layoutY="511.0" mnemonicParsing="false" onMouseClicked="#createEvent" text="Create" AnchorPane.bottomAnchor="22.0" AnchorPane.leftAnchor="500.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="511.0" />
       <Label layoutX="140.0" layoutY="391.0" text="Attending Limit:" />
       <TextField fx:id="maxAttendingField" layoutX="237.0" layoutY="387.0" prefHeight="25.0" prefWidth="200.0" />
    </children>
