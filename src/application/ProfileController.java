@@ -1161,7 +1161,7 @@ public class ProfileController {
             Parent root1 = (Parent) fxmlLoader.load();
             Stage stage = new Stage();
             stage.initModality(Modality.APPLICATION_MODAL);
-            stage.setTitle("Resource Information");
+            stage.setTitle("Create Event");
             stage.setScene(new Scene(root1));
             stage.show();
 		} catch (IOException e) {
