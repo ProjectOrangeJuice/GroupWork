@@ -276,7 +276,7 @@ public class CopyController {
 	    DVD movie = (DVD)ScreenManager.currentResource;
 	    String title = movie.getTitle();
 	    
-	    TrailerView trailerView = new TrailerView(title);
+	    MovieTrailerView trailerView = new MovieTrailerView(title);
 	    
 	    Scene trailerScene = new Scene(trailerView.getWebView(), 1600, 900);
 	    

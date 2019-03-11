@@ -13,7 +13,7 @@ import javafx.scene.web.WebView;
 import java.io.IOException;
 import java.util.List;
 
-public class TrailerView
+public class MovieTrailerView
 {
     private static final String API_KEY = "fde767385d9021cca4adc2853f21a53f";
     
@@ -31,7 +31,7 @@ public class TrailerView
     
     private WebView youtubeView;
     
-    public TrailerView(String movieName)
+    public MovieTrailerView(String movieName)
     {
         jsonMapper = new ObjectMapper();
         
