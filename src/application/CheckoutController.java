@@ -74,22 +74,7 @@ public class CheckoutController {
 
 		Optional<ButtonType> result = alert.showAndWait();
 		if (result.get() == ButtonType.OK) {
-			
-			// if statement to limit the number of items a user can check out
-			int limit = 0;
-			if(limit > 5) {
-				alert.setContentText("You have exceeded your limit of borrowing a maximum of 5 items");
-			}
-			else {
-				if (request.getResource() instanceof Laptop) {
-					limit += 3;
-					takeOut(request);
-				}
-				else {
-					limit += 1;
-					takeOut(request);
-				}
-			}
+			takeOut(request);
 		} else {
 			// ... user chose CANCEL or closed the dialog
 		}
