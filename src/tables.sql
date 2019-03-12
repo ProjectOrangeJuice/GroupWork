@@ -113,15 +113,15 @@ CREATE TABLE IF NOT EXISTS `game` (
 	`publisher`		TEXT,
 	`genre`			TEXT,
 	`rating`		TEXT,
-	`multiplayer` 	BOOLEAN,
+	`multiplayer` 	TEXT,
 	`rID`			INTEGER,
 	PRIMARY KEY (rID),
 	FOREIGN KEY (rID) REFERENCES `resource`(`rID`) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
-INSERT INTO `game` VALUES ('Valve','First-Person Shooter','18+',True,13);
-INSERT INTO `game` VALUES ('Rockstar Games','Action-Adventure','18+',True,14);
-INSERT INTO `game` VALUES ('Epic Games','Battle Royale','12',True,15);
+INSERT INTO `game` VALUES ('Valve','First-Person Shooter','18+',"Yes",13);
+INSERT INTO `game` VALUES ('Rockstar Games','Action-Adventure','18+',"Yes",14);
+INSERT INTO `game` VALUES ('Epic Games','Battle Royale','12',"Yes",15);
 
 DROP TABLE IF EXISTS `events`;
 CREATE TABLE IF NOT EXISTS `events` (

@@ -83,7 +83,7 @@ public class Laptop extends Resource {
      */
     public void setManufacturer(String manufacturer) {
         this.manufacturer = manufacturer;
-        updateDbValue("laptop", this.uniqueID, "manufacturer", manufacturer);
+        updateDBvalue("laptop", this.uniqueID, "manufacturer", manufacturer);
     }
 
     /**
@@ -101,7 +101,7 @@ public class Laptop extends Resource {
      */
     public void setModel(String model) {
         this.model = model;
-        updateDbValue("laptop", this.uniqueID, "model", model);
+        updateDBvalue("laptop", this.uniqueID, "model", model);
     }
 
     /**
@@ -119,7 +119,7 @@ public class Laptop extends Resource {
      */
     public void setOS(String operatingSystem) {
         this.operatingSystem = operatingSystem;
-        updateDbValue("laptop", this.uniqueID, "OS", operatingSystem);
+        updateDBvalue("laptop", this.uniqueID, "OS", operatingSystem);
     }
 
     /**

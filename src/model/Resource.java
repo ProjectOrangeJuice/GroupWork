@@ -322,7 +322,7 @@ public abstract class Resource {
      * @param thumbnail New location.
      */
     public void setThumbnailDatabase(String thumbnail) {
-    	updateDbValue("resource",uniqueID,"thumbnail",thumbnail);
+    	updateDBvalue("resource",uniqueID,"thumbnail",thumbnail);
 
     }
 
@@ -339,7 +339,7 @@ public abstract class Resource {
      * @param title New title value.
      */
     public void setTitle(String title) {
-        updateDbValue("resource", uniqueID, "title", title);
+        updateDBvalue("resource", uniqueID, "title", title);
         this.title = title;
     }
 
@@ -356,7 +356,7 @@ public abstract class Resource {
      * @param year New value for year.
      */
     public void setYear(int year) {
-        updateDbValue("resource", uniqueID, "year", year);
+        updateDBvalue("resource", uniqueID, "year", year);
         this.year = year;
     }
 
@@ -595,7 +595,7 @@ public abstract class Resource {
      * @param field The field that will be changed.
      * @param data The new value of the field.
      */
-    protected static void updateDbValue(String tableName, int resourceID,
+    protected static void updateDBvalue(String tableName, int resourceID,
             String field, String data) {
         try {
             Connection connectionToDB = DBHelper.getConnection();
@@ -617,7 +617,7 @@ public abstract class Resource {
      * @param field The field that will be changed.
      * @param data The new value of the field.
      */
-    protected static void updateDbValue(String tableName, int resourceID,
+    protected static void updateDBvalue(String tableName, int resourceID,
             String field, int data) {
         try {
             Connection connectionToDB = DBHelper.getConnection();
