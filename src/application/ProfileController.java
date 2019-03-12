@@ -596,6 +596,9 @@ public class ProfileController {
 	//Staff: Copies Explorer
 	//
 
+	// To check if the user have return a item before requesting for a new one.
+	private boolean goodForNewItem;
+	
 	@FXML
 	private void displayAll() {
 		staffHistoryFind.setDisable(false);
@@ -762,22 +765,62 @@ public class ProfileController {
 		if(!Resource.getResource(resourceID).loanToUser(user)) {
 			alertDone("Waiting for free copy");
 		}else {
+			
+			if(goodForNewItem == true) {
+				if (exceedLimit(user) == true) {
+					// blank out the approve button and display text showing the user
+					// has over requested
+				}
+				else {
+					try {
+						Connection conn = DBHelper.getConnection();
+						PreparedStatement sqlStatement = conn.prepareStatement("DELETE"
+								+ " FROM requestsToApprove WHERE rID = ? AND userName = ?");
+						sqlStatement.setInt(1, resourceID);
+						sqlStatement.setString(2, username);
+						sqlStatement.executeUpdate();
+						
+						goodForNewItem = false;
 
-		try {
-			Connection conn = DBHelper.getConnection();
-			PreparedStatement sqlStatement = conn.prepareStatement("DELETE"
-					+ " FROM requestsToApprove WHERE rID = ? AND userName = ?");
-			sqlStatement.setInt(1, resourceID);
-			sqlStatement.setString(2, username);
-			sqlStatement.executeUpdate();
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+					} catch (SQLException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+			else {
+				// blank out the approve button and display text informing the user to return an
+				// item before requesting for a new one.
+			}
 		}
 
 		System.out.println("Approved copy!");
 		displayRequested();
+	}
+	
+	/**
+	 * Check of the user have over requested an item
+	 * @param user The current user
+	 * @return true if the user have over requested, false otherwise
+	 */
+	@FXML
+	private boolean exceedLimit(User user) {
+		ArrayList<Copy> borrowedCopies = user.getBorrowedCopies();
+		int requestLimit = 0;
+		for (int i = 0; i < borrowedCopies.size(); i++) {
+			if (borrowedCopies.get(i).getResource() instanceof Laptop) {
+				requestLimit += 3;
+			}
+			else {
+				requestLimit += 1;
+			}
+		}
+		
+		if (requestLimit > 5) {
+			return true;
+		}
+		else {
+			return false;
+		}
 	}
 
 	/**
@@ -793,6 +836,10 @@ public class ProfileController {
 			for (Copy copy : res.getCopies()) {
 				if (copy.getCopyID() == copyID) {
 					res.processReturn(copy);
+					
+					// set request to true once user returned a copy and the user can request
+					// for a new resource.
+					goodForNewItem = true;
 				}
 			}
 		}
