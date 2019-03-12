@@ -431,6 +431,7 @@ public class ProfileController {
 
 		vResourceBox.getChildren().clear();
 		vResourceBox.getChildren().add(new HBox());
+
 		resourceImages.getChildren().clear();
 
 		Resource.loadDatabaseResources();

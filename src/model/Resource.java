@@ -102,6 +102,7 @@ public abstract class Resource {
         Book.loadDatabaseBooks();
         Laptop.loadDatabaseLaptops();
         DVD.loadDatabaseDVDs();
+        Game.loadDatabaseGames();
     }
     
     /**
