@@ -35,7 +35,6 @@ public class MovieTrailerView
     {
         jsonMapper = new ObjectMapper();
         
-        
         movieDescription = getMovieFromTMDB(movieName);
         trailerDescription = getTrailerFromTMDB(movieDescription);
         youtubeView = new WebView();
