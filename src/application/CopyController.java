@@ -270,6 +270,7 @@ public class CopyController {
 	public void requestCopy(MouseEvent event) {
 		ScreenManager.currentResource.addPendingRequest((User) 
 				ScreenManager.getCurrentUser());
+		AlertBox.alertDone("Requested!");
 		// ScreenManager.currentResource.loanToUser((User)ScreenManager.getCurrentUser());
 	}
 	

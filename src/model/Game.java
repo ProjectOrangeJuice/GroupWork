@@ -34,7 +34,7 @@ public class Game extends Resource {
     private String rating;
     
     /**Language of the book.*/
-    private Boolean multiplayerSupport;
+    private String multiplayerSupport;
 
     /**
      * Makes a new book with the given data, representing all the fields of this book.
@@ -43,15 +43,13 @@ public class Game extends Resource {
      * @param title The title of this resource.
      * @param year The year this resource appeared.
      * @param thumbnail A small image of this resource.
-     * @param author The author of the book.
      * @param publisher The publisher of the book.
      * @param genre The genre of the book.
      * @param isbn The ISBN code of the book.
      * @param language The language of the book.
      */
-    public Game(int uniqueID, String title, int year, Image thumbnail, 
-    		String author, String publisher, String genre,
-            String rating, Boolean multiplayerSupport) {
+    public Game(int uniqueID, String title, int year, Image thumbnail, String publisher, String genre,
+            String rating, String multiplayerSupport) {
         super(uniqueID, title, year, thumbnail);
         this.publisher = publisher;
         this.genre = genre;
@@ -60,56 +58,44 @@ public class Game extends Resource {
     }
 
 //---------------------------------------------------------
-//TODO: Ask if the Games attributes are all required
-/*    *//**
-     *  Makes a new book with the given data.
-     * @param uniqueID The unique number that identifies this resource.
-     * @param title The title of this resource.
-     * @param year The year this resource appeared.
-     * @param thumbnail A small image of this resource.
-    * @param author The author of the book.
-     * @param publisher The publisher of the book.
-     *//*
-    public Game(int uniqueID, String title, int year, Image thumbnail, 
-    		String author, String publisher) {
-        super(uniqueID, title, year, thumbnail);
-        this.author = author;
-        this.publisher = publisher;
-    }
+
     
 //TODO: Make database tables and make new loader
-    *//**
+    /**
      * Method that loads the details of all book resources from the book database table and
      * adds them to the list of all resources.
-     *//*
-    public static void loadDatabaseBooks() {
+     */
+    public static void loadDatabaseGames() {
         try {
 
             Connection conn = DBHelper.getConnection(); // get the connection
             Statement stmt = conn.createStatement(); // prep a statement
             ResultSet rs = stmt.executeQuery(
                 "SELECT resource.rID, resource.year, resource.title, "
-                + "resource.thumbnail, author, publisher," +
-                    "genre, ISBN, language FROM book, resource WHERE book.rID "
+                + "resource.thumbnail, publisher," +
+                    "genre, rating, multiplayer FROM game, resource WHERE game.rID "
                     + "= resource.rID"); 
 
             while (rs.next()) {
                 Image resourceImage = new Image(rs.getString("thumbnail"), true);
                 
-                resources.add(new Game(rs.getInt("rID"), rs.getString("title"), 
-                		rs.getInt("year"), resourceImage,
-                    rs.getString("author"), rs.getString("publisher"), 
-                    rs.getString("genre"), rs.getString("ISBN"),
-                    rs.getString("language")));
+                resources.add(new Game(	rs.getInt("rID"), 
+                					   	rs.getString("title"), 
+                					   	rs.getInt("year"), 
+                					   	resourceImage,
+					                    rs.getString("publisher"), 
+					                    rs.getString("genre"), 
+					                    rs.getString("rating"),
+					                    rs.getString("multiplayer")));
 
-                System.out.println("New book added!");
+                System.out.println("New game added!");
             }
 
         }
         catch (SQLException e) {
             e.printStackTrace();
         }
-    }*/
+    }
     
 //---------------------------------------------------------    
     
@@ -128,7 +114,7 @@ public class Game extends Resource {
      */
     public void setGenre(String genre) {
         this.genre = genre;
-        //updateDbValue("book", this.uniqueID, "genre", genre);
+        updateDBvalue("game", this.uniqueID, "genre", genre);
     }
 
     /**
@@ -145,7 +131,7 @@ public class Game extends Resource {
      */
     public void setPublisher(String publisher) {
         this.publisher = publisher;
-        //updateDbValue("book", this.uniqueID, "publisher", publisher);
+        updateDBvalue("game", this.uniqueID, "publisher", publisher);
     }
     
     
@@ -163,14 +149,14 @@ public class Game extends Resource {
      */
 	public void setRating(String rating) {
 		this.rating = rating;
-		//updateDbValue("book", this.uniqueID, "publisher", publisher);
+		updateDBvalue("game", this.uniqueID, "rating", rating);
 	}
 	
     /**
      * Returns whether or not the game has multiplayer support
      * @return The publisher of book
      */
-	public Boolean getMultiplayerSupport() {
+	public String getMultiplayerSupport() {
 		return multiplayerSupport;
 	}
 	
@@ -178,9 +164,9 @@ public class Game extends Resource {
      * Sets the publisher variable of this resource and updates the database.
      * @param publisher New publisher of the book.
      */
-	public void setMultiplayerSupport(Boolean multiplayerSupport) {
+	public void setMultiplayerSupport(String multiplayerSupport) {
 		this.multiplayerSupport = multiplayerSupport;
-		//updateDbValue("book", this.uniqueID, "publisher", publisher);
+		updateDBvalue("game", this.uniqueID, "multiplayer", multiplayerSupport);
 	}
 
 	/**

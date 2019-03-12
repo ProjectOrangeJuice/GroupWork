@@ -19,6 +19,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.VBox;
 import model.Fine;
+import model.Laptop;
 import model.Payment;
 import model.Request;
 import model.Transactions;

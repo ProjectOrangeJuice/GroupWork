@@ -115,7 +115,7 @@ public class DVD extends Resource {
      */
     public void setDirector(String director) {
         this.director = director;
-        updateDbValue("dvd", this.uniqueID, "director", director);
+        updateDBvalue("dvd", this.uniqueID, "director", director);
     }
 
     /**
@@ -132,7 +132,7 @@ public class DVD extends Resource {
      */
     public void setRuntime(int runtime) {
         this.runTime = runtime;
-        updateDbValue("dvd", this.uniqueID, "runtime", Integer.toString(runtime));
+        updateDBvalue("dvd", this.uniqueID, "runtime", Integer.toString(runtime));
     }
 
     /**
@@ -149,7 +149,7 @@ public class DVD extends Resource {
      */
     public void setLanguage(String language) {
         this.language = language;
-        updateDbValue("dvd", this.uniqueID, "language", language);
+        updateDBvalue("dvd", this.uniqueID, "language", language);
     }
 
     /**

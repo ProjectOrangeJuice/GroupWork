@@ -125,7 +125,7 @@ public class Book extends Resource {
      */
     public void setGenre(String genre) {
         this.genre = genre;
-        updateDbValue("book", this.uniqueID, "genre", genre);
+        updateDBvalue("book", this.uniqueID, "genre", genre);
     }
 
     /**
@@ -142,7 +142,7 @@ public class Book extends Resource {
      */
     public void setAuthor(String author) {
         this.author = author;
-        updateDbValue("book", this.uniqueID, "author", author);
+        updateDBvalue("book", this.uniqueID, "author", author);
     }
 
     /**
@@ -159,7 +159,7 @@ public class Book extends Resource {
      */
     public void setPublisher(String publisher) {
         this.publisher = publisher;
-        updateDbValue("book", this.uniqueID, "publisher", publisher);
+        updateDBvalue("book", this.uniqueID, "publisher", publisher);
     }
 
     /**
@@ -176,7 +176,7 @@ public class Book extends Resource {
      */
     public void setISBN(String isbn) {
         this.isbn = isbn;
-        updateDbValue("book", this.uniqueID, "ISBN", isbn);
+        updateDBvalue("book", this.uniqueID, "ISBN", isbn);
     }
 
     /**
@@ -193,7 +193,7 @@ public class Book extends Resource {
      */
     public void setLanguage(String language) {
         this.language = language;
-        updateDbValue("book", this.uniqueID, "language", language);
+        updateDBvalue("book", this.uniqueID, "language", language);
     }
 
     /**

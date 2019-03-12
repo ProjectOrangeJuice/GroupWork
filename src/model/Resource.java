@@ -102,6 +102,7 @@ public abstract class Resource {
         Book.loadDatabaseBooks();
         Laptop.loadDatabaseLaptops();
         DVD.loadDatabaseDVDs();
+        Game.loadDatabaseGames();
     }
     
     /**
@@ -257,7 +258,9 @@ public abstract class Resource {
          * If there are free copies, mark a copy as borrowed and reserve it for
          * the user.
          */
+  
         if (!freeCopies.isEmpty()) {
+        
             Copy copyToBorrow = freeCopies.removeFirst();
 
             copyToBorrow.resetDates();
@@ -276,11 +279,16 @@ public abstract class Resource {
          * borrowed copy with no due date that has been borrowed the longest.
          */
         else {
+        	
             userRequestQueue.enqueue(user);
+          try {
             Copy firstCopy = noDueDateCopies.poll();
            
             firstCopy.setDueDate();
             saveCopyToDB(firstCopy);
+          }catch(NullPointerException ex) {
+        	  //No copies in the database!
+          }
                
             return false;
         }
@@ -315,7 +323,7 @@ public abstract class Resource {
      * @param thumbnail New location.
      */
     public void setThumbnailDatabase(String thumbnail) {
-    	updateDbValue("resource",uniqueID,"thumbnail",thumbnail);
+    	updateDBvalue("resource",uniqueID,"thumbnail",thumbnail);
 
     }
 
@@ -332,7 +340,7 @@ public abstract class Resource {
      * @param title New title value.
      */
     public void setTitle(String title) {
-        updateDbValue("resource", uniqueID, "title", title);
+        updateDBvalue("resource", uniqueID, "title", title);
         this.title = title;
     }
 
@@ -349,7 +357,7 @@ public abstract class Resource {
      * @param year New value for year.
      */
     public void setYear(int year) {
-        updateDbValue("resource", uniqueID, "year", year);
+        updateDBvalue("resource", uniqueID, "year", year);
         this.year = year;
     }
 
@@ -588,7 +596,7 @@ public abstract class Resource {
      * @param field The field that will be changed.
      * @param data The new value of the field.
      */
-    protected static void updateDbValue(String tableName, int resourceID,
+    protected static void updateDBvalue(String tableName, int resourceID,
             String field, String data) {
         try {
             Connection connectionToDB = DBHelper.getConnection();
@@ -610,7 +618,7 @@ public abstract class Resource {
      * @param field The field that will be changed.
      * @param data The new value of the field.
      */
-    protected static void updateDbValue(String tableName, int resourceID,
+    protected static void updateDBvalue(String tableName, int resourceID,
             String field, int data) {
         try {
             Connection connectionToDB = DBHelper.getConnection();

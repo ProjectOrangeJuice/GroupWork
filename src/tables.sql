@@ -70,6 +70,10 @@ INSERT INTO `resource`(rID,title,year,thumbnail) VALUES (10,'American Gods',2015
 INSERT INTO `resource`(rID,title,year,thumbnail) VALUES (11,'Iron Man 3',2013,'/graphics/ironMan3.jpg');
 INSERT INTO `resource`(rID,title,year,thumbnail) VALUES (12,'Lenovo',2017,'/graphics/laptop.jpg');
 
+INSERT INTO `resource`(rID,title,year,thumbnail) VALUES (13,'Counter-Strike: Global Offensive',2012,'/graphics/csgo.jpg');
+INSERT INTO `resource`(rID,title,year,thumbnail) VALUES (14,'Grand Theft Auto V',2013,'/graphics/gta-v.jpg');
+INSERT INTO `resource`(rID,title,year,thumbnail) VALUES (15,'Fortnite',2017,'/graphics/fortnite.jpg');
+
 
 DROP TABLE IF EXISTS `fines`;
 CREATE TABLE IF NOT EXISTS `fines` (
@@ -103,6 +107,21 @@ INSERT INTO `book` VALUES ('Andy Weir','Harvill Secker','Fiction','978-191-070-1
 INSERT INTO `book` VALUES ('Yuval Noah Harari','Harvill Secker','Non-Fiction','978-191-070-187-5','English',8);
 INSERT INTO `book` VALUES ('Unknown Author','Harvill Secker','Fiction','978-191-070-187-6','English',9);
 INSERT INTO `book` VALUES ('Neil Gaimen','Harvill Secker','Fiction','978-191-070-187-7','English',10);
+
+DROP TABLE IF EXISTS `game`;
+CREATE TABLE IF NOT EXISTS `game` (
+	`publisher`		TEXT,
+	`genre`			TEXT,
+	`rating`		TEXT,
+	`multiplayer` 	TEXT,
+	`rID`			INTEGER,
+	PRIMARY KEY (rID),
+	FOREIGN KEY (rID) REFERENCES `resource`(`rID`) ON UPDATE CASCADE ON DELETE CASCADE
+);
+
+INSERT INTO `game` VALUES ('Valve','First-Person Shooter','18+',"Yes",13);
+INSERT INTO `game` VALUES ('Rockstar Games','Action-Adventure','18+',"Yes",14);
+INSERT INTO `game` VALUES ('Epic Games','Battle Royale','12',"Yes",15);
 
 DROP TABLE IF EXISTS `events`;
 CREATE TABLE IF NOT EXISTS `events` (
