@@ -238,7 +238,7 @@ public class ResourceController {
 					Integer.parseInt(year);
 				}catch (NumberFormatException  e) {
 					goAhead = false;
-					alertDone("Year must be a number");
+					AlertBox.alertDone("Year must be a number");
 				}
 				try {
 					if(!img.equals("")) {
@@ -246,7 +246,7 @@ public class ResourceController {
 					}
 				}catch (Exception e) {
 					goAhead = false;
-					alertDone("Image not found");
+					AlertBox.alertDone("Image not found");
 				}
 				if(goAhead) {
 					Laptop laptop = (Laptop) ScreenManager.getCurrentResource();
@@ -259,7 +259,7 @@ public class ResourceController {
 					laptop.setManufacturer(manu);
 					laptop.setModel(model);
 					laptop.setOS(OS);
-					alertDone("Updated!");
+					AlertBox.alertDone("Updated!");
 					
 				}
 		
@@ -289,7 +289,7 @@ public class ResourceController {
 			Integer.parseInt(year);
 		}catch (NumberFormatException  e) {
 			goAhead = false;
-			alertDone("Year must be a number");
+			AlertBox.alertDone("Year must be a number");
 		}
 		
 		try {
@@ -299,7 +299,7 @@ public class ResourceController {
 		}catch (Exception e) {
 			goAhead = false;
 			System.out.println(e);
-			alertDone("Image not found");
+			AlertBox.alertDone("Image not found");
 		}
 		
 		//If the year is a number, update the book attributes
@@ -317,7 +317,7 @@ public class ResourceController {
 			resource.setISBN(ISBN);
 			resource.setLanguage(language);
 
-			alertDone("Updated!");
+			AlertBox.alertDone("Updated!");
 			
 		}
 	}
@@ -341,7 +341,7 @@ public class ResourceController {
 			Integer.parseInt(runtime);
 		}catch (NumberFormatException  e) {
 			goAhead = false;
-			alertDone("Year and runtime must be a number");
+			AlertBox.alertDone("Year and runtime must be a number");
 		}
 		
 		try {
@@ -350,7 +350,7 @@ public class ResourceController {
 			}
 		}catch (Exception e) {
 			goAhead = false;
-			alertDone("Image not found");
+			AlertBox.alertDone("Image not found");
 		}
 		
 		if (goAhead) {
@@ -372,22 +372,10 @@ public class ResourceController {
 				}
 			resource.setRuntime(Integer.parseInt(runtime));
 			
-			alertDone("Updated!");
+			AlertBox.alertDone("Updated!");
 		}
 	}
 	
-	/**
-	 * Generate a popup.
-	 * @param text The text to be displayed.
-	 */
-	private void alertDone(String text) {
-		Alert alert = new Alert(AlertType.INFORMATION);
-		alert.setTitle("Information Dialog");
-		alert.setHeaderText(null);
-		alert.setContentText(text);
-
-		alert.showAndWait();
-	}
 	
 	/**
 	 * Initalize method that creates the resource on start up depending on the resource.

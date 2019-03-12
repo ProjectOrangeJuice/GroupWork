@@ -763,7 +763,7 @@ public class ProfileController {
 
 		User user = (User)Person.loadPerson(username);
 		if(!Resource.getResource(resourceID).loanToUser(user)) {
-			alertDone("Waiting for free copy");
+			AlertBox.alertDone("Waiting for free copy");
 		}else {
 			
 			if(goodForNewItem == true) {
@@ -1139,12 +1139,12 @@ public class ProfileController {
 			System.out.println("Delete User: " + selectedUserLabel.getText());
 			if(selectedUserLabel.getText().equals(
 					ScreenManager.getCurrentUser().getUsername())) {
-				alertDone("You can't delete yourself!");
+				AlertBox.alertDone("You can't delete yourself!");
 			}else {
 				if(Person.removePerson(selectedUserLabel.getText())) {
 
 				}else {
-					alertDone("They can't be deleted at the moment");
+					AlertBox.alertDone("They can't be deleted at the moment");
 				}
 			}
 			//Delete user
@@ -1159,18 +1159,7 @@ public class ProfileController {
 	// End of Staff Tab
 	//
 
-	/**
-	 * Generate a popup.
-	 * @param text The text to be displayed.
-	 */
-	private void alertDone(String text) {
-		Alert alert = new Alert(AlertType.INFORMATION);
-		alert.setTitle("Information Dialog");
-		alert.setHeaderText(null);
-		alert.setContentText(text);
-
-		alert.showAndWait();
-	}
+	
 
 	/**
 	 * Method that allows librarian to add funds to a user when the button is clicked

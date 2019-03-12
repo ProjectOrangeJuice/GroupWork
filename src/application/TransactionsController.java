@@ -170,7 +170,7 @@ public class TransactionsController {
                 System.out.println(Double.valueOf(result.get()));
             }
             catch (NumberFormatException e) {
-                alertDone("Invalid input");
+                AlertBox.alertDone("Invalid input");
                 goAhead = false;
             }
 
@@ -180,7 +180,7 @@ public class TransactionsController {
                 if (Payment.makePayment(fine.getUsername(),
                     Double.valueOf(result.get()), fine.getFineId(), (Double
                         .valueOf(result.get()) == fine.getAmount())) != null) {
-                    alertDone("Fine has been paid");
+                    AlertBox.alertDone("Fine has been paid");
                     
                     //Removes the old table
                     finesSplit.getItems().remove(tableFine); 
@@ -189,30 +189,17 @@ public class TransactionsController {
                     setupFines();
                 }
                 else {
-                    alertDone("Fine was not able to be paid");
+                    AlertBox.alertDone("Fine was not able to be paid");
                 }
             }
             else {
-                alertDone("Value entered was wrong");
+                AlertBox.alertDone("Value entered was wrong");
             }
         }
 
     }
 
-    /**
-     * Generate a popup.
-     * 
-     * @param text The text to be displayed.
-     */
-    private void alertDone(String text) {
-        Alert alert = new Alert(AlertType.INFORMATION);
-        alert.setTitle("Information Dialog");
-        alert.setHeaderText(null);
-        alert.setContentText(text);
-
-        alert.showAndWait();
-    }
-
+    
     /**
      * Setup the transactions table.
      */

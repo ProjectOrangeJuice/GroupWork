@@ -257,7 +257,9 @@ public abstract class Resource {
          * If there are free copies, mark a copy as borrowed and reserve it for
          * the user.
          */
+  
         if (!freeCopies.isEmpty()) {
+        
             Copy copyToBorrow = freeCopies.removeFirst();
 
             copyToBorrow.resetDates();
@@ -276,11 +278,16 @@ public abstract class Resource {
          * borrowed copy with no due date that has been borrowed the longest.
          */
         else {
+        	
             userRequestQueue.enqueue(user);
+          try {
             Copy firstCopy = noDueDateCopies.poll();
            
             firstCopy.setDueDate();
             saveCopyToDB(firstCopy);
+          }catch(NullPointerException ex) {
+        	  //No copies in the database!
+          }
                
             return false;
         }
