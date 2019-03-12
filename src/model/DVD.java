@@ -275,6 +275,13 @@ public class DVD extends Resource {
         score += super.getLikenessScore(otherResource);
         return score;
     }
+    
+    /**
+     * Return the default limit number from resource to restrict user over requesting
+     */
+    public int getLimitAmount() {
+    	return super.getLimitAmount();
+    }
 
     /**
      * Loads the subtitle languages of this dvd from the database and populates

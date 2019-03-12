@@ -349,4 +349,23 @@ public class User extends Person {
 
         return recommendedResource;
     }
+    
+    /**
+	 * Check of the user have over requested an item
+	 * @return true if the user have over requested, false otherwise
+	 */
+	public boolean exceedLimit() {
+		ArrayList<Copy> borrowedCopies = copiesList;
+		int requestLimit = 0;
+		for (int i = 0; i < borrowedCopies.size(); i++) {
+			requestLimit += borrowedCopies.get(i).getResource().getLimitAmount();
+		}
+		
+		if (requestLimit >= 5) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
 }

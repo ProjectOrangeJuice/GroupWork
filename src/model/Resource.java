@@ -62,6 +62,12 @@ public abstract class Resource {
     /**A list of users with pending requests to borrow a copy of this resource 
      * that need to be authorised by a librarian.*/
     private ArrayList<User> pendingRequests;
+    
+    /**
+     * A default number for each resource used to limit the number of items a user
+     * can checkout
+     */
+    protected int limitAmount = 1;
 
     /**
      * Makes a new resource whose details are the given arguments.
@@ -587,6 +593,14 @@ public abstract class Resource {
         else {
             return false;
         }
+    }
+    
+    /**
+     * limit Amount used to restrict number of items a user can borrow
+     * @return the default amount of the resource
+     */
+    public int getLimitAmount() {
+    	return this.limitAmount;
     }
     
     /**
