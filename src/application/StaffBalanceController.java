@@ -37,36 +37,25 @@ public class StaffBalanceController {
 		try{
 			Float.valueOf(accountValue.getText());
 		}catch(NumberFormatException e) {
-			alertDone("Invalid input");
+			AlertBox.alertDone("Invalid input");
 			goAhead = false;
 		}
 		if(goAhead) {
 		float balance = Float.valueOf(accountValue.getText());
 		if(balance > MIN_VALUE && balance < MAX_VALUE) {
 			if(User.addBalance(username,balance)) {
-				alertDone("Added balance");
+				AlertBox.alertDone("Added balance");
 			}else {
-				alertDone("Unable to add balance!");
+				AlertBox.alertDone("Unable to add balance!");
 			}
 			
 		}else {
-			alertDone("Values out of range!");
+			AlertBox.alertDone("Values out of range!");
 		}
 		}
 		
 	}
-	/**
-	 * Generate a popup.
-	 * @param text The text to be displayed.
-	 */
-	private void alertDone(String text) {
-		Alert alert = new Alert(AlertType.INFORMATION);
-		alert.setTitle("Information Dialog");
-		alert.setHeaderText(null);
-		alert.setContentText(text);
-
-		alert.showAndWait();
-	}
+	
 	
 	
 
