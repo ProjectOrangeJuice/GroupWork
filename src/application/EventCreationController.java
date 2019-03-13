@@ -27,44 +27,55 @@ public class EventCreationController {
 	@FXML
 	private TextField maxAttendingField;
 	
+	private static int eventNumber = 0;
+	
 	@FXML
 	 public void initialize() {
 		
 	}
 	
-	public void testReturnEvent() throws SQLException {
-		
-		Connection conn = DBHelper.getConnection();
-		Statement stmt = conn.createStatement();
-		ResultSet rs = stmt.executeQuery("SELECT * FROM events");
+	public int setEventNumber() throws SQLException {
+	
+		Connection connectionToDB = DBHelper.getConnection();
+        
+        Statement stmt = connectionToDB.createStatement();
+        ResultSet rs = stmt.executeQuery("SELECT * FROM events");
 
 		while(rs.next()) {
-			System.out.println(rs.getString(1));
+			eventNumber += 1;
+			System.out.println(rs.getInt(1) +": " + rs.getString(2));
 		}
+		
+		connectionToDB.close();
+		
+		System.out.println("Event Number: " + eventNumber);
+		return eventNumber;
 		
 	}
 
 	public void createEvent() {
 		
 		try {
-			
-			System.out.println("hello");
+
+			setEventNumber();
 			
             Connection connectionToDB = DBHelper.getConnection();
-            PreparedStatement sqlStatement = connectionToDB.prepareStatement("INSERT INTO events VALUES (?,?,?,?)");
+            PreparedStatement sqlStatement = connectionToDB.prepareStatement("INSERT INTO events VALUES (?,?,?,?,?)");
             
             String eventDate = datePickerField.getValue().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
             String eventName = eventNameField.getText();
             String eventDetails = eventDetailsField.getText();
             int maxAttending = Integer.parseInt(maxAttendingField.getText());
             
-            sqlStatement.setString(1, eventName);
-            sqlStatement.setString(2, eventDetails);
-            sqlStatement.setString(3, eventDate);
-            sqlStatement.setInt(4, maxAttending);
+            sqlStatement.setInt(1, eventNumber+1);
+            sqlStatement.setString(2, eventName);
+            sqlStatement.setString(3, eventDetails);
+            sqlStatement.setString(4, eventDate);
+            sqlStatement.setInt(5, maxAttending);
             
-            testReturnEvent();
-            
+            sqlStatement.execute();
+            eventNumber += 1;
+    
         }
         catch (SQLException e) {
             e.printStackTrace();
