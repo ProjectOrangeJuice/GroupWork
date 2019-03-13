@@ -817,7 +817,7 @@ public class ProfileController {
 		}else {
 			
 			if(goodForNewItem == true) {
-				if (user.exceedLimit() == true) {
+				if (user.exceedLimit(Resource.getResource(resourceID)) == true) {
 					// blank out the approve button and display text showing the user
 					// has over requested
 				}
