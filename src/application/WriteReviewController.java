@@ -1,5 +1,9 @@
 package application;
-
+/**
+ * Controller class for the write a review GUI
+ * @author Oliver Harris
+ * @author Joe Wright
+ */
 
 
 import javafx.fxml.FXML;
@@ -16,21 +20,21 @@ public class WriteReviewController {
 	   private AnchorPane writeReviewBox;
 	  
 	  @FXML
-	  private TextArea reviewBox;
+	  private TextArea reviewBox;//Displays reviews
 	  
 	  @FXML
-	  private ToggleGroup star;
+	  private ToggleGroup star;//rating
 	  
 	  @FXML
-	  private RadioButton r1;
+	  private RadioButton r1;//inputs 1 rating
 	  @FXML
-	  private RadioButton r2;
+	  private RadioButton r2;//inputs 2 rating
 	  @FXML
-	  private RadioButton r3;
+	  private RadioButton r3;//inputs 3 rating
 	  @FXML
-	  private RadioButton r4;
+	  private RadioButton r4;//inputs 4 rating
 	  @FXML
-	  private RadioButton r5;
+	  private RadioButton r5;//inputs 5 rating
 	 
 	
 	@FXML
