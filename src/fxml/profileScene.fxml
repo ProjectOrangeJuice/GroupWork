@@ -318,7 +318,7 @@
                               <TableColumn fx:id="eventSpacesField" prefWidth="116.0" text="Spaces Available" />
                            </columns>
                         </TableView>
-                        <Button fx:id="joinEventButton" layoutX="672.0" layoutY="563.0" mnemonicParsing="false" text="Join Event" />
+                        <Button fx:id="joinEventButton" layoutX="672.0" layoutY="563.0" mnemonicParsing="false" onMouseClicked="#onJoinEventClick" text="Join Event" />
                      </children>
                   </AnchorPane>
               </content>
