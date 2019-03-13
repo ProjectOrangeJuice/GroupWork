@@ -101,7 +101,7 @@ public class Event {
 		
 		Connection connectionToDB = DBHelper.getConnection();
         Statement stmt = connectionToDB.createStatement();
-        stmt.executeQuery("UPDATE events SET title = " + event.title + ", details = " +
+        stmt.execute("UPDATE events SET title = " + event.title + ", details = " +
         event.details + ", date = " + event.date + ", maxAllowed = " + event.maxAttending + " WHERE eID = " + event.ID);
 
 	}
