@@ -56,11 +56,11 @@ public class EventCreationController {
             
             Event.addEvent(eventName, eventDetails, eventDate, maxAttending);
             
-            System.out.println("NewEventAdded!");
+            /*System.out.println("NewEventAdded!");
             for(Event event : Event.getAllEvents()) {
             	System.out.println(event.getTitle());
             	System.out.println(Event.getAllEvents().size());
-            }
+            }*/
     
         }
         catch (SQLException e) {
