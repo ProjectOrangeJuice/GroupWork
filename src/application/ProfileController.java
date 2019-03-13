@@ -243,6 +243,7 @@ public class ProfileController {
 		tableData.addAll(model.Event.getAllEvents());
 		//System.out.println("size: " + tableData.size());
 		eventTable.setItems(tableData);
+		eventTable.refresh();
 	}
 
 
