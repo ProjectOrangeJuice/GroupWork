@@ -59,6 +59,8 @@ public class EventCreationController {
             
             sqlStatement.execute();
             
+            System.out.println("added event successfully!");
+            
             Event.addEvent(eventName, eventDetails, eventDate, maxAttending);
             
             Stage stage = (Stage) createEventButton.getScene().getWindow();

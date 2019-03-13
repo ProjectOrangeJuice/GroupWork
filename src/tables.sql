@@ -123,7 +123,6 @@ INSERT INTO `game` VALUES ('Valve','First-Person Shooter','18+',"Yes",13);
 INSERT INTO `game` VALUES ('Rockstar Games','Action-Adventure','18+',"Yes",14);
 INSERT INTO `game` VALUES ('Epic Games','Battle Royale','12',"Yes",15);
 
-DROP TABLE IF EXISTS `events`;
 CREATE TABLE IF NOT EXISTS `events` (
 	`eID`		INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
 	`title`		TEXT,

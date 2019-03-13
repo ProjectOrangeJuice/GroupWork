@@ -230,21 +230,6 @@ public class ProfileController {
 		}
 
 	}
-	
-	@FXML
-	private void loadEventTable() {
-		
-		eventTitleField.setCellValueFactory(new PropertyValueFactory<>("title"));
-		eventDetailsField.setCellValueFactory(new PropertyValueFactory<>("details"));
-		eventTimeField.setCellValueFactory(new PropertyValueFactory<>("date"));
-		eventSpacesField.setCellValueFactory(new PropertyValueFactory<>("maxAttending"));
-		
-		ObservableList<model.Event> tableData = FXCollections.observableArrayList();
-		tableData.addAll(model.Event.getAllEvents());
-		//System.out.println("size: " + tableData.size());
-		eventTable.setItems(tableData);
-		eventTable.refresh();
-	}
 
 
 	/**
@@ -611,6 +596,22 @@ public class ProfileController {
 			loadCopyImages(borrowHistory, "returned.png");
 		}
 	}
+	
+	@FXML
+	private void loadEventTable() {
+		
+		eventTitleField.setCellValueFactory(new PropertyValueFactory<>("title"));
+		eventDetailsField.setCellValueFactory(new PropertyValueFactory<>("details"));
+		eventTimeField.setCellValueFactory(new PropertyValueFactory<>("date"));
+		eventSpacesField.setCellValueFactory(new PropertyValueFactory<>("maxAttending"));
+		
+		ObservableList<model.Event> tableData = FXCollections.observableArrayList();
+		tableData.addAll(model.Event.getAllEvents());
+		//System.out.println("size: " + tableData.size());
+		eventTable.setItems(tableData);
+		eventTable.refresh();
+
+	}
 
 	/**
 	 * intialize method that starts when the scene is intialized
@@ -631,6 +632,10 @@ public class ProfileController {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}
+		
+		for(model.Event event : model.Event.getAllEvents()) {
+			System.out.println("dets: " + event.getTitle());
 		}
 		
 		loadEventTable();
@@ -1232,6 +1237,7 @@ public class ProfileController {
 		}
 		
 		loadEventTable();
+		eventTable.refresh();
 		
 	}
 	

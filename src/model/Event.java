@@ -34,6 +34,7 @@ public class Event {
 
 		while(rs.next()) {
 			allEvents.add(new Event(rs.getString(2), rs.getString(3), rs.getString(4), rs.getInt(5)));
+			System.out.println("hello");
 		}
 		
 		connectionToDB.close();
