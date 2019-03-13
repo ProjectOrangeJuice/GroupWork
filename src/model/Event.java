@@ -4,7 +4,12 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class Event {
 	
@@ -13,7 +18,7 @@ public class Event {
 	private String details;
 	private String date;
 	private int maxAttending;
-	
+
 	private static ArrayList<Event> allEvents = new ArrayList<Event>();
 
 
@@ -26,7 +31,19 @@ public class Event {
 		
 	}
 	
-	public static void loadEvents() throws SQLException {
+	private static boolean checkFutureDate(String dateString) throws ParseException {
+		
+		LocalDate localDate = LocalDate.now();
+		
+		Date eventDate = new SimpleDateFormat("dd/MM/yyyy").parse(dateString);
+		Date currentDate = Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
+		
+		return eventDate.after(currentDate);
+		
+		
+	}
+	
+	public static void loadEvents() throws SQLException, ParseException {
 		
 		Connection connectionToDB = DBHelper.getConnection();
         
@@ -34,10 +51,13 @@ public class Event {
         ResultSet rs = stmt.executeQuery("SELECT * FROM events");
 
 		while(rs.next()) {
-			//if(rs.getString(4))
-			allEvents.add(new Event(rs.getString(2), rs.getString(3), rs.getString(4), rs.getInt(5)));
-			allEvents.get(allEvents.size()-1).setID(rs.getInt(1));
-			System.out.println("hello");
+			
+			if(checkFutureDate(rs.getString(4))) {
+				allEvents.add(new Event(rs.getString(2), rs.getString(3), rs.getString(4), rs.getInt(5)));
+				allEvents.get(allEvents.size()-1).setID(rs.getInt(1));
+				System.out.println("hello");
+			}
+			
 		}
 		
 		connectionToDB.close();
