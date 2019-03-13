@@ -38,7 +38,7 @@ public class Event {
 		Date eventDate = new SimpleDateFormat("dd/MM/yyyy").parse(dateString);
 		Date currentDate = Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
 		
-		return eventDate.after(currentDate);
+		return eventDate.after(currentDate) || eventDate.equals(currentDate);
 		
 		
 	}
@@ -52,6 +52,8 @@ public class Event {
 
 		while(rs.next()) {
 			
+			
+			System.out.println("---------------------------------------------------- " + rs.getString(4));
 			if(checkFutureDate(rs.getString(4))) {
 				allEvents.add(new Event(rs.getString(2), rs.getString(3), rs.getString(4), rs.getInt(5)));
 				allEvents.get(allEvents.size()-1).setID(rs.getInt(1));
@@ -122,8 +124,8 @@ public class Event {
 		
 		Connection connectionToDB = DBHelper.getConnection();
         Statement stmt = connectionToDB.createStatement();
-        stmt.execute("UPDATE events SET title = " + event.title + ", details = " +
-        event.details + ", date = " + event.date + ", maxAllowed = " + event.maxAttending + " WHERE eID = " + event.ID);
+        stmt.execute("UPDATE events SET title = '" + event.title + "', details = '" +
+        event.details + "', date = '" + event.date + "', maxAllowed = " + event.maxAttending + " WHERE eID = " + event.ID);
 
 	}
 
