@@ -79,6 +79,8 @@ public class CopyController {
 
 	private Resource currentResource;//current instance of resource
 	
+	@FXML
+	private Text overLimit;
 	
 	@FXML
 	private VBox seeReviews;
@@ -375,6 +377,17 @@ public class CopyController {
 		leftVbox.getChildren().addAll(editCopies, editResource);
 	}
 
+	
+	private void setupLimit() {
+		User user = (User) ScreenManager.getCurrentUser();
+		if(user.exceedLimit()) {
+			requestbutt.setDisable(true);
+			overLimit.setVisible(true);
+			
+		}
+	}
+	
+	
 	/**
 	 * An initialize method that checks the user if its a staff, and loads the resource image and information when started.
 	 */
@@ -382,6 +395,7 @@ public class CopyController {
 	public void initialize() {
 		if (ScreenManager.getCurrentUser() instanceof User) {
 			checkIfBorrowed();
+			setupLimit();
 		} else {
 			requestbutt.setDisable(true);
 			setupStaffButtons();

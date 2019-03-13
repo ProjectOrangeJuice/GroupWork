@@ -181,6 +181,27 @@ public class ProfileController {
 	private ImageView staffAvatarView;
 	@FXML
 	private ImageView userAvatarView;
+	
+	@FXML
+	private TableView<model.Event> eventTable;
+	
+	@FXML
+	private TableColumn<model.Event, String> eventTitleField;
+	
+	@FXML
+	private TableColumn<model.Event, String> eventDetailsField;
+	
+	@FXML
+	private TableColumn<model.Event, String> eventTimeField;
+	
+	@FXML
+	private TableColumn<model.Event, Integer> eventSpacesField;
+	
+	@FXML
+	private Button eventViewButton;
+	
+	@FXML
+	private Button refreshEventsButton;
 
 	//may remove fixed size resource images
 	//when dealing with window resizing.
@@ -208,6 +229,20 @@ public class ProfileController {
 			e.printStackTrace();
 		}
 
+	}
+	
+	@FXML
+	private void loadEventTable() {
+		
+		eventTitleField.setCellValueFactory(new PropertyValueFactory<>("title"));
+		eventDetailsField.setCellValueFactory(new PropertyValueFactory<>("details"));
+		eventTimeField.setCellValueFactory(new PropertyValueFactory<>("date"));
+		eventSpacesField.setCellValueFactory(new PropertyValueFactory<>("maxAttending"));
+		
+		ObservableList<model.Event> tableData = FXCollections.observableArrayList();
+		tableData.addAll(model.Event.getAllEvents());
+		//System.out.println("size: " + tableData.size());
+		eventTable.setItems(tableData);
 	}
 
 
@@ -589,6 +624,15 @@ public class ProfileController {
 		displayAll();
 
 		loadResourceImages();
+		
+		try {
+			model.Event.loadEvents();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		loadEventTable();
 
 		scrollPane.setHvalue(0.5);
 
