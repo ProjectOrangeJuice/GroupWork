@@ -584,6 +584,13 @@ public class ProfileController {
 		displayAll();
 
 		loadResourceImages();
+		
+		try {
+			model.Event.loadEvents();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 		scrollPane.setHvalue(0.5);
 

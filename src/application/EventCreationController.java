@@ -38,8 +38,6 @@ public class EventCreationController {
 		
 		try {
 
-			Event.loadEvents();
-			
             Connection connectionToDB = DBHelper.getConnection();
             PreparedStatement sqlStatement = connectionToDB.prepareStatement("INSERT INTO events VALUES (?,?,?,?,?)");
             
@@ -57,6 +55,12 @@ public class EventCreationController {
             sqlStatement.execute();
             
             Event.addEvent(eventName, eventDetails, eventDate, maxAttending);
+            
+            System.out.println("NewEventAdded!");
+            for(Event event : Event.getAllEvents()) {
+            	System.out.println(event.getTitle());
+            	System.out.println(Event.getAllEvents().size());
+            }
     
         }
         catch (SQLException e) {
