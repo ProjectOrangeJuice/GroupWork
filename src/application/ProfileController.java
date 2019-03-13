@@ -1212,6 +1212,28 @@ public class ProfileController {
 
 	}
 	
+	
+	@FXML
+	private void onJoinEventClick() {
+		
+		model.Event selectedEvent = eventTable.getSelectionModel().getSelectedItem();
+		int selectedIndex = eventTable.getSelectionModel().getSelectedIndex();
+		
+		selectedEvent.setMaxAttending(selectedEvent.getMaxAttending()-1);
+		
+		ArrayList<model.Event> newEvents = model.Event.getAllEvents();
+		newEvents.set(selectedIndex, selectedEvent);
+		model.Event.setAllEvents(newEvents);
+		
+		for(model.Event event : model.Event.getAllEvents()) {
+			System.out.println(event.getTitle());
+			System.out.println(event.getMaxAttending());
+		}
+		
+		loadEventTable();
+		
+	}
+	
 	@FXML
 	private void openEventCreator() {
 		

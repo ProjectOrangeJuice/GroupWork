@@ -80,4 +80,9 @@ public class Event {
 		this.maxAttending = maxAttending;
 	}
 
+	public static void setAllEvents(ArrayList<Event> newEvents) {
+		allEvents = newEvents;
+		
+	}
+
 }
