@@ -50,6 +50,7 @@ import model.Book;
 import model.Copy;
 import model.DBHelper;
 import model.DVD;
+import model.Game;
 import model.Laptop;
 import model.Librarian;
 import model.Person;
@@ -420,6 +421,9 @@ public class ProfileController {
 		if(laptopCheck.isSelected() && r instanceof Laptop) {
 			return r.contains(searchText);
 		}
+		if(r instanceof Game) {
+		    return r.contains(searchText);
+		}
 
 		return false;
 
@@ -466,6 +470,7 @@ public class ProfileController {
 
 		//for each resource in resources array
 		for(int i = 0; i < resources.size(); i++) {
+		    System.out.println(resources.get(i).getTitle());
 			if(search(i)) {
 			StackPane imagePane = createImage(resources.get(i),
 					RES_IMG_WIDTH, RES_IMG_HEIGHT);

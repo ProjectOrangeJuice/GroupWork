@@ -23,6 +23,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import model.Book;
 import model.DVD;
+import model.Game;
 import model.Laptop;
 import model.Resource;
 import model.Review;
@@ -277,22 +278,46 @@ public class CopyController {
 	@FXML
 	public void showTrailerWindow(ActionEvent actioEvent)
 	{
-	    DVD movie = (DVD)ScreenManager.currentResource;
-	    String title = movie.getTitle();
+	    Resource currentResource = ScreenManager.currentResource;
 	    
-	    MovieTrailerView trailerView = new MovieTrailerView(title);
-	    
-	    Scene trailerScene = new Scene(trailerView.getWebView(), 1600, 900);
-	    
-	    Stage trailerWindow = new Stage();
-	    trailerWindow.setTitle(trailerView.getTrailerDescription().getName());
-	    
-	    trailerWindow.setOnHidden(e -> {
-	        trailerView.stop();
-	    });
-	    
-	    trailerWindow.setScene(trailerScene);
-	    trailerWindow.show();
+	    if(currentResource.getClass() == DVD.class) {
+	        DVD currentMovie = (DVD) currentResource;
+	        
+	        String title = currentMovie.getTitle();
+	        
+	        MovieTrailerView trailerView = new MovieTrailerView(title);
+	        
+	        Scene trailerScene = new Scene(trailerView.getWebView(), 1600, 900);
+	        
+	        Stage trailerWindow = new Stage();
+	        trailerWindow.setTitle(trailerView.getTrailerDescription().getName());
+	        
+	        trailerWindow.setOnHidden(e -> {
+	            trailerView.stop();
+	        });
+	        
+	        trailerWindow.setScene(trailerScene);
+	        trailerWindow.show();
+	    } else if(currentResource.getClass() == Game.class) {
+	        Game currentGame = (Game) currentResource;
+	        
+	        String title = currentGame.getTitle();
+	        
+	        GameTrailerView trailerView = new GameTrailerView(title);
+	        
+	        Scene trailerScene = new Scene(trailerView.getWebView(), 1600, 900);
+	        
+	        Stage trailerWindow = new Stage();
+	        trailerWindow.setTitle(trailerView.getTrailerDescription().getName());
+            
+            trailerWindow.setOnHidden(e -> {
+                trailerView.stop();
+            });
+            
+            trailerWindow.setScene(trailerScene);
+            trailerWindow.show();
+	    }
+	   
 	}
 
 	/**
@@ -365,7 +390,8 @@ public class CopyController {
 		loadResourceImage();
 		loadResourceInformation();
 		
-		if(!(ScreenManager.currentResource.getClass() == DVD.class))
+		if(!(ScreenManager.currentResource.getClass() == DVD.class || 
+		        ScreenManager.currentResource.getClass() == Game.class))
 		{
 		    viewTrailerButton.setDisable(true);
 		}

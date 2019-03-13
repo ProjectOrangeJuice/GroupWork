@@ -9,7 +9,10 @@ import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
 
+import javafx.application.Application;
+import javafx.scene.Scene;
 import javafx.scene.web.WebView;
+import javafx.stage.Stage;
 import model.GameID;
 import model.GameTrailerDescription;
 
@@ -42,9 +45,11 @@ public class GameTrailerView {
             //System.exit(-1);
         }
         
+        System.out.println(response.getBody());
         int trailerListName = response.getBody().indexOf("\"movies\"");
         int trailerListStart = response.getBody().indexOf("[", trailerListName);
         int trailerListEnd = response.getBody().indexOf("]", trailerListName);
+        System.out.println(trailerListName);
         String trailerList = response.getBody().substring(trailerListStart, trailerListEnd + 1);
         
         List<GameTrailerDescription> gameTrailers = null;
@@ -124,4 +129,36 @@ public class GameTrailerView {
             return false;
         }
     }
+    
+    public WebView getWebView() {
+        return steamView;
+    }
+    
+    public GameID getGameID() {
+        return app;
+    }
+    
+    public GameTrailerDescription getTrailerDescription() {
+        return trailerDescription;
+    }
+    
+    public void stop() {
+        steamView.getEngine().load(null);
+    }
+ 
+    /*public void start(Stage stage) {
+        GameTrailerView g = new GameTrailerView();
+        
+        Scene trailerScene = new Scene(g.getWebView(), 1600, 900);
+        
+        stage.setTitle(g.getTrailerDescription().getName());
+        
+        stage.setOnHidden(e -> {
+            g.stop();
+        });
+        
+        System.out.println(g.getWebView().getEngine().getLocation());
+        stage.setScene(trailerScene);
+        stage.show();
+    }*/
 }
