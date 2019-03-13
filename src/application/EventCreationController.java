@@ -5,11 +5,14 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.DateCell;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
@@ -36,6 +39,18 @@ public class EventCreationController {
 	
 	@FXML
 	 public void initialize() {
+		
+		datePickerField.setDayCellFactory(picker -> new DateCell() {
+			public void updateItem(LocalDate date, boolean empty) {
+				super.updateItem(date, empty);
+				LocalDate today = LocalDate.now();
+				setDisable(empty || date.compareTo(today) < 0 );
+			}
+		});
+		
+		//DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyy");  
+		//LocalDateTime now = LocalDateTime.now();
+		//System.out.println(dtf.format(now));
 		
 	}
 	
