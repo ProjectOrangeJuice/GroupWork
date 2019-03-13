@@ -9,9 +9,11 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 import model.DBHelper;
 import model.Event;
 
@@ -30,10 +32,13 @@ public class EventCreationController {
 	private TextField maxAttendingField;
 	
 	@FXML
+	private Button createEventButton;
+	
+	@FXML
 	 public void initialize() {
 		
 	}
-
+	
 	public void createEvent() {
 		
 		try {
@@ -56,11 +61,8 @@ public class EventCreationController {
             
             Event.addEvent(eventName, eventDetails, eventDate, maxAttending);
             
-            /*System.out.println("NewEventAdded!");
-            for(Event event : Event.getAllEvents()) {
-            	System.out.println(event.getTitle());
-            	System.out.println(Event.getAllEvents().size());
-            }*/
+            Stage stage = (Stage) createEventButton.getScene().getWindow();
+    	    stage.close();
     
         }
         catch (SQLException e) {
