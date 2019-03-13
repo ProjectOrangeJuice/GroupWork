@@ -1220,7 +1220,7 @@ public class ProfileController {
 	
 	
 	@FXML
-	private void onJoinEventClick() {
+	private void onJoinEventClick() throws SQLException {
 		
 		model.Event selectedEvent = eventTable.getSelectionModel().getSelectedItem();
 		int selectedIndex = eventTable.getSelectionModel().getSelectedIndex();
@@ -1232,6 +1232,7 @@ public class ProfileController {
 		model.Event.setAllEvents(newEvents);
 		
 		loadEventTable();
+		model.Event.updateEvent(selectedEvent);
 		
 	}
 	
