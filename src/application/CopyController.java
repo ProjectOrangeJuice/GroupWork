@@ -380,7 +380,7 @@ public class CopyController {
 	
 	private void setupLimit() {
 		User user = (User) ScreenManager.getCurrentUser();
-		if(user.exceedLimit()) {
+		if(user.exceedLimit(ScreenManager.getCurrentResource())) {
 			requestbutt.setDisable(true);
 			overLimit.setVisible(true);
 			
