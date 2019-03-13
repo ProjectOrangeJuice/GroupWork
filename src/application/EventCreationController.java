@@ -6,12 +6,14 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import model.DBHelper;
+import model.Event;
 
 public class EventCreationController {
 
@@ -27,29 +29,8 @@ public class EventCreationController {
 	@FXML
 	private TextField maxAttendingField;
 	
-	private static int eventNumber = 0;
-	
 	@FXML
 	 public void initialize() {
-		
-	}
-	
-	public int setEventNumber() throws SQLException {
-	
-		Connection connectionToDB = DBHelper.getConnection();
-        
-        Statement stmt = connectionToDB.createStatement();
-        ResultSet rs = stmt.executeQuery("SELECT * FROM events");
-
-		while(rs.next()) {
-			eventNumber += 1;
-			System.out.println(rs.getInt(1) +": " + rs.getString(2));
-		}
-		
-		connectionToDB.close();
-		
-		System.out.println("Event Number: " + eventNumber);
-		return eventNumber;
 		
 	}
 
@@ -57,7 +38,7 @@ public class EventCreationController {
 		
 		try {
 
-			setEventNumber();
+			Event.loadEvents();
 			
             Connection connectionToDB = DBHelper.getConnection();
             PreparedStatement sqlStatement = connectionToDB.prepareStatement("INSERT INTO events VALUES (?,?,?,?,?)");
@@ -67,14 +48,15 @@ public class EventCreationController {
             String eventDetails = eventDetailsField.getText();
             int maxAttending = Integer.parseInt(maxAttendingField.getText());
             
-            sqlStatement.setInt(1, eventNumber+1);
+            sqlStatement.setInt(1, Event.getAllEvents().size()+1);
             sqlStatement.setString(2, eventName);
             sqlStatement.setString(3, eventDetails);
             sqlStatement.setString(4, eventDate);
             sqlStatement.setInt(5, maxAttending);
             
             sqlStatement.execute();
-            eventNumber += 1;
+            
+            Event.addEvent(eventName, eventDetails, eventDate, maxAttending);
     
         }
         catch (SQLException e) {
