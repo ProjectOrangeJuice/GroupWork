@@ -16,15 +16,21 @@ import model.GameTrailerDescription;
 public class GameTrailerView {
     private ObjectMapper jsonMapper;
     private WebView steamView;
-    public GameID app;
+    private GameID app;
+    private GameTrailerDescription trailerDescription;
     
     public GameTrailerView(String gameName) {
         jsonMapper = new ObjectMapper();
-        setGameDescription(gameName);
-        setTrailerPath(app.getAppID());
+        
+        app = getGameDescription(gameName);
+        trailerDescription = getTrailerDescription(app.getAppID());
+        
+        steamView = new WebView();
+        steamView.setPrefSize(1600, 900);
+        steamView.getEngine().load(trailerDescription.getWebURLs().getMaxResURL());
     }
     
-    private void setTrailerPath(int gameID) {
+    private GameTrailerDescription getTrailerDescription(int gameID) {
         HttpResponse<String> response = null;
         
         try {
@@ -46,14 +52,13 @@ public class GameTrailerView {
             gameTrailers = jsonMapper.readValue(trailerList, new TypeReference<List<GameTrailerDescription>>() {});
         }
         catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         
-        System.out.println(gameTrailers.get(gameTrailers.size()-1).getWebURLs().getMaxResURL());
+        return gameTrailers.get(gameTrailers.size() - 1);
     }
     
-    private void setGameDescription(String gameName) {
+    private GameID getGameDescription(String gameName) {
         HttpResponse<String> response = null;
         
         try {
@@ -69,8 +74,7 @@ public class GameTrailerView {
         
         int  idAppearance = getIndexOfGame(results, gameName);
         if(idAppearance == -1) {
-           app = null; 
-           return;
+          return null;
         }
         
         int descriptionStart = results.lastIndexOf("{", idAppearance);
@@ -84,7 +88,7 @@ public class GameTrailerView {
             e.printStackTrace();
         }
         
-        app = gameID;
+        return gameID;
     }
     
     private static int getIndexOfGame(String allGames, String gameName) {
@@ -114,17 +118,10 @@ public class GameTrailerView {
         int quotesEnd = allGames.indexOf("\"", idAppearance);
         
         String fullName = allGames.substring(quotesStart + 1, quotesEnd);
-        System.out.println(fullName);
         if(gameName.equals(fullName)) {
             return true;
         } else {
             return false;
         }
-    }
-    
-    public static void main(String args[])
-    {
-        GameTrailerView g = new GameTrailerView("Far Cry 2");
-        System.out.println(g.app.getAppID());
     }
 }
