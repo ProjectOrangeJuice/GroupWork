@@ -7,7 +7,9 @@ import java.sql.Statement;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -33,12 +35,13 @@ public class Event {
 	
 	private static boolean checkFutureDate(String dateString) throws ParseException {
 		
-		LocalDate localDate = LocalDate.now();
+		LocalDateTime localDate = LocalDateTime.now();
 		
-		Date eventDate = new SimpleDateFormat("dd/MM/yyyy").parse(dateString);
-		Date currentDate = Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+		LocalDateTime eventDate = LocalDateTime.parse(dateString, formatter);
+
 		
-		return eventDate.after(currentDate) || eventDate.equals(currentDate);
+		return eventDate.isAfter(localDate) || eventDate.equals(localDate);
 		
 		
 	}

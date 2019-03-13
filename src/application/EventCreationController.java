@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
@@ -30,6 +31,9 @@ public class EventCreationController {
 	
 	@FXML
 	private DatePicker datePickerField;
+	
+	@FXML
+	private TextField timePickerField;
 	
 	@FXML
 	private TextField maxAttendingField;
@@ -56,7 +60,9 @@ public class EventCreationController {
             Connection connectionToDB = DBHelper.getConnection();
             PreparedStatement sqlStatement = connectionToDB.prepareStatement("INSERT INTO events VALUES (?,?,?,?,?)");
             
-            String eventDate = datePickerField.getValue().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+            LocalDateTime dateTime = LocalDateTime.of(datePickerField.getValue(), LocalTime.parse(timePickerField.getText()));
+            String eventDate = dateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+            
             String eventName = eventNameField.getText();
             String eventDetails = eventDetailsField.getText();
             int maxAttending = Integer.parseInt(maxAttendingField.getText());
