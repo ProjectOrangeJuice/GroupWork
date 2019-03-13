@@ -361,7 +361,7 @@ public class User extends Person {
 			requestLimit += borrowedCopies.get(i).getResource().getLimitAmount();
 		}
 		
-		int availableRequest = resource.limitAmount + requestLimit;
+		int availableRequest = resource.getLimitAmount() + requestLimit;
 		
 		if (availableRequest > 5) {
 			return true;
