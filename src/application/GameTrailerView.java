@@ -1,7 +1,9 @@
 package application;
 
 import java.io.IOException;
+import java.util.List;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.Unirest;
@@ -9,6 +11,7 @@ import com.mashape.unirest.http.exceptions.UnirestException;
 
 import javafx.scene.web.WebView;
 import model.GameID;
+import model.GameTrailerDescription;
 
 public class GameTrailerView {
     private ObjectMapper jsonMapper;
@@ -33,7 +36,21 @@ public class GameTrailerView {
             //System.exit(-1);
         }
         
-        System.out.println(response.getBody());
+        int trailerListName = response.getBody().indexOf("\"movies\"");
+        int trailerListStart = response.getBody().indexOf("[", trailerListName);
+        int trailerListEnd = response.getBody().indexOf("]", trailerListName);
+        String trailerList = response.getBody().substring(trailerListStart, trailerListEnd + 1);
+        
+        List<GameTrailerDescription> gameTrailers = null;
+        try {
+            gameTrailers = jsonMapper.readValue(trailerList, new TypeReference<List<GameTrailerDescription>>() {});
+        }
+        catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        
+        System.out.println(gameTrailers.get(gameTrailers.size()-1).getWebURLs().getMaxResURL());
     }
     
     private void setGameDescription(String gameName) {
