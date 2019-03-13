@@ -201,6 +201,9 @@ public class ProfileController {
 	
 	@FXML
 	private Button refreshEventsButton;
+	
+	@FXML
+	private Button EventViewButton;
 
 	//may remove fixed size resource images
 	//when dealing with window resizing.
@@ -1217,6 +1220,24 @@ public class ProfileController {
             Stage stage = new Stage();
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.setTitle("Create Event");
+            stage.setScene(new Scene(root1));
+            stage.show();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	@FXML
+	private void openEventViewer() {
+		
+		try {
+			FXMLLoader fxmlLoader =
+					new FXMLLoader(getClass().getResource("viewEvents.fxml"));
+            Parent root1 = (Parent) fxmlLoader.load();
+            Stage stage = new Stage();
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setTitle("View Events");
             stage.setScene(new Scene(root1));
             stage.show();
 		} catch (IOException e) {
