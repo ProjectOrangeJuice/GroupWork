@@ -301,14 +301,15 @@
                                              <children>
                                                 <AnchorPane layoutX="96.0" layoutY="14.0" prefHeight="853.0" prefWidth="1586.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                                    <children>
-                                                      <TableView fx:id="eventTable" layoutX="14.0" layoutY="14.0" prefHeight="417.0" prefWidth="350.0" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="14.0">
+                                                      <TableView fx:id="eventTable" layoutX="14.0" layoutY="14.0" prefHeight="417.0" prefWidth="504.0" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="14.0">
                                                         <columns>
                                                           <TableColumn fx:id="eventTitleField" prefWidth="100.0" text="Event Title" />
                                                           <TableColumn fx:id="eventDetailsField" prefWidth="100.0" text="Event Details" />
                                                             <TableColumn fx:id="eventTimeField" prefWidth="150.0" text="Event Date &amp; Time" />
+                                                            <TableColumn fx:id="eventTimeField1" prefWidth="150.0" text="Spaces Available" />
                                                         </columns>
                                                       </TableView>
-                                                      <Button fx:id="createEventButton" layoutX="364.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#openEventCreator" text="Create Event" AnchorPane.leftAnchor="375.0" AnchorPane.topAnchor="14.0" />
+                                                      <Button fx:id="createEventButton" layoutX="527.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#openEventCreator" text="Create Event" AnchorPane.leftAnchor="527.0" AnchorPane.topAnchor="14.0" />
                                                    </children>
                                                 </AnchorPane>
                                              </children>
