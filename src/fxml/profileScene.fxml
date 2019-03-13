@@ -306,7 +306,7 @@
                                                           <TableColumn fx:id="eventTitleField" prefWidth="100.0" text="Event Title" />
                                                           <TableColumn fx:id="eventDetailsField" prefWidth="100.0" text="Event Details" />
                                                             <TableColumn fx:id="eventTimeField" prefWidth="150.0" text="Event Date &amp; Time" />
-                                                            <TableColumn fx:id="eventTimeField1" prefWidth="150.0" text="Spaces Available" />
+                                                            <TableColumn fx:id="eventSpacesField" prefWidth="150.0" text="Spaces Available" />
                                                         </columns>
                                                       </TableView>
                                                       <Button fx:id="createEventButton" layoutX="527.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#openEventCreator" text="Create Event" AnchorPane.leftAnchor="527.0" AnchorPane.topAnchor="14.0" />
