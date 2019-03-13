@@ -197,6 +197,9 @@ public class ProfileController {
 	private TableColumn<model.Event, Integer> eventSpacesField;
 	
 	@FXML
+	private Button eventViewButton;
+	
+	@FXML
 	private Button refreshEventsButton;
 
 	//may remove fixed size resource images
