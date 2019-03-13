@@ -34,7 +34,7 @@ public class Event {
         ResultSet rs = stmt.executeQuery("SELECT * FROM events");
 
 		while(rs.next()) {
-			if(rs.getString(4))
+			//if(rs.getString(4))
 			allEvents.add(new Event(rs.getString(2), rs.getString(3), rs.getString(4), rs.getInt(5)));
 			allEvents.get(allEvents.size()-1).setID(rs.getInt(1));
 			System.out.println("hello");
