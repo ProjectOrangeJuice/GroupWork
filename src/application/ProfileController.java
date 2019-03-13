@@ -1231,13 +1231,7 @@ public class ProfileController {
 		newEvents.set(selectedIndex, selectedEvent);
 		model.Event.setAllEvents(newEvents);
 		
-		for(model.Event event : model.Event.getAllEvents()) {
-			System.out.println(event.getTitle());
-			System.out.println(event.getMaxAttending());
-		}
-		
 		loadEventTable();
-		eventTable.refresh();
 		
 	}
 	
