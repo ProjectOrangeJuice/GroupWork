@@ -227,6 +227,7 @@ public class ProfileController {
 
 	}
 	
+	@FXML
 	private void loadEventTable() {
 		
 		eventTitleField.setCellValueFactory(new PropertyValueFactory<>("title"));
