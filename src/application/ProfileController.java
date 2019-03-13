@@ -195,6 +195,9 @@ public class ProfileController {
 	
 	@FXML
 	private TableColumn<model.Event, Integer> eventSpacesField;
+	
+	@FXML
+	private Button refreshEventsButton;
 
 	//may remove fixed size resource images
 	//when dealing with window resizing.
@@ -233,7 +236,7 @@ public class ProfileController {
 		
 		ObservableList<model.Event> tableData = FXCollections.observableArrayList();
 		tableData.addAll(model.Event.getAllEvents());
-		System.out.println("size: " + tableData.size());
+		//System.out.println("size: " + tableData.size());
 		eventTable.setItems(tableData);
 	}
 
