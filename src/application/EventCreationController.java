@@ -47,11 +47,6 @@ public class EventCreationController {
 				setDisable(empty || date.compareTo(today) < 0 );
 			}
 		});
-		
-		//DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyy");  
-		//LocalDateTime now = LocalDateTime.now();
-		//System.out.println(dtf.format(now));
-		
 	}
 	
 	public void createEvent() {
