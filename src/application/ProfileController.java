@@ -7,6 +7,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 import javafx.beans.property.SimpleStringProperty;
@@ -1232,6 +1234,11 @@ public class ProfileController {
 		model.Event.setAllEvents(newEvents);
 		
 		loadEventTable();
+		
+		//DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyy");  
+		//LocalDateTime now = LocalDateTime.now();
+		//System.out.println(dtf.format(now));
+		
 		model.Event.updateEvent(selectedEvent);
 		
 	}
