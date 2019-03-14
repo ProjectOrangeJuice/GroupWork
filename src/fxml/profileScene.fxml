@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.*?>
 <?import java.lang.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
@@ -295,30 +296,29 @@
                                           </AnchorPane>
                                        </content>
                                     </TitledPane>
-                                    <TitledPane animated="false" text="Events">
-                                      <content>
-                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                                             <children>
-                                                <AnchorPane layoutX="96.0" layoutY="14.0" prefHeight="853.0" prefWidth="1586.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                                   <children>
-                                                      <TableView fx:id="eventTable" layoutX="14.0" layoutY="14.0" prefHeight="417.0" prefWidth="350.0" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="14.0">
-                                                        <columns>
-                                                          <TableColumn fx:id="eventTitleField" prefWidth="100.0" text="Event Title" />
-                                                          <TableColumn fx:id="eventDetailsField" prefWidth="100.0" text="Event Details" />
-                                                            <TableColumn fx:id="eventTimeField" prefWidth="150.0" text="Event Date &amp; Time" />
-                                                        </columns>
-                                                      </TableView>
-                                                      <Button fx:id="createEventButton" layoutX="364.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#openEventCreator" text="Create Event" AnchorPane.leftAnchor="375.0" AnchorPane.topAnchor="14.0" />
-                                                   </children>
-                                                </AnchorPane>
-                                             </children>
-                                          </AnchorPane>
-                                      </content>
-                                    </TitledPane>
                                  </panes>
                               </Accordion>
                            </center>
                         </BorderPane>
+                     </children>
+                  </AnchorPane>
+              </content>
+            </Tab>
+            <Tab text="Events">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <Button fx:id="refreshEventsButton" layoutX="753.0" layoutY="53.0" mnemonicParsing="false" onMouseClicked="#loadEventTable" text="Refresh Events" />
+                        <Button fx:id="createEventButton" layoutX="753.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#openEventCreator" text="Create Event" />
+                        <TableView fx:id="eventTable" layoutX="14.0" layoutY="14.0" prefHeight="542.0" prefWidth="728.0">
+                           <columns>
+                              <TableColumn fx:id="eventTitleField" prefWidth="132.9999942779541" text="Event Title" />
+                              <TableColumn fx:id="eventDetailsField" prefWidth="359.0" text="Event Details" />
+                              <TableColumn fx:id="eventTimeField" prefWidth="123.00003051757812" text="Event Date &amp; Time" />
+                              <TableColumn fx:id="eventSpacesField" prefWidth="116.0" text="Spaces Available" />
+                           </columns>
+                        </TableView>
+                        <Button fx:id="joinEventButton" layoutX="672.0" layoutY="563.0" mnemonicParsing="false" onMouseClicked="#onJoinEventClick" text="Join Event" />
                      </children>
                   </AnchorPane>
               </content>

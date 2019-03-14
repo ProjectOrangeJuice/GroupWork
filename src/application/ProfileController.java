@@ -7,6 +7,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.ParseException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 import javafx.beans.property.SimpleStringProperty;
@@ -50,6 +53,7 @@ import model.Book;
 import model.Copy;
 import model.DBHelper;
 import model.DVD;
+import model.Game;
 import model.Laptop;
 import model.Librarian;
 import model.Person;
@@ -180,6 +184,27 @@ public class ProfileController {
 	private ImageView staffAvatarView;
 	@FXML
 	private ImageView userAvatarView;
+	
+	@FXML
+	private TableView<model.Event> eventTable;
+	
+	@FXML
+	private TableColumn<model.Event, String> eventTitleField;
+	
+	@FXML
+	private TableColumn<model.Event, String> eventDetailsField;
+	
+	@FXML
+	private TableColumn<model.Event, String> eventTimeField;
+	
+	@FXML
+	private TableColumn<model.Event, Integer> eventSpacesField;
+	
+	@FXML
+	private Button eventViewButton;
+	
+	@FXML
+	private Button refreshEventsButton;
 
 	//may remove fixed size resource images
 	//when dealing with window resizing.
@@ -420,6 +445,9 @@ public class ProfileController {
 		if(laptopCheck.isSelected() && r instanceof Laptop) {
 			return r.contains(searchText);
 		}
+		if(r instanceof Game) {
+		    return r.contains(searchText);
+		}
 
 		return false;
 
@@ -466,6 +494,7 @@ public class ProfileController {
 
 		//for each resource in resources array
 		for(int i = 0; i < resources.size(); i++) {
+		    System.out.println(resources.get(i).getTitle());
 			if(search(i)) {
 			StackPane imagePane = createImage(resources.get(i),
 					RES_IMG_WIDTH, RES_IMG_HEIGHT);
@@ -570,6 +599,25 @@ public class ProfileController {
 			loadCopyImages(borrowHistory, "returned.png");
 		}
 	}
+	
+	@FXML
+	private void loadEventTable() throws SQLException, ParseException {
+		
+		model.Event.loadEvents();
+		
+		eventTitleField.setCellValueFactory(new PropertyValueFactory<>("title"));
+		eventDetailsField.setCellValueFactory(new PropertyValueFactory<>("details"));
+		eventTimeField.setCellValueFactory(new PropertyValueFactory<>("date"));
+		eventSpacesField.setCellValueFactory(new PropertyValueFactory<>("maxAttending"));
+		
+		ObservableList<model.Event> tableData = FXCollections.observableArrayList();
+		
+		tableData.addAll(model.Event.getAllEvents());
+		//System.out.println("size: " + tableData.size());
+		eventTable.setItems(tableData);
+		eventTable.refresh();
+
+	}
 
 	/**
 	 * intialize method that starts when the scene is intialized
@@ -585,9 +633,13 @@ public class ProfileController {
 
 		loadResourceImages();
 		
+		for(model.Event event : model.Event.getAllEvents()) {
+			System.out.println("dets: " + event.getTitle());
+		}
+		
 		try {
-			model.Event.loadEvents();
-		} catch (SQLException e) {
+			loadEventTable();
+		} catch (SQLException | ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -775,7 +827,7 @@ public class ProfileController {
 		}else {
 			
 			if(goodForNewItem == true) {
-				if (user.exceedLimit() == true) {
+				if (user.exceedLimit(Resource.getResource(resourceID)) == true) {
 					// blank out the approve button and display text showing the user
 					// has over requested
 				}
@@ -1168,6 +1220,25 @@ public class ProfileController {
 			}
 		}
 
+	}
+	
+	
+	@FXML
+	private void onJoinEventClick() throws SQLException, ParseException {
+		
+		model.Event selectedEvent = eventTable.getSelectionModel().getSelectedItem();
+		int selectedIndex = eventTable.getSelectionModel().getSelectedIndex();
+		
+		System.out.println(selectedEvent.getMaxAttending());
+		
+		selectedEvent.setMaxAttending(selectedEvent.getMaxAttending()-1);
+		
+		ArrayList<model.Event> newEvents = model.Event.getAllEvents();
+		newEvents.set(selectedIndex, selectedEvent);
+		
+		model.Event.updateEvent(selectedEvent);
+		loadEventTable();
+		
 	}
 	
 	@FXML
