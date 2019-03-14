@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Accordion?>
 <?import javafx.scene.control.Button?>
@@ -24,7 +30,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane focusTraversable="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="400.0" minWidth="600.0" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.ProfileController">
+<BorderPane focusTraversable="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="400.0" minWidth="600.0" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.ProfileController">
 
    <center>
       <TabPane fx:id="tabs" prefHeight="972.0" prefWidth="1920.0" BorderPane.alignment="CENTER">
@@ -302,9 +308,9 @@
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <Button fx:id="refreshEventsButton" layoutX="753.0" layoutY="53.0" mnemonicParsing="false" onMouseClicked="#loadEventTable" text="Refresh Events" />
-                        <Button fx:id="createEventButton" layoutX="753.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#openEventCreator" text="Create Event" />
-                        <TableView fx:id="eventTable" layoutX="14.0" layoutY="14.0" onMouseClicked="#onTableSelection" prefHeight="542.0" prefWidth="728.0">
+                        <Button fx:id="refreshEventsButton" layoutX="754.0" layoutY="601.0" mnemonicParsing="false" onMouseClicked="#loadEventTable" text="Refresh Events" />
+                        <Button fx:id="createEventButton" layoutX="663.0" layoutY="601.0" mnemonicParsing="false" onMouseClicked="#openEventCreator" text="Create Event" />
+                        <TableView fx:id="eventTable" layoutX="199.0" layoutY="46.0" onMouseClicked="#onTableSelection" prefHeight="542.0" prefWidth="728.0">
                            <columns>
                               <TableColumn fx:id="eventTitleField" prefWidth="132.9999942779541" text="Event Title" />
                               <TableColumn fx:id="eventDetailsField" prefWidth="359.0" text="Event Details" />
@@ -312,7 +318,15 @@
                               <TableColumn fx:id="eventSpacesField" prefWidth="116.0" text="Spaces Available" />
                            </columns>
                         </TableView>
-                        <Button fx:id="joinEventButton" layoutX="672.0" layoutY="563.0" mnemonicParsing="false" onMouseClicked="#onJoinEventClick" text="Join Event" />
+                        <Button fx:id="joinEventButton" layoutX="857.0" layoutY="601.0" mnemonicParsing="false" onMouseClicked="#onJoinEventClick" text="Join Event" />
+                        <TableView fx:id="userEventTable" layoutX="994.0" layoutY="46.0" onMouseClicked="#onTableSelection" prefHeight="542.0" prefWidth="728.0">
+                           <columns>
+                              <TableColumn fx:id="eventTitleField1" prefWidth="132.9999942779541" text="Event Title" />
+                              <TableColumn fx:id="eventDetailsField1" prefWidth="359.0" text="Event Details" />
+                              <TableColumn fx:id="eventTimeField1" prefWidth="123.00003051757812" text="Event Date &amp; Time" />
+                              <TableColumn fx:id="eventSpacesField1" prefWidth="116.0" text="Spaces Available" />
+                           </columns>
+                        </TableView>
                      </children>
                   </AnchorPane>
               </content>
