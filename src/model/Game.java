@@ -97,10 +97,7 @@ public class Game extends Resource {
             e.printStackTrace();
         }
     }
-    
-//---------------------------------------------------------    
-    
-    
+ 
     /**
      * Gets the genre of the book.
      * @return The genre of book
