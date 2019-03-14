@@ -60,6 +60,7 @@ public class Event {
         ResultSet rs = stmt.executeQuery("SELECT * FROM events");
         
         allEvents.clear();
+        
         ArrayList<Integer> usersEvents = ((User) ScreenManager.getCurrentUser()).loadUserEvents();
         
 		while(rs.next()) {
