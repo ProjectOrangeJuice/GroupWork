@@ -204,12 +204,10 @@ public class User extends Person {
         	ResultSet rs = stmt.executeQuery("SELECT eID, username FROM userEvents WHERE username = '" +
         	ScreenManager.getCurrentUser().getUsername() + "'");
             
-        	System.out.println("hello, I'm trying to load user events.");
             while(rs.next()) {
             	eventsList.add(rs.getInt(1));
-            	System.out.println(rs.getInt(1) + ": " + rs.getString(2));
-            	System.out.println("user event found!");
             }
+            
     	}  catch (SQLException e) {
     		System.out.println("Failed to load user events;");
             e.printStackTrace();

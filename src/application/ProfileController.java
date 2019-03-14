@@ -1247,9 +1247,7 @@ public class ProfileController {
 		
 		model.Event selectedEvent = eventTable.getSelectionModel().getSelectedItem();
 		int selectedIndex = eventTable.getSelectionModel().getSelectedIndex();
-		
-		System.out.println(selectedEvent.getMaxAttending());
-		
+	
 		selectedEvent.setMaxAttending(selectedEvent.getMaxAttending()-1);
 		
 		ArrayList<model.Event> newEvents = model.Event.getAllEvents();

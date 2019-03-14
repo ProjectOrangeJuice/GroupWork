@@ -66,8 +66,6 @@ public class Event {
 			if(checkFutureDate(rs.getString(4)) && !(currentUser.loadUserEvents().contains(rs.getInt(1)))) {
 				allEvents.add(new Event(rs.getString(2), rs.getString(3), rs.getString(4), rs.getInt(5)));
 				allEvents.get(allEvents.size()-1).setID(rs.getInt(1));
-				System.out.println("more than 0 spaces and user isn't already enrolled");
-				System.out.println(rs.getInt(1));
 			}
 		}
 		
