@@ -95,6 +95,8 @@ public class ProfileController {
 	@FXML
 	private Label postcodeLabel;//label displaying "Post code"
 	@FXML
+	private Label lastLoginLabel1;//label displaying "Last Login"
+	@FXML
 	private Label balanceLabel;//label displaying "Balance"
 
 	//Staff Profile
@@ -112,6 +114,8 @@ public class ProfileController {
 	private Label dateLabel1;//label displaying the employment date of the staff from the database
 	@FXML
 	private Label staffIDLabel1;//label displaying the staff id from the database
+	@FXML
+	private Label lastLoginLabel2;//label displaying the staff last login time
 
 	@FXML
 	private Tab userProfileTab;//my profile tab
@@ -149,6 +153,8 @@ public class ProfileController {
 	private CheckBox bookCheck;
 	@FXML
 	private CheckBox laptopCheck;
+	@FXML
+	private CheckBox newCheck;
 
 	//Copies Explorer
 	@FXML
@@ -224,6 +230,9 @@ public class ProfileController {
 	
 	@FXML
 	private Button joinEventButton;
+	
+	@FXML
+	private Button createEventButton;
 
 	//may remove fixed size resource images
 	//when dealing with window resizing.
@@ -266,9 +275,10 @@ public class ProfileController {
 	/**
 	 * Method that searches for resources
 	 * @param event when something is typed into the search box
+	 * @throws ParseException 
 	 */
 	@FXML
-    void searchThis(Event event) {
+    void searchThis(Event event) throws ParseException {
 		tabs.getSelectionModel().select(resourcesTab);
 		vResourceBox.getChildren().clear();
 		HBox hbox = new HBox();
@@ -456,8 +466,9 @@ public class ProfileController {
 	 * Search resources and checks to see if the checkboxes are selected which filter the search
 	 * @param i loop to get the resources
 	 * @return the search results or false
+	 * @throws ParseException 
 	 */
-	private boolean search(int i ) {
+	private boolean search(int i ) throws ParseException {
 		//get the resource
 		Resource r = resources.get(i);
 		String searchText = searchTextBox.getText();
@@ -471,6 +482,9 @@ public class ProfileController {
 		if(laptopCheck.isSelected() && r instanceof Laptop) {
 			return r.contains(searchText);
 		}
+		if(newCheck.isSelected() && r.compareTimeDifference(ScreenManager.getCurrentUser()) == true){
+			return r.contains(searchText);
+		}
 		if(r instanceof Game) {
 		    return r.contains(searchText);
 		}
@@ -481,7 +495,7 @@ public class ProfileController {
 
 
 	@FXML
-	private void  reloadVisuals(Event e) {
+	private void  reloadVisuals(Event e) throws ParseException {
 
 		vResourceBox.getChildren().clear();
 		vResourceBox.getChildren().add(new HBox());
@@ -501,8 +515,9 @@ public class ProfileController {
 	/**
 	 * Loads resource images from Resource class, so that they can
 	 * be displayed within the UI.
+	 * @throws ParseException 
 	 */
-	private void loadResourceImages() {
+	private void loadResourceImages() throws ParseException {
 		if (ScreenManager.getCurrentUser() instanceof Librarian) {
 			staffProfileTab.setDisable(false);
 			userProfileTab.setDisable(true);
@@ -628,9 +643,10 @@ public class ProfileController {
 
 	/**
 	 * intialize method that starts when the scene is intialized
+	 * @throws ParseException 
 	 */
 	@FXML
-	 public void initialize() {
+	 public void initialize() throws ParseException {
 
 		currentUser = ScreenManager.getCurrentUser();
 		resources = ScreenManager.getResources();
@@ -646,6 +662,9 @@ public class ProfileController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+		createEventButton.setDisable(ScreenManager.getCurrentUser() instanceof User);
+		joinEventButton.setDisable(ScreenManager.getCurrentUser() instanceof Librarian);
 
 		scrollPane.setHvalue(0.5);
 
@@ -1266,12 +1285,8 @@ public class ProfileController {
 			} else {
 				joinEventButton.setDisable(true);
 			}
-		} else {
-			joinEventButton.setDisable(true);
 		}
-		
-		
-		
+
 	}
 	
 	

@@ -39,9 +39,9 @@ public class DVD extends Resource {
      * @param subtitleList The list of all subtitle languages.
      */
     public DVD(int uniqueID, String title, int year, Image thumbnail, 
-    		String director, int runtime, String language,
+    		String timestamp, String director, int runtime, String language,
             ArrayList<String> subtitleList) {
-        super(uniqueID, title, year, thumbnail);
+        super(uniqueID, title, year, thumbnail, timestamp);
         this.director = director;
         this.runTime = runtime;
         this.language = language;
@@ -65,8 +65,8 @@ public class DVD extends Resource {
      * @param runtime The run time of the movie.
      */
     public DVD(int uniqueID, String title, int year, Image thumbnail,
-    		String director, int runtime) {
-        super(uniqueID, title, year, thumbnail);
+    		String timestamp, String director, int runtime) {
+        super(uniqueID, title, year, thumbnail, timestamp);
         this.director = director;
         this.runTime = runtime;
 
@@ -90,7 +90,7 @@ public class DVD extends Resource {
                 
                 resources.add(new DVD(rs.getInt("rID"), rs.getString("title"), 
                 		rs.getInt("year"), resourceImage,
-                    rs.getString("director"), rs.getInt("runTime"),
+                    rs.getString("timestamp"), rs.getString("director"), rs.getInt("runTime"),
                     rs.getString("language"), null));
 
                 System.out.println("New DVD added!");

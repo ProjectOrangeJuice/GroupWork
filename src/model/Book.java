@@ -51,10 +51,10 @@ public class Book extends Resource {
      * @param isbn The ISBN code of the book.
      * @param language The language of the book.
      */
-    public Book(int uniqueID, String title, int year, Image thumbnail, 
-    		String author, String publisher, String genre,
+    public Book(int uniqueID, String title, int year, Image thumbnail,
+    		String timestamp,String author, String publisher, String genre,
             String isbn, String language) {
-        super(uniqueID, title, year, thumbnail);
+        super(uniqueID, title, year, thumbnail, timestamp);
         this.author = author;
         this.publisher = publisher;
         this.genre = genre;
@@ -72,8 +72,8 @@ public class Book extends Resource {
      * @param publisher The publisher of the book.
      */
     public Book(int uniqueID, String title, int year, Image thumbnail, 
-    		String author, String publisher) {
-        super(uniqueID, title, year, thumbnail);
+    		String timestamp, String author, String publisher) {
+        super(uniqueID, title, year, thumbnail, timestamp);
         this.author = author;
         this.publisher = publisher;
     }
@@ -90,7 +90,7 @@ public class Book extends Resource {
             ResultSet rs = stmt.executeQuery(
                 "SELECT resource.rID, resource.year, resource.title, "
                 + "resource.thumbnail, author, publisher," +
-                    "genre, ISBN, language FROM book, resource WHERE book.rID "
+                    "genre, ISBN, language, timestamp FROM book, resource WHERE book.rID "
                     + "= resource.rID"); 
 
             while (rs.next()) {
@@ -100,7 +100,7 @@ public class Book extends Resource {
                 		rs.getInt("year"), resourceImage,
                     rs.getString("author"), rs.getString("publisher"), 
                     rs.getString("genre"), rs.getString("ISBN"),
-                    rs.getString("language")));
+                    rs.getString("language"), rs.getString("timestamp")));
 
                 System.out.println("New book added!");
             }

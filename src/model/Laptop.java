@@ -40,7 +40,7 @@ public class Laptop extends Resource {
             while (rs.next()) {
             	Image resourceImage = new Image(rs.getString("thumbnail"), true);
                 resources.add(new Laptop(rs.getInt("rID"), rs.getString("title"),
-                		rs.getInt("year"), resourceImage,
+                		rs.getInt("year"), resourceImage, rs.getString("timestamp"),
                     rs.getString("manufacturer"), rs.getString("model"),
                     rs.getString("os")));
             }
@@ -62,8 +62,8 @@ public class Laptop extends Resource {
      * @param operatingSystem The operating system of the laptop.
      */
     public Laptop(int uniqueID, String title, int year, Image thumbnail, 
-    		String manufacturer, String model, String operatingSystem) {
-        super(uniqueID, title, year, thumbnail);
+    		String timestamp, String manufacturer, String model, String operatingSystem) {
+        super(uniqueID, title, year, thumbnail, timestamp);
         this.manufacturer = manufacturer;
         this.model = model;
         this.operatingSystem = operatingSystem;

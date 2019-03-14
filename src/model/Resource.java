@@ -68,6 +68,12 @@ public abstract class Resource {
      * can checkout
      */
     protected int limitAmount = 1;
+    
+    /**
+     * A time stamp for resource, so that each time a user logs in the user can view any
+     * new additions.
+     */
+    protected String timestamp;
 
     /**
      * Makes a new resource whose details are the given arguments.
@@ -77,11 +83,12 @@ public abstract class Resource {
      * @param year The year this resource appeared.
      * @param thumbnail A small image of this resource.
      */
-    public Resource(int uniqueID, String title, int year, Image thumbnail) {
+    public Resource(int uniqueID, String title, int year, Image thumbnail, String timestamp) {
         this.uniqueID = uniqueID;
         this.title = title;
         this.year = year;
         this.thumbnail = thumbnail;
+        this.timestamp = timestamp;
 
         /*
          * just make new empty instances of the containers used for tracking
@@ -902,5 +909,23 @@ public abstract class Resource {
         else {
             return dateFormater.format(date);
         }
+    }
+    
+    public String getTimeStamp() {
+    	return this.timestamp;
+    }
+    
+    public boolean compareTimeDifference(Person person) throws ParseException {
+    	SimpleDateFormat formatter = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss");
+    	Date resourceDate = formatter.parse(this.timestamp);
+    	Date loginDate = formatter.parse(person.getLastLogin());
+    	long timeDifference = loginDate.getTime() - resourceDate.getTime();
+    	
+    	if (timeDifference < 0) {
+    		return true;
+    	}
+    	else {
+    		return false;
+    	}
     }
 }

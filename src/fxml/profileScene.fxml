@@ -1,11 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Accordion?>
 <?import javafx.scene.control.Button?>
@@ -30,7 +24,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane focusTraversable="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="400.0" minWidth="600.0" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.ProfileController">
+<BorderPane focusTraversable="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="400.0" minWidth="600.0" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.ProfileController">
 
    <center>
       <TabPane fx:id="tabs" prefHeight="972.0" prefWidth="1920.0" BorderPane.alignment="CENTER">
@@ -111,6 +105,7 @@
                                     <Label fx:id="phoneLabel" text="Phone Number: " textFill="WHITE" />
                                     <Label fx:id="addressLabel" text="Address:" textFill="WHITE" />
                                     <Label fx:id="postcodeLabel" text="Post Code:" textFill="WHITE" />
+                                    <Label fx:id="lastLoginLabel1" text="Last Login:" textFill="WHITE" />
                                     <Separator disable="true" prefWidth="200.0" visible="false" />
                                     <VBox alignment="CENTER">
                                        <children>
@@ -210,6 +205,7 @@
                                           <Label fx:id="postcodeLabel1" text="Post Code:" textFill="WHITE" />
                                           <Label fx:id="dateLabel1" text="Employment Date:" textFill="WHITE" />
                                           <Label fx:id="staffIDLabel1" text="Staff ID:" textFill="WHITE" />
+                                          <Label fx:id="lastLoginLabel2" text="Last Login:" textFill="WHITE" />
                                           <Button fx:id="staffEditProfileButton" alignment="CENTER" mnemonicParsing="false" onMouseClicked="#openProfileEditor" text="Edit Profile">
                                              <VBox.margin>
                                                 <Insets left="100.0" />
@@ -346,14 +342,14 @@
                   </Label>
                </children>
             </AnchorPane>
-            <AnchorPane maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="0.0" minWidth="0.0" prefHeight="73.0" prefWidth="1612.0" HBox.hgrow="ALWAYS">
+            <AnchorPane maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="0.0" minWidth="0.0" prefHeight="73.0" prefWidth="1719.0" HBox.hgrow="ALWAYS">
                <children>
                   <VBox alignment="CENTER" layoutX="285.0" layoutY="14.0" AnchorPane.bottomAnchor="13.0" AnchorPane.leftAnchor="285.0" AnchorPane.rightAnchor="285.0" AnchorPane.topAnchor="14.0">
                      <children>
-                        <TextField id="searchBar" fx:id="searchTextBox" focusTraversable="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="0.0" minWidth="0.0" onKeyReleased="#searchThis" prefHeight="46.0" prefWidth="738.0" promptText="find a resource..." />
+                        <TextField id="searchBar" fx:id="searchTextBox" focusTraversable="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="0.0" minWidth="0.0" onKeyReleased="#searchThis" prefHeight="46.0" prefWidth="673.0" promptText="find a resource..." />
                      </children>
                   </VBox>
-                  <HBox alignment="CENTER" layoutX="1045.0" layoutY="26.0" prefHeight="17.0" prefWidth="233.0" spacing="10.0" AnchorPane.bottomAnchor="26.0" AnchorPane.leftAnchor="1045.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="26.0">
+                  <HBox alignment="CENTER" layoutX="1045.0" layoutY="26.0" prefHeight="21.0" prefWidth="305.0" spacing="10.0" AnchorPane.bottomAnchor="26.0" AnchorPane.leftAnchor="1045.0" AnchorPane.rightAnchor="-198.0" AnchorPane.topAnchor="26.0">
                      <children>
                         <CheckBox fx:id="bookCheck" minWidth="-Infinity" mnemonicParsing="false" onAction="#searchThis" selected="true" text="Book" textAlignment="JUSTIFY" textFill="WHITE">
                            <font>
@@ -366,6 +362,11 @@
                            </font>
                         </CheckBox>
                         <CheckBox fx:id="dvdCheck" minWidth="-Infinity" mnemonicParsing="false" onAction="#searchThis" selected="true" text="DVD" textFill="WHITE">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </CheckBox>
+                        <CheckBox fx:id="newCheck" mnemonicParsing="false" selected="true" text="New" textFill="WHITE">
                            <font>
                               <Font size="15.0" />
                            </font>
