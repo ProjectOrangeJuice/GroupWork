@@ -83,7 +83,7 @@ public class DVD extends Resource {
             Statement stmt = conn.createStatement(); // prep a statement
             ResultSet rs = stmt.executeQuery("SELECT resource.rID, "
             		+ "resource.title, resource.year, resource.thumbnail," +
-                "director, runTime, language FROM dvd, resource WHERE dvd.rID = resource.rID");
+                "director, runTime, language, timestamp FROM dvd, resource WHERE dvd.rID = resource.rID");
 
             while (rs.next()) {
                 Image resourceImage = new Image(rs.getString("thumbnail"), true);

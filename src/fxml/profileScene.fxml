@@ -342,21 +342,21 @@
                   </Label>
                </children>
             </AnchorPane>
-            <AnchorPane maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="0.0" minWidth="0.0" prefHeight="73.0" prefWidth="1719.0" HBox.hgrow="ALWAYS">
+            <AnchorPane maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="0.0" minWidth="0.0" prefHeight="73.0" prefWidth="1235.0" HBox.hgrow="ALWAYS">
                <children>
-                  <VBox alignment="CENTER" layoutX="285.0" layoutY="14.0" AnchorPane.bottomAnchor="13.0" AnchorPane.leftAnchor="285.0" AnchorPane.rightAnchor="285.0" AnchorPane.topAnchor="14.0">
+                  <VBox alignment="CENTER" layoutX="-22.0" layoutY="12.0" prefHeight="49.0" prefWidth="638.0" AnchorPane.bottomAnchor="12.0" AnchorPane.leftAnchor="-22.0" AnchorPane.rightAnchor="486.0" AnchorPane.topAnchor="12.0">
                      <children>
-                        <TextField id="searchBar" fx:id="searchTextBox" focusTraversable="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="0.0" minWidth="0.0" onKeyReleased="#searchThis" prefHeight="46.0" prefWidth="673.0" promptText="find a resource..." />
+                        <TextField id="searchBar" fx:id="searchTextBox" focusTraversable="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="0.0" minWidth="0.0" onKeyReleased="#searchThis" prefHeight="46.0" prefWidth="640.0" promptText="find a resource..." />
                      </children>
                   </VBox>
-                  <HBox alignment="CENTER" layoutX="1045.0" layoutY="26.0" prefHeight="21.0" prefWidth="305.0" spacing="10.0" AnchorPane.bottomAnchor="26.0" AnchorPane.leftAnchor="1045.0" AnchorPane.rightAnchor="-198.0" AnchorPane.topAnchor="26.0">
+                  <HBox alignment="CENTER" layoutX="374.0" layoutY="26.0" prefHeight="21.0" prefWidth="485.0" spacing="10.0" AnchorPane.bottomAnchor="26.0" AnchorPane.leftAnchor="374.0" AnchorPane.rightAnchor="243.0" AnchorPane.topAnchor="26.0">
                      <children>
                         <CheckBox fx:id="bookCheck" minWidth="-Infinity" mnemonicParsing="false" onAction="#searchThis" selected="true" text="Book" textAlignment="JUSTIFY" textFill="WHITE">
                            <font>
                               <Font size="15.0" />
                            </font>
                         </CheckBox>
-                        <CheckBox fx:id="laptopCheck" minWidth="-Infinity" mnemonicParsing="false" onAction="#searchThis" selected="true" text="Laptop" textFill="WHITE">
+                        <CheckBox fx:id="laptopCheck" minWidth="-Infinity" mnemonicParsing="false" onAction="#searchThis" prefHeight="21.0" prefWidth="82.0" selected="true" text="Laptop" textFill="WHITE">
                            <font>
                               <Font size="15.0" />
                            </font>
@@ -366,7 +366,7 @@
                               <Font size="15.0" />
                            </font>
                         </CheckBox>
-                        <CheckBox fx:id="newCheck" mnemonicParsing="false" selected="true" text="New" textFill="WHITE">
+                        <CheckBox fx:id="newCheck" mnemonicParsing="false" prefHeight="21.0" prefWidth="77.0" selected="true" text="New" textFill="WHITE">
                            <font>
                               <Font size="15.0" />
                            </font>
@@ -375,7 +375,7 @@
                   </HBox>
                </children>
             </AnchorPane>
-            <AnchorPane maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="0.0" minWidth="0.0" prefHeight="73.0" prefWidth="610.0" HBox.hgrow="ALWAYS">
+            <AnchorPane maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="0.0" minWidth="0.0" prefHeight="73.0" prefWidth="474.0" HBox.hgrow="ALWAYS">
                <children>
                   <Label id="logoutText" fx:id="logoutButton" layoutX="265.0" layoutY="11.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="0.0" minWidth="0.0" onMouseClicked="#logoutAction" text="Log Out" textFill="WHITE" underline="true" AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="5.0">
                      <font>

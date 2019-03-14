@@ -73,7 +73,7 @@ public class Game extends Resource {
             ResultSet rs = stmt.executeQuery(
                 "SELECT resource.rID, resource.year, resource.title, "
                 + "resource.thumbnail, publisher," +
-                    "genre, rating, multiplayer FROM game, resource WHERE game.rID "
+                    "genre, rating, multiplayer, timestamp FROM game, resource WHERE game.rID "
                     + "= resource.rID"); 
 
             while (rs.next()) {
