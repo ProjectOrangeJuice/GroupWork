@@ -1231,13 +1231,19 @@ public class ProfileController {
 	private void onTableSelection() throws SQLException {
 		
 		model.Event selectedEvent = eventTable.getSelectionModel().getSelectedItem();
-		ArrayList<Integer> usersEvents = ((User) ScreenManager.getCurrentUser()).loadUserEvents();
 		
-		if(selectedEvent.getMaxAttending() > 0 && !(usersEvents.contains(selectedEvent.getID()))) {
-			joinEventButton.setDisable(false);
+		if(ScreenManager.getCurrentUser() instanceof User) {
+			ArrayList<Integer> usersEvents = ((User) ScreenManager.getCurrentUser()).loadUserEvents();
+			if(selectedEvent.getMaxAttending() > 0 && !(usersEvents.contains(selectedEvent.getID()))) {
+				joinEventButton.setDisable(false);
+			} else {
+				joinEventButton.setDisable(true);
+			}
 		} else {
 			joinEventButton.setDisable(true);
 		}
+		
+		
 		
 	}
 	
