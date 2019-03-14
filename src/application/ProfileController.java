@@ -1248,15 +1248,13 @@ public class ProfileController {
 		int selectedIndex = eventTable.getSelectionModel().getSelectedIndex();
 	
 		selectedEvent.setMaxAttending(selectedEvent.getMaxAttending()-1);
-		
 		ArrayList<model.Event> newEvents = model.Event.getAllEvents();
 		newEvents.set(selectedIndex, selectedEvent);
-		
 		model.Event.updateEvent(selectedEvent);
+		
 		loadEventTable();
 		
 		model.Event.addUserEvent(ScreenManager.getCurrentUser().getUsername(), selectedEvent.getID());
-		model.Event.getUserEvents();
 		
 	}
 	
