@@ -1,38 +1,21 @@
 package application;
 
 import java.io.IOException;
-import java.util.List;
 
 import org.json.JSONObject;
 import org.json.JSONTokener;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.mashape.unirest.http.HttpResponse;
-import com.mashape.unirest.http.Unirest;
-import com.mashape.unirest.http.exceptions.UnirestException;
-
-import javafx.application.Application;
-import javafx.scene.Scene;
 import javafx.scene.web.WebView;
-import javafx.stage.Stage;
-import model.GameID;
-import model.GameTrailerDescription;
 
 public class GameTrailerView {
     private static final String YOUTUBE_URL = "https://www.youtube.com/embed/";
-    private ObjectMapper jsonMapper;
     private String videoName;
     private WebView steamView;
-    private GameID app;
-    private GameTrailerDescription trailerDescription;
     
     public GameTrailerView(String gameName) {
-        jsonMapper = new ObjectMapper();
         String youtubeKey = getYoutubeKey(gameName);
-        System.out.println(youtubeKey);
         
         steamView = new WebView();
         steamView.setPrefSize(1600, 900);
