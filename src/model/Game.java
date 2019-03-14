@@ -24,10 +24,10 @@ public class Game extends Resource {
     /**The maximum fine amount for over due copies of this type of resource.*/
     private static final int DAILY_FINE_AMOUNT = 2;
     
-    /**Publisher of the book.*/
+    /**Publisher of the video game.*/
     private String publisher;
     
-    /**Genre of the book.*/
+    /**Genre of the video game.*/
     private String genre;
     
     /**ISBN code of the book.*/
@@ -185,45 +185,39 @@ public class Game extends Resource {
         return MAX_FINE_AMOUNT;
     }
 
-//---------------------------------------------------------
-//TODO: Update with new attributes
+
     /**
      * Calculates an integer representing how similar this resource is to the
-     *  given resource, taking into account if the other resource is a book.
+     *  given resource, taking into account if the other resource is a video game.
      *  @param otherResource The resource this resource is compared with.
      *  @return an integer representing how similar this resource is to the
-     *   given resource.
+     *  given resource.
      */
-    /*
     public int getLikenessScore(Resource otherResource) {
         int score = 0;
 
         if (otherResource.getClass() == Game.class) {
 
-            Game otherBook = (Game) otherResource;
+            Game otherGame = (Game) otherResource;
 
-            if (author.equals(otherBook.getAuthor())) {
+            if (publisher.equals(otherGame.getPublisher())) {
                 score++;
             }
-
-            if (publisher.equals(otherBook.getPublisher())) {
-                score++;
-            }
-
+            
             if (genre != null) {
-                if (genre.equals(otherBook.getGenre())) {
+                if (genre.equals(otherGame.getGenre())) {
                     score++;
                 }
             }
 
-            if (isbn != null) {
-                if (isbn.equals(otherBook.getISBN())) {
+            if (rating != null) {
+                if (rating.equals(otherGame.getRating())) {
                     score++;
                 }
             }
 
-            if (language != null) {
-                if (language.equals(otherBook.getLanguage())) {
+            if (multiplayerSupport != null) {
+                if (multiplayerSupport.equals(otherGame.getMultiplayerSupport())) {
                     score++;
                 }
             }
@@ -232,6 +226,4 @@ public class Game extends Resource {
         score += super.getLikenessScore(otherResource);
         return score;
     }
-    */
-//---------------------------------------------------------
 }
