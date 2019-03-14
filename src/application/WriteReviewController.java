@@ -36,11 +36,15 @@ public class WriteReviewController {
 	  @FXML
 	  private RadioButton r5;//inputs 5 rating
 	 
-	
+	/**
+	 * Method that allows the user to submit a review and rating
+	 * @param event event of the button being pressed
+	 */
 	@FXML
 	public void submitReview(MouseEvent event) {
 		int starValue = 0;
 		
+		//Changes the rating depending on what radio button is clicked
 		System.out.println(star.getSelectedToggle());
 		Toggle selected = star.getSelectedToggle();
 		if(selected.equals(r1)) {
@@ -59,6 +63,7 @@ public class WriteReviewController {
 			return;
 		}
 		
+		//sets text variable to whatever the user has wrote in the review box
 		String text = reviewBox.getText();
 		
 		Review.addReview(ScreenManager.getCurrentUser().getUsername(), ScreenManager.getCurrentResource().getUniqueID(),
@@ -70,7 +75,9 @@ public class WriteReviewController {
 		
 	}
 	
-	
+	/**
+	 * intialize method that doesnt show the write review box is an a review has not been issued
+	 */
 	@FXML
 	public void initialize() {
 		

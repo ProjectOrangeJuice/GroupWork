@@ -245,7 +245,7 @@ CREATE TABLE IF NOT EXISTS `userRequests` (
 	PRIMARY KEY (userName,rID),
 	FOREIGN KEY (userName) REFERENCES `users` (`username`) ON UPDATE CASCADE ON DELETE CASCADE,
 	FOREIGN KEY (rID) REFERENCES `resource` (`rID`) ON UPDATE CASCADE ON DELETE CASCADE
-);
+);	
 
 CREATE TABLE IF NOT EXISTS `reviews` (
 	`reviewId`	INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE,
@@ -257,6 +257,11 @@ CREATE TABLE IF NOT EXISTS `reviews` (
 		FOREIGN KEY (resourceId) REFERENCES `resource` (`rID`) ON UPDATE CASCADE ON DELETE CASCADE,
 		FOREIGN KEY (username) REFERENCES 'users' (`username`) ON UPDATE CASCADE ON DELETE CASCADE
 );
-
-
+INSERT INTO `reviews` (reviewId, resourceId, username, star, review) VALUES (1, 2, 'Jackie', 1, 'Massive oof');
+INSERT INTO `reviews` (reviewId, resourceId, username, star, review) VALUES (2, 2, 'Steveo', 5, 'Square root of oof');
+INSERT INTO `reviews` (reviewId, resourceId, username, star, review) VALUES (3, 2, 'Manny', 3, 'Just a weird flex but ok');
+INSERT INTO `reviews` (reviewId, resourceId, username, star, review) VALUES (4, 1, 'Jackie', 5, 'Book of the century');
+INSERT INTO `reviews` (reviewId, resourceId, username, star, review) VALUES (5, 12, 'Manny', 2, 'Too cold');
+INSERT INTO `reviews` (reviewId, resourceId, username, star, review) VALUES (6, 7, 'Steveo', 4, 'Incredible');
+INSERT INTO `reviews` (reviewId, resourceId, username, star, review) VALUES (7, 8, 'Jackie', 3, 'Ok but could do with more mayo');
 COMMIT;
