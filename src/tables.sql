@@ -156,6 +156,15 @@ create table if not exists `subtitles` (
 	foreign key (dvdID) references `dvd`(`rID`) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
+drop table if exists `userEvents`;
+create table if not exists `userEvents` (
+	`eID` INTEGER,
+	`username` TEXT,
+	primary key (eID, username),
+	foreign key (username) references `users`(`username`) ON UPDATE CASCADE ON DELETE CASCADE
+);
+	
+
 INSERT INTO `subtitles` VALUES (1,'romanian');
 INSERT INTO `subtitles` VALUES (1,'greek');
 INSERT INTO `subtitles` VALUES (2,'welsh');
