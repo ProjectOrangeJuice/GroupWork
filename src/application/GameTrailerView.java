@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import org.json.JSONObject;
 import org.json.JSONTokener;
+import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
@@ -11,39 +12,48 @@ import javafx.scene.web.WebView;
 
 public class GameTrailerView {
     private static final String YOUTUBE_URL = "https://www.youtube.com/embed/";
+    private static final String YOUTUBE_API_SEARCH_URL = "https://www.google" + 
+            "apis.com/youtube/v3/search?part=snippet&maxResults=1&order=rating&q=";
+    private static final String YOUTUBE_API_KEY = "&key=AIzaSyBLyeidWvIxNFdvK" + 
+            "0Bl7fPZ_WqeXrI8cac";
+    private static final String KEYWORD_ADD_ON = " PC Launch Trailer";
+    private static final int REQUEST_TIMEOUT = 10000;
+    
     private String videoName;
-    private WebView steamView;
+    private WebView youtubeView;
     
     public GameTrailerView(String gameName) {
         String youtubeKey = getYoutubeKey(gameName);
         
-        steamView = new WebView();
-        steamView.setPrefSize(1600, 900);
-        steamView.getEngine().load(YOUTUBE_URL + youtubeKey);
+        youtubeView = new WebView();
+        youtubeView.setPrefSize(1600, 900);
+        youtubeView.getEngine().load(YOUTUBE_URL + youtubeKey);
     }
     
     private String getYoutubeKey(String gameName) {
 
-        String keyword = gameName + " Trailer";
+        String keyword = gameName + KEYWORD_ADD_ON;
         keyword = keyword.replace(" ", "+");
  
-        String url = "https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=1&order=rating&q=" + keyword + "&key=AIzaSyBLyeidWvIxNFdvK0Bl7fPZ_WqeXrI8cac";
+        String searchUrl = YOUTUBE_API_SEARCH_URL + keyword + YOUTUBE_API_KEY;
  
-        Document doc = null;
+        Document resultsDocument = null;
         try {
-            doc = Jsoup.connect(url).timeout(10 * 1000).ignoreContentType(true).get();
+            Connection apiConnection = Jsoup.connect(searchUrl).timeout(REQUEST_TIMEOUT);
+            resultsDocument = apiConnection.ignoreContentType(true).get();
         }
         catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
             System.exit(-1);
         }
  
-        String getJson = doc.text();
-        JSONObject jsonObject = (JSONObject) new JSONTokener(getJson ).nextValue();
+        String jsonString = resultsDocument.text();
+        JSONObject jsonObject = (JSONObject) new JSONTokener(jsonString).nextValue();
  
-        videoName = jsonObject.getJSONArray("items").getJSONObject(0).getJSONObject("snippet").getString("title");
-        return jsonObject.getJSONArray("items").getJSONObject(0).getJSONObject("id").getString("videoId");
+        JSONObject firstResult = jsonObject.getJSONArray("items").getJSONObject(0);
+        videoName = firstResult.getJSONObject("snippet").getString("title");
+        
+        return firstResult.getJSONObject("id").getString("videoId");
     }
     
     /*private GameTrailerDescription getTrailerDescription(int gameID) {
@@ -153,7 +163,7 @@ public class GameTrailerView {
     */
     
     public WebView getWebView() {
-        return steamView;
+        return youtubeView;
     }
     
     public String getVideoName() {
@@ -161,22 +171,6 @@ public class GameTrailerView {
     }
     
     public void stop() {
-        steamView.getEngine().load(null);
+        youtubeView.getEngine().load(null);
     }
- 
-    /*public void start(Stage stage) {
-        GameTrailerView g = new GameTrailerView();
-        
-        Scene trailerScene = new Scene(g.getWebView(), 1600, 900);
-        
-        stage.setTitle(g.getTrailerDescription().getName());
-        
-        stage.setOnHidden(e -> {
-            g.stop();
-        });
-        
-        System.out.println(g.getWebView().getEngine().getLocation());
-        stage.setScene(trailerScene);
-        stage.show();
-    }*/
 }
