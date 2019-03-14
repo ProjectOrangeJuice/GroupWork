@@ -201,6 +201,22 @@ public class ProfileController {
 	private TableColumn<model.Event, Integer> eventSpacesField;
 	
 	@FXML
+	private TableView<model.Event> userEventTable;
+	
+	@FXML
+	private TableColumn<model.Event, String> userEventTitleField;
+	
+	@FXML
+	private TableColumn<model.Event, String> userEventDetailsField;
+	
+	@FXML
+	private TableColumn<model.Event, String> userEventTimeField;
+	
+	@FXML
+	private TableColumn<model.Event, Integer> userEventSpacesField;
+	
+	
+	@FXML
 	private Button eventViewButton;
 	
 	@FXML

@@ -321,10 +321,10 @@
                         <Button fx:id="joinEventButton" layoutX="857.0" layoutY="601.0" mnemonicParsing="false" onMouseClicked="#onJoinEventClick" text="Join Event" />
                         <TableView fx:id="userEventTable" layoutX="994.0" layoutY="46.0" onMouseClicked="#onTableSelection" prefHeight="542.0" prefWidth="728.0">
                            <columns>
-                              <TableColumn fx:id="eventTitleField1" prefWidth="132.9999942779541" text="Event Title" />
-                              <TableColumn fx:id="eventDetailsField1" prefWidth="359.0" text="Event Details" />
-                              <TableColumn fx:id="eventTimeField1" prefWidth="123.00003051757812" text="Event Date &amp; Time" />
-                              <TableColumn fx:id="eventSpacesField1" prefWidth="116.0" text="Spaces Available" />
+                              <TableColumn fx:id="userEventTitleField" prefWidth="132.9999942779541" text="Event Title" />
+                              <TableColumn fx:id="userEventDetailsField" prefWidth="359.0" text="Event Details" />
+                              <TableColumn fx:id="userEventTimeField" prefWidth="123.00003051757812" text="Event Date &amp; Time" />
+                              <TableColumn fx:id="userEventSpacesField" prefWidth="116.0" text="Spaces Available" />
                            </columns>
                         </TableView>
                      </children>
