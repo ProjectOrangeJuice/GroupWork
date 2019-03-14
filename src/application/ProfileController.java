@@ -1256,6 +1256,7 @@ public class ProfileController {
 		loadEventTable();
 		
 		model.Event.addUserEvent(ScreenManager.getCurrentUser().getUsername(), selectedEvent.getID());
+		model.Event.getUserEvents();
 		
 	}
 	

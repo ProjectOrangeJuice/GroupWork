@@ -150,7 +150,7 @@ public class Event {
         ResultSet rs = stmt.executeQuery("SELECT * FROM userEvents");
         
 		while(rs.next()) {
-			System.out.println(rs.getString(1) + " " + rs.getInt(2));
+			System.out.println(rs.getInt(1) + " " + rs.getString(2));
 		}
 		
 	}
@@ -160,8 +160,8 @@ public class Event {
 		Connection connectionToDB = DBHelper.getConnection();
         PreparedStatement sqlStatement = connectionToDB.prepareStatement("INSERT INTO userEvents VALUES (?,?)");
 
-        sqlStatement.setString(1, username);
-        sqlStatement.setInt(2, ID);
+        sqlStatement.setInt(1, ID);
+        sqlStatement.setString(2, username);
         
         sqlStatement.execute();
         connectionToDB.close();
