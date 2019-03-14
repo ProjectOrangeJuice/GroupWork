@@ -20,9 +20,10 @@ public class Event {
 	private String details;
 	private String date;
 	private int maxAttending;
+	
+	private static int totalEventNo = 0;
 
 	private static ArrayList<Event> allEvents = new ArrayList<Event>();
-
 
 	public Event(String title, String details, String date, int maxAttending) {
 		
@@ -33,11 +34,19 @@ public class Event {
 		
 	}
 	
+	public static int getTotalEventNo() {
+		return totalEventNo;
+	}
+
+	public static void setTotalEventNo(int totalEventNo) {
+		Event.totalEventNo = totalEventNo;
+	}
+	
 	private static boolean checkFutureDate(String dateString) throws ParseException {
 		LocalDateTime localDate = LocalDateTime.now();
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 		LocalDateTime eventDate = LocalDateTime.parse(dateString, formatter);
-		return eventDate.isAfter(localDate) || eventDate.equals(localDate);
+		return eventDate.isAfter(localDate);
 	}
 	
 	public static void loadEvents() throws SQLException, ParseException {
@@ -48,8 +57,11 @@ public class Event {
         
         allEvents.clear();
 		while(rs.next()) {
-			allEvents.add(new Event(rs.getString(2), rs.getString(3), rs.getString(4), rs.getInt(5)));
-			allEvents.get(allEvents.size()-1).setID(rs.getInt(1));
+			totalEventNo += 1;
+			if(checkFutureDate(rs.getString(4))) {
+				allEvents.add(new Event(rs.getString(2), rs.getString(3), rs.getString(4), rs.getInt(5)));
+				allEvents.get(allEvents.size()-1).setID(rs.getInt(1));
+			}
 		}
 		
 		connectionToDB.close();

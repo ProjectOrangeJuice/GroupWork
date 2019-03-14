@@ -67,7 +67,9 @@ public class EventCreationController {
             String eventDetails = eventDetailsField.getText();
             int maxAttending = Integer.parseInt(maxAttendingField.getText());
             
-            sqlStatement.setInt(1, Event.getAllEvents().size()+1);
+            Event.setTotalEventNo(Event.getTotalEventNo() + 1);
+            
+            sqlStatement.setInt(1, Event.getTotalEventNo());
             sqlStatement.setString(2, eventName);
             sqlStatement.setString(3, eventDetails);
             sqlStatement.setString(4, eventDate);
