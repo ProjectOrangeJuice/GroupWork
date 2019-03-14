@@ -28,6 +28,7 @@ public class Event {
 	private static int totalEventNo = 0;
 
 	private static ArrayList<Event> allEvents = new ArrayList<Event>();
+	private static ArrayList<Event> usersEvents = new ArrayList<Event>();
 
 	public Event(String title, String details, String date, int maxAttending) {
 		
@@ -60,15 +61,27 @@ public class Event {
         ResultSet rs = stmt.executeQuery("SELECT * FROM events");
         allEvents.clear();
         
-        ArrayList<Integer> usersEvents = ((User) ScreenManager.getCurrentUser()).loadUserEvents();
-        
+        ArrayList<Integer> usersEventIDs = null;;
+        if(ScreenManager.getCurrentUser() instanceof User) {
+        	usersEventIDs = ((User) ScreenManager.getCurrentUser()).loadUserEvents();
+        }
+
 		while(rs.next()) {
 			totalEventNo += 1;
-			if(checkFutureDate(rs.getString(4)) && !(usersEvents.contains(rs.getInt(1)))) {
+			if(ScreenManager.getCurrentUser() instanceof User) {
+				if(checkFutureDate(rs.getString(4)) && !(usersEventIDs.contains(rs.getInt(1)))) {
+					allEvents.add(new Event(rs.getString(2), rs.getString(3), rs.getString(4), rs.getInt(5)));
+					allEvents.get(allEvents.size()-1).setID(rs.getInt(1));
+				} else if (usersEventIDs.contains(rs.getInt(1))) {
+					usersEvents.add(new Event(rs.getString(2), rs.getString(3), rs.getString(4), rs.getInt(5)));
+					usersEvents.get(allEvents.size()-1).setID(rs.getInt(1));
+				}
+			} else {
 				allEvents.add(new Event(rs.getString(2), rs.getString(3), rs.getString(4), rs.getInt(5)));
 				allEvents.get(allEvents.size()-1).setID(rs.getInt(1));
 			}
 		}
+		
 		
 		connectionToDB.close();
 		
@@ -147,16 +160,8 @@ public class Event {
 
 	}
 	
-	public static void getUserEvents() throws SQLException {
-		
-		Connection connectionToDB = DBHelper.getConnection();
-        Statement stmt = connectionToDB.createStatement();
-        ResultSet rs = stmt.executeQuery("SELECT * FROM userEvents");
-        
-		while(rs.next()) {
-			System.out.println(rs.getInt(1) + " " + rs.getString(2));
-		}
-		
+	public static ArrayList<Event> getUserEvents() throws SQLException {
+		return usersEvents;
 	}
 	
 	public static void addUserEvent(String username, int ID) throws SQLException {
