@@ -609,24 +609,6 @@ public class ProfileController {
 			loadCopyImages(borrowHistory, "returned.png");
 		}
 	}
-	
-	@FXML
-	private void loadEventTable() throws SQLException, ParseException {
-		
-		model.Event.loadEvents();
-		
-		eventTitleField.setCellValueFactory(new PropertyValueFactory<>("title"));
-		eventDetailsField.setCellValueFactory(new PropertyValueFactory<>("details"));
-		eventTimeField.setCellValueFactory(new PropertyValueFactory<>("date"));
-		eventSpacesField.setCellValueFactory(new PropertyValueFactory<>("maxAttending"));
-		
-		ObservableList<model.Event> tableData = FXCollections.observableArrayList();
-		
-		tableData.addAll(model.Event.getAllEvents());
-		eventTable.setItems(tableData);
-		eventTable.refresh();
-
-	}
 
 	/**
 	 * intialize method that starts when the scene is intialized
@@ -1228,11 +1210,31 @@ public class ProfileController {
 	}
 	
 	@FXML
-	private void onTableSelection() {
+	private void loadEventTable() throws SQLException, ParseException {
+		
+		model.Event.loadEvents();
+		
+		eventTitleField.setCellValueFactory(new PropertyValueFactory<>("title"));
+		eventDetailsField.setCellValueFactory(new PropertyValueFactory<>("details"));
+		eventTimeField.setCellValueFactory(new PropertyValueFactory<>("date"));
+		eventSpacesField.setCellValueFactory(new PropertyValueFactory<>("maxAttending"));
+		
+		ObservableList<model.Event> tableData = FXCollections.observableArrayList();
+		
+		tableData.addAll(model.Event.getAllEvents());
+		eventTable.setItems(tableData);
+		eventTable.refresh();
+
+	}
+	
+	@FXML
+	private void onTableSelection() throws SQLException {
 		
 		model.Event selectedEvent = eventTable.getSelectionModel().getSelectedItem();
 		
-		if(selectedEvent.getMaxAttending() > 0) {
+		ArrayList<Integer> usersEvents = ((User) ScreenManager.getCurrentUser()).loadUserEvents();
+		
+		if(selectedEvent.getMaxAttending() > 0 && !(usersEvents.contains(selectedEvent.getID()))) {
 			joinEventButton.setDisable(false);
 		} else {
 			joinEventButton.setDisable(true);
