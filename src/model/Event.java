@@ -56,11 +56,13 @@ public class Event {
 		while(rs.next()) {
 			
 			
-			System.out.println("---------------------------------------------------- " + rs.getString(4));
+			//System.out.println("---------------------------------------------------- " + rs.getString(4));
 			if(checkFutureDate(rs.getString(4))) {
 				allEvents.add(new Event(rs.getString(2), rs.getString(3), rs.getString(4), rs.getInt(5)));
 				allEvents.get(allEvents.size()-1).setID(rs.getInt(1));
 				System.out.println("hello");
+			} else {
+				deleteEvent(rs.getInt(1));
 			}
 			
 		}
@@ -129,6 +131,16 @@ public class Event {
         Statement stmt = connectionToDB.createStatement();
         stmt.execute("UPDATE events SET title = '" + event.title + "', details = '" +
         event.details + "', date = '" + event.date + "', maxAllowed = " + event.maxAttending + " WHERE eID = " + event.ID);
+        connectionToDB.close();
+
+	}
+	
+public static void deleteEvent(int ID) throws SQLException {
+		
+		Connection connectionToDB = DBHelper.getConnection();
+        Statement stmt = connectionToDB.createStatement();
+        stmt.execute("DELETE FROM events WHERE eID = " + ID);
+        connectionToDB.close();
 
 	}
 

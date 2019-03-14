@@ -601,7 +601,9 @@ public class ProfileController {
 	}
 	
 	@FXML
-	private void loadEventTable() {
+	private void loadEventTable() throws SQLException, ParseException {
+		
+		model.Event.loadEvents();
 		
 		eventTitleField.setCellValueFactory(new PropertyValueFactory<>("title"));
 		eventDetailsField.setCellValueFactory(new PropertyValueFactory<>("details"));
@@ -630,18 +632,16 @@ public class ProfileController {
 
 		loadResourceImages();
 		
-		try {
-			model.Event.loadEvents();
-		} catch (SQLException | ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
 		for(model.Event event : model.Event.getAllEvents()) {
 			System.out.println("dets: " + event.getTitle());
 		}
 		
-		loadEventTable();
+		try {
+			loadEventTable();
+		} catch (SQLException | ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 		scrollPane.setHvalue(0.5);
 
@@ -1223,7 +1223,7 @@ public class ProfileController {
 	
 	
 	@FXML
-	private void onJoinEventClick() throws SQLException {
+	private void onJoinEventClick() throws SQLException, ParseException {
 		
 		model.Event selectedEvent = eventTable.getSelectionModel().getSelectedItem();
 		int selectedIndex = eventTable.getSelectionModel().getSelectedIndex();
@@ -1235,10 +1235,6 @@ public class ProfileController {
 		model.Event.setAllEvents(newEvents);
 		
 		loadEventTable();
-		
-		//DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyy");  
-		//LocalDateTime now = LocalDateTime.now();
-		//System.out.println(dtf.format(now));
 		
 		model.Event.updateEvent(selectedEvent);
 		

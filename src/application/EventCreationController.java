@@ -75,6 +75,8 @@ public class EventCreationController {
             
             sqlStatement.execute();
             
+            connectionToDB.close();
+            
             System.out.println("added event successfully!");
             
             Event.addEvent(eventName, eventDetails, eventDate, maxAttending);
