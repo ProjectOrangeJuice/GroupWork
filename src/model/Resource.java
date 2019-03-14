@@ -914,4 +914,18 @@ public abstract class Resource {
     public String getTimeStamp() {
     	return this.timestamp;
     }
+    
+    public boolean compareTimeDifference(Person person) throws ParseException {
+    	SimpleDateFormat formatter = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss");
+    	Date resourceDate = formatter.parse(this.timestamp);
+    	Date loginDate = formatter.parse(person.getLastLogin());
+    	long timeDifference = loginDate.getTime() - resourceDate.getTime();
+    	
+    	if (timeDifference < 0) {
+    		return true;
+    	}
+    	else {
+    		return false;
+    	}
+    }
 }

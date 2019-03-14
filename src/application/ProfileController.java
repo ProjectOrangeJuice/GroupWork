@@ -153,6 +153,8 @@ public class ProfileController {
 	private CheckBox bookCheck;
 	@FXML
 	private CheckBox laptopCheck;
+	@FXML
+	private CheckBox newCheck;
 
 	//Copies Explorer
 	@FXML
@@ -273,9 +275,10 @@ public class ProfileController {
 	/**
 	 * Method that searches for resources
 	 * @param event when something is typed into the search box
+	 * @throws ParseException 
 	 */
 	@FXML
-    void searchThis(Event event) {
+    void searchThis(Event event) throws ParseException {
 		tabs.getSelectionModel().select(resourcesTab);
 		vResourceBox.getChildren().clear();
 		HBox hbox = new HBox();
@@ -463,8 +466,9 @@ public class ProfileController {
 	 * Search resources and checks to see if the checkboxes are selected which filter the search
 	 * @param i loop to get the resources
 	 * @return the search results or false
+	 * @throws ParseException 
 	 */
-	private boolean search(int i ) {
+	private boolean search(int i ) throws ParseException {
 		//get the resource
 		Resource r = resources.get(i);
 		String searchText = searchTextBox.getText();
@@ -478,6 +482,9 @@ public class ProfileController {
 		if(laptopCheck.isSelected() && r instanceof Laptop) {
 			return r.contains(searchText);
 		}
+		if(newCheck.isSelected() && r.compareTimeDifference(ScreenManager.getCurrentUser()) == true){
+			return r.contains(searchText);
+		}
 		if(r instanceof Game) {
 		    return r.contains(searchText);
 		}
@@ -488,7 +495,7 @@ public class ProfileController {
 
 
 	@FXML
-	private void  reloadVisuals(Event e) {
+	private void  reloadVisuals(Event e) throws ParseException {
 
 		vResourceBox.getChildren().clear();
 		vResourceBox.getChildren().add(new HBox());
@@ -508,8 +515,9 @@ public class ProfileController {
 	/**
 	 * Loads resource images from Resource class, so that they can
 	 * be displayed within the UI.
+	 * @throws ParseException 
 	 */
-	private void loadResourceImages() {
+	private void loadResourceImages() throws ParseException {
 		if (ScreenManager.getCurrentUser() instanceof Librarian) {
 			staffProfileTab.setDisable(false);
 			userProfileTab.setDisable(true);
@@ -635,9 +643,10 @@ public class ProfileController {
 
 	/**
 	 * intialize method that starts when the scene is intialized
+	 * @throws ParseException 
 	 */
 	@FXML
-	 public void initialize() {
+	 public void initialize() throws ParseException {
 
 		currentUser = ScreenManager.getCurrentUser();
 		resources = ScreenManager.getResources();
