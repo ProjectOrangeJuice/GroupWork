@@ -9,6 +9,7 @@ CREATE TABLE IF NOT EXISTS `users` (
 	`postcode`	TEXT,
 	`avatarPath`	TEXT,
 	`accountBalance`	TEXT,
+	`lastLogin`	TEXT,
 	PRIMARY KEY(`username`)
 );
 
