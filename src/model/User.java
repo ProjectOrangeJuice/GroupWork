@@ -198,22 +198,30 @@ public class User extends Person {
 
     public ArrayList<Integer> loadUserEvents() throws SQLException{
     	
-    	Connection dbConnection = DBHelper.getConnection();
-    	Statement stmt = dbConnection.createStatement();
-    	ResultSet rs = stmt.executeQuery("SELECT eID FROM userEvents WHERE username = " +
-    	ScreenManager.getCurrentUser().getUsername());
-        
-        while(rs.next()) {
-        	eventsList.add(rs.getInt(1));
-        }
-        
+    	try {
+    		Connection dbConnection = DBHelper.getConnection();
+        	Statement stmt = dbConnection.createStatement();
+        	ResultSet rs = stmt.executeQuery("SELECT eID FROM userEvents WHERE username = '" +
+        	ScreenManager.getCurrentUser().getUsername() + "'");
+            
+            while(rs.next()) {
+            	eventsList.add(rs.getInt(1));
+            	System.out.println(rs.getInt(1) + ": " + rs.getString(2));
+            	
+            }
+    	}  catch (SQLException e) {
+    		System.out.println("Failed to load user events;");
+            e.printStackTrace();
+    	}
+
         return eventsList;
     	
     }
 
     /**
      * Method that loads the users borrow history.
-     * @return The list of all resources whose copies this user has ever borrowed.
+     * @return The list of all resources whose copies this user has ever borrowed
+     * (also loads events).
      */
     public ArrayList<Resource> loadUserHistory() {
 
@@ -234,6 +242,7 @@ public class User extends Person {
                 System.out.println("Adding borrow History!");
                 borrowHistory.add(Resource.getResource(rs.getInt("rID")));
             }
+            
         }
         catch (SQLException e) {
             System.out.println("Failed to load user history;");

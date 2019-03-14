@@ -288,6 +288,13 @@ public class ProfileController {
 			addressLabel.setText("Address: " + currentUser.getAddress());
 			postcodeLabel.setText("Post Code: " + currentUser.getPostcode());
 			phoneLabel.setText("Phone Number: " + currentUser.getPhoneNumber());
+			
+			try {
+				((User) currentUser).loadUserEvents();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 
 			Double userBalance = ((User) currentUser).getAccountBalance();
 			accountBalance.setText("£" + Double.toString(userBalance));
