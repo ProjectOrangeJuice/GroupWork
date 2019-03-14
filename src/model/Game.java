@@ -48,9 +48,9 @@ public class Game extends Resource {
      * @param isbn The ISBN code of the book.
      * @param language The language of the book.
      */
-    public Game(int uniqueID, String title, int year, Image thumbnail, String publisher, String genre,
+    public Game(int uniqueID, String title, int year, Image thumbnail, String timestamp, String publisher, String genre,
             String rating, String multiplayerSupport) {
-        super(uniqueID, title, year, thumbnail);
+        super(uniqueID, title, year, thumbnail, timestamp);
         this.publisher = publisher;
         this.genre = genre;
         this.rating = rating;
@@ -83,6 +83,7 @@ public class Game extends Resource {
                 					   	rs.getString("title"), 
                 					   	rs.getInt("year"), 
                 					   	resourceImage,
+                					   	rs.getString("timestamp"),
 					                    rs.getString("publisher"), 
 					                    rs.getString("genre"), 
 					                    rs.getString("rating"),

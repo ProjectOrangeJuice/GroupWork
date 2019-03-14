@@ -95,6 +95,8 @@ public class ProfileController {
 	@FXML
 	private Label postcodeLabel;//label displaying "Post code"
 	@FXML
+	private Label lastLoginLabel1;//label displaying "Last Login"
+	@FXML
 	private Label balanceLabel;//label displaying "Balance"
 
 	//Staff Profile
@@ -112,6 +114,8 @@ public class ProfileController {
 	private Label dateLabel1;//label displaying the employment date of the staff from the database
 	@FXML
 	private Label staffIDLabel1;//label displaying the staff id from the database
+	@FXML
+	private Label lastLoginLabel2;//label displaying the staff last login time
 
 	@FXML
 	private Tab userProfileTab;//my profile tab
