@@ -636,10 +636,6 @@ public class ProfileController {
 
 		loadResourceImages();
 		
-		for(model.Event event : model.Event.getAllEvents()) {
-			System.out.println("dets: " + event.getTitle());
-		}
-		
 		try {
 			loadEventTable();
 		} catch (SQLException | ParseException e) {
