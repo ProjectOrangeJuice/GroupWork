@@ -3,6 +3,11 @@ package application;
 import java.io.IOException;
 import java.util.List;
 
+import org.json.JSONObject;
+import org.json.JSONTokener;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mashape.unirest.http.HttpResponse;
@@ -17,23 +22,48 @@ import model.GameID;
 import model.GameTrailerDescription;
 
 public class GameTrailerView {
+    private static final String YOUTUBE_URL = "https://www.youtube.com/embed/";
     private ObjectMapper jsonMapper;
+    private String videoName;
     private WebView steamView;
     private GameID app;
     private GameTrailerDescription trailerDescription;
     
     public GameTrailerView(String gameName) {
         jsonMapper = new ObjectMapper();
-        
-        app = getGameDescription(gameName);
-        trailerDescription = getTrailerDescription(app.getAppID());
+        String youtubeKey = getYoutubeKey(gameName);
+        System.out.println(youtubeKey);
         
         steamView = new WebView();
         steamView.setPrefSize(1600, 900);
-        steamView.getEngine().load(trailerDescription.getWebURLs().getMaxResURL());
+        steamView.getEngine().load(YOUTUBE_URL + youtubeKey);
     }
     
-    private GameTrailerDescription getTrailerDescription(int gameID) {
+    private String getYoutubeKey(String gameName) {
+
+        String keyword = gameName + " Trailer";
+        keyword = keyword.replace(" ", "+");
+ 
+        String url = "https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=1&order=rating&q=" + keyword + "&key=AIzaSyBLyeidWvIxNFdvK0Bl7fPZ_WqeXrI8cac";
+ 
+        Document doc = null;
+        try {
+            doc = Jsoup.connect(url).timeout(10 * 1000).ignoreContentType(true).get();
+        }
+        catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            System.exit(-1);
+        }
+ 
+        String getJson = doc.text();
+        JSONObject jsonObject = (JSONObject) new JSONTokener(getJson ).nextValue();
+ 
+        videoName = jsonObject.getJSONArray("items").getJSONObject(0).getJSONObject("snippet").getString("title");
+        return jsonObject.getJSONArray("items").getJSONObject(0).getJSONObject("id").getString("videoId");
+    }
+    
+    /*private GameTrailerDescription getTrailerDescription(int gameID) {
         HttpResponse<String> response = null;
         
         try {
@@ -130,16 +160,21 @@ public class GameTrailerView {
         }
     }
     
-    public WebView getWebView() {
-        return steamView;
-    }
-    
     public GameID getGameID() {
         return app;
     }
     
     public GameTrailerDescription getTrailerDescription() {
         return trailerDescription;
+    }
+    */
+    
+    public WebView getWebView() {
+        return steamView;
+    }
+    
+    public String getVideoName() {
+        return videoName;
     }
     
     public void stop() {

@@ -310,7 +310,7 @@ public class CopyController {
 	        Scene trailerScene = new Scene(trailerView.getWebView(), 1600, 900);
 	        
 	        Stage trailerWindow = new Stage();
-	        trailerWindow.setTitle(trailerView.getTrailerDescription().getName());
+	        trailerWindow.setTitle(trailerView.getVideoName());
             
             trailerWindow.setOnHidden(e -> {
                 trailerView.stop();
