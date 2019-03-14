@@ -23,6 +23,9 @@ public class MovieTrailerView
     
     private static final String YOUTUBE_URL = "https://www.youtube.com/embed/";
     
+    private static final int TRAILER_VIEW_WIDTH = 1600;
+    private static final int TRAILER_VIEW_HEIGHT = 900;
+    
     private ObjectMapper jsonMapper;
     
     private MovieDescription movieDescription;
@@ -39,7 +42,7 @@ public class MovieTrailerView
         trailerDescription = getTrailerFromTMDB(movieDescription);
         youtubeView = new WebView();
         youtubeView.getEngine().load(YOUTUBE_URL + trailerDescription.getKey());
-        youtubeView.setPrefSize(1600, 900);
+        youtubeView.setPrefSize(TRAILER_VIEW_WIDTH, TRAILER_VIEW_HEIGHT);
     }
     
     public MovieDescription getMovieFromTMDB(String movieName)
