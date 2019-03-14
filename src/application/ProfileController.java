@@ -224,6 +224,9 @@ public class ProfileController {
 	
 	@FXML
 	private Button joinEventButton;
+	
+	@FXML
+	private Button createEventButton;
 
 	//may remove fixed size resource images
 	//when dealing with window resizing.
@@ -646,6 +649,9 @@ public class ProfileController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+		createEventButton.setDisable(ScreenManager.getCurrentUser() instanceof User);
+		joinEventButton.setDisable(ScreenManager.getCurrentUser() instanceof Librarian);
 
 		scrollPane.setHvalue(0.5);
 
@@ -1266,12 +1272,8 @@ public class ProfileController {
 			} else {
 				joinEventButton.setDisable(true);
 			}
-		} else {
-			joinEventButton.setDisable(true);
 		}
-		
-		
-		
+
 	}
 	
 	
