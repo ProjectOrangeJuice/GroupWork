@@ -67,6 +67,7 @@ public class LoginController {
 		Person User1 = Person.loadPerson(usernameTextBox.getText());
 
 		if(User1 != null) {
+			User1.updateLogin();
 			ScreenManager.setCurrentUser((Person) User1);
 			if(User1 instanceof User) {
 				changeScene(event, "/fxml/profileScene.fxml");
