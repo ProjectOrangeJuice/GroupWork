@@ -58,7 +58,6 @@ public class Event {
 		Connection connectionToDB = DBHelper.getConnection();
         Statement stmt = connectionToDB.createStatement();
         ResultSet rs = stmt.executeQuery("SELECT * FROM events");
-        
         allEvents.clear();
         
         ArrayList<Integer> usersEvents = ((User) ScreenManager.getCurrentUser()).loadUserEvents();
