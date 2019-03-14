@@ -4,7 +4,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
+
+import application.ScreenManager;
 
 /**
  * This class represents a user of the library, allowing them to borrow copies
@@ -22,6 +25,8 @@ public class User extends Person {
 
     /** All of the copies the user has taken out. */
     private ArrayList<Copy> copiesList = new ArrayList<Copy>();
+    
+    private ArrayList<Integer> eventsList = new ArrayList<Integer>();
 
     /**
      * Creates a new User object from the given arguments.
@@ -189,6 +194,21 @@ public class User extends Person {
             e.printStackTrace();
         }
         return false;
+    }
+
+    public ArrayList<Integer> loadUserEvents() throws SQLException{
+    	
+    	Connection dbConnection = DBHelper.getConnection();
+    	Statement stmt = dbConnection.createStatement();
+    	ResultSet rs = stmt.executeQuery("SELECT eID FROM userEvents WHERE username = " +
+    	ScreenManager.getCurrentUser().getUsername());
+        
+        while(rs.next()) {
+        	eventsList.add(rs.getInt(1));
+        }
+        
+        return eventsList;
+    	
     }
 
     /**
