@@ -1,12 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.*?>
-<?import java.lang.*?>
-<?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Accordion?>
 <?import javafx.scene.control.Button?>
@@ -17,6 +10,7 @@
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.TitledPane?>
@@ -30,7 +24,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane focusTraversable="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="400.0" minWidth="600.0" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.ProfileController">
+<BorderPane focusTraversable="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="400.0" minWidth="600.0" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.ProfileController">
 
    <center>
       <TabPane fx:id="tabs" prefHeight="972.0" prefWidth="1920.0" BorderPane.alignment="CENTER">
@@ -310,7 +304,7 @@
                      <children>
                         <Button fx:id="refreshEventsButton" layoutX="753.0" layoutY="53.0" mnemonicParsing="false" onMouseClicked="#loadEventTable" text="Refresh Events" />
                         <Button fx:id="createEventButton" layoutX="753.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#openEventCreator" text="Create Event" />
-                        <TableView fx:id="eventTable" layoutX="14.0" layoutY="14.0" prefHeight="542.0" prefWidth="728.0">
+                        <TableView fx:id="eventTable" layoutX="14.0" layoutY="14.0" onMouseClicked="#onTableSelection" prefHeight="542.0" prefWidth="728.0">
                            <columns>
                               <TableColumn fx:id="eventTitleField" prefWidth="132.9999942779541" text="Event Title" />
                               <TableColumn fx:id="eventDetailsField" prefWidth="359.0" text="Event Details" />
