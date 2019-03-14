@@ -59,11 +59,12 @@ public class Event {
         Statement stmt = connectionToDB.createStatement();
         ResultSet rs = stmt.executeQuery("SELECT * FROM events");
         
-        User currentUser = (User) ScreenManager.getCurrentUser();
         allEvents.clear();
+        ArrayList<Integer> usersEvents = ((User) ScreenManager.getCurrentUser()).loadUserEvents();
+        
 		while(rs.next()) {
 			totalEventNo += 1;
-			if(checkFutureDate(rs.getString(4)) && !(currentUser.loadUserEvents().contains(rs.getInt(1)))) {
+			if(checkFutureDate(rs.getString(4)) && !(usersEvents.contains(rs.getInt(1)))) {
 				allEvents.add(new Event(rs.getString(2), rs.getString(3), rs.getString(4), rs.getInt(5)));
 				allEvents.get(allEvents.size()-1).setID(rs.getInt(1));
 			}

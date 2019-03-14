@@ -623,7 +623,6 @@ public class ProfileController {
 		ObservableList<model.Event> tableData = FXCollections.observableArrayList();
 		
 		tableData.addAll(model.Event.getAllEvents());
-		//System.out.println("size: " + tableData.size());
 		eventTable.setItems(tableData);
 		eventTable.refresh();
 
