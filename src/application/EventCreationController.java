@@ -76,12 +76,13 @@ public class EventCreationController {
             sqlStatement.setInt(5, maxAttending);
             
             sqlStatement.execute();
-            
             connectionToDB.close();
             
             System.out.println("added event successfully!");
             
             Event.addEvent(eventName, eventDetails, eventDate, maxAttending);
+            
+            Event.getAllEvents();
             
             Stage stage = (Stage) createEventButton.getScene().getWindow();
     	    stage.close();

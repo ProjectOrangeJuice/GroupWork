@@ -143,6 +143,18 @@ public class Event {
 
 	}
 	
+	public static void getUserEvents() throws SQLException {
+		
+		Connection connectionToDB = DBHelper.getConnection();
+        Statement stmt = connectionToDB.createStatement();
+        ResultSet rs = stmt.executeQuery("SELECT * FROM userEvents");
+        
+		while(rs.next()) {
+			System.out.println(rs.getString(1) + " " + rs.getInt(2));
+		}
+		
+	}
+	
 	public static void addUserEvent(String username, int ID) throws SQLException {
 		
 		Connection connectionToDB = DBHelper.getConnection();
