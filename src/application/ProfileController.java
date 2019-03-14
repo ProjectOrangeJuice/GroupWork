@@ -205,6 +205,9 @@ public class ProfileController {
 	
 	@FXML
 	private Button refreshEventsButton;
+	
+	@FXML
+	private Button joinEventButton;
 
 	//may remove fixed size resource images
 	//when dealing with window resizing.
@@ -1220,6 +1223,19 @@ public class ProfileController {
 			}
 		}
 
+	}
+	
+	@FXML
+	private void onTableSelection() {
+		
+		model.Event selectedEvent = eventTable.getSelectionModel().getSelectedItem();
+		
+		if(selectedEvent.getMaxAttending() > 0) {
+			joinEventButton.setDisable(false);
+		} else {
+			joinEventButton.setDisable(true);
+		}
+		
 	}
 	
 	
