@@ -223,6 +223,10 @@ INSERT INTO `copies` VALUES (23,5,NULL,7,NULL,NULL,NULL);
 INSERT INTO `copies` VALUES (24,5,NULL,7,NULL,NULL,NULL);
 INSERT INTO `copies` VALUES (25,5,NULL,7,NULL,NULL,NULL);
 
+INSERT INTO `copies` VALUES (26,12,NULL,NULL,NULL,NULL,NULL);
+INSERT INTO `copies` VALUES (27,7,NULL,NULL,NULL,NULL,NULL);
+INSERT INTO `copies` VALUES (28,8,NULL,NULL,NULL,NULL,NULL);
+
 DROP TABLE IF EXISTS `borrowRecords`;
 CREATE TABLE IF NOT EXISTS `borrowRecords` (
 	`borrowId`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
@@ -235,6 +239,13 @@ CREATE TABLE IF NOT EXISTS `borrowRecords` (
 
 INSERT INTO `borrowRecords` VALUES (1,1,'Manny','Returned on 08/12/2018');
 INSERT INTO `borrowRecords` VALUES (2,11,'Manny','Returned on 08/12/2018');
+INSERT INTO `borrowRecords` VALUES (3,10,'Jackie','Returned on 08/12/2018');
+INSERT INTO `borrowRecords` VALUES (4,10,'Steveo','Returned on 08/12/2018');
+INSERT INTO `borrowRecords` VALUES (5,10,'Manny','Returned on 08/12/2018');
+INSERT INTO `borrowRecords` VALUES (6,1,'Jackie','Returned on 08/12/2018');
+INSERT INTO `borrowRecords` VALUES (7,26,'Manny','Returned on 08/12/2018');
+INSERT INTO `borrowRecords` VALUES (8,27,'Steveo','Returned on 08/12/2018');
+INSERT INTO `borrowRecords` VALUES (9,28,'Jackie','Returned on 08/12/2018');
 
 DROP TABLE IF EXISTS `requestsToApprove`;
 CREATE TABLE IF NOT EXISTS `requestsToApprove` (
