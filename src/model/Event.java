@@ -15,6 +15,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 
+import application.ScreenManager;
+
 public class Event {
 	
 	private int ID;
@@ -57,12 +59,15 @@ public class Event {
         Statement stmt = connectionToDB.createStatement();
         ResultSet rs = stmt.executeQuery("SELECT * FROM events");
         
+        User currentUser = (User) ScreenManager.getCurrentUser();
         allEvents.clear();
 		while(rs.next()) {
 			totalEventNo += 1;
-			if(checkFutureDate(rs.getString(4))) {
+			if(checkFutureDate(rs.getString(4)) && !(currentUser.loadUserEvents().contains(rs.getInt(1)))) {
 				allEvents.add(new Event(rs.getString(2), rs.getString(3), rs.getString(4), rs.getInt(5)));
 				allEvents.get(allEvents.size()-1).setID(rs.getInt(1));
+				System.out.println("more than 0 spaces and user isn't already enrolled");
+				System.out.println(rs.getInt(1));
 			}
 		}
 		

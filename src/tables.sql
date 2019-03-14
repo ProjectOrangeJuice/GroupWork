@@ -156,7 +156,6 @@ create table if not exists `subtitles` (
 	foreign key (dvdID) references `dvd`(`rID`) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
-drop table if exists `userEvents`;
 create table if not exists `userEvents` (
 	`eID` INTEGER,
 	`username` TEXT,
