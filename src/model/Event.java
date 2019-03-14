@@ -59,7 +59,9 @@ public class Event {
 		Connection connectionToDB = DBHelper.getConnection();
         Statement stmt = connectionToDB.createStatement();
         ResultSet rs = stmt.executeQuery("SELECT * FROM events");
+        
         allEvents.clear();
+        usersEvents.clear();
         
         ArrayList<Integer> usersEventIDs = null;;
         if(ScreenManager.getCurrentUser() instanceof User) {
@@ -74,7 +76,7 @@ public class Event {
 					allEvents.get(allEvents.size()-1).setID(rs.getInt(1));
 				} else if (usersEventIDs.contains(rs.getInt(1))) {
 					usersEvents.add(new Event(rs.getString(2), rs.getString(3), rs.getString(4), rs.getInt(5)));
-					usersEvents.get(allEvents.size()-1).setID(rs.getInt(1));
+					usersEvents.get(usersEvents.size()-1).setID(rs.getInt(1));
 				}
 			} else {
 				allEvents.add(new Event(rs.getString(2), rs.getString(3), rs.getString(4), rs.getInt(5)));
