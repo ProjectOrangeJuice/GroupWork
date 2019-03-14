@@ -1235,11 +1235,22 @@ public class ProfileController {
 		eventTimeField.setCellValueFactory(new PropertyValueFactory<>("date"));
 		eventSpacesField.setCellValueFactory(new PropertyValueFactory<>("maxAttending"));
 		
+		userEventTitleField.setCellValueFactory(new PropertyValueFactory<>("title"));
+		userEventDetailsField.setCellValueFactory(new PropertyValueFactory<>("details"));
+		userEventTimeField.setCellValueFactory(new PropertyValueFactory<>("date"));
+		userEventSpacesField.setCellValueFactory(new PropertyValueFactory<>("maxAttending"));
+		
 		ObservableList<model.Event> tableData = FXCollections.observableArrayList();
+		ObservableList<model.Event> userTableData = FXCollections.observableArrayList();
 		
 		tableData.addAll(model.Event.getAllEvents());
+		userTableData.addAll(model.Event.getUserEvents());
+		
 		eventTable.setItems(tableData);
+		userEventTable.setItems(userTableData);
+		
 		eventTable.refresh();
+		userEventTable.refresh();
 
 	}
 	
