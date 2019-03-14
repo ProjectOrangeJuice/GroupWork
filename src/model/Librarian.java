@@ -37,9 +37,9 @@ public class Librarian extends Person {
     public Librarian(String userName, String firstName, String lastName, 
     		String phoneNumber, String address,
             String postcode, String avatarPath, String employmentDate, 
-            int staffID) {
+            int staffID,String stamp) {
         super(userName, firstName, lastName, phoneNumber, address, 
-        		postcode, avatarPath);
+        		postcode, avatarPath,stamp);
         this.staffID = staffID;
 
         Date date = null;

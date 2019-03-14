@@ -4,7 +4,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.sql.Timestamp;
 
 /**
  * This class represents a person from which both the user and librarian classes
@@ -36,7 +38,11 @@ public abstract class Person {
 
     /** The persons chosen avatar image. */
     private String avatarPath;
+    
+    private String lastLogin;
 
+    
+    private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss");
     /**
      * Creates a new Person object from the given arguments.
      * @param username The user name of this person.
@@ -49,7 +55,7 @@ public abstract class Person {
      */
     public Person(String username, String firstName, String lastName,
     		String phoneNumber, String address,
-            String postcode, String avatarPath) {
+            String postcode, String avatarPath, String lastLogin) {
         this.username = username;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -57,6 +63,8 @@ public abstract class Person {
         this.address = address;
         this.postcode = postcode;
         this.avatarPath = avatarPath;
+        this.lastLogin = lastLogin;
+        System.out.println("Last login: "+lastLogin);
     }
 
     /**
@@ -112,6 +120,14 @@ firstName);
         return phoneNumber;
     }
 
+    /**
+     * Return the lastLogin timestamp
+     * @return lastLogin timestamp
+     */
+    public String getLastLogin() {
+    	return lastLogin;
+    }
+    
     /**
      * Sets the phone number of the person.
      * Updates the database as well.
@@ -215,11 +231,12 @@ firstName);
                     String pathResult = rs.getString(7);
                     int staffIDResult = rs.getInt(11);
                     String employmentDateResult = rs.getString(12);
+                    String stamp = rs.getString(10);
 
                     dbConnection.close();
                     return new Librarian(usernameResult, firstnameResult, lastnameResult, telephoneResult,
                         addressResult, postcodeResult, pathResult, employmentDateResult,
-                       staffIDResult);
+                       staffIDResult,stamp);
                 }
                 else {
                     //Loads up normal users
@@ -236,10 +253,11 @@ firstName);
                     String postcodeResult = rs.getString(6);
                     String pathResult = rs.getString(7);
                     String balanceResult = rs.getString(8);
+                    String stamp = rs.getString(9);
 
                     dbConnection.close();
                     return new User(usernameResult, firstnameResult, lastnameResult, telephoneResult, addressResult,
-                        postcodeResult, pathResult, Double.parseDouble(balanceResult));
+                        postcodeResult, pathResult, Double.parseDouble(balanceResult),stamp);
                 }
             }
             else {
@@ -264,8 +282,9 @@ firstName);
     	   Connection connectionToDb;
 		try {
 			connectionToDb = DBHelper.getConnection();
-			 Date date= new Date();
-			 String stamp  =  String.valueOf(date.getTime());
+		
+			 Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+			 String stamp = timestamp.toString();
 			
            PreparedStatement sqlStatement = connectionToDb.prepareStatement("UPDATE users SET lastLogin=? WHERE userName=?");
            sqlStatement.setString(1,stamp);

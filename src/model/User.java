@@ -42,9 +42,9 @@ public class User extends Person {
      */
     public User(String username, String firstName, String lastName,
         String phoneNumber, String address, String postcode, String avatarPath,
-        double accountBalance) {
+        double accountBalance,String stamp) {
         super(username, firstName, lastName, phoneNumber, address, postcode,
-            avatarPath);
+            avatarPath,stamp);
         this.accountBalance = accountBalance;
     }
 
