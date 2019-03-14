@@ -9,18 +9,17 @@ CREATE TABLE IF NOT EXISTS `users` (
 	`postcode`	TEXT,
 	`avatarPath`	TEXT,
 	`accountBalance`	TEXT,
+	`lastLogin`	TEXT,
 	PRIMARY KEY(`username`)
 );
+INSERT INTO `users`('username','firstname','lastname','telephone','address','postcode','avatarPath','accountBalance') VALUES ('Alexandru','Alex','Dascalu','079999999','3 Maple Street','SA2 8PP','/SavedAvatars/Avatar1.png','0');
+INSERT INTO `users`('username','firstname','lastname','telephone','address','postcode','avatarPath','accountBalance')  VALUES ('Manny','Jake','Manford','0108097352','6 Main Street','SA2 GFY','/SavedAvatars/Avatar1.png','0');
+INSERT INTO `users`('username','firstname','lastname','telephone','address','postcode','avatarPath','accountBalance')  VALUES ('Steveo','Steve','Jamerson','0108035473','17 Lil Line','SA2 HRU','/SavedAvatars/Avatar1.png','0');
+INSERT INTO `users`('username','firstname','lastname','telephone','address','postcode','avatarPath','accountBalance')  VALUES ('Queeny','McNiel','Nelson','0108037642','45 Avenue Drive','SA2 HFY','/SavedAvatars/Avatar1.png','0');
+INSERT INTO `users`('username','firstname','lastname','telephone','address','postcode','avatarPath','accountBalance')  VALUES ('Jackie','Janet','Smith','0108034627','16 Cramford Way','SA2 I9L','/SavedAvatars/Avatar1.png','0');
 
-INSERT INTO `users` VALUES ('Alexandru','Alex','Dascalu','079999999','3 Maple Street','SA2 8PP','/SavedAvatars/Avatar1.png','0');
-INSERT INTO `users` VALUES ('Manny','Jake','Manford','0108097352','6 Main Street','SA2 GFY','/SavedAvatars/Avatar1.png','0');
-INSERT INTO `users` VALUES ('Steveo','Steve','Jamerson','0108035473','17 Lil Line','SA2 HRU','/SavedAvatars/Avatar1.png','0');
-INSERT INTO `users` VALUES ('Queeny','McNiel','Nelson','0108037642','45 Avenue Drive','SA2 HFY','/SavedAvatars/Avatar1.png','0');
-INSERT INTO `users` VALUES ('Jackie','Janet','Smith','0108034627','16 Cramford Way','SA2 I9L','/SavedAvatars/Avatar1.png','0');
-
-INSERT INTO `users` VALUES ('Helper1','Carl','Walker','0108098743','7 Low Street','SA2 HFS','/SavedAvatars/Avatar1.png','0');
-INSERT INTO `users` VALUES ('Manager1','Ben','Dover','0108034738','9 High street','SA2 IFA','/SavedAvatars/Avatar1.png','0');
-
+INSERT INTO `users`('username','firstname','lastname','telephone','address','postcode','avatarPath','accountBalance')  VALUES ('Helper1','Carl','Walker','0108098743','7 Low Street','SA2 HFS','/SavedAvatars/Avatar1.png','0');
+INSERT INTO `users`('username','firstname','lastname','telephone','address','postcode','avatarPath','accountBalance')  VALUES ('Manager1','Ben','Dover','0108034738','9 High street','SA2 IFA','/SavedAvatars/Avatar1.png','0');
 DROP TABLE IF EXISTS `staff`;
 CREATE TABLE IF NOT EXISTS `staff` (
 	`username`	TEXT,
@@ -123,7 +122,6 @@ INSERT INTO `game` VALUES ('Valve','First-Person Shooter','18+',"Yes",13);
 INSERT INTO `game` VALUES ('Rockstar Games','Action-Adventure','18+',"Yes",14);
 INSERT INTO `game` VALUES ('Epic Games','Battle Royale','12',"Yes",15);
 
-DROP TABLE IF EXISTS `events`;
 CREATE TABLE IF NOT EXISTS `events` (
 	`eID`		INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
 	`title`		TEXT,
@@ -156,6 +154,14 @@ create table if not exists `subtitles` (
 	primary key (dvdID,subtitleLanguage),
 	foreign key (dvdID) references `dvd`(`rID`) ON UPDATE CASCADE ON DELETE CASCADE
 );
+
+create table if not exists `userEvents` (
+	`eID` INTEGER,
+	`username` TEXT,
+	primary key (eID, username),
+	foreign key (username) references `users`(`username`) ON UPDATE CASCADE ON DELETE CASCADE
+);
+	
 
 INSERT INTO `subtitles` VALUES (1,'romanian');
 INSERT INTO `subtitles` VALUES (1,'greek');
@@ -215,6 +221,10 @@ INSERT INTO `copies` VALUES (23,5,NULL,7,NULL,NULL,NULL);
 INSERT INTO `copies` VALUES (24,5,NULL,7,NULL,NULL,NULL);
 INSERT INTO `copies` VALUES (25,5,NULL,7,NULL,NULL,NULL);
 
+INSERT INTO `copies` VALUES (26,12,NULL,NULL,NULL,NULL,NULL);
+INSERT INTO `copies` VALUES (27,7,NULL,NULL,NULL,NULL,NULL);
+INSERT INTO `copies` VALUES (28,8,NULL,NULL,NULL,NULL,NULL);
+
 DROP TABLE IF EXISTS `borrowRecords`;
 CREATE TABLE IF NOT EXISTS `borrowRecords` (
 	`borrowId`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
@@ -227,6 +237,13 @@ CREATE TABLE IF NOT EXISTS `borrowRecords` (
 
 INSERT INTO `borrowRecords` VALUES (1,1,'Manny','Returned on 08/12/2018');
 INSERT INTO `borrowRecords` VALUES (2,11,'Manny','Returned on 08/12/2018');
+INSERT INTO `borrowRecords` VALUES (3,10,'Jackie','Returned on 08/12/2018');
+INSERT INTO `borrowRecords` VALUES (4,10,'Steveo','Returned on 08/12/2018');
+INSERT INTO `borrowRecords` VALUES (5,10,'Manny','Returned on 08/12/2018');
+INSERT INTO `borrowRecords` VALUES (6,1,'Jackie','Returned on 08/12/2018');
+INSERT INTO `borrowRecords` VALUES (7,26,'Manny','Returned on 08/12/2018');
+INSERT INTO `borrowRecords` VALUES (8,27,'Steveo','Returned on 08/12/2018');
+INSERT INTO `borrowRecords` VALUES (9,28,'Jackie','Returned on 08/12/2018');
 
 DROP TABLE IF EXISTS `requestsToApprove`;
 CREATE TABLE IF NOT EXISTS `requestsToApprove` (
@@ -245,7 +262,7 @@ CREATE TABLE IF NOT EXISTS `userRequests` (
 	PRIMARY KEY (userName,rID),
 	FOREIGN KEY (userName) REFERENCES `users` (`username`) ON UPDATE CASCADE ON DELETE CASCADE,
 	FOREIGN KEY (rID) REFERENCES `resource` (`rID`) ON UPDATE CASCADE ON DELETE CASCADE
-);
+);	
 
 CREATE TABLE IF NOT EXISTS `reviews` (
 	`reviewId`	INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE,
@@ -257,6 +274,11 @@ CREATE TABLE IF NOT EXISTS `reviews` (
 		FOREIGN KEY (resourceId) REFERENCES `resource` (`rID`) ON UPDATE CASCADE ON DELETE CASCADE,
 		FOREIGN KEY (username) REFERENCES 'users' (`username`) ON UPDATE CASCADE ON DELETE CASCADE
 );
-
-
+INSERT INTO `reviews` (reviewId, resourceId, username, star, review) VALUES (1, 2, 'Jackie', 1, 'Massive oof');
+INSERT INTO `reviews` (reviewId, resourceId, username, star, review) VALUES (2, 2, 'Steveo', 5, 'Square root of oof');
+INSERT INTO `reviews` (reviewId, resourceId, username, star, review) VALUES (3, 2, 'Manny', 3, 'Just a weird flex but ok');
+INSERT INTO `reviews` (reviewId, resourceId, username, star, review) VALUES (4, 1, 'Jackie', 5, 'Book of the century');
+INSERT INTO `reviews` (reviewId, resourceId, username, star, review) VALUES (5, 12, 'Manny', 2, 'Too cold');
+INSERT INTO `reviews` (reviewId, resourceId, username, star, review) VALUES (6, 7, 'Steveo', 4, 'Incredible');
+INSERT INTO `reviews` (reviewId, resourceId, username, star, review) VALUES (7, 8, 'Jackie', 3, 'Ok but could do with more mayo');
 COMMIT;

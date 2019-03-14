@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Date;
 
 /**
  * This class represents a person from which both the user and librarian classes
@@ -212,13 +213,13 @@ firstName);
                     String addressResult = rs.getString(5);
                     String postcodeResult = rs.getString(6);
                     String pathResult = rs.getString(7);
-                    String staffIDResult = rs.getString(10);
-                    String employmentDateResult = rs.getString(11);
+                    int staffIDResult = rs.getInt(11);
+                    String employmentDateResult = rs.getString(12);
 
                     dbConnection.close();
                     return new Librarian(usernameResult, firstnameResult, lastnameResult, telephoneResult,
                         addressResult, postcodeResult, pathResult, employmentDateResult,
-                        Integer.parseInt(staffIDResult));
+                       staffIDResult);
                 }
                 else {
                     //Loads up normal users
@@ -256,6 +257,28 @@ firstName);
         return null;
     }
 
+    /**
+     * Changes last login in the database
+     */
+    public void updateLogin() {
+    	   Connection connectionToDb;
+		try {
+			connectionToDb = DBHelper.getConnection();
+			 Date date= new Date();
+			 String stamp  =  String.valueOf(date.getTime());
+			
+           PreparedStatement sqlStatement = connectionToDb.prepareStatement("UPDATE users SET lastLogin=? WHERE userName=?");
+           sqlStatement.setString(1,stamp);
+           sqlStatement.setString(2, getUsername());
+           sqlStatement.executeUpdate();
+           connectionToDb.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    }
+    
+    
     /**
      * Method that updates the table in the database specified, at the row 
      * with given username, and at the given column.

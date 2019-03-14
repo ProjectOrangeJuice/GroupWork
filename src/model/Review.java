@@ -20,7 +20,7 @@ public class Review {
 			Connection connection = DBHelper.getConnection();
 			PreparedStatement statement = connection.prepareStatement(
 					"SELECT * FROM copies,borrowRecords,resource WHERE copies.rID = resource.rID AND borrowRecords.copyId = copies.copyID AND borrowRecords.username = ?"
-							+ " AND copies.rID=?");
+							+ " AND copies.rID=? AND borrowRecords.description LIKE 'Returned on %'");
 			statement.setString(1, username);
 			statement.setInt(2, rId);
 			ResultSet results = statement.executeQuery();

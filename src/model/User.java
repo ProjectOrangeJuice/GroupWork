@@ -4,7 +4,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
+
+import application.ScreenManager;
 
 /**
  * This class represents a user of the library, allowing them to borrow copies
@@ -22,6 +25,8 @@ public class User extends Person {
 
     /** All of the copies the user has taken out. */
     private ArrayList<Copy> copiesList = new ArrayList<Copy>();
+    
+    private ArrayList<Integer> eventsList = new ArrayList<Integer>();
 
     /**
      * Creates a new User object from the given arguments.
@@ -190,10 +195,36 @@ public class User extends Person {
         }
         return false;
     }
+    
+    public ArrayList<Integer> getUserEvents(){
+    	return this.eventsList;
+    }
+
+    public ArrayList<Integer> loadUserEvents() throws SQLException{
+    	
+    	try {
+    		Connection dbConnection = DBHelper.getConnection();
+        	Statement stmt = dbConnection.createStatement();
+        	ResultSet rs = stmt.executeQuery("SELECT eID, username FROM userEvents WHERE username = '" +
+        	ScreenManager.getCurrentUser().getUsername() + "'");
+            
+            while(rs.next()) {
+            	eventsList.add(rs.getInt(1));
+            }
+            
+    	}  catch (SQLException e) {
+    		System.out.println("Failed to load user events;");
+            e.printStackTrace();
+    	}
+
+        return eventsList;
+    	
+    }
 
     /**
      * Method that loads the users borrow history.
-     * @return The list of all resources whose copies this user has ever borrowed.
+     * @return The list of all resources whose copies this user has ever borrowed
+     * (also loads events).
      */
     public ArrayList<Resource> loadUserHistory() {
 
@@ -214,6 +245,7 @@ public class User extends Person {
                 System.out.println("Adding borrow History!");
                 borrowHistory.add(Resource.getResource(rs.getInt("rID")));
             }
+            
         }
         catch (SQLException e) {
             System.out.println("Failed to load user history;");
@@ -354,14 +386,16 @@ public class User extends Person {
 	 * Check of the user have over requested an item
 	 * @return true if the user have over requested, false otherwise
 	 */
-	public boolean exceedLimit() {
+	public boolean exceedLimit(Resource resource) {
 		ArrayList<Copy> borrowedCopies = copiesList;
 		int requestLimit = 0;
 		for (int i = 0; i < borrowedCopies.size(); i++) {
 			requestLimit += borrowedCopies.get(i).getResource().getLimitAmount();
 		}
 		
-		if (requestLimit >= 5) {
+		int availableRequest = resource.getLimitAmount() + requestLimit;
+		
+		if (availableRequest > 5) {
 			return true;
 		}
 		else {

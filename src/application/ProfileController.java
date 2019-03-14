@@ -7,6 +7,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.ParseException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 import javafx.beans.property.SimpleStringProperty;
@@ -198,10 +201,29 @@ public class ProfileController {
 	private TableColumn<model.Event, Integer> eventSpacesField;
 	
 	@FXML
+	private TableView<model.Event> userEventTable;
+	
+	@FXML
+	private TableColumn<model.Event, String> userEventTitleField;
+	
+	@FXML
+	private TableColumn<model.Event, String> userEventDetailsField;
+	
+	@FXML
+	private TableColumn<model.Event, String> userEventTimeField;
+	
+	@FXML
+	private TableColumn<model.Event, Integer> userEventSpacesField;
+	
+	
+	@FXML
 	private Button eventViewButton;
 	
 	@FXML
 	private Button refreshEventsButton;
+	
+	@FXML
+	private Button joinEventButton;
 
 	//may remove fixed size resource images
 	//when dealing with window resizing.
@@ -229,20 +251,6 @@ public class ProfileController {
 			e.printStackTrace();
 		}
 
-	}
-	
-	@FXML
-	private void loadEventTable() {
-		
-		eventTitleField.setCellValueFactory(new PropertyValueFactory<>("title"));
-		eventDetailsField.setCellValueFactory(new PropertyValueFactory<>("details"));
-		eventTimeField.setCellValueFactory(new PropertyValueFactory<>("date"));
-		eventSpacesField.setCellValueFactory(new PropertyValueFactory<>("maxAttending"));
-		
-		ObservableList<model.Event> tableData = FXCollections.observableArrayList();
-		tableData.addAll(model.Event.getAllEvents());
-		//System.out.println("size: " + tableData.size());
-		eventTable.setItems(tableData);
 	}
 
 
@@ -296,6 +304,13 @@ public class ProfileController {
 			addressLabel.setText("Address: " + currentUser.getAddress());
 			postcodeLabel.setText("Post Code: " + currentUser.getPostcode());
 			phoneLabel.setText("Phone Number: " + currentUser.getPhoneNumber());
+			
+			try {
+				((User) currentUser).loadUserEvents();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 
 			Double userBalance = ((User) currentUser).getAccountBalance();
 			accountBalance.setText("£" + Double.toString(userBalance));
@@ -626,13 +641,11 @@ public class ProfileController {
 		loadResourceImages();
 		
 		try {
-			model.Event.loadEvents();
-		} catch (SQLException e) {
+			loadEventTable();
+		} catch (SQLException | ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		loadEventTable();
 
 		scrollPane.setHvalue(0.5);
 
@@ -817,7 +830,7 @@ public class ProfileController {
 		}else {
 			
 			if(goodForNewItem == true) {
-				if (user.exceedLimit() == true) {
+				if (user.exceedLimit(Resource.getResource(resourceID)) == true) {
 					// blank out the approve button and display text showing the user
 					// has over requested
 				}
@@ -1210,6 +1223,73 @@ public class ProfileController {
 			}
 		}
 
+	}
+	
+	@FXML
+	private void loadEventTable() throws SQLException, ParseException {
+		
+		model.Event.loadEvents();
+		
+		eventTitleField.setCellValueFactory(new PropertyValueFactory<>("title"));
+		eventDetailsField.setCellValueFactory(new PropertyValueFactory<>("details"));
+		eventTimeField.setCellValueFactory(new PropertyValueFactory<>("date"));
+		eventSpacesField.setCellValueFactory(new PropertyValueFactory<>("maxAttending"));
+		
+		userEventTitleField.setCellValueFactory(new PropertyValueFactory<>("title"));
+		userEventDetailsField.setCellValueFactory(new PropertyValueFactory<>("details"));
+		userEventTimeField.setCellValueFactory(new PropertyValueFactory<>("date"));
+		userEventSpacesField.setCellValueFactory(new PropertyValueFactory<>("maxAttending"));
+		
+		ObservableList<model.Event> tableData = FXCollections.observableArrayList();
+		ObservableList<model.Event> userTableData = FXCollections.observableArrayList();
+		
+		tableData.addAll(model.Event.getAllEvents());
+		userTableData.addAll(model.Event.getUserEvents());
+		
+		eventTable.setItems(tableData);
+		userEventTable.setItems(userTableData);
+		
+		eventTable.refresh();
+		userEventTable.refresh();
+
+	}
+	
+	@FXML
+	private void onTableSelection() throws SQLException {
+		
+		model.Event selectedEvent = eventTable.getSelectionModel().getSelectedItem();
+		
+		if(ScreenManager.getCurrentUser() instanceof User) {
+			ArrayList<Integer> usersEvents = ((User) ScreenManager.getCurrentUser()).loadUserEvents();
+			if(selectedEvent.getMaxAttending() > 0 && !(usersEvents.contains(selectedEvent.getID()))) {
+				joinEventButton.setDisable(false);
+			} else {
+				joinEventButton.setDisable(true);
+			}
+		} else {
+			joinEventButton.setDisable(true);
+		}
+		
+		
+		
+	}
+	
+	
+	@FXML
+	private void onJoinEventClick() throws SQLException, ParseException {
+		
+		model.Event selectedEvent = eventTable.getSelectionModel().getSelectedItem();
+		int selectedIndex = eventTable.getSelectionModel().getSelectedIndex();
+	
+		selectedEvent.setMaxAttending(selectedEvent.getMaxAttending()-1);
+		ArrayList<model.Event> newEvents = model.Event.getAllEvents();
+		newEvents.set(selectedIndex, selectedEvent);
+		model.Event.updateEvent(selectedEvent);
+		
+		loadEventTable();
+		
+		model.Event.addUserEvent(ScreenManager.getCurrentUser().getUsername(), selectedEvent.getID());
+		
 	}
 	
 	@FXML
