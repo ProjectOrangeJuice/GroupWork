@@ -195,6 +195,10 @@ public class User extends Person {
         }
         return false;
     }
+    
+    public ArrayList<Integer> getUserEvents(){
+    	return this.eventsList;
+    }
 
     public ArrayList<Integer> loadUserEvents() throws SQLException{
     	
