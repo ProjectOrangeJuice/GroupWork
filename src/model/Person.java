@@ -257,6 +257,28 @@ firstName);
     }
 
     /**
+     * Changes last login in the database
+     */
+    public void updateLogin() {
+    	   Connection connectionToDb;
+		try {
+			connectionToDb = DBHelper.getConnection();
+			 Date date= new Date();
+			 String stamp  =  String.valueOf(date.getTime());
+			
+           PreparedStatement sqlStatement = connectionToDb.prepareStatement("UPDATE users SET lastLogin=? WHERE userName=?");
+           sqlStatement.setString(1,stamp);
+           sqlStatement.setString(2, getUsername());
+           sqlStatement.executeUpdate();
+           connectionToDb.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    }
+    
+    
+    /**
      * Method that updates the table in the database specified, at the row 
      * with given username, and at the given column.
      * @param table The table where the change needs to be made.
