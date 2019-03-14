@@ -213,13 +213,13 @@ firstName);
                     String addressResult = rs.getString(5);
                     String postcodeResult = rs.getString(6);
                     String pathResult = rs.getString(7);
-                    String staffIDResult = rs.getString(10);
-                    String employmentDateResult = rs.getString(11);
+                    int staffIDResult = rs.getInt(11);
+                    String employmentDateResult = rs.getString(12);
 
                     dbConnection.close();
                     return new Librarian(usernameResult, firstnameResult, lastnameResult, telephoneResult,
                         addressResult, postcodeResult, pathResult, employmentDateResult,
-                        Integer.parseInt(staffIDResult));
+                       staffIDResult);
                 }
                 else {
                     //Loads up normal users
