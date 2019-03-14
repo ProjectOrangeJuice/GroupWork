@@ -34,37 +34,22 @@ public class Event {
 	}
 	
 	private static boolean checkFutureDate(String dateString) throws ParseException {
-		
 		LocalDateTime localDate = LocalDateTime.now();
-		
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 		LocalDateTime eventDate = LocalDateTime.parse(dateString, formatter);
-
-		
 		return eventDate.isAfter(localDate) || eventDate.equals(localDate);
-		
-		
 	}
 	
 	public static void loadEvents() throws SQLException, ParseException {
 		
 		Connection connectionToDB = DBHelper.getConnection();
-        
         Statement stmt = connectionToDB.createStatement();
         ResultSet rs = stmt.executeQuery("SELECT * FROM events");
-
+        
+        allEvents.clear();
 		while(rs.next()) {
-			
-			
-			//System.out.println("---------------------------------------------------- " + rs.getString(4));
-			if(checkFutureDate(rs.getString(4))) {
-				allEvents.add(new Event(rs.getString(2), rs.getString(3), rs.getString(4), rs.getInt(5)));
-				allEvents.get(allEvents.size()-1).setID(rs.getInt(1));
-				System.out.println("hello");
-			} else {
-				deleteEvent(rs.getInt(1));
-			}
-			
+			allEvents.add(new Event(rs.getString(2), rs.getString(3), rs.getString(4), rs.getInt(5)));
+			allEvents.get(allEvents.size()-1).setID(rs.getInt(1));
 		}
 		
 		connectionToDB.close();

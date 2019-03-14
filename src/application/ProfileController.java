@@ -611,6 +611,7 @@ public class ProfileController {
 		eventSpacesField.setCellValueFactory(new PropertyValueFactory<>("maxAttending"));
 		
 		ObservableList<model.Event> tableData = FXCollections.observableArrayList();
+		
 		tableData.addAll(model.Event.getAllEvents());
 		//System.out.println("size: " + tableData.size());
 		eventTable.setItems(tableData);
@@ -1228,15 +1229,15 @@ public class ProfileController {
 		model.Event selectedEvent = eventTable.getSelectionModel().getSelectedItem();
 		int selectedIndex = eventTable.getSelectionModel().getSelectedIndex();
 		
+		System.out.println(selectedEvent.getMaxAttending());
+		
 		selectedEvent.setMaxAttending(selectedEvent.getMaxAttending()-1);
 		
 		ArrayList<model.Event> newEvents = model.Event.getAllEvents();
 		newEvents.set(selectedIndex, selectedEvent);
-		model.Event.setAllEvents(newEvents);
-		
-		loadEventTable();
 		
 		model.Event.updateEvent(selectedEvent);
+		loadEventTable();
 		
 	}
 	
