@@ -1,6 +1,7 @@
 package model;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -8,6 +9,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -144,10 +146,14 @@ public class Event {
 	public static void addUserEvent(String username, int ID) throws SQLException {
 		
 		Connection connectionToDB = DBHelper.getConnection();
-        Statement stmt = connectionToDB.createStatement();
-        stmt.execute("DELETE FROM events WHERE eID = " + ID);
+        PreparedStatement sqlStatement = connectionToDB.prepareStatement("INSERT INTO userEvents VALUES (?,?)");
+
+        sqlStatement.setString(1, username);
+        sqlStatement.setInt(2, ID);
+        
+        sqlStatement.execute();
         connectionToDB.close();
-		
+  
 	}
 
 }
