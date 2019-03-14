@@ -18,20 +18,25 @@ public class GameTrailerView {
             "0Bl7fPZ_WqeXrI8cac";
     private static final String KEYWORD_ADD_ON = " PC Launch Trailer";
     private static final int REQUEST_TIMEOUT = 10000;
+    private static final int TRAILER_VIEW_WIDTH = 1600;
+    private static final int TRAILER_VIEW_HEIGHT = 900;
     
     private String videoName;
+    private String youtubeKey;
     private WebView youtubeView;
     
     public GameTrailerView(String gameName) {
-        String youtubeKey = getYoutubeKey(gameName);
+        JSONObject firstResult = getFirstResult(gameName);
+        
+        videoName = firstResult.getJSONObject("snippet").getString("title");
+        youtubeKey = firstResult.getJSONObject("id").getString("videoId");
         
         youtubeView = new WebView();
-        youtubeView.setPrefSize(1600, 900);
+        youtubeView.setPrefSize(TRAILER_VIEW_WIDTH, TRAILER_VIEW_HEIGHT);
         youtubeView.getEngine().load(YOUTUBE_URL + youtubeKey);
     }
     
-    private String getYoutubeKey(String gameName) {
-
+    private JSONObject getFirstResult(String gameName) {
         String keyword = gameName + KEYWORD_ADD_ON;
         keyword = keyword.replace(" ", "+");
  
@@ -47,13 +52,11 @@ public class GameTrailerView {
             System.exit(-1);
         }
  
-        String jsonString = resultsDocument.text();
-        JSONObject jsonObject = (JSONObject) new JSONTokener(jsonString).nextValue();
- 
-        JSONObject firstResult = jsonObject.getJSONArray("items").getJSONObject(0);
-        videoName = firstResult.getJSONObject("snippet").getString("title");
+        String jsonResultString = resultsDocument.text();
+        JSONObject resultJsonObject = (JSONObject) new JSONTokener(jsonResultString).nextValue();
+        JSONObject firstResult = resultJsonObject.getJSONArray("items").getJSONObject(0);
         
-        return firstResult.getJSONObject("id").getString("videoId");
+        return firstResult;
     }
     
     /*private GameTrailerDescription getTrailerDescription(int gameID) {
@@ -168,6 +171,10 @@ public class GameTrailerView {
     
     public String getVideoName() {
         return videoName;
+    }
+    
+    public String getYoutubeKey() {
+        return youtubeKey;
     }
     
     public void stop() {
