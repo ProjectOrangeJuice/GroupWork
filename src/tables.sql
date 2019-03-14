@@ -12,16 +12,14 @@ CREATE TABLE IF NOT EXISTS `users` (
 	`lastLogin`	TEXT,
 	PRIMARY KEY(`username`)
 );
+INSERT INTO `users`('username','firstname','lastname','telephone','address','postcode','avatarPath','accountBalance') VALUES ('Alexandru','Alex','Dascalu','079999999','3 Maple Street','SA2 8PP','/SavedAvatars/Avatar1.png','0');
+INSERT INTO `users`('username','firstname','lastname','telephone','address','postcode','avatarPath','accountBalance')  VALUES ('Manny','Jake','Manford','0108097352','6 Main Street','SA2 GFY','/SavedAvatars/Avatar1.png','0');
+INSERT INTO `users('username','firstname','lastname','telephone','address','postcode','avatarPath','accountBalance') ` VALUES ('Steveo','Steve','Jamerson','0108035473','17 Lil Line','SA2 HRU','/SavedAvatars/Avatar1.png','0');
+INSERT INTO `users`('username','firstname','lastname','telephone','address','postcode','avatarPath','accountBalance')  VALUES ('Queeny','McNiel','Nelson','0108037642','45 Avenue Drive','SA2 HFY','/SavedAvatars/Avatar1.png','0');
+INSERT INTO `users`('username','firstname','lastname','telephone','address','postcode','avatarPath','accountBalance')  VALUES ('Jackie','Janet','Smith','0108034627','16 Cramford Way','SA2 I9L','/SavedAvatars/Avatar1.png','0');
 
-INSERT INTO `users` VALUES ('Alexandru','Alex','Dascalu','079999999','3 Maple Street','SA2 8PP','/SavedAvatars/Avatar1.png','0');
-INSERT INTO `users` VALUES ('Manny','Jake','Manford','0108097352','6 Main Street','SA2 GFY','/SavedAvatars/Avatar1.png','0');
-INSERT INTO `users` VALUES ('Steveo','Steve','Jamerson','0108035473','17 Lil Line','SA2 HRU','/SavedAvatars/Avatar1.png','0');
-INSERT INTO `users` VALUES ('Queeny','McNiel','Nelson','0108037642','45 Avenue Drive','SA2 HFY','/SavedAvatars/Avatar1.png','0');
-INSERT INTO `users` VALUES ('Jackie','Janet','Smith','0108034627','16 Cramford Way','SA2 I9L','/SavedAvatars/Avatar1.png','0');
-
-INSERT INTO `users` VALUES ('Helper1','Carl','Walker','0108098743','7 Low Street','SA2 HFS','/SavedAvatars/Avatar1.png','0');
-INSERT INTO `users` VALUES ('Manager1','Ben','Dover','0108034738','9 High street','SA2 IFA','/SavedAvatars/Avatar1.png','0');
-
+INSERT INTO `users`('username','firstname','lastname','telephone','address','postcode','avatarPath','accountBalance')  VALUES ('Helper1','Carl','Walker','0108098743','7 Low Street','SA2 HFS','/SavedAvatars/Avatar1.png','0');
+INSERT INTO `users`('username','firstname','lastname','telephone','address','postcode','avatarPath','accountBalance')  VALUES ('Manager1','Ben','Dover','0108034738','9 High street','SA2 IFA','/SavedAvatars/Avatar1.png','0');
 DROP TABLE IF EXISTS `staff`;
 CREATE TABLE IF NOT EXISTS `staff` (
 	`username`	TEXT,
