@@ -97,10 +97,10 @@ public class Book extends Resource {
                 Image resourceImage = new Image(rs.getString("thumbnail"), true);
                 
                 resources.add(new Book(rs.getInt("rID"), rs.getString("title"), 
-                		rs.getInt("year"), resourceImage,
+                		rs.getInt("year"), resourceImage, rs.getString("timestamp"),
                     rs.getString("author"), rs.getString("publisher"), 
                     rs.getString("genre"), rs.getString("ISBN"),
-                    rs.getString("language"), rs.getString("timestamp")));
+                    rs.getString("language")));
 
                 System.out.println("New book added!");
             }

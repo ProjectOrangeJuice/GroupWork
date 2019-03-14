@@ -40,9 +40,9 @@ public class Laptop extends Resource {
             while (rs.next()) {
             	Image resourceImage = new Image(rs.getString("thumbnail"), true);
                 resources.add(new Laptop(rs.getInt("rID"), rs.getString("title"),
-                		rs.getInt("year"), resourceImage,
+                		rs.getInt("year"), resourceImage, rs.getString("timestamp"),
                 		rs.getString("manufacturer"), rs.getString("model"),
-                		rs.getString("os"),rs.getString("timestamp")));
+                		rs.getString("os")));
             }
         }
         catch (SQLException e) {
