@@ -314,6 +314,7 @@ public class ProfileController {
 			addressLabel.setText("Address: " + currentUser.getAddress());
 			postcodeLabel.setText("Post Code: " + currentUser.getPostcode());
 			phoneLabel.setText("Phone Number: " + currentUser.getPhoneNumber());
+			lastLoginLabel1.setText("Last Login: " + currentUser.getLastLogin());
 			
 			try {
 				((User) currentUser).loadUserEvents();
@@ -343,6 +344,8 @@ public class ProfileController {
 					" " + staff.getEmploymentDate());
 			staffIDLabel1.setText(staffIDLabel1.getText() +
 					" " + staff.getStaffID());
+			lastLoginLabel2.setText(lastLoginLabel2.getText() +
+					" " + staff.getLastLogin());
 
 			staffAvatarView.setImage(new Image(currentUser.getAvatar()));
 		}

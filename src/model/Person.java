@@ -231,12 +231,12 @@ firstName);
                     String pathResult = rs.getString(7);
                     int staffIDResult = rs.getInt(11);
                     String employmentDateResult = rs.getString(12);
-                    String stamp = rs.getString(10);
+                    String stamp = rs.getString(9);
 
                     dbConnection.close();
                     return new Librarian(usernameResult, firstnameResult, lastnameResult, telephoneResult,
-                        addressResult, postcodeResult, pathResult, employmentDateResult,
-                       staffIDResult,stamp);
+                        addressResult, postcodeResult, pathResult, stamp, employmentDateResult,
+                       staffIDResult);
                 }
                 else {
                     //Loads up normal users
