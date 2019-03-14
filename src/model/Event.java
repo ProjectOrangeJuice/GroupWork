@@ -132,13 +132,22 @@ public class Event {
 
 	}
 	
-public static void deleteEvent(int ID) throws SQLException {
+	public static void deleteEvent(int ID) throws SQLException {
 		
 		Connection connectionToDB = DBHelper.getConnection();
         Statement stmt = connectionToDB.createStatement();
         stmt.execute("DELETE FROM events WHERE eID = " + ID);
         connectionToDB.close();
 
+	}
+	
+	public static void addUserEvent(String username, int ID) throws SQLException {
+		
+		Connection connectionToDB = DBHelper.getConnection();
+        Statement stmt = connectionToDB.createStatement();
+        stmt.execute("DELETE FROM events WHERE eID = " + ID);
+        connectionToDB.close();
+		
 	}
 
 }
