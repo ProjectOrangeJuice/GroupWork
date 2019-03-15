@@ -54,7 +54,7 @@ public class Event {
 		return eventDate.isAfter(localDate);
 	}
 	
-	public static void loadEvents() throws SQLException, ParseException {
+	public static void loadEventsFromDB() throws SQLException, ParseException {
 		
 		Connection connectionToDB = DBHelper.getConnection();
         Statement stmt = connectionToDB.createStatement();
@@ -143,7 +143,7 @@ public class Event {
 		allEvents = newEvents;
 	}
 	
-	public static void updateEvent(Event event) throws SQLException {
+	public static void updateEventInDB(Event event) throws SQLException {
 		
 		Connection connectionToDB = DBHelper.getConnection();
         Statement stmt = connectionToDB.createStatement();
@@ -153,7 +153,7 @@ public class Event {
 
 	}
 	
-	public static void deleteEvent(int ID) throws SQLException {
+	public static void deleteEventInDB(int ID) throws SQLException {
 		
 		Connection connectionToDB = DBHelper.getConnection();
         Statement stmt = connectionToDB.createStatement();
@@ -166,7 +166,7 @@ public class Event {
 		return usersEvents;
 	}
 	
-	public static void addUserEvent(String username, int ID) throws SQLException {
+	public static void addUserEventInDB(String username, int ID) throws SQLException {
 		
 		Connection connectionToDB = DBHelper.getConnection();
         PreparedStatement sqlStatement = connectionToDB.prepareStatement("INSERT INTO userEvents VALUES (?,?)");

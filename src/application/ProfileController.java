@@ -1255,7 +1255,7 @@ public class ProfileController {
 	@FXML
 	private void loadEventTable() throws SQLException, ParseException {
 		
-		model.Event.loadEvents(); //loads appropriate events from DB depending on user.
+		model.Event.loadEventsFromDB(); //loads appropriate events from DB depending on user.
 		
 		//set upcoming event table cell property value to event attribute names.
 		eventTitleField.setCellValueFactory(new PropertyValueFactory<>("title"));
@@ -1327,10 +1327,10 @@ public class ProfileController {
 		selectedEvent.setMaxAttending(selectedEvent.getMaxAttending()-1);
 		ArrayList<model.Event> newEvents = model.Event.getAllEvents();
 		newEvents.set(selectedIndex, selectedEvent);
-		model.Event.updateEvent(selectedEvent);
+		model.Event.updateEventInDB(selectedEvent);
 		
 		//add event to list of current user events.
-		model.Event.addUserEvent(ScreenManager.getCurrentUser().getUsername(), selectedEvent.getID());
+		model.Event.addUserEventInDB(ScreenManager.getCurrentUser().getUsername(), selectedEvent.getID());
 		
 		loadEventTable(); //reload tables.
 		
