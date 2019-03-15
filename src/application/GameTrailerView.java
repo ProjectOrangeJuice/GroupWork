@@ -1,14 +1,13 @@
 package application;
 
 import java.io.IOException;
+import javafx.scene.web.WebView;
 
 import org.json.JSONObject;
 import org.json.JSONTokener;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-
-import javafx.scene.web.WebView;
 
 public class GameTrailerView {
     private static final String YOUTUBE_URL = "https://www.youtube.com/embed/";

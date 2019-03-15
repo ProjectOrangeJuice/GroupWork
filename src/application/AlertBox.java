@@ -3,8 +3,6 @@ package application;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 
-
-
 /**
  * AlertBox method
 * @author Oliver Harris.
