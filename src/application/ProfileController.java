@@ -1247,16 +1247,23 @@ public class ProfileController {
 
 	}
 	
+	/**
+	 * Reloads data from database for both Upcoming and User event tables.
+	 * @throws SQLException
+	 * @throws ParseException
+	 */
 	@FXML
 	private void loadEventTable() throws SQLException, ParseException {
 		
-		model.Event.loadEvents();
+		model.Event.loadEvents(); //loads appropriate events from DB depending on user.
 		
+		//set upcoming event table cell property value to event attribute names.
 		eventTitleField.setCellValueFactory(new PropertyValueFactory<>("title"));
 		eventDetailsField.setCellValueFactory(new PropertyValueFactory<>("details"));
 		eventTimeField.setCellValueFactory(new PropertyValueFactory<>("date"));
 		eventSpacesField.setCellValueFactory(new PropertyValueFactory<>("maxAttending"));
 		
+		//set user event table cell property value to event attribute names.
 		userEventTitleField.setCellValueFactory(new PropertyValueFactory<>("title"));
 		userEventDetailsField.setCellValueFactory(new PropertyValueFactory<>("details"));
 		userEventTimeField.setCellValueFactory(new PropertyValueFactory<>("date"));
@@ -1265,9 +1272,9 @@ public class ProfileController {
 		ObservableList<model.Event> tableData = FXCollections.observableArrayList();
 		ObservableList<model.Event> userTableData = FXCollections.observableArrayList();
 		
-		tableData.addAll(model.Event.getAllEvents());
-		userTableData.addAll(model.Event.getUserEvents());
-		
+		tableData.addAll(model.Event.getAllEvents()); //add all appropriate events to upcoming events data.
+		userTableData.addAll(model.Event.getUserEvents()); //add all user events to user events table data.
+
 		eventTable.setItems(tableData);
 		userEventTable.setItems(userTableData);
 		
@@ -1276,12 +1283,21 @@ public class ProfileController {
 
 	}
 	
+	/**
+	 * Called when user selects an event within the upcoming events table.
+	 * @throws SQLException
+	 * @throws ParseException
+	 */
 	@FXML
 	private void onTableSelection() throws SQLException, ParseException {
 		
-		joinEventButton.setDisable(true);
+		joinEventButton.setDisable(true); //disable join event button.
+		
+		//get selected event from upcoming events table.
 		model.Event selectedEvent = eventTable.getSelectionModel().getSelectedItem();
 		
+		//if user is not a librarian and has selected an event, check if event is happening
+		//in the future. If so,
 		if(ScreenManager.getCurrentUser() instanceof User && selectedEvent != null) {
 			if(model.Event.checkFutureDate(selectedEvent.getDate())) {
 				ArrayList<Integer> usersEvents = ((User) ScreenManager.getCurrentUser()).loadUserEvents();
