@@ -13,31 +13,86 @@ import javafx.scene.web.WebView;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * This class is a view of a movie trailer which is dynamically loaded from 
+ * the Web. This class contains all the code that finds out the Youtube URL 
+ * of a trailer for a movie with the given name. The trailer is loaded as 
+ * an embedded Youtube video into the WebView object of this 
+ * MovieTrailerView.
+ * @author Alexandru Dascalu
+ * @version 1.1
+ */
 public class MovieTrailerView
 {
+    /**
+     * The API key needed to use the TMDB api to get details of the trailer
+     * for a movie.
+     */
     private static final String API_KEY = "fde767385d9021cca4adc2853f21a53f";
     
+    /**
+     * The URL to the REST web service API used to search for the IMDB ID of a movie
+     *  based on its name.
+     */
     private static final String SEARCH_URL = "https://api.themoviedb.org/3/search/movie?";
     
+    /**
+     * The URL to the REST web service API to get details of a trailer for the 
+     * movie with a given ID.
+     */
     private static final String GET_VIDEOS_URL = "https://api.themoviedb.org/3/movie/{movieID}/videos?";
     
+    /**
+     * The first part of the URL of the trailer, which is always the same for 
+     * all embedded youtube videos.
+     */
     private static final String YOUTUBE_URL = "https://www.youtube.com/embed/";
     
+    /**
+     * The default width of the WebView associated with this object. Its 
+     * value is {@value}.
+     */
     private static final int TRAILER_VIEW_WIDTH = 1600;
+    
+    /**
+     * The default width of the WebView associated with this object. Its 
+     * value is {@value}.
+     */
     private static final int TRAILER_VIEW_HEIGHT = 900;
     
+    /**
+     * The ObjectMapper used to translate strings into JSON objects from which 
+     * we will read data about movies and trailers.
+     */
     private ObjectMapper jsonMapper;
     
+    /**
+     * The movie description from the TMDB database of the movie with the given
+     * name.
+     */
     private MovieDescription movieDescription;
     
+    /**
+     * The trailer description from the TMDB database of the trailer for the 
+     * movie with the given name.
+     */
     private VideoDescription trailerDescription;
     
+    /**
+     * The WebView that loads the trailer of the given movie from Youtube.
+     */
     private WebView youtubeView;
     
-    public MovieTrailerView(String movieName)
-    {
+    /**
+     * Makes a new MovieTrailerView object for the movie with the given name.
+     * @param movieName The name of the movie whose trailer we want to view.
+     */
+    public MovieTrailerView(String movieName) {
         jsonMapper = new ObjectMapper();
         
+        /*Get the ID of the movie on the TMDB database, get a description for
+         * a trailer of that movie, then load the URL of that video into 
+         * a WebView.*/
         movieDescription = getMovieFromTMDB(movieName);
         trailerDescription = getTrailerFromTMDB(movieDescription);
         youtubeView = new WebView();
@@ -45,10 +100,18 @@ public class MovieTrailerView
         youtubeView.setPrefSize(TRAILER_VIEW_WIDTH, TRAILER_VIEW_HEIGHT);
     }
     
-    public MovieDescription getMovieFromTMDB(String movieName)
-    {
+    /**
+     * Makes a request to the TMDB web API to get details of a movie with the 
+     * given name and returns those details.
+     * @param movieName The name of the movie whose details we want to find.
+     * @return A MovieDescription object representing details of the movie we 
+     * searched for.
+     */
+    public MovieDescription getMovieFromTMDB(String movieName) {
         HttpResponse<String> response = null;
         
+        /*Make a request to the web API for movies with names similar to the 
+         * movie name we are searching for.*/
         try {
             response = Unirest.get(SEARCH_URL).queryString("api_key", API_KEY)
                     .queryString("query", movieName).queryString("page", 1)
@@ -59,6 +122,8 @@ public class MovieTrailerView
             //System.exit(-1);
         }
         
+        /*Get the string representing just the list of results, and parse that
+         * into a list of java objects.*/
         String resultList = getResultList(response.getBody());
         List<MovieDescription> movieDescriptions = null;
         
@@ -71,6 +136,8 @@ public class MovieTrailerView
             //System.exit(-1);
         }
       
+        /*Search through the list for a movie description with the same name 
+         * as the given movie name, and return that description.*/
         MovieDescription result = null;
         boolean search = true;
         int i = 0;
@@ -88,8 +155,17 @@ public class MovieTrailerView
         return result;
     }
     
-    public VideoDescription getTrailerFromTMDB(MovieDescription movieDescription)
-    {
+    /**
+     * Get the video description of the first video search result for a movie 
+     * with the given movie description.
+     * @param movieDescription The description of the movie for which we want 
+     * a trailer description.
+     * @return A video description for the first trailer in the list of results
+     * for a video associated with the given movie.
+     */
+    public VideoDescription getTrailerFromTMDB(MovieDescription movieDescription) {
+        /*Send a request to the TMDB web api for details of videos of the 
+         * movie from the given description.*/
         HttpResponse<String> response = null;
         try {
             response = Unirest.get(GET_VIDEOS_URL).routeParam("movieID", movieDescription.getID() + "")
@@ -101,6 +177,8 @@ public class MovieTrailerView
             //System.exit(-1);
         }
         
+        /*Get the string representing just the list of results, and parse that
+         * into a list of java objects.*/
         String resultList = getResultList(response.getBody());
         
         List<VideoDescription> videoDescriptions = null;
@@ -114,6 +192,8 @@ public class MovieTrailerView
            // System.exit(-1);
         }
         
+        /*Search through the list for a video description of a trailer of 
+         * Youtube and return the first such video description.*/
         VideoDescription video = null;
         boolean search = true;
         int i = 0;
@@ -133,35 +213,46 @@ public class MovieTrailerView
         return video;
     }
     
+    /**
+     * Stops any web content inside the WebView associated wih this object.
+     */
     public void stop() {
         youtubeView.getEngine().load(null);
     }
     
-    public WebView getWebView()
-    {
+    /**
+     * Gets the WebView containing a web page with a trailer for the given 
+     * movie.
+     * @return The WebView associated with this object.
+     */
+    public WebView getWebView() {
         return youtubeView;
     }
     
-    public MovieDescription getMovieDescription()
-    {
+    /**
+     * Gets the description from TMDB of the movie with the given name.
+     * @return the description associated with the given movie.
+     */
+    public MovieDescription getMovieDescription() {
         return movieDescription;
     }
     
-    public VideoDescription getTrailerDescription()
-    {
+    /**
+     * Gets the description from TMDB of the movie with the given name.
+     * @return the description associated with the given movie.
+     */
+    public VideoDescription getTrailerDescription() {
         return trailerDescription;
     }
     
-    private static String getFirstResult(String jsonSearchResult)
-    {
-        int movieDescriptionStart = jsonSearchResult.indexOf("{",1);
-        int movieDescriptionEnd = jsonSearchResult.indexOf("}");
-        
-        return jsonSearchResult.substring(movieDescriptionStart, movieDescriptionEnd + 1);
-    }
-    
-    private static String getResultList(String jsonSearchResult)
-    {
+    /**
+     * Returns the substring of the given string in between the first "[" and
+     * the last "]". Used to extract a subtring representing an array from a 
+     * string representing a JSON object with an array field.
+     * @param jsonSearchResult The string from which we will extract a subtring.
+     * @return The substring representing a JSON array.
+     */
+    private static String getResultList(String jsonSearchResult) {
         int resultStart = jsonSearchResult.indexOf("[");
         int resultEnd = jsonSearchResult.lastIndexOf("]");
         

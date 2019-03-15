@@ -610,6 +610,31 @@ public abstract class Resource {
     	return LIMIT_AMOUNT;
     }
     
+    public String getTimeStamp() {
+        return this.timestamp;
+    }
+    
+    public boolean compareTimeDifference(Person person) throws ParseException {
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date resourceDate = formatter.parse(this.timestamp);
+        Date loginDate = formatter.parse(person.getLastLogin());
+        long timeDifference = loginDate.getTime() - resourceDate.getTime();
+        
+        try {
+            if (timeDifference < 0) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+        catch (NullPointerException e){
+            System.out.println("Null pointer exception caught, try log in a second time.");
+            return false;
+        }
+        
+    }
+    
     /**
      * Updates the database value in a resource table.
      * @param tableName The table where the change will be made.
@@ -909,30 +934,5 @@ public abstract class Resource {
         else {
             return dateFormater.format(date);
         }
-    }
-    
-    public String getTimeStamp() {
-    	return this.timestamp;
-    }
-    
-    public boolean compareTimeDifference(Person person) throws ParseException {
-    	SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-    	Date resourceDate = formatter.parse(this.timestamp);
-    	Date loginDate = formatter.parse(person.getLastLogin());
-    	long timeDifference = loginDate.getTime() - resourceDate.getTime();
-    	
-    	try {
-    		if (timeDifference < 0) {
-        		return true;
-        	}
-        	else {
-        		return false;
-        	}
-    	}
-    	catch (NullPointerException e){
-    		System.out.println("Null pointer exception caught, try log in a second time.");
-    		return false;
-    	}
-    	
     }
 }
