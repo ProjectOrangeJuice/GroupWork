@@ -25,6 +25,11 @@ import javafx.stage.Stage;
 import model.DBHelper;
 import model.Event;
 
+/**
+ * Controller class for Event Creation Scene.
+ * @author Kane
+ *
+ */
 public class EventCreationController {
 
 	@FXML
@@ -45,9 +50,13 @@ public class EventCreationController {
 	@FXML
 	private Button createEventButton;
 	
+	/**
+	 * Called when scene is started.
+	 */
 	@FXML
 	 public void initialize() {
 		
+		//disables all dates before current date.
 		datePickerField.setDayCellFactory(picker -> new DateCell() {
 			public void updateItem(LocalDate date, boolean empty) {
 				super.updateItem(date, empty);
@@ -57,6 +66,10 @@ public class EventCreationController {
 		});
 	}
 	
+	/**
+	 * Called when "Create" button is clicked within Event Creation scene.
+	 * Will create new event within the database and add event to allEvent array.
+	 */
 	public void createEvent() {
 		
 		try {
@@ -83,8 +96,6 @@ public class EventCreationController {
             connectionToDB.close();
             
             Event.addEvent(eventName, eventDetails, eventDate, maxAttending);
-            
-            Event.getAllEvents();
             
             Stage stage = (Stage) createEventButton.getScene().getWindow();
     	    stage.close();
