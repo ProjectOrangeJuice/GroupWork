@@ -190,7 +190,7 @@ public class CopyController {
 		dealWithReviews();
 
 		resourceName.setText(title);
-
+		resourceName.setWrapText(true);
 		// Adds all the common attributes to the text area
 		centertextarea.appendText(
 				"uniqueID: " + Integer.toString(uniqueId) + "\ntitle: " +
