@@ -71,8 +71,8 @@ public class MovieTrailerView
             //System.exit(-1);
         }
       
-        MovieDescription result = movieDescriptions.get(0);
-        /*boolean search = true;
+        MovieDescription result = null;
+        boolean search = true;
         int i = 0;
         while(search && i < movieDescriptions.size())
         {
@@ -83,7 +83,7 @@ public class MovieTrailerView
             }
             
             i++;
-        }*/
+        }
         
         return result;
     }
