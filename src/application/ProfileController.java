@@ -1281,7 +1281,7 @@ public class ProfileController {
 		
 		model.Event selectedEvent = eventTable.getSelectionModel().getSelectedItem();
 		
-		if(ScreenManager.getCurrentUser() instanceof User) {
+		if(ScreenManager.getCurrentUser() instanceof User && selectedEvent != null) {
 			ArrayList<Integer> usersEvents = ((User) ScreenManager.getCurrentUser()).loadUserEvents();
 			if(selectedEvent.getMaxAttending() > 0 && !(usersEvents.contains(selectedEvent.getID()))) {
 				joinEventButton.setDisable(false);

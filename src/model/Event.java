@@ -147,7 +147,7 @@ public class Event {
 		
 		Connection connectionToDB = DBHelper.getConnection();
         Statement stmt = connectionToDB.createStatement();
-        stmt.execute("UPDATE events SET title = '" + event.title + "', details = '" +
+        stmt.executeUpdate("UPDATE events SET title = '" + event.title + "', details = '" +
         event.details + "', date = '" + event.date + "', maxAllowed = " + event.maxAttending + " WHERE eID = " + event.ID);
         connectionToDB.close();
 
@@ -157,7 +157,7 @@ public class Event {
 		
 		Connection connectionToDB = DBHelper.getConnection();
         Statement stmt = connectionToDB.createStatement();
-        stmt.execute("DELETE FROM events WHERE eID = " + ID);
+        stmt.executeUpdate("DELETE FROM events WHERE eID = " + ID);
         connectionToDB.close();
 
 	}
