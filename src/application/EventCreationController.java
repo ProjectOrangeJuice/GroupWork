@@ -94,6 +94,9 @@ public class EventCreationController {
         } catch (DateTimeParseException e) {
         	Alert alert = new Alert(AlertType.WARNING, "Please enter a valid event time.", ButtonType.OK);
         	alert.show();
+        } catch (NumberFormatException e) {
+        	Alert alert = new Alert(AlertType.WARNING, "Please enter a valid number of spaces.", ButtonType.OK);
+        	alert.show();
         }
 
 	}
