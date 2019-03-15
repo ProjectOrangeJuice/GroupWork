@@ -174,8 +174,6 @@ public class CopyController {
 		
 	}
 	
-	
-
 	/**
 	 * Loads resource information from Screen Manager class, so that it can be
 	 * displayed within the UI. Shows different information depending on the
@@ -234,13 +232,7 @@ public class CopyController {
 			Integer.toString(runtime) + "\nlanguage: " + language);
 
 		}
-		
-		
-		
-		
-		
-		//**********
-		
+	
 		// This sets the textbox depending if the number of copies is equal to 0
 		// or not.
 		if (ScreenManager.currentResource.getNrOfCopies() == 0) {
