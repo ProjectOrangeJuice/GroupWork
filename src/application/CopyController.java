@@ -169,9 +169,6 @@ public class CopyController {
 			Text avgText = new Text("No reviews yet!");
 			seeReviews.getChildren().add(avgText);
 		}
-		
-	
-		
 	}
 	
 	/**

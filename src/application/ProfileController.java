@@ -319,7 +319,6 @@ public class ProfileController {
 			try {
 				((User) currentUser).loadUserEvents();
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 
@@ -390,7 +389,6 @@ public class ProfileController {
             stage.setScene(new Scene(root1));
             stage.show();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -496,15 +494,16 @@ public class ProfileController {
 
 	}
 
-
 	@FXML
-	private void  reloadVisuals(Event e) throws ParseException {
+	private void reloadVisuals(Event e) throws ParseException {
 
 		vResourceBox.getChildren().clear();
 		vResourceBox.getChildren().add(new HBox());
 
-		resourceImages.getChildren().clear();
-
+		if(resourceImages != null) {
+		    resourceImages.getChildren().clear();
+		}
+		
 		Resource.loadDatabaseResources();
 		loadResourceImages();
 		loadUserInformation();
