@@ -1277,17 +1277,19 @@ public class ProfileController {
 	}
 	
 	@FXML
-	private void onTableSelection() throws SQLException {
+	private void onTableSelection() throws SQLException, ParseException {
 		
+		joinEventButton.setDisable(true);
 		model.Event selectedEvent = eventTable.getSelectionModel().getSelectedItem();
 		
 		if(ScreenManager.getCurrentUser() instanceof User && selectedEvent != null) {
-			ArrayList<Integer> usersEvents = ((User) ScreenManager.getCurrentUser()).loadUserEvents();
-			if(selectedEvent.getMaxAttending() > 0 && !(usersEvents.contains(selectedEvent.getID()))) {
-				joinEventButton.setDisable(false);
-			} else {
-				joinEventButton.setDisable(true);
+			if(model.Event.checkFutureDate(selectedEvent.getDate())) {
+				ArrayList<Integer> usersEvents = ((User) ScreenManager.getCurrentUser()).loadUserEvents();
+				if(selectedEvent.getMaxAttending() > 0 && !(usersEvents.contains(selectedEvent.getID()))) {
+					joinEventButton.setDisable(false);
+				}
 			}
+			
 		}
 
 	}
@@ -1298,7 +1300,7 @@ public class ProfileController {
 		
 		model.Event selectedEvent = eventTable.getSelectionModel().getSelectedItem();
 		int selectedIndex = eventTable.getSelectionModel().getSelectedIndex();
-	
+
 		selectedEvent.setMaxAttending(selectedEvent.getMaxAttending()-1);
 		ArrayList<model.Event> newEvents = model.Event.getAllEvents();
 		newEvents.set(selectedIndex, selectedEvent);

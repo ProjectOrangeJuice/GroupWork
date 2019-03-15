@@ -47,7 +47,7 @@ public class Event {
 		Event.totalEventNo = totalEventNo;
 	}
 	
-	private static boolean checkFutureDate(String dateString) throws ParseException {
+	public static boolean checkFutureDate(String dateString) throws ParseException {
 		LocalDateTime localDate = LocalDateTime.now();
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 		LocalDateTime eventDate = LocalDateTime.parse(dateString, formatter);
