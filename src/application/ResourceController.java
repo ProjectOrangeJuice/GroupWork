@@ -238,7 +238,7 @@ public class ResourceController {
 					Integer.parseInt(year);
 				}catch (NumberFormatException  e) {
 					goAhead = false;
-					AlertBox.alertDone("Year must be a number");
+					AlertBox.showInfoAlert("Year must be a number");
 				}
 				try {
 					if(!img.equals("")) {
@@ -246,7 +246,7 @@ public class ResourceController {
 					}
 				}catch (Exception e) {
 					goAhead = false;
-					AlertBox.alertDone("Image not found");
+					AlertBox.showInfoAlert("Image not found");
 				}
 				if(goAhead) {
 					Laptop laptop = (Laptop) ScreenManager.getCurrentResource();
@@ -259,7 +259,7 @@ public class ResourceController {
 					laptop.setManufacturer(manu);
 					laptop.setModel(model);
 					laptop.setOS(OS);
-					AlertBox.alertDone("Updated!");
+					AlertBox.showInfoAlert("Updated!");
 					
 				}
 		
@@ -289,7 +289,7 @@ public class ResourceController {
 			Integer.parseInt(year);
 		}catch (NumberFormatException  e) {
 			goAhead = false;
-			AlertBox.alertDone("Year must be a number");
+			AlertBox.showInfoAlert("Year must be a number");
 		}
 		
 		try {
@@ -299,7 +299,7 @@ public class ResourceController {
 		}catch (Exception e) {
 			goAhead = false;
 			System.out.println(e);
-			AlertBox.alertDone("Image not found");
+			AlertBox.showInfoAlert("Image not found");
 		}
 		
 		//If the year is a number, update the book attributes
@@ -317,7 +317,7 @@ public class ResourceController {
 			resource.setISBN(ISBN);
 			resource.setLanguage(language);
 
-			AlertBox.alertDone("Updated!");
+			AlertBox.showInfoAlert("Updated!");
 			
 		}
 	}
@@ -341,7 +341,7 @@ public class ResourceController {
 			Integer.parseInt(runtime);
 		}catch (NumberFormatException  e) {
 			goAhead = false;
-			AlertBox.alertDone("Year and runtime must be a number");
+			AlertBox.showInfoAlert("Year and runtime must be a number");
 		}
 		
 		try {
@@ -350,7 +350,7 @@ public class ResourceController {
 			}
 		}catch (Exception e) {
 			goAhead = false;
-			AlertBox.alertDone("Image not found");
+			AlertBox.showInfoAlert("Image not found");
 		}
 		
 		if (goAhead) {
@@ -372,7 +372,7 @@ public class ResourceController {
 				}
 			resource.setRuntime(Integer.parseInt(runtime));
 			
-			AlertBox.alertDone("Updated!");
+			AlertBox.showInfoAlert("Updated!");
 		}
 	}
 	

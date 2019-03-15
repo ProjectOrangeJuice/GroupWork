@@ -37,20 +37,20 @@ public class StaffBalanceController {
 		try{
 			Float.valueOf(accountValue.getText());
 		}catch(NumberFormatException e) {
-			AlertBox.alertDone("Invalid input");
+			AlertBox.showInfoAlert("Invalid input");
 			goAhead = false;
 		}
 		if(goAhead) {
 		float balance = Float.valueOf(accountValue.getText());
 		if(balance > MIN_VALUE && balance < MAX_VALUE) {
 			if(User.addBalance(username,balance)) {
-				AlertBox.alertDone("Added balance");
+				AlertBox.showInfoAlert("Added balance");
 			}else {
-				AlertBox.alertDone("Unable to add balance!");
+				AlertBox.showInfoAlert("Unable to add balance!");
 			}
 			
 		}else {
-			AlertBox.alertDone("Values out of range!");
+			AlertBox.showInfoAlert("Values out of range!");
 		}
 		}
 		

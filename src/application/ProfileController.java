@@ -847,7 +847,7 @@ public class ProfileController {
 
 		User user = (User)Person.loadPerson(username);
 		if(!Resource.getResource(resourceID).loanToUser(user)) {
-			AlertBox.alertDone("Waiting for free copy");
+			AlertBox.showInfoAlert("Waiting for free copy");
 		}else {
 			
 			if(goodForNewItem == true) {
@@ -1197,12 +1197,12 @@ public class ProfileController {
 			System.out.println("Delete User: " + selectedUserLabel.getText());
 			if(selectedUserLabel.getText().equals(
 					ScreenManager.getCurrentUser().getUsername())) {
-				AlertBox.alertDone("You can't delete yourself!");
+				AlertBox.showInfoAlert("You can't delete yourself!");
 			}else {
 				if(Person.removePerson(selectedUserLabel.getText())) {
 
 				}else {
-					AlertBox.alertDone("They can't be deleted at the moment");
+					AlertBox.showInfoAlert("They can't be deleted at the moment");
 				}
 			}
 			//Delete user

@@ -13,7 +13,7 @@ public class AlertBox {
 	 * Generate a popup.
 	 * @param text The text to be displayed.
 	 */
-	public static void alertDone(String text) {
+	public static void showInfoAlert(String text) {
 		Alert alert = new Alert(AlertType.INFORMATION);
 		alert.setTitle("Information Dialog");
 		alert.setHeaderText(null);
@@ -21,4 +21,13 @@ public class AlertBox {
 
 		alert.showAndWait();
 	}
+	
+	public static void showErrorAlert(String text) {
+        Alert alert = new Alert(AlertType.ERROR);
+        alert.setTitle("Information Dialog");
+        alert.setHeaderText(null);
+        alert.setContentText(text);
+
+        alert.showAndWait();
+    }
 }
