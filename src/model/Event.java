@@ -17,6 +17,12 @@ import java.util.Date;
 
 import application.ScreenManager;
 
+/**
+ * Event class object used for creating, updating and deleting events 
+ * locally and within the database.
+ * @author Kane
+ *
+ */
 public class Event {
 	
 	private int ID;
@@ -25,18 +31,18 @@ public class Event {
 	private String date;
 	private int maxAttending;
 	
-	private static int totalEventNo = 0;
+	private static int totalEventNo = 0; //total no. of events (tracks eventID).
 
+	//upcoming events if user, or all events if librarian.
 	private static ArrayList<Event> allEvents = new ArrayList<Event>();
+	//all events user has joined to.
 	private static ArrayList<Event> usersEvents = new ArrayList<Event>();
 
 	public Event(String title, String details, String date, int maxAttending) {
-		
 		this.title = title;
 		this.details = details;
 		this.date = date;
 		this.maxAttending = maxAttending;
-		
 	}
 	
 	public static int getTotalEventNo() {
@@ -47,6 +53,12 @@ public class Event {
 		Event.totalEventNo = totalEventNo;
 	}
 	
+	/**
+	 * Checks if date string is in the future or present/past.
+	 * @param dateString date string to be checked.
+	 * @return returns true if future date, false if otherwise.
+	 * @throws ParseException
+	 */
 	public static boolean checkFutureDate(String dateString) throws ParseException {
 		LocalDateTime localDate = LocalDateTime.now();
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
@@ -54,6 +66,13 @@ public class Event {
 		return eventDate.isAfter(localDate);
 	}
 	
+	/**
+	 * Loads appropriate events from database. Users will see upcoming events they're
+	 * currently not joined to in one table, and events they're joined to in another.
+	 * Librarians will see all events.
+	 * @throws SQLException
+	 * @throws ParseException
+	 */
 	public static void loadEventsFromDB() throws SQLException, ParseException {
 		
 		Connection connectionToDB = DBHelper.getConnection();
@@ -63,22 +82,28 @@ public class Event {
         allEvents.clear();
         usersEvents.clear();
         
-        ArrayList<Integer> usersEventIDs = null;;
+        //if normal user, get all events IDs they're joined to.
+        ArrayList<Integer> usersEventIDs = null;
         if(ScreenManager.getCurrentUser() instanceof User) {
         	usersEventIDs = ((User) ScreenManager.getCurrentUser()).loadUserEvents();
         }
 
 		while(rs.next()) {
+			
 			totalEventNo += 1;
+		
 			if(ScreenManager.getCurrentUser() instanceof User) {
+				//if event is upcoming and user isn't already joined to it
 				if(checkFutureDate(rs.getString(4)) && !(usersEventIDs.contains(rs.getInt(1)))) {
 					allEvents.add(new Event(rs.getString(2), rs.getString(3), rs.getString(4), rs.getInt(5)));
 					allEvents.get(allEvents.size()-1).setID(rs.getInt(1));
+				//if user is already joined to event
 				} else if (usersEventIDs.contains(rs.getInt(1))) {
 					usersEvents.add(new Event(rs.getString(2), rs.getString(3), rs.getString(4), rs.getInt(5)));
 					usersEvents.get(usersEvents.size()-1).setID(rs.getInt(1));
 				}
 			} else {
+				//add all events if librarian
 				allEvents.add(new Event(rs.getString(2), rs.getString(3), rs.getString(4), rs.getInt(5)));
 				allEvents.get(allEvents.size()-1).setID(rs.getInt(1));
 			}
@@ -88,12 +113,44 @@ public class Event {
 		connectionToDB.close();
 		
 	}
+	
+	/**
+	 * Update Event object in database.
+	 * @param event
+	 * @throws SQLException
+	 */
+	public static void updateEventInDB(Event event) throws SQLException {
+		
+		Connection connectionToDB = DBHelper.getConnection();
+        Statement stmt = connectionToDB.createStatement();
+        stmt.executeUpdate("UPDATE events SET title = '" + event.title + "', details = '" +
+        event.details + "', date = '" + event.date + "', maxAllowed = " + event.maxAttending + " WHERE eID = " + event.ID);
+        connectionToDB.close();
+
+	}
+	
+	/**
+	 * Adds user/event relationship to database when a user joins to an event/
+	 * @param username The user who has joined to an event.
+	 * @param eventID The event ID.
+	 * @throws SQLException
+	 */
+	public static void addUserEventInDB(String username, int eventID) throws SQLException {
+		
+		Connection connectionToDB = DBHelper.getConnection();
+        PreparedStatement sqlStatement = connectionToDB.prepareStatement("INSERT INTO userEvents VALUES (?,?)");
+
+        sqlStatement.setInt(1, eventID);
+        sqlStatement.setString(2, username);
+        
+        sqlStatement.execute();
+        connectionToDB.close();
+  
+	}
 
 	public static void addEvent(String title, String details, String date, int maxAllowed) {
 		allEvents.add(new Event(title, details, date, maxAllowed));
 	}
-	
-	
 
 	public int getID() {
 		return ID;
@@ -143,40 +200,8 @@ public class Event {
 		allEvents = newEvents;
 	}
 	
-	public static void updateEventInDB(Event event) throws SQLException {
-		
-		Connection connectionToDB = DBHelper.getConnection();
-        Statement stmt = connectionToDB.createStatement();
-        stmt.executeUpdate("UPDATE events SET title = '" + event.title + "', details = '" +
-        event.details + "', date = '" + event.date + "', maxAllowed = " + event.maxAttending + " WHERE eID = " + event.ID);
-        connectionToDB.close();
-
-	}
-	
-	public static void deleteEventInDB(int ID) throws SQLException {
-		
-		Connection connectionToDB = DBHelper.getConnection();
-        Statement stmt = connectionToDB.createStatement();
-        stmt.executeUpdate("DELETE FROM events WHERE eID = " + ID);
-        connectionToDB.close();
-
-	}
-	
 	public static ArrayList<Event> getUserEvents() throws SQLException {
 		return usersEvents;
-	}
-	
-	public static void addUserEventInDB(String username, int ID) throws SQLException {
-		
-		Connection connectionToDB = DBHelper.getConnection();
-        PreparedStatement sqlStatement = connectionToDB.prepareStatement("INSERT INTO userEvents VALUES (?,?)");
-
-        sqlStatement.setInt(1, ID);
-        sqlStatement.setString(2, username);
-        
-        sqlStatement.execute();
-        connectionToDB.close();
-  
 	}
 
 }
