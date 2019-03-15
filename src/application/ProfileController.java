@@ -1284,16 +1284,14 @@ public class ProfileController {
 	}
 	
 	/**
-	 * Called when user selects an event within the upcoming events table. Will keep join
-	 * button disabled if no selected event, or if event is isn't in the future. Will
-	 * also keep button disabled if there isn't enough spaces, or if user is already going.
+	 * Called when user selects an event within the upcoming events table.
 	 * @throws SQLException
 	 * @throws ParseException
 	 */
 	@FXML
 	private void onTableSelection() throws SQLException, ParseException {
 		
-		joinEventButton.setDisable(true); //disable join event button.
+		joinEventButton.setDisable(true);
 		
 		//get selected event from upcoming events table.
 		model.Event selectedEvent = eventTable.getSelectionModel().getSelectedItem();
@@ -1305,7 +1303,7 @@ public class ProfileController {
 				ArrayList<Integer> usersEvents = ((User) ScreenManager.getCurrentUser()).loadUserEvents();
 				//if event has spaces and user isn't already going
 				if(selectedEvent.getMaxAttending() > 0 && !(usersEvents.contains(selectedEvent.getID()))) {
-					joinEventButton.setDisable(false);
+					joinEventButton.setDisable(false); //enable join event button.
 				}
 			}
 			
@@ -1313,32 +1311,41 @@ public class ProfileController {
 
 	}
 	
-	
+	/**
+	 * Called when user clicks the join event button (will only be called when join event button
+	 * is enabled). 
+	 * @throws SQLException
+	 * @throws ParseException
+	 */
 	@FXML
 	private void onJoinEventClick() throws SQLException, ParseException {
 		
 		model.Event selectedEvent = eventTable.getSelectionModel().getSelectedItem();
 		int selectedIndex = eventTable.getSelectionModel().getSelectedIndex();
 
+		//decrease no. of available spaces for event by one, and update in DB.
 		selectedEvent.setMaxAttending(selectedEvent.getMaxAttending()-1);
 		ArrayList<model.Event> newEvents = model.Event.getAllEvents();
 		newEvents.set(selectedIndex, selectedEvent);
 		model.Event.updateEvent(selectedEvent);
 		
+		//add event to list of current user events.
 		model.Event.addUserEvent(ScreenManager.getCurrentUser().getUsername(), selectedEvent.getID());
 		
-		loadEventTable();
+		loadEventTable(); //reload tables.
 		
 		
 		
 	}
 	
+	/**
+	 * Opens Event Scene when librarian clicks "create event" button.
+	 */
 	@FXML
 	private void openEventCreator() {
 		
 		try {
-			FXMLLoader fxmlLoader =
-					new FXMLLoader(getClass().getResource("createEvent.fxml"));
+			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("createEvent.fxml"));
             Parent root1 = (Parent) fxmlLoader.load();
             Stage stage = new Stage();
             stage.initModality(Modality.APPLICATION_MODAL);
