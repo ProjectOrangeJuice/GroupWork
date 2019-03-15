@@ -9,10 +9,14 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.DateCell;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextArea;
@@ -21,6 +25,11 @@ import javafx.stage.Stage;
 import model.DBHelper;
 import model.Event;
 
+/**
+ * Controller class for Event Creation Scene.
+ * @author Kane
+ *
+ */
 public class EventCreationController {
 
 	@FXML
@@ -41,9 +50,13 @@ public class EventCreationController {
 	@FXML
 	private Button createEventButton;
 	
+	/**
+	 * Called when scene is started.
+	 */
 	@FXML
 	 public void initialize() {
 		
+		//disables all dates before current date.
 		datePickerField.setDayCellFactory(picker -> new DateCell() {
 			public void updateItem(LocalDate date, boolean empty) {
 				super.updateItem(date, empty);
@@ -53,6 +66,10 @@ public class EventCreationController {
 		});
 	}
 	
+	/**
+	 * Called when "Create" button is clicked within Event Creation scene.
+	 * Will create new event within the database and add event to allEvent array.
+	 */
 	public void createEvent() {
 		
 		try {
@@ -80,14 +97,17 @@ public class EventCreationController {
             
             Event.addEvent(eventName, eventDetails, eventDate, maxAttending);
             
-            Event.getAllEvents();
-            
             Stage stage = (Stage) createEventButton.getScene().getWindow();
     	    stage.close();
     
-        }
-        catch (SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
+        } catch (DateTimeParseException e) {
+        	Alert alert = new Alert(AlertType.WARNING, "Please enter a valid event time.", ButtonType.OK);
+        	alert.show();
+        } catch (NumberFormatException e) {
+        	Alert alert = new Alert(AlertType.WARNING, "Please enter a valid number of spaces.", ButtonType.OK);
+        	alert.show();
         }
 
 	}

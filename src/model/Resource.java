@@ -67,7 +67,7 @@ public abstract class Resource {
      * A default number for each resource used to limit the number of items a user
      * can checkout
      */
-    protected int limitAmount = 1;
+    protected static final int LIMIT_AMOUNT = 1;
     
     /**
      * A time stamp for resource, so that each time a user logs in the user can view any
@@ -607,7 +607,7 @@ public abstract class Resource {
      * @return the default amount of the resource
      */
     public int getLimitAmount() {
-    	return this.limitAmount;
+    	return LIMIT_AMOUNT;
     }
     
     /**
@@ -921,11 +921,18 @@ public abstract class Resource {
     	Date loginDate = formatter.parse(person.getLastLogin());
     	long timeDifference = loginDate.getTime() - resourceDate.getTime();
     	
-    	if (timeDifference < 0) {
-    		return true;
+    	try {
+    		if (timeDifference < 0) {
+        		return true;
+        	}
+        	else {
+        		return false;
+        	}
     	}
-    	else {
+    	catch (NullPointerException e){
+    		System.out.println("Null pointer exception caught, try log in a second time.");
     		return false;
     	}
+    	
     }
 }

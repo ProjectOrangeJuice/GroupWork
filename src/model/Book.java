@@ -263,6 +263,6 @@ public class Book extends Resource {
      * Return the default limit number from resource to restrict user over requesting
      */
     public int getLimitAmount() {
-    	return super.limitAmount;
+    	return super.getLimitAmount();
     }
 }

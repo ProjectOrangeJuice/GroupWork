@@ -1247,16 +1247,23 @@ public class ProfileController {
 
 	}
 	
+	/**
+	 * Reloads data from database for both Upcoming and User event tables.
+	 * @throws SQLException
+	 * @throws ParseException
+	 */
 	@FXML
 	private void loadEventTable() throws SQLException, ParseException {
 		
-		model.Event.loadEvents();
+		model.Event.loadEventsFromDB(); //loads appropriate events from DB depending on user.
 		
+		//set upcoming event table cell property value to event attribute names.
 		eventTitleField.setCellValueFactory(new PropertyValueFactory<>("title"));
 		eventDetailsField.setCellValueFactory(new PropertyValueFactory<>("details"));
 		eventTimeField.setCellValueFactory(new PropertyValueFactory<>("date"));
 		eventSpacesField.setCellValueFactory(new PropertyValueFactory<>("maxAttending"));
 		
+		//set user event table cell property value to event attribute names.
 		userEventTitleField.setCellValueFactory(new PropertyValueFactory<>("title"));
 		userEventDetailsField.setCellValueFactory(new PropertyValueFactory<>("details"));
 		userEventTimeField.setCellValueFactory(new PropertyValueFactory<>("date"));
@@ -1265,9 +1272,9 @@ public class ProfileController {
 		ObservableList<model.Event> tableData = FXCollections.observableArrayList();
 		ObservableList<model.Event> userTableData = FXCollections.observableArrayList();
 		
-		tableData.addAll(model.Event.getAllEvents());
-		userTableData.addAll(model.Event.getUserEvents());
-		
+		tableData.addAll(model.Event.getAllEvents()); //add all appropriate events to upcoming events data.
+		userTableData.addAll(model.Event.getUserEvents()); //add all user events to user events table data.
+
 		eventTable.setItems(tableData);
 		userEventTable.setItems(userTableData);
 		
@@ -1276,46 +1283,69 @@ public class ProfileController {
 
 	}
 	
+	/**
+	 * Called when user selects an event within the upcoming events table.
+	 * @throws SQLException
+	 * @throws ParseException
+	 */
 	@FXML
-	private void onTableSelection() throws SQLException {
+	private void onTableSelection() throws SQLException, ParseException {
 		
+		joinEventButton.setDisable(true);
+		
+		//get selected event from upcoming events table.
 		model.Event selectedEvent = eventTable.getSelectionModel().getSelectedItem();
 		
-		if(ScreenManager.getCurrentUser() instanceof User) {
-			ArrayList<Integer> usersEvents = ((User) ScreenManager.getCurrentUser()).loadUserEvents();
-			if(selectedEvent.getMaxAttending() > 0 && !(usersEvents.contains(selectedEvent.getID()))) {
-				joinEventButton.setDisable(false);
-			} else {
-				joinEventButton.setDisable(true);
+		//if user is not a librarian and has selected an event
+		if(ScreenManager.getCurrentUser() instanceof User && selectedEvent != null) {
+			//if event is happening in the future
+			if(model.Event.checkFutureDate(selectedEvent.getDate())) {
+				ArrayList<Integer> usersEvents = ((User) ScreenManager.getCurrentUser()).loadUserEvents();
+				//if event has spaces and user isn't already going
+				if(selectedEvent.getMaxAttending() > 0 && !(usersEvents.contains(selectedEvent.getID()))) {
+					joinEventButton.setDisable(false); //enable join event button.
+				}
 			}
+			
 		}
 
 	}
 	
-	
+	/**
+	 * Called when user clicks the join event button (will only be called when join event button
+	 * is enabled). 
+	 * @throws SQLException
+	 * @throws ParseException
+	 */
 	@FXML
 	private void onJoinEventClick() throws SQLException, ParseException {
 		
 		model.Event selectedEvent = eventTable.getSelectionModel().getSelectedItem();
 		int selectedIndex = eventTable.getSelectionModel().getSelectedIndex();
-	
+
+		//decrease no. of available spaces for event by one, and update in DB.
 		selectedEvent.setMaxAttending(selectedEvent.getMaxAttending()-1);
 		ArrayList<model.Event> newEvents = model.Event.getAllEvents();
 		newEvents.set(selectedIndex, selectedEvent);
-		model.Event.updateEvent(selectedEvent);
+		model.Event.updateEventInDB(selectedEvent);
 		
-		loadEventTable();
+		//add event to list of current user events.
+		model.Event.addUserEventInDB(ScreenManager.getCurrentUser().getUsername(), selectedEvent.getID());
 		
-		model.Event.addUserEvent(ScreenManager.getCurrentUser().getUsername(), selectedEvent.getID());
+		loadEventTable(); //reload tables.
+		
+		
 		
 	}
 	
+	/**
+	 * Opens Event Scene when librarian clicks "create event" button.
+	 */
 	@FXML
 	private void openEventCreator() {
 		
 		try {
-			FXMLLoader fxmlLoader =
-					new FXMLLoader(getClass().getResource("createEvent.fxml"));
+			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("createEvent.fxml"));
             Parent root1 = (Parent) fxmlLoader.load();
             Stage stage = new Stage();
             stage.initModality(Modality.APPLICATION_MODAL);

@@ -22,7 +22,7 @@ public class Laptop extends Resource {
     private String manufacturer;
     private String model;
     private String operatingSystem;
-    private int limitAmount = 3;
+    private static final int LIMIT_AMOUNT = 3;
 
     /**
      * Method that loads the details of all dvd resources from the dvd database table and
@@ -178,6 +178,6 @@ public class Laptop extends Resource {
      * to 3 instead of default 1 to restrict user from over requesting.
      */
     public int getLimitAmount() {
-    	return this.limitAmount;
+    	return LIMIT_AMOUNT;
     }
 }
