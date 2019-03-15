@@ -1284,7 +1284,9 @@ public class ProfileController {
 	}
 	
 	/**
-	 * Called when user selects an event within the upcoming events table.
+	 * Called when user selects an event within the upcoming events table. Will keep join
+	 * button disabled if no selected event, or if event is isn't in the future. Will
+	 * also keep button disabled if there isn't enough spaces, or if user is already going.
 	 * @throws SQLException
 	 * @throws ParseException
 	 */
@@ -1296,11 +1298,12 @@ public class ProfileController {
 		//get selected event from upcoming events table.
 		model.Event selectedEvent = eventTable.getSelectionModel().getSelectedItem();
 		
-		//if user is not a librarian and has selected an event, check if event is happening
-		//in the future. If so,
+		//if user is not a librarian and has selected an event
 		if(ScreenManager.getCurrentUser() instanceof User && selectedEvent != null) {
+			//if event is happening in the future
 			if(model.Event.checkFutureDate(selectedEvent.getDate())) {
 				ArrayList<Integer> usersEvents = ((User) ScreenManager.getCurrentUser()).loadUserEvents();
+				//if event has spaces and user isn't already going
 				if(selectedEvent.getMaxAttending() > 0 && !(usersEvents.contains(selectedEvent.getID()))) {
 					joinEventButton.setDisable(false);
 				}
