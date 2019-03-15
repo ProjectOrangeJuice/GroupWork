@@ -26,13 +26,18 @@ public class GameTrailerView {
     
     public GameTrailerView(String gameName) {
         JSONObject firstResult = getFirstResult(gameName);
+        videoName = null;
+        youtubeKey = null;
+        youtubeView = null;
         
-        videoName = firstResult.getJSONObject("snippet").getString("title");
-        youtubeKey = firstResult.getJSONObject("id").getString("videoId");
-        
-        youtubeView = new WebView();
-        youtubeView.setPrefSize(TRAILER_VIEW_WIDTH, TRAILER_VIEW_HEIGHT);
-        youtubeView.getEngine().load(YOUTUBE_URL + youtubeKey);
+        if(firstResult != null) {
+            videoName = firstResult.getJSONObject("snippet").getString("title");
+            youtubeKey = firstResult.getJSONObject("id").getString("videoId");
+            
+            youtubeView = new WebView();
+            youtubeView.setPrefSize(TRAILER_VIEW_WIDTH, TRAILER_VIEW_HEIGHT);
+            youtubeView.getEngine().load(YOUTUBE_URL + youtubeKey);
+        }
     }
     
     private JSONObject getFirstResult(String gameName) {
@@ -48,7 +53,8 @@ public class GameTrailerView {
         }
         catch (IOException e) {
             e.printStackTrace();
-            System.exit(-1);
+            AlertBox.showErrorAlert("Connection to youtube web API failed.");
+            return null;
         }
  
         String jsonResultString = resultsDocument.text();

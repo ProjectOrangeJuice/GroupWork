@@ -278,17 +278,19 @@ public class CopyController {
 	        
 	        MovieTrailerView trailerView = new MovieTrailerView(title);
 	        
-	        Scene trailerScene = new Scene(trailerView.getWebView(), 1600, 900);
-	        
-	        Stage trailerWindow = new Stage();
-	        trailerWindow.setTitle(trailerView.getTrailerDescription().getName());
-	        
-	        trailerWindow.setOnHidden(e -> {
-	            trailerView.stop();
-	        });
-	        
-	        trailerWindow.setScene(trailerScene);
-	        trailerWindow.show();
+	        if(trailerView.getWebView() !=null) {
+	            Scene trailerScene = new Scene(trailerView.getWebView(), 1600, 900);
+	            
+	            Stage trailerWindow = new Stage();
+	            trailerWindow.setTitle(trailerView.getTrailerDescription().getName());
+	            
+	            trailerWindow.setOnHidden(e -> {
+	                trailerView.stop();
+	            });
+	            
+	            trailerWindow.setScene(trailerScene);
+	            trailerWindow.show();
+	        }
 	    } else if(currentResource.getClass() == Game.class) {
 	        Game currentGame = (Game) currentResource;
 	        
@@ -296,17 +298,19 @@ public class CopyController {
 	        
 	        GameTrailerView trailerView = new GameTrailerView(title);
 	        
-	        Scene trailerScene = new Scene(trailerView.getWebView(), 1600, 900);
-	        
-	        Stage trailerWindow = new Stage();
-	        trailerWindow.setTitle(trailerView.getVideoName());
-            
-            trailerWindow.setOnHidden(e -> {
-                trailerView.stop();
-            });
-            
-            trailerWindow.setScene(trailerScene);
-            trailerWindow.show();
+	        if(trailerView.getWebView() != null) {
+	            Scene trailerScene = new Scene(trailerView.getWebView(), 1600, 900);
+	            
+	            Stage trailerWindow = new Stage();
+	            trailerWindow.setTitle(trailerView.getVideoName());
+	            
+	            trailerWindow.setOnHidden(e -> {
+	                trailerView.stop();
+	            });
+	            
+	            trailerWindow.setScene(trailerScene);
+	            trailerWindow.show();
+	        }
 	    }
 	   
 	}

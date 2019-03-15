@@ -94,10 +94,18 @@ public class MovieTrailerView
          * a trailer of that movie, then load the URL of that video into 
          * a WebView.*/
         movieDescription = getMovieFromTMDB(movieName);
-        trailerDescription = getTrailerFromTMDB(movieDescription);
-        youtubeView = new WebView();
-        youtubeView.getEngine().load(YOUTUBE_URL + trailerDescription.getKey());
-        youtubeView.setPrefSize(TRAILER_VIEW_WIDTH, TRAILER_VIEW_HEIGHT);
+        trailerDescription = null;
+        youtubeView = null;
+        
+        if(movieDescription != null) {
+            trailerDescription = getTrailerFromTMDB(movieDescription);
+        }
+        
+        if(trailerDescription !=null) {
+            youtubeView = new WebView();
+            youtubeView.getEngine().load(YOUTUBE_URL + trailerDescription.getKey());
+            youtubeView.setPrefSize(TRAILER_VIEW_WIDTH, TRAILER_VIEW_HEIGHT);
+        }
     }
     
     /**
@@ -119,7 +127,8 @@ public class MovieTrailerView
         }
         catch (UnirestException e) {
             e.printStackTrace();
-            //System.exit(-1);
+            AlertBox.showErrorAlert("Connection to TMDB web database failed.");
+            return null;
         }
         
         /*Get the string representing just the list of results, and parse that
@@ -133,7 +142,8 @@ public class MovieTrailerView
         catch (IOException e) 
         {
             e.printStackTrace();
-            //System.exit(-1);
+            AlertBox.showErrorAlert("Reading the result from the TMDB web database failed.");
+            return null;
         }
       
         /*Search through the list for a movie description with the same name 
@@ -174,7 +184,8 @@ public class MovieTrailerView
         catch (UnirestException e) 
         {
             e.printStackTrace();
-            //System.exit(-1);
+            AlertBox.showErrorAlert("Connection to TMDB web database failed.");
+            return null;
         }
         
         /*Get the string representing just the list of results, and parse that
@@ -189,7 +200,8 @@ public class MovieTrailerView
         catch (IOException e) 
         {
             e.printStackTrace();
-           // System.exit(-1);
+            AlertBox.showErrorAlert("Reading the result from the TMDB web database failed.");
+            return null;
         }
         
         /*Search through the list for a video description of a trailer of 
