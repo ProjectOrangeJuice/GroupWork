@@ -1304,9 +1304,11 @@ public class ProfileController {
 		newEvents.set(selectedIndex, selectedEvent);
 		model.Event.updateEvent(selectedEvent);
 		
+		model.Event.addUserEvent(ScreenManager.getCurrentUser().getUsername(), selectedEvent.getID());
+		
 		loadEventTable();
 		
-		model.Event.addUserEvent(ScreenManager.getCurrentUser().getUsername(), selectedEvent.getID());
+		
 		
 	}
 	
