@@ -9,10 +9,14 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.DateCell;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextArea;
@@ -85,9 +89,11 @@ public class EventCreationController {
             Stage stage = (Stage) createEventButton.getScene().getWindow();
     	    stage.close();
     
-        }
-        catch (SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
+        } catch (DateTimeParseException e) {
+        	Alert alert = new Alert(AlertType.WARNING, "Please enter a valid event time.", ButtonType.OK);
+        	alert.show();
         }
 
 	}
