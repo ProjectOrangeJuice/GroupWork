@@ -8,12 +8,11 @@ import java.sql.Statement;
 import javafx.scene.image.Image;
 
 /**
- * TODO: Update all Javadocs
  * This class represents a resource of type Game that the library has to offer.
- * It has an author, publisher, genre, ISBN and language. It consists of
+ * It has an author, publisher, genre, rating and multi-player support. It consists of
  * multiple copies that can be borrowed or requested.
+ * Based heavily on the Book class.
  * @author Charles Day
- *
  */
 public class Game extends Resource {
 	
@@ -30,23 +29,23 @@ public class Game extends Resource {
     /**Genre of the video game.*/
     private String genre;
     
-    /**ISBN code of the book.*/
+    /**Rating of the game.*/
     private String rating;
     
-    /**Language of the book.*/
+    /**The multi-player support of the game.*/
     private String multiplayerSupport;
 
     /**
-     * Makes a new book with the given data, representing all the fields of this book.
+     * Makes a new Game object with the given data, representing all the fields of this video game.
      * 
      * @param uniqueID The unique number that identifies this resource.
      * @param title The title of this resource.
      * @param year The year this resource appeared.
      * @param thumbnail A small image of this resource.
-     * @param publisher The publisher of the book.
-     * @param genre The genre of the book.
-     * @param isbn The ISBN code of the book.
-     * @param language The language of the book.
+     * @param publisher The publisher of the game.
+     * @param genre The genre of the game.
+     * @param rating The rating of the game.
+     * @param multiplayerSupport The multi-player support of the game.
      */
     public Game(int uniqueID, String title, int year, Image thumbnail, String timestamp, String publisher, String genre,
             String rating, String multiplayerSupport) {
@@ -57,12 +56,9 @@ public class Game extends Resource {
         this.multiplayerSupport = multiplayerSupport;
     }
 
-//---------------------------------------------------------
 
-    
-//TODO: Make database tables and make new loader
     /**
-     * Method that loads the details of all book resources from the book database table and
+     * Method that loads the details of all game resources from the game database table and
      * adds them to the list of all resources.
      */
     public static void loadDatabaseGames() {
@@ -91,7 +87,6 @@ public class Game extends Resource {
 
                 System.out.println("New game added!");
             }
-
         }
         catch (SQLException e) {
             e.printStackTrace();
@@ -99,8 +94,8 @@ public class Game extends Resource {
     }
  
     /**
-     * Gets the genre of the book.
-     * @return The genre of book
+     * Gets the genre of the game.
+     * @return The genre of game.
      */
     public String getGenre() {
         return genre;
@@ -108,7 +103,7 @@ public class Game extends Resource {
 
     /**
      * Sets the genre variable of this resource and updates the database.
-     * @param genre New genre of the book.
+     * @param genre New genre of the game.
      */
     public void setGenre(String genre) {
         this.genre = genre;
@@ -116,8 +111,8 @@ public class Game extends Resource {
     }
 
     /**
-     * Gets the publisher of the book.
-     * @return The publisher of book
+     * Gets the publisher of the game.
+     * @return The publisher of game.
      */
     public String getPublisher() {
         return publisher;
@@ -125,7 +120,7 @@ public class Game extends Resource {
 
     /**
      * Sets the publisher variable of this resource and updates the database.
-     * @param publisher New publisher of the book.
+     * @param publisher New publisher of the game.
      */
     public void setPublisher(String publisher) {
         this.publisher = publisher;
@@ -134,8 +129,8 @@ public class Game extends Resource {
     
     
     /**
-     * Gets the rating of the Game.
-     * @return The rating of book
+     * Gets the rating of the game.
+     * @return The rating of game.
      */
     public String getRating() {
 		return rating;
@@ -143,7 +138,7 @@ public class Game extends Resource {
     
     /**
      * Sets the rating variable of this resource and updates the database.
-     * @param publisher New publisher of the book.
+     * @param rating New Rating of the game.
      */
 	public void setRating(String rating) {
 		this.rating = rating;
@@ -151,16 +146,16 @@ public class Game extends Resource {
 	}
 	
     /**
-     * Returns whether or not the game has multiplayer support
-     * @return The publisher of book
+     * Returns whether or not the game has multiplayer support.
+     * @return The multiplayer support of game.
      */
 	public String getMultiplayerSupport() {
 		return multiplayerSupport;
 	}
 	
 	/**
-     * Sets the publisher variable of this resource and updates the database.
-     * @param publisher New publisher of the book.
+     * Sets the multi-player support variable of this resource and updates the database.
+     * @param multiplayerSupport Set the multi-player support of the game.
      */
 	public void setMultiplayerSupport(String multiplayerSupport) {
 		this.multiplayerSupport = multiplayerSupport;
@@ -197,7 +192,6 @@ public class Game extends Resource {
         int score = 0;
 
         if (otherResource.getClass() == Game.class) {
-
             Game otherGame = (Game) otherResource;
 
             if (publisher.equals(otherGame.getPublisher())) {
@@ -222,7 +216,6 @@ public class Game extends Resource {
                 }
             }
         }
-
         score += super.getLikenessScore(otherResource);
         return score;
     }
