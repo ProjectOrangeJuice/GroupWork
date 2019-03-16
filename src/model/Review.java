@@ -14,7 +14,13 @@ import java.sql.PreparedStatement;
  */
 public class Review {
 
-	public static boolean hasRead(String username, int rId) {
+	/**
+	 * Checks if a user has borrowed a resource.
+	 * @param username The username of borrower.
+	 * @param rId The resource ID.
+	 * @return True if they have borrowed, false otherwise.
+	 */
+	public static boolean hasBorrowed(String username, int rId) {
 
 		try {
 			Connection connection = DBHelper.getConnection();
@@ -117,7 +123,14 @@ public class Review {
 		}
 		return 0;
 	}
-
+	
+	/**
+	 * Add a review to the database
+	 * @param username Username of reviewer.
+	 * @param resource Resource id the review is for.
+	 * @param star Star rating.
+	 * @param text Review text.
+	 */
 	public static void addReview(String username, int resource, int star, String text) {
 		try {
 			Connection connection = DBHelper.getConnection();

@@ -378,7 +378,9 @@ public class CopyController {
 		leftVbox.getChildren().addAll(editCopies, editResource);
 	}
 
-	
+	/**
+	 * Disable buttons if the user cannot borrow the resource due to limits
+	 */
 	private void setupLimit() {
 		User user = (User) ScreenManager.getCurrentUser();
 		if(user.exceedLimit(ScreenManager.getCurrentResource())) {

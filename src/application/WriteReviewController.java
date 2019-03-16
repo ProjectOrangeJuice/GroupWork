@@ -76,12 +76,12 @@ public class WriteReviewController {
 	}
 	
 	/**
-	 * intialize method that doesnt show the write review box is an a review has not been issued
+	 * intialize method that doesn't show the write review box is an a review has not been issued
 	 */
 	@FXML
 	public void initialize() {
 		
-		if(!Review.hasRead(ScreenManager.getCurrentUser().getUsername(), ScreenManager.getCurrentResource().getUniqueID()) ||
+		if(!Review.hasBorrowed(ScreenManager.getCurrentUser().getUsername(), ScreenManager.getCurrentResource().getUniqueID()) ||
 				Review.hasReviewed(ScreenManager.getCurrentUser().getUsername(), ScreenManager.getCurrentResource().getUniqueID())) {
 			writeReviewBox.setVisible(false);
 		}
