@@ -25,8 +25,12 @@ public class Review {
 		try {
 			Connection connection = DBHelper.getConnection();
 			PreparedStatement statement = connection.prepareStatement(
-					"SELECT * FROM copies,borrowRecords,resource WHERE copies.rID = resource.rID AND borrowRecords.copyId = copies.copyID AND borrowRecords.username = ?"
-							+ " AND copies.rID=? AND borrowRecords.description LIKE 'Returned on %'");
+					"SELECT * FROM copies,borrowRecords,resource "
+					+ "WHERE copies.rID = resource.rID AND "
+					+ "borrowRecords.copyId = copies.copyID AND "
+					+ "borrowRecords.username = ?"
+					+ " AND copies.rID=? "
+					+ "AND borrowRecords.description LIKE 'Returned on %'");
 			statement.setString(1, username);
 			statement.setInt(2, rId);
 			ResultSet results = statement.executeQuery();
@@ -49,7 +53,8 @@ public class Review {
 		try {
 			Connection connection = DBHelper.getConnection();
 			PreparedStatement statement = connection
-					.prepareStatement("SELECT * FROM reviews WHERE username=? AND resourceId=?");
+					.prepareStatement("SELECT * FROM reviews WHERE"
+							+ " username=? AND resourceId=?");
 			statement.setString(1, username);
 			statement.setInt(2, rId);
 			ResultSet results = statement.executeQuery();
@@ -77,7 +82,8 @@ public class Review {
 	public static boolean hasReviews(int resourceId) {
 		try {
 			Connection connection = DBHelper.getConnection();
-			PreparedStatement statement = connection.prepareStatement("SELECT * FROM reviews WHERE resourceId=?");
+			PreparedStatement statement = connection.prepareStatement("SELECT *"
+					+ " FROM reviews WHERE resourceId=?");
 			statement.setInt(1, resourceId);
 			ResultSet results = statement.executeQuery();
 			if (results.next()) {
@@ -106,7 +112,8 @@ public class Review {
 		try {
 			Connection connection = DBHelper.getConnection();
 			PreparedStatement statement = connection
-					.prepareStatement("SELECT avg(star) FROM reviews WHERE resourceId=?");
+					.prepareStatement("SELECT avg(star) FROM reviews "
+							+ "WHERE resourceId=?");
 			statement.setInt(1, resourceId);
 			ResultSet results = statement.executeQuery();
 			if (results.next()) {
@@ -135,7 +142,8 @@ public class Review {
 		try {
 			Connection connection = DBHelper.getConnection();
 			PreparedStatement statement = connection
-					.prepareStatement("INSERT INTO reviews(resourceId,username,star,review) VALUES(?,?,?,?)");
+					.prepareStatement("INSERT INTO reviews(resourceId,"
+							+ "username,star,review) VALUES(?,?,?,?)");
 			statement.setInt(1, resource);
 			statement.setString(2, username);
 			statement.setInt(3, star);
@@ -158,15 +166,18 @@ public class Review {
 	public static ArrayList<String[]> getReviews(int resourceId) {
 		try {
 			Connection connection = DBHelper.getConnection();
-			PreparedStatement statement = connection.prepareStatement("SELECT * FROM reviews WHERE resourceId=?");
+			PreparedStatement statement = connection.prepareStatement("SELECT * "
+					+ "FROM reviews WHERE resourceId=?");
 			statement.setInt(1, resourceId);
 			ResultSet results = statement.executeQuery();
 			ArrayList<String[]> reviews = new ArrayList<String[]>();
 			while (results.next()) {
 
 				// star, name,what,when
-				String[] re = { String.valueOf(results.getInt(4)), results.getString(3), results.getString(5),
-						results.getString(6), String.valueOf(results.getInt(1)) };
+				String[] re = { String.valueOf(results.getInt(4)), 
+						results.getString(3), results.getString(5),
+						results.getString(6), 
+						String.valueOf(results.getInt(1)) };
 
 				reviews.add(re);
 
@@ -194,7 +205,9 @@ public class Review {
             ResultSet results = statement.executeQuery();
             ArrayList<String[]> reviews = new ArrayList<String[]>();
             while(results.next()) {
-            	String[] re = {String.valueOf(results.getInt(1)),String.valueOf(results.getInt(3)),results.getString(5),results.getString(4)};
+            	String[] re = {String.valueOf(results.getInt(1)),
+            			String.valueOf(results.getInt(3)),
+            			results.getString(5),results.getString(4)};
             	reviews.add(re);
 
             }

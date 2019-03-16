@@ -118,7 +118,8 @@ public class CopyController {
 		if(hasReviews) {
 	
 			HBox avg = new HBox(); //ready for images
-			Text avgText = new Text("Rating: "+Math.round(model.Review.getAvgStar(resourceId)*100.0)/100.0);
+			Text avgText = new Text("Rating: "+Math.round(
+					model.Review.getAvgStar(resourceId)*100.0)/100.0);
 			avgText.setStyle("-fx-font: 24 arial;");
 			avg.getChildren().add(avgText);
 			seeReviews.getChildren().add(avg);
@@ -392,7 +393,7 @@ public class CopyController {
 	
 	
 	/**
-	 * An initialize method that checks the user if its a staff, and loads the resource image and information when started.
+	 * Initialize the window.
 	 */
 	@FXML
 	public void initialize() {

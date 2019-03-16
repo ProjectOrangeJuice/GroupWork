@@ -66,7 +66,8 @@ public class WriteReviewController {
 		//sets text variable to whatever the user has wrote in the review box
 		String text = reviewBox.getText();
 		
-		Review.addReview(ScreenManager.getCurrentUser().getUsername(), ScreenManager.getCurrentResource().getUniqueID(),
+		Review.addReview(ScreenManager.getCurrentUser().getUsername(),
+				ScreenManager.getCurrentResource().getUniqueID(),
 				starValue, text);
 		
 		
@@ -76,13 +77,15 @@ public class WriteReviewController {
 	}
 	
 	/**
-	 * intialize method that doesn't show the write review box is an a review has not been issued
+	 * display review box if user has borrowed and hasn't already reviewed
 	 */
 	@FXML
 	public void initialize() {
 		
-		if(!Review.hasBorrowed(ScreenManager.getCurrentUser().getUsername(), ScreenManager.getCurrentResource().getUniqueID()) ||
-				Review.hasReviewed(ScreenManager.getCurrentUser().getUsername(), ScreenManager.getCurrentResource().getUniqueID())) {
+		if(!Review.hasBorrowed(ScreenManager.getCurrentUser().getUsername(),
+				ScreenManager.getCurrentResource().getUniqueID()) ||
+				Review.hasReviewed(ScreenManager.getCurrentUser().getUsername(),
+						ScreenManager.getCurrentResource().getUniqueID())) {
 			writeReviewBox.setVisible(false);
 		}
 		
