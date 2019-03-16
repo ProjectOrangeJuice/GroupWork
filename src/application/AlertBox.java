@@ -4,8 +4,10 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 
 /**
- * AlertBox method
-* @author Oliver Harris.
+ * A class with some static methods that let you easily display an alert box 
+ * to the screen with the message you want.
+* @author Oliver Harris
+* @author Alexandru Dascalu
 *
 */
 public class AlertBox {
