@@ -18,9 +18,10 @@ import model.Laptop;
 import model.Resource;
 
 /**
- * Resource Controller is a class that setups up the resources and updates them.
-*@author Oliver Harris
-*
+* Resource Controller is a class that setups up the resources and updates them.
+* @author Oliver Harris
+* 
+* With Game Resource added by Charles Day on 16/03/19
 */
 public class ResourceController {
 
@@ -90,10 +91,10 @@ public class ResourceController {
 	
 	
 	/**
-	 * Sets up the book resource screen.
+	 * Sets up the game resource screen.
 	 */
 	private void setupGame() {
-		//creates instance of a book
+		//creates instance of a game
 		Game game = (Game) ScreenManager.getCurrentResource();
 		
 		//inserts the common resource attributes

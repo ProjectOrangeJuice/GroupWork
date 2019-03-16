@@ -461,12 +461,12 @@ public class ProfileController {
 
 	/**
 	 * Search resources and checks to see if the checkboxes are selected which filter the search
-	 * @param i loop to get the resources
+	 * @param i ID of the resource
 	 * @return the search results or false
 	 * @throws ParseException 
 	 */
 	private boolean search(int i) throws ParseException {
-		//get the resource
+		//Get the Resource
 		Resource r = resources.get(i);
 		String searchText = searchTextBox.getText();
 
@@ -479,6 +479,8 @@ public class ProfileController {
 		if(laptopCheck.isSelected() && r instanceof Laptop) {
 			return r.contains(searchText);
 		}
+		
+		//Added on 16/03/19 by Charles Day
 		if(gameCheck.isSelected() && r instanceof Game) {
 		    return r.contains(searchText);
 		}
