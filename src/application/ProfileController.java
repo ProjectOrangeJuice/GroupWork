@@ -607,7 +607,7 @@ public class ProfileController {
 				StackPane imagePane = createImage(resource,COPY_IMG_WIDTH, COPY_IMG_HEIGHT);
 				((ImageView) imagePane.getChildren().get(2)).setFitWidth(COPY_IMG_WIDTH);
 				((ImageView) imagePane.getChildren().get(2)).setImage(
-					new Image("/graphics/" + "new.png"));
+					new Image("/graphics/" + bannerName));
 				((ImageView) imagePane.getChildren().get(2)).setPreserveRatio(true);
 				
 				vResourceBox.getChildren().add(imagePane);
