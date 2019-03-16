@@ -310,8 +310,8 @@
                            <columns>
                               <TableColumn fx:id="eventTitleField" prefWidth="132.9999942779541" text="Event Title" />
                               <TableColumn fx:id="eventDetailsField" prefWidth="359.0" text="Event Details" />
-                              <TableColumn fx:id="eventTimeField" prefWidth="123.00003051757812" text="Event Date &amp; Time" />
-                              <TableColumn fx:id="eventSpacesField" prefWidth="116.0" text="Spaces Available" />
+                              <TableColumn fx:id="eventTimeField" prefWidth="123.00003051757812" text="Date &amp; Time" />
+                              <TableColumn fx:id="eventSpacesField" prefWidth="116.0" text="Spaces" />
                            </columns>
                         </TableView>
                         <Button fx:id="joinEventButton" layoutX="849.0" layoutY="520.0" mnemonicParsing="false" onMouseClicked="#onJoinEventClick" text="Join Event" />
@@ -319,8 +319,8 @@
                            <columns>
                               <TableColumn fx:id="userEventTitleField" prefWidth="132.9999942779541" text="Event Title" />
                               <TableColumn fx:id="userEventDetailsField" prefWidth="359.0" text="Event Details" />
-                              <TableColumn fx:id="userEventTimeField" prefWidth="123.00003051757812" text="Event Date &amp; Time" />
-                              <TableColumn fx:id="userEventSpacesField" prefWidth="116.0" text="Spaces Available" />
+                              <TableColumn fx:id="userEventTimeField" prefWidth="123.00003051757812" text="Date &amp; Time" />
+                              <TableColumn fx:id="userEventSpacesField" prefWidth="116.0" text="Spaces" />
                            </columns>
                         </TableView>
                         <Label layoutX="199.0" layoutY="73.0" text="All Events:">
