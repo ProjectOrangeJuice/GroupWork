@@ -128,6 +128,7 @@ public class EditCopiesController {
 			Integer.parseInt(duration);
 		} catch (NumberFormatException e){
 			goAhead = false;
+			AlertBox.showInfoAlert("Enter a loan duration.");
 		}
 		
 		//if it doesnt throw an exception, add the copy to the table
