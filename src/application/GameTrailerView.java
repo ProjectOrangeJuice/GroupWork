@@ -9,27 +9,67 @@ import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
+/**
+ * This class is a view of a video game trailer which is dynamically loaded 
+ * from the Web. This class contains all the code that finds out the Youtube 
+ * URL of a trailer for a movie with the given name. The trailer is loaded as 
+ * an embedded Youtube video into the WebView object of this 
+ * GameTrailerView.
+ * @author Alexandru Dascalu
+ * @version 1.1
+ */
 public class GameTrailerView {
+    
+    /**The first part of the URL of the trailer, which is always the same for 
+     * all embedded youtube videos.*/
     private static final String YOUTUBE_URL = "https://www.youtube.com/embed/";
+    
+    /**The URL to the Youtube Web API method with parameters needed to search 
+     * for a video based on some keywords.*/
     private static final String YOUTUBE_API_SEARCH_URL = "https://www.google" + 
             "apis.com/youtube/v3/search?part=snippet&maxResults=1&order=rating&q=";
+    
+    /**The Youtube API key needed to access the API, written as an argument in
+     * a URL.*/
     private static final String YOUTUBE_API_KEY = "&key=AIzaSyBLyeidWvIxNFdvK" + 
             "0Bl7fPZ_WqeXrI8cac";
+    
+    /**The string added to the name of the video game so we will get a launch 
+     * trailer of this game.*/
     private static final String KEYWORD_ADD_ON = " PC Launch Trailer";
+    
+    /**The timeout period of the connection until an exception is thrown if 
+     * the server has not responded.*/
     private static final int REQUEST_TIMEOUT = 10000;
+    
+    /**The default width of the WebView the trailer will be displayed in.*/
     private static final int TRAILER_VIEW_WIDTH = 1600;
+    
+    /**The default height of the WebView the trailer will be displayed in.*/
     private static final int TRAILER_VIEW_HEIGHT = 900;
     
+    /**The name of the video displayed by the WebView of this object.*/
     private String videoName;
+    
+    /**The key of the youtube URL of the video this object displays.*/
     private String youtubeKey;
+    
+    /**The WebView object used to display the video from youtube Tawe Lib.*/
     private WebView youtubeView;
     
+    /**
+     * Makes a new GameTrailerView object for the game with the given name.
+     * @param gameName The name of the game whose trailer we want to view.
+     */
     public GameTrailerView(String gameName) {
         JSONObject firstResult = getFirstResult(gameName);
         videoName = null;
         youtubeKey = null;
         youtubeView = null;
         
+        /*FirstResult wil be null if the connection to the Youtube API failed 
+         * or it returned invalid data, so we check it is not to avoid an
+         * exception.*/
         if(firstResult != null) {
             videoName = firstResult.getJSONObject("snippet").getString("title");
             youtubeKey = firstResult.getJSONObject("id").getString("videoId");
@@ -40,7 +80,20 @@ public class GameTrailerView {
         }
     }
     
-    private JSONObject getFirstResult(String gameName) {
+    /**
+     * Returns a JSON object representing the first video in the list of 
+     * results from a Youtube search for a trailer for the game with given name.
+     * 
+     * This code was initially copied from http://www.joe0.com/2016/03/05/
+     * youtube-data-api-v3-how-to-search-youtube-using-java-and-extract-video-
+     * id-of-the-most-relevant-result/ . However, that code failed because the 
+     * JSON object did not have the field videoID, so I had to heavily modify 
+     * the code to make it work. The code after line 110 is all done by me. I 
+     * also added the try catch block.
+     * @param gameName The name of the game for which we want a video.
+     * @return A JSON object representing the first result from Youtube.
+     */
+    public JSONObject getFirstResult(String gameName) {
         String keyword = gameName + KEYWORD_ADD_ON;
         keyword = keyword.replace(" ", "+");
  
@@ -64,124 +117,33 @@ public class GameTrailerView {
         return firstResult;
     }
     
-    /*private GameTrailerDescription getTrailerDescription(int gameID) {
-        HttpResponse<String> response = null;
-        
-        try {
-            response = Unirest.get("https://store.steampowered.com/api/appdetails/?appids={appID}")
-                    .routeParam("appID", gameID + "").asString();
-        }
-        catch (UnirestException e) {
-            e.printStackTrace();
-            //System.exit(-1);
-        }
-        
-        System.out.println(response.getBody());
-        int trailerListName = response.getBody().indexOf("\"movies\"");
-        int trailerListStart = response.getBody().indexOf("[", trailerListName);
-        int trailerListEnd = response.getBody().indexOf("]", trailerListName);
-        System.out.println(trailerListName);
-        String trailerList = response.getBody().substring(trailerListStart, trailerListEnd + 1);
-        
-        List<GameTrailerDescription> gameTrailers = null;
-        try {
-            gameTrailers = jsonMapper.readValue(trailerList, new TypeReference<List<GameTrailerDescription>>() {});
-        }
-        catch (IOException e) {
-            e.printStackTrace();
-        }
-        
-        return gameTrailers.get(gameTrailers.size() - 1);
-    }
-    
-    private GameID getGameDescription(String gameName) {
-        HttpResponse<String> response = null;
-        
-        try {
-            response = Unirest.get("http://api.steampowered.com/ISteamApps/GetAppList/v0002/")
-                    .asString();
-        }
-        catch (UnirestException e) {
-            e.printStackTrace();
-            //System.exit(-1);
-        }
-        
-        String results = response.getBody();
-        
-        int  idAppearance = getIndexOfGame(results, gameName);
-        if(idAppearance == -1) {
-          return null;
-        }
-        
-        int descriptionStart = results.lastIndexOf("{", idAppearance);
-        int descriptionEnd = results.indexOf("}", idAppearance);
-        
-        GameID gameID = null;
-        try {
-            gameID = jsonMapper.readValue(results.substring(descriptionStart, descriptionEnd + 1), GameID.class);
-        }
-        catch (IOException e) {
-            e.printStackTrace();
-        }
-        
-        return gameID;
-    }
-    
-    private static int getIndexOfGame(String allGames, String gameName) {
-        int  idAppearance = -1;
-        int lastAppearance = -1;
-        
-        boolean search = true;
-        while(search) {
-            idAppearance = allGames.indexOf(gameName, lastAppearance);
-            
-            if(idAppearance == -1) {
-                search = false;
-            } else {
-                lastAppearance = idAppearance + gameName.length();
-                
-                if(hasExactName(gameName, allGames, idAppearance)) {
-                    search = false;
-                }
-            }
-        }
-        
-        return idAppearance;
-    }
-    
-    private static boolean hasExactName(String gameName, String allGames, int idAppearance) {
-        int quotesStart = allGames.lastIndexOf("\"", idAppearance);
-        int quotesEnd = allGames.indexOf("\"", idAppearance);
-        
-        String fullName = allGames.substring(quotesStart + 1, quotesEnd);
-        if(gameName.equals(fullName)) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-    
-    public GameID getGameID() {
-        return app;
-    }
-    
-    public GameTrailerDescription getTrailerDescription() {
-        return trailerDescription;
-    }
-    */
-    
+    /**
+     * Gets the WebView used to display the game trailer.
+     * @return the WebView used to display the game trailer.
+     */
     public WebView getWebView() {
         return youtubeView;
     }
     
+    /**
+     * Gets the name of the video for which a trailer will be displayed.
+     * @return the name of the video for which a trailer will be displayed.
+     */
     public String getVideoName() {
         return videoName;
     }
     
+    /**
+     * Gets the key of the youtube URL of the video this object displays.
+     * @return the key of the youtube URL of the video this object displays.
+     */
     public String getYoutubeKey() {
         return youtubeKey;
     }
     
+    /**
+     * Stops any web content inside the WebView associated wih this object.
+     */
     public void stop() {
         youtubeView.getEngine().load(null);
     }
