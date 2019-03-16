@@ -1,6 +1,8 @@
 package model;
 
 import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -198,14 +200,35 @@ public abstract class Resource {
             freeCopies.remove(copy);
             noDueDateCopies.remove(copy);
 
+            Connection dbConnection = null;
+            PreparedStatement sqlStatement = null;
             try {
-                Connection dbConnection = DBHelper.getConnection();
-                PreparedStatement sqlStatement = dbConnection.prepareStatement(
+                dbConnection = DBHelper.getConnection();
+                sqlStatement = dbConnection.prepareStatement(
                     "DELETE FROM copies WHERE copyID=" + copy.getCopyID());
                 sqlStatement.executeUpdate();
             }
             catch (SQLException e) {
                 e.printStackTrace();
+            }
+            finally {
+                if(sqlStatement != null) {
+                    try {
+                        sqlStatement.close();
+                    }
+                    catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+                }
+                
+                if(dbConnection != null) {
+                    try {
+                        dbConnection.close();
+                    }
+                    catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+                }
             }
         }
         else {
@@ -437,10 +460,13 @@ public abstract class Resource {
      *  the list of copies of this resource object.
      */
     public void loadCopyList() {
+        Connection dbConnection = null; 
+        Statement sqlStatement = null; 
+        ResultSet savedCopies = null; 
         try {
-            Connection dbConnection = DBHelper.getConnection(); 
-            Statement sqlStatement = dbConnection.createStatement(); 
-            ResultSet savedCopies = sqlStatement.executeQuery("SELECT * FROM " +
+            dbConnection = DBHelper.getConnection(); 
+            sqlStatement = dbConnection.createStatement(); 
+            savedCopies = sqlStatement.executeQuery("SELECT * FROM " +
                "copies WHERE rID=" + uniqueID);
 
             copyList.clear();
@@ -489,9 +515,35 @@ public abstract class Resource {
                     freeCopies.add(freeCopy);
                 }
             }
-        }
-        catch (SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            if(savedCopies != null) {
+                try {
+                    savedCopies.close();
+                }
+                catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            
+            if(sqlStatement != null) {
+                try {
+                    sqlStatement.close();
+                }
+                catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            
+            if(dbConnection != null) {
+                try {
+                    dbConnection.close();
+                }
+                catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 
@@ -501,9 +553,12 @@ public abstract class Resource {
      */
     public void saveUserQueue() {
         LinkedList<User> orderedUsers = userRequestQueue.getOrderedList();
+        Connection dbConnection = null;
+        PreparedStatement sqlStatement = null;
+        
         try {
-            Connection dbConnection = DBHelper.getConnection();
-            PreparedStatement sqlStatement = dbConnection
+            dbConnection = DBHelper.getConnection();
+            sqlStatement = dbConnection
                 .prepareStatement("DELETE FROM userRequests");
             sqlStatement.executeUpdate();
             sqlStatement = dbConnection.prepareStatement(
@@ -518,9 +573,26 @@ public abstract class Resource {
                 current = orderedUsers.pollFirst();
                 orderNr++;
             }
-        }
-        catch (SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            if (sqlStatement != null) {
+                try {
+                    sqlStatement.close();
+                }
+                catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            if (dbConnection != null) {
+                try {
+                    dbConnection.close();
+                }
+                catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 
@@ -533,8 +605,6 @@ public abstract class Resource {
     public int getNrOfCopies() {
         return copyList.size();
     }
-
-    
 
     /**
      * Getter for the list of users waiting to have their borrow request 
@@ -553,17 +623,36 @@ public abstract class Resource {
      */
     public void addPendingRequest(User requester) {
         pendingRequests.add(requester);
-
+        Connection dbConnection = null;
+        PreparedStatement sqlStatement = null;
         try {
-            Connection dbConnection = DBHelper.getConnection();
-            PreparedStatement sqlStatement = dbConnection
-                .prepareStatement("INSERT INTO requestsToApprove VALUES (?,?)");
+            dbConnection = DBHelper.getConnection();
+            sqlStatement = dbConnection.prepareStatement(
+                "INSERT INTO requestsToApprove VALUES (?,?)");
             sqlStatement.setInt(1, uniqueID);
             sqlStatement.setString(2, requester.getUsername());
             sqlStatement.executeUpdate();
         }
         catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            if (sqlStatement != null) {
+                try {
+                    sqlStatement.close();
+                }
+                catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            if (dbConnection != null) {
+                try {
+                    dbConnection.close();
+                }
+                catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 
@@ -646,9 +735,11 @@ public abstract class Resource {
      */
     protected static void updateDBvalue(String tableName, int resourceID,
             String field, String data) {
+        Connection connectionToDB = null;
+        PreparedStatement sqlStatement = null;
         try {
-            Connection connectionToDB = DBHelper.getConnection();
-            PreparedStatement sqlStatement = connectionToDB.prepareStatement(
+            connectionToDB = DBHelper.getConnection();
+            sqlStatement = connectionToDB.prepareStatement(
                 "update " + tableName + " set " + field + "=? where rID=?");
             sqlStatement.setString(1, data);
             sqlStatement.setInt(2, resourceID);
@@ -656,6 +747,24 @@ public abstract class Resource {
         }
         catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            if (sqlStatement != null) {
+                try {
+                    sqlStatement.close();
+                }
+                catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            if (connectionToDB != null) {
+                try {
+                    connectionToDB.close();
+                }
+                catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 
@@ -668,9 +777,11 @@ public abstract class Resource {
      */
     protected static void updateDBvalue(String tableName, int resourceID,
             String field, int data) {
+        Connection connectionToDB = null;
+        PreparedStatement sqlStatement = null;
         try {
-            Connection connectionToDB = DBHelper.getConnection();
-            PreparedStatement sqlStatement = connectionToDB.prepareStatement(
+            connectionToDB = DBHelper.getConnection();
+            sqlStatement = connectionToDB.prepareStatement(
                 "update " + tableName + " set " + field + "=? where rID=?");
             sqlStatement.setInt(1, data);
             sqlStatement.setInt(2, resourceID);
@@ -678,13 +789,33 @@ public abstract class Resource {
         }
         catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            if (sqlStatement != null) {
+                try {
+                    sqlStatement.close();
+                }
+                catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            if (connectionToDB != null) {
+                try {
+                    connectionToDB.close();
+                }
+                catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
     
     private static void insertBorrowRecord(User borrower, Copy copyToBorrow) {
+        Connection connectionToDB = null;
+        PreparedStatement sqlStatement = null;
         try {
-            Connection connectionToDB = DBHelper.getConnection();
-            PreparedStatement sqlStatement = connectionToDB.prepareStatement(
+            connectionToDB = DBHelper.getConnection();
+            sqlStatement = connectionToDB.prepareStatement(
                 "INSERT INTO borrowRecords (copyID,username,description) VALUES (?,?,?)");
             
             sqlStatement.setInt(1, copyToBorrow.getCopyID());
@@ -697,13 +828,33 @@ public abstract class Resource {
         }
         catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            if (sqlStatement != null) {
+                try {
+                    sqlStatement.close();
+                }
+                catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            if (connectionToDB != null) {
+                try {
+                    connectionToDB.close();
+                }
+                catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
     
     private static void insertReturnDate(User borrower, Copy copyToBorrow) {
+        Connection connectionToDB = null;
+        PreparedStatement sqlStatement = null;
         try {
-            Connection connectionToDB = DBHelper.getConnection();
-            PreparedStatement sqlStatement = connectionToDB.prepareStatement(
+            connectionToDB = DBHelper.getConnection();
+            sqlStatement = connectionToDB.prepareStatement(
                 "UPDATE borrowRecords SET description=? WHERE copyID=? AND " + 
                     "username=? AND description=?");
             
@@ -723,6 +874,24 @@ public abstract class Resource {
         }
         catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            if (sqlStatement != null) {
+                try {
+                    sqlStatement.close();
+                }
+                catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            if (connectionToDB != null) {
+                try {
+                    connectionToDB.close();
+                }
+                catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
     
@@ -747,9 +916,11 @@ public abstract class Resource {
                 amount = getMaxFineAmount();
             }
 
+            Connection dbConnection = null;
+            PreparedStatement sqlStatement = null;
             try {
-                Connection dbConnection = DBHelper.getConnection();
-                PreparedStatement sqlStatement = dbConnection.prepareStatement(
+                dbConnection = DBHelper.getConnection();
+                sqlStatement = dbConnection.prepareStatement(
                     "INSERT INTO fines (userName,rID,daysOver,amount,dateTime,"
                      + "paid) VALUES (?,?,?,?,?,?)");
 
@@ -768,6 +939,24 @@ public abstract class Resource {
             }
             catch (SQLException e) {
                 e.printStackTrace();
+            } finally {
+                if (sqlStatement != null) {
+                    try {
+                        sqlStatement.close();
+                    }
+                    catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                if (dbConnection != null) {
+                    try {
+                        dbConnection.close();
+                    }
+                    catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+                }
             }
         }
     }
@@ -793,10 +982,13 @@ public abstract class Resource {
      */
     private void loadUserQueue() {
         userRequestQueue.clean();
+        
+        Connection dbConnection = null;
+        Statement sqlStatement = null;
         try {
-            Connection conn = DBHelper.getConnection();
-            Statement stmt = conn.createStatement();
-            ResultSet userRequests = stmt
+            dbConnection = DBHelper.getConnection();
+            sqlStatement = dbConnection.createStatement();
+            ResultSet userRequests = sqlStatement
                 .executeQuery("SELECT * FROM userRequests " + "WHERE rID=" +
                 uniqueID + " ORDER BY orderNumber ASC");
 
@@ -808,6 +1000,24 @@ public abstract class Resource {
         }
         catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            if (sqlStatement != null) {
+                try {
+                    sqlStatement.close();
+                }
+                catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            if (dbConnection != null) {
+                try {
+                    dbConnection.close();
+                }
+                catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 
@@ -818,9 +1028,12 @@ public abstract class Resource {
      */
     private void loadPendingRequests() {
         pendingRequests.clear();
+        Connection dbConnection = null;
+        Statement sqlStatement = null;
+        
         try {
-            Connection dbConnection = DBHelper.getConnection();
-            Statement sqlStatement = dbConnection.createStatement();
+            dbConnection = DBHelper.getConnection();
+            sqlStatement = dbConnection.createStatement();
             ResultSet userRequests = sqlStatement.executeQuery(
                 "SELECT * FROM requestsToApprove WHERE rID=" + uniqueID);
 
@@ -832,6 +1045,24 @@ public abstract class Resource {
         }
         catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            if (sqlStatement != null) {
+                try {
+                    sqlStatement.close();
+                }
+                catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            if (dbConnection != null) {
+                try {
+                    dbConnection.close();
+                }
+                catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 
@@ -840,13 +1071,16 @@ public abstract class Resource {
      * @param copy The copy being saved.
      */
     private void saveCopyToDB(Copy copy) {
+        Connection dbConnection = null;
+        PreparedStatement statement = null;
+        PreparedStatement sqlStatement = null;
         try {
-            Connection dbConnection = DBHelper.getConnection();
+            dbConnection = DBHelper.getConnection();
             // PreparedStatement sqlStatement = dbConnection.prepareStatement(
             // "DELETE FROM copies WHERE copyID=" + copy.getCopyID());
             // sqlStatement.executeUpdate();
 
-            PreparedStatement statement = dbConnection
+            statement = dbConnection
                 .prepareStatement("SELECT * FROM copies WHERE copyID=?");
                 statement.setInt(1, copy.getCopyID());
             ResultSet results = statement.executeQuery();
@@ -855,7 +1089,7 @@ public abstract class Resource {
                 results.close();
                 SimpleDateFormat normalDateFormat = new SimpleDateFormat(
                     "dd/MM/yyyy");
-                PreparedStatement sqlStatement = dbConnection.prepareStatement(
+                sqlStatement = dbConnection.prepareStatement(
                     "INSERT INTO copies " + "VALUES(?,?,?,?,?,?,?)");
 
                 sqlStatement.setInt(1, copy.getCopyID());
@@ -883,8 +1117,8 @@ public abstract class Resource {
                 SimpleDateFormat normalDateFormat = new SimpleDateFormat(
                     "dd/MM/yyyy");
 
-                PreparedStatement sqlStatement = dbConnection
-                    .prepareStatement("UPDATE copies SET rID=?,keeper=?," +
+                sqlStatement = dbConnection.prepareStatement(
+                    "UPDATE copies SET rID=?,keeper=?," +
                         "loanDuration=?,borrowDate=?,lastRenewal=?," +
                         "dueDate=? WHERE copyID=?");
                 copy.getCopyID();
@@ -914,6 +1148,33 @@ public abstract class Resource {
         }
         catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            if (sqlStatement != null) {
+                try {
+                    sqlStatement.close();
+                }
+                catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            if (statement != null) {
+                try {
+                    statement.close();
+                }
+                catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            
+            if (dbConnection != null) {
+                try {
+                    dbConnection.close();
+                }
+                catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 
