@@ -708,10 +708,11 @@ public abstract class Resource {
     public boolean compareTimeDifference(Person person) throws ParseException {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date resourceDate = formatter.parse(this.timestamp);
+        try {
         Date loginDate = formatter.parse(person.getLastLogin());
         long timeDifference = loginDate.getTime() - resourceDate.getTime();
         
-        try {
+       
             if (timeDifference < 0) {
                 return true;
             }
