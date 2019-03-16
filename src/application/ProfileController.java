@@ -153,8 +153,6 @@ public class ProfileController {
 	private CheckBox bookCheck;
 	@FXML
 	private CheckBox laptopCheck;
-	@FXML
-	private CheckBox newCheck;
 
 	//Copies Explorer
 	@FXML
@@ -483,9 +481,6 @@ public class ProfileController {
 		if(laptopCheck.isSelected() && r instanceof Laptop) {
 			return r.contains(searchText);
 		}
-		if(newCheck.isSelected() && r.compareTimeDifference(ScreenManager.getCurrentUser()) == true){
-			return r.contains(searchText);
-		}
 		if(r instanceof Game) {
 		    return r.contains(searchText);
 		}
@@ -535,6 +530,7 @@ public class ProfileController {
 		System.out.println(resources.size());
 		ScreenManager.setResources(resources);
 
+		ArrayList<Resource> newResource = new ArrayList<Resource>();
 		//for each resource in resources array
 		for(int i = 0; i < resources.size(); i++) {
 		    System.out.println(resources.get(i).getTitle());
@@ -570,7 +566,11 @@ public class ProfileController {
 			imagePane.setOnMouseEntered(enterHandler);
 			imagePane.setOnMouseExited(exitHandler);
 			imagePane.setOnMouseClicked(clickHandler);
-
+			
+			if(resources.get(i).compareTimeDifference(currentUser) == true) {
+				newResource.add(resources.get(i));
+			}
+			loadNewResources(newResource, "new.png");
 		}
 	}
 
@@ -599,6 +599,23 @@ public class ProfileController {
 			imagePane.setOnMouseClicked(clickHandler);
 
 			}
+	}
+	
+	private void loadNewResources(ArrayList<Resource> resources, String bannerName) throws ParseException {
+		for (Resource resource : Resource.getResources()) {
+			if(resource.compareTimeDifference(currentUser) == true) {
+				StackPane imagePane = createImage(resource,COPY_IMG_WIDTH, COPY_IMG_HEIGHT);
+				((ImageView) imagePane.getChildren().get(2)).setFitWidth(COPY_IMG_WIDTH);
+				((ImageView) imagePane.getChildren().get(2)).setImage(
+					new Image("/graphics/" + "new.png"));
+				((ImageView) imagePane.getChildren().get(2)).setPreserveRatio(true);
+				
+				vResourceBox.getChildren().add(imagePane);
+				imagePane.setOnMouseEntered(enterHandler);
+				imagePane.setOnMouseExited(exitHandler);
+				imagePane.setOnMouseClicked(clickHandler);
+			}
+		}
 	}
 
 	/**
