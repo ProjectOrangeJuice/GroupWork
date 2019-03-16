@@ -8,8 +8,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.ParseException;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 import javafx.beans.property.SimpleStringProperty;
@@ -23,7 +21,6 @@ import javafx.scene.CacheHint;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
@@ -33,7 +30,6 @@ import javafx.scene.control.TabPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -686,13 +682,7 @@ public class ProfileController {
 
 		loadResourceImages();
 		loadNewResources();
-		
-		try {
-			loadEventTable();
-		} catch (SQLException | ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		loadEventTable();
 		
 		createEventButton.setDisable(ScreenManager.getCurrentUser() instanceof User);
 		joinEventButton.setDisable(ScreenManager.getCurrentUser() instanceof Librarian);
@@ -1277,37 +1267,41 @@ public class ProfileController {
 	
 	/**
 	 * Reloads data from database for both Upcoming and User event tables.
-	 * @throws SQLException
-	 * @throws ParseException
 	 */
 	@FXML
-	private void loadEventTable() throws SQLException, ParseException {
+	private void loadEventTable() {
 		
-		model.Event.loadEventsFromDB(); //loads appropriate events from DB depending on user.
-		
-		//set upcoming event table cell property value to event attribute names.
-		eventTitleField.setCellValueFactory(new PropertyValueFactory<>("title"));
-		eventDetailsField.setCellValueFactory(new PropertyValueFactory<>("details"));
-		eventTimeField.setCellValueFactory(new PropertyValueFactory<>("date"));
-		eventSpacesField.setCellValueFactory(new PropertyValueFactory<>("maxAttending"));
-		
-		//set user event table cell property value to event attribute names.
-		userEventTitleField.setCellValueFactory(new PropertyValueFactory<>("title"));
-		userEventDetailsField.setCellValueFactory(new PropertyValueFactory<>("details"));
-		userEventTimeField.setCellValueFactory(new PropertyValueFactory<>("date"));
-		userEventSpacesField.setCellValueFactory(new PropertyValueFactory<>("maxAttending"));
-		
-		ObservableList<model.Event> tableData = FXCollections.observableArrayList();
-		ObservableList<model.Event> userTableData = FXCollections.observableArrayList();
-		
-		tableData.addAll(model.Event.getAllEvents()); //add all appropriate events to upcoming events data.
-		userTableData.addAll(model.Event.getUserEvents()); //add all user events to user events table data.
+		try {
+			
+			model.Event.loadEventsFromDB(); //loads appropriate events from DB depending on user.
+			
+			//set upcoming event table cell property value to event attribute names.
+			eventTitleField.setCellValueFactory(new PropertyValueFactory<>("title"));
+			eventDetailsField.setCellValueFactory(new PropertyValueFactory<>("details"));
+			eventTimeField.setCellValueFactory(new PropertyValueFactory<>("date"));
+			eventSpacesField.setCellValueFactory(new PropertyValueFactory<>("maxAttending"));
+			
+			//set user event table cell property value to event attribute names.
+			userEventTitleField.setCellValueFactory(new PropertyValueFactory<>("title"));
+			userEventDetailsField.setCellValueFactory(new PropertyValueFactory<>("details"));
+			userEventTimeField.setCellValueFactory(new PropertyValueFactory<>("date"));
+			userEventSpacesField.setCellValueFactory(new PropertyValueFactory<>("maxAttending"));
+			
+			ObservableList<model.Event> tableData = FXCollections.observableArrayList();
+			ObservableList<model.Event> userTableData = FXCollections.observableArrayList();
+			
+			tableData.addAll(model.Event.getAllEvents()); //add all appropriate events to upcoming events data.
+			userTableData.addAll(model.Event.getUserEvents()); //add all user events to user events table data.
 
-		eventTable.setItems(tableData);
-		userEventTable.setItems(userTableData);
-		
-		eventTable.refresh();
-		userEventTable.refresh();
+			eventTable.setItems(tableData);
+			userEventTable.setItems(userTableData);
+			
+			eventTable.refresh();
+			userEventTable.refresh();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 
 	}
 	
@@ -1346,7 +1340,7 @@ public class ProfileController {
 	 * @throws ParseException
 	 */
 	@FXML
-	private void onJoinEventClick() throws SQLException, ParseException {
+	private void onJoinEventClick() {
 		
 		model.Event selectedEvent = eventTable.getSelectionModel().getSelectedItem();
 		int selectedIndex = eventTable.getSelectionModel().getSelectedIndex();
