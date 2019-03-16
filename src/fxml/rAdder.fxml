@@ -12,6 +12,7 @@
             <Button mnemonicParsing="false" onAction="#addBook" text="Add book" />
             <Button mnemonicParsing="false" onAction="#addDVD" text="Add DVD" />
             <Button mnemonicParsing="false" onAction="#addLaptop" text="Add Laptop" />
+            <Button mnemonicParsing="false" onAction="#addGame" text="Add Game" />
          </children>
       </HBox>
    </children>
