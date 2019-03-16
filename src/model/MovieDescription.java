@@ -9,8 +9,7 @@ import com.fasterxml.jackson.annotation.JsonSetter;
  * @author Alexandru Dascalu
  * @version 1.0
  */
-public class MovieDescription 
-{
+public class MovieDescription {
     /**The number of votes this movie has.*/
     private int voteCount;
     

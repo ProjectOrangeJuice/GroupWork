@@ -8,8 +8,7 @@ import com.fasterxml.jackson.annotation.JsonSetter;
  * from the Total Movie Database web API.
  * @author Alexandru Dascalu
  */
-public class VideoDescription 
-{
+public class VideoDescription {
     /**The ID on the TMDB web API of this video.*/
     private String videoID;
     

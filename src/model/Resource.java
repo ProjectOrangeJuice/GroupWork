@@ -13,6 +13,7 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.PriorityQueue;
 
+import application.AlertBox;
 import javafx.scene.image.Image;
 
 /**
@@ -26,13 +27,18 @@ import javafx.scene.image.Image;
  * @version 1.5
  */
 public abstract class Resource {
-
+    /**A list of all resources in the application.*/
+    protected static ArrayList<Resource> resources = new ArrayList<>();
+    
+    /**
+     * A default number for each resource used to limit the number of items a user
+     * can checkout.
+     */
+    protected static final int LIMIT_AMOUNT = 1;
+    
     /**Number of milliseconds in a day. Used when calculating the number of 
      * days a copy is overdue. Its value is {@value}.*/
     private static final long MILLISECONDS_IN_DAY = 1000 * 60 * 60 * 24;
-
-    /**A list of all resources in the application.*/
-    protected static ArrayList<Resource> resources = new ArrayList<>();
     
     /** A unique number that identifies this resource. */
     protected final int uniqueID;
@@ -46,6 +52,12 @@ public abstract class Resource {
     /** The thumbnail Image of this resource. */
     protected Image thumbnail;
 
+    /**
+     * A time stamp for resource, so that each time a user logs in the user can view any
+     * new additions.
+     */
+    protected String timestamp;
+    
     /** A list of all the copies of this resource. */
     private ArrayList<Copy> copyList;
 
@@ -64,24 +76,13 @@ public abstract class Resource {
     private ArrayList<User> pendingRequests;
     
     /**
-     * A default number for each resource used to limit the number of items a user
-     * can checkout
-     */
-    protected static final int LIMIT_AMOUNT = 1;
-    
-    /**
-     * A time stamp for resource, so that each time a user logs in the user can view any
-     * new additions.
-     */
-    protected String timestamp;
-
-    /**
      * Makes a new resource whose details are the given arguments.
      * 
      * @param uniqueID The unique number that identifies this resource.
      * @param title The title of this resource.
      * @param year The year this resource appeared.
      * @param thumbnail A small image of this resource.
+     * @param timestamp The time when this resource was added.
      */
     public Resource(int uniqueID, String title, int year, Image thumbnail, String timestamp) {
         this.uniqueID = uniqueID;
@@ -294,14 +295,15 @@ public abstract class Resource {
         else {
         	
             userRequestQueue.enqueue(user);
-          try {
-            Copy firstCopy = noDueDateCopies.poll();
-           
-            firstCopy.setDueDate();
-            saveCopyToDB(firstCopy);
-          }catch(NullPointerException ex) {
-        	  //No copies in the database!
-          }
+            try {
+                Copy firstCopy = noDueDateCopies.poll();
+                
+                firstCopy.setDueDate();
+                saveCopyToDB(firstCopy);
+            } catch(NullPointerException e) {
+                e.printStackTrace();
+                AlertBox.showErrorAlert("No copies in the database!");
+            }
                
             return false;
         }
@@ -604,7 +606,7 @@ public abstract class Resource {
     
     /**
      * limit Amount used to restrict number of items a user can borrow
-     * @return the default amount of the resource
+     * @return the default amount of the resource.
      */
     public int getLimitAmount() {
     	return LIMIT_AMOUNT;
@@ -690,7 +692,7 @@ public abstract class Resource {
             
             SimpleDateFormat normalDateFormat = new SimpleDateFormat("dd/MM/yyyy");
             sqlStatement.setString(3, "Borrow Date:" + normalDateFormat.format(
-               copyToBorrow.getBorrowDate()));
+                copyToBorrow.getBorrowDate()));
             sqlStatement.executeUpdate();
         }
         catch (SQLException e) {
@@ -702,8 +704,8 @@ public abstract class Resource {
         try {
             Connection connectionToDB = DBHelper.getConnection();
             PreparedStatement sqlStatement = connectionToDB.prepareStatement(
-                "UPDATE borrowRecords SET description=? WHERE copyID=? AND "
-                + "username=? AND description=?");
+                "UPDATE borrowRecords SET description=? WHERE copyID=? AND " + 
+                    "username=? AND description=?");
             
             SimpleDateFormat normalDateFormat = new SimpleDateFormat("dd/MM/yyyy");
             
@@ -731,7 +733,7 @@ public abstract class Resource {
      */
     private void applyFines(Copy copyToBeReturned) {
         Date dueDate = copyToBeReturned.getDueDate();
-        if(dueDate == null) {
+        if (dueDate == null) {
             return;
         }
         
@@ -749,7 +751,7 @@ public abstract class Resource {
                 Connection dbConnection = DBHelper.getConnection();
                 PreparedStatement sqlStatement = dbConnection.prepareStatement(
                     "INSERT INTO fines (userName,rID,daysOver,amount,dateTime,"
-                    + "paid) VALUES (?,?,?,?,?,?)");
+                     + "paid) VALUES (?,?,?,?,?,?)");
 
                 sqlStatement.setString(1,
                     copyToBeReturned.getBorrower().getUsername());
@@ -840,85 +842,81 @@ public abstract class Resource {
     private void saveCopyToDB(Copy copy) {
         try {
             Connection dbConnection = DBHelper.getConnection();
-            //PreparedStatement sqlStatement = dbConnection.prepareStatement(
-             //   "DELETE FROM copies WHERE copyID=" + copy.getCopyID());
-            //sqlStatement.executeUpdate();
+            // PreparedStatement sqlStatement = dbConnection.prepareStatement(
+            // "DELETE FROM copies WHERE copyID=" + copy.getCopyID());
+            // sqlStatement.executeUpdate();
 
-            PreparedStatement statement = dbConnection.prepareStatement(
-                    "SELECT * FROM copies WHERE copyID=?");
+            PreparedStatement statement = dbConnection
+                .prepareStatement("SELECT * FROM copies WHERE copyID=?");
                 statement.setInt(1, copy.getCopyID());
-                ResultSet results = statement.executeQuery();
-                
-                if(!results.next()) {
-                    results.close();
-                	SimpleDateFormat normalDateFormat = new SimpleDateFormat(
-                            "dd/MM/yyyy");
-                	PreparedStatement sqlStatement = dbConnection
-                            .prepareStatement("INSERT INTO copies "
-                             	+ "VALUES(?,?,?,?,?,?,?)");
+            ResultSet results = statement.executeQuery();
 
-                    sqlStatement.setInt(1, copy.getCopyID());
-                    sqlStatement.setInt(2, uniqueID);
-                    sqlStatement.setInt(4, copy.getLoanDuration());
-                    sqlStatement.setString(5,
-                        formatDate(copy.getBorrowDate(), normalDateFormat));
-                    sqlStatement.setString(6,
-                        formatDate(copy.getLastRenewal(), normalDateFormat));
-                    sqlStatement.setString(7,
-                        formatDate(copy.getDueDate(), normalDateFormat));
+            if (!results.next()) {
+                results.close();
+                SimpleDateFormat normalDateFormat = new SimpleDateFormat(
+                    "dd/MM/yyyy");
+                PreparedStatement sqlStatement = dbConnection.prepareStatement(
+                    "INSERT INTO copies " + "VALUES(?,?,?,?,?,?,?)");
 
-                    String userName = null;
-                    if (copy.getBorrower() != null) {
-                        userName = copy.getBorrower().getUsername();
-                        sqlStatement.setString(3, userName);
-                    }
-                    else {
-                        sqlStatement.setString(3, null);
-                    }
-                        sqlStatement.executeUpdate();
-                        dbConnection.close();
-                } else {
-            
-                    SimpleDateFormat normalDateFormat = new SimpleDateFormat(
-                        "dd/MM/yyyy");
-                    
-                    PreparedStatement sqlStatement = dbConnection
-                        .prepareStatement("UPDATE copies SET rID=?,keeper=?,"
-                        		+ "loanDuration=?,borrowDate=?,lastRenewal=?,"
-                        		+ "dueDate=? WHERE copyID=?");
-                    copy.getCopyID();
-                    sqlStatement.setInt(7, copy.getCopyID());
-                    sqlStatement.setInt(1, uniqueID);
-                    sqlStatement.setInt(3, copy.getLoanDuration());
-                    
-                    sqlStatement.setString(4,formatDate(copy.getBorrowDate(),
-                        normalDateFormat));
-                    sqlStatement.setString(5, formatDate(copy.getLastRenewal(),
-                        normalDateFormat));
-                    sqlStatement.setString(6, formatDate(copy.getDueDate(),
-                        normalDateFormat));
-        
-                    String userName = null;
-                    if (copy.getBorrower() != null) {
-                        userName = copy.getBorrower().getUsername();
-                        sqlStatement.setString(2, userName);
-                    }
-                    else {
-                        sqlStatement.setString(2, null);
-                    }
-        
-                    sqlStatement.executeUpdate();
+                sqlStatement.setInt(1, copy.getCopyID());
+                sqlStatement.setInt(2, uniqueID);
+                sqlStatement.setInt(4, copy.getLoanDuration());
+                sqlStatement.setString(5,
+                    formatDate(copy.getBorrowDate(), normalDateFormat));
+                sqlStatement.setString(6,
+                    formatDate(copy.getLastRenewal(), normalDateFormat));
+                sqlStatement.setString(7,
+                    formatDate(copy.getDueDate(), normalDateFormat));
+
+                String userName = null;
+                if (copy.getBorrower() != null) {
+                    userName = copy.getBorrower().getUsername();
+                    sqlStatement.setString(3, userName);
                 }
+                else {
+                    sqlStatement.setString(3, null);
+                }
+                sqlStatement.executeUpdate();
                 dbConnection.close();
+            } else {
+
+                SimpleDateFormat normalDateFormat = new SimpleDateFormat(
+                    "dd/MM/yyyy");
+
+                PreparedStatement sqlStatement = dbConnection
+                    .prepareStatement("UPDATE copies SET rID=?,keeper=?," +
+                        "loanDuration=?,borrowDate=?,lastRenewal=?," +
+                        "dueDate=? WHERE copyID=?");
+                copy.getCopyID();
+                sqlStatement.setInt(7, copy.getCopyID());
+                sqlStatement.setInt(1, uniqueID);
+                sqlStatement.setInt(3, copy.getLoanDuration());
+
+                sqlStatement.setString(4,
+                    formatDate(copy.getBorrowDate(), normalDateFormat));
+                sqlStatement.setString(5,
+                    formatDate(copy.getLastRenewal(), normalDateFormat));
+                sqlStatement.setString(6,
+                    formatDate(copy.getDueDate(), normalDateFormat));
+
+                String userName = null;
+                if (copy.getBorrower() != null) {
+                    userName = copy.getBorrower().getUsername();
+                    sqlStatement.setString(2, userName);
+                }
+                else {
+                    sqlStatement.setString(2, null);
+                }
+
+                sqlStatement.executeUpdate();
+            }
+            dbConnection.close();
         }
         catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    
-    
-    
     /**
      * A wrapper function that returns a string representing a date, or null if 
      * the given date is null. Necessary because format method for DateFormat

@@ -22,8 +22,7 @@ import java.util.List;
  * @author Alexandru Dascalu
  * @version 1.1
  */
-public class MovieTrailerView
-{
+public class MovieTrailerView {
     /**
      * The API key needed to use the TMDB api to get details of the trailer
      * for a movie.
