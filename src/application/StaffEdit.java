@@ -244,6 +244,55 @@ public class StaffEdit {
 	            postcodeError.setVisible(true);
 	        }
     	}
+    	else {
+	    	//get all information in about user from ScreenManager class.
+	    	String username = currentUser.getUsername();
+	    	String firstname = currentUser.getFirstName();
+	    	String lastname = currentUser.getLastName();
+	    	String address = currentUser.getAddress();
+	    	String postcode = currentUser.getPostcode();
+	    	String phoneNumber = currentUser.getPhoneNumber();
+	    	
+	    	//change text to text field for staff to edit
+	    	usernameLabel.setText(username);
+	    	firstnameText.setText(firstname);
+	    	lastnameText.setText(lastname);
+	    	phoneNumberText.setText(phoneNumber);
+	    	addressText.setText(address);
+	    	postcodeText.setText(postcode);
+	    	staffIDLabel.setVisible(false);
+	    	employmentDateLabel.setVisible(false);
+	    	
+	    	if (validateFirstName()) {
+	            firstNameError.setVisible(false);
+	        } else {
+	            firstNameError.setVisible(true);
+	        }
+	    	
+	    	if (validateLastName()) {
+	            lastNameError.setVisible(false);
+	        } else {
+	            lastNameError.setVisible(true);
+	        }
+	    	
+	    	if (validatePhoneNumber()) {
+	            phoneNumberError.setVisible(false);
+	        } else {
+	            phoneNumberError.setVisible(true);
+	        }
+	    	
+	    	if (validateAddress()) {
+	            addressError.setVisible(false);
+	        } else {
+	            addressError.setVisible(true);
+	        }
+	    	
+	    	if (validatePostCode()) {
+	            postcodeError.setVisible(false);
+	        } else {
+	            postcodeError.setVisible(true);
+	        }
+    	}
     }
 
     /**
