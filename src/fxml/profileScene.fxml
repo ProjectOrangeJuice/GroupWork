@@ -376,6 +376,11 @@
                               <Font size="15.0" />
                            </font>
                         </CheckBox>
+                        <CheckBox fx:id="gameCheck" minWidth="-Infinity" mnemonicParsing="false" onAction="#searchThis" selected="true" text="Game" textAlignment="JUSTIFY" textFill="WHITE">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </CheckBox>
                      </children>
                   </HBox>
                </children>

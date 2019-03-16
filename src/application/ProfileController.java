@@ -153,6 +153,8 @@ public class ProfileController {
 	private CheckBox bookCheck;
 	@FXML
 	private CheckBox laptopCheck;
+	@FXML
+	private CheckBox gameCheck;
 
 	//Copies Explorer
 	@FXML
@@ -467,7 +469,7 @@ public class ProfileController {
 	 * @return the search results or false
 	 * @throws ParseException 
 	 */
-	private boolean search(int i ) throws ParseException {
+	private boolean search(int i) throws ParseException {
 		//get the resource
 		Resource r = resources.get(i);
 		String searchText = searchTextBox.getText();
@@ -481,7 +483,7 @@ public class ProfileController {
 		if(laptopCheck.isSelected() && r instanceof Laptop) {
 			return r.contains(searchText);
 		}
-		if(r instanceof Game) {
+		if(gameCheck.isSelected() && r instanceof Game) {
 		    return r.contains(searchText);
 		}
 
