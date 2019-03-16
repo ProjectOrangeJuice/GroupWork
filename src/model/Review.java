@@ -104,8 +104,9 @@ public class Review {
 			statement.setInt(1, resourceId);
 			ResultSet results = statement.executeQuery();
 			if (results.next()) {
-				// connection.close();
-				return results.getDouble(1);
+				Double star = results.getDouble(1);
+				connection.close();
+				return star;
 			} else {
 				connection.close();
 				return 0;
