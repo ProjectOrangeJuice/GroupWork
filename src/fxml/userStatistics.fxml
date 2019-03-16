@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.chart.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane fx:id="border" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="UserStatisticsController">
+   <center>
+      <HBox fx:id="hbox" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+            <TabPane fx:id="tabs" prefHeight="400.0" prefWidth="601.0" tabClosingPolicy="UNAVAILABLE">
+              <tabs>
+                <Tab fx:id="dailyTab" text="Daily Statistics">
+                  <content>
+                    <AnchorPane fx:id="dailyAnchor" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <TextFlow fx:id="dailyStatsText" layoutX="14.0" layoutY="240.0" prefHeight="120.0" prefWidth="569.0" />
+                              <ScatterChart fx:id="dailyStatsGraph" layoutX="14.0" layoutY="14.0" prefHeight="236.0" prefWidth="571.0" title="Daily User Borrowing">
+                                <xAxis>
+                                  <CategoryAxis label="Time of day" side="BOTTOM" />
+                                </xAxis>
+                                <yAxis>
+                                  <NumberAxis autoRanging="false" label="Items Borrowed" minorTickCount="1" minorTickLength="1.0" side="LEFT" tickLabelGap="1.0" tickUnit="1.0" upperBound="10.0" />
+                                </yAxis>
+                              </ScatterChart>
+                           </children>
+                        </AnchorPane>
+                  </content>
+                </Tab>
+                  <Tab text="Weekly Statistics">
+                     <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <LineChart fx:id="weeklyStatsGraph" layoutX="14.0" layoutY="14.0" prefHeight="238.0" prefWidth="576.0" title="Weekly user borrowing">
+                                 <xAxis>
+                                    <CategoryAxis label="Day" side="BOTTOM" />
+                                 </xAxis>
+                                 <yAxis>
+                                    <NumberAxis autoRanging="false" label="Items Borrowed" side="LEFT" upperBound="50.0" />
+                                 </yAxis>
+                              </LineChart>
+                              <TextFlow fx:id="weeklyStatsText" layoutX="14.0" layoutY="240.0" prefHeight="120.0" prefWidth="569.0" />
+                           </children>
+                        </AnchorPane>
+                     </content>
+                  </Tab>
+                  <Tab text="Monthly  Statistics">
+                     <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <LineChart fx:id="monthlyStatsGraph" layoutX="14.0" layoutY="14.0" prefHeight="238.0" prefWidth="576.0" title="Monthly user borrowing">
+                                 <xAxis>
+                                    <CategoryAxis label="Day" side="BOTTOM" />
+                                 </xAxis>
+                                 <yAxis>
+                                    <NumberAxis autoRanging="false" label="Items Borrowed" side="LEFT" />
+                                 </yAxis>
+                              </LineChart>
+                              <TextFlow fx:id="monthlyStatsText" layoutX="14.0" layoutY="240.0" prefHeight="120.0" prefWidth="569.0" />
+                           </children>
+                        </AnchorPane>
+                     </content>
+                  </Tab>
+                  <Tab text="Fines issued">
+                     <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <LineChart fx:id="monthlyStatsGraph1" layoutX="14.0" layoutY="14.0" prefHeight="238.0" prefWidth="576.0" title="Monthly user borrowing">
+                                 <xAxis>
+                                    <CategoryAxis label="Day" side="BOTTOM" />
+                                 </xAxis>
+                                 <yAxis>
+                                    <NumberAxis autoRanging="false" label="Items Borrowed" side="LEFT" />
+                                 </yAxis>
+                              </LineChart>
+                              <TextFlow fx:id="monthlyStatsText1" layoutX="14.0" layoutY="240.0" prefHeight="120.0" prefWidth="569.0" />
+                           </children>
+                        </AnchorPane>
+                     </content>
+                  </Tab>
+              </tabs>
+            </TabPane>
+         </children>
+      </HBox>
+   </center>
+</BorderPane>

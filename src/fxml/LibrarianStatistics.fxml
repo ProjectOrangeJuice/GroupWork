@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="LibrarianStatisticsContolller">
+   <center>
+      <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+         <children>
+            <TabPane prefHeight="406.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE">
+              <tabs>
+                <Tab fx:id="dayTab" text="Daily Statistics">
+                  <content>
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <RadioButton fx:id="bookRB" layoutX="421.0" layoutY="90.0" mnemonicParsing="false" text="Book">
+                                 <toggleGroup>
+                                    <ToggleGroup fx:id="group" />
+                                 </toggleGroup></RadioButton>
+                              <RadioButton fx:id="dvdRB" layoutX="421.0" layoutY="115.0" mnemonicParsing="false" text="DVD" toggleGroup="$group" />
+                              <RadioButton fx:id="laptopRB" layoutX="421.0" layoutY="141.0" mnemonicParsing="false" text="Laptop" toggleGroup="$group" />
+                              <RadioButton fx:id="gameRB" layoutX="421.0" layoutY="169.0" mnemonicParsing="false" text="Game" toggleGroup="$group" />
+                              <TextFlow fx:id="descBox" layoutX="23.0" layoutY="198.0" prefHeight="160.0" prefWidth="389.0" />
+                              <Button fx:id="requestButton" layoutX="418.0" layoutY="198.0" mnemonicParsing="false" text="Request" />
+                           </children>
+                        </AnchorPane>
+                  </content>
+                </Tab>
+                  <Tab fx:id="weekTab" text="Weekly Statistics">
+                     <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <RadioButton fx:id="bookRB1" layoutX="421.0" layoutY="90.0" mnemonicParsing="false" text="Book" toggleGroup="$group" />
+                              <RadioButton fx:id="dvdRB1" layoutX="421.0" layoutY="115.0" mnemonicParsing="false" text="DVD" toggleGroup="$group" />
+                              <RadioButton fx:id="laptopRB1" layoutX="421.0" layoutY="141.0" mnemonicParsing="false" text="Laptop" toggleGroup="$group" />
+                              <RadioButton fx:id="gameRB1" layoutX="421.0" layoutY="169.0" mnemonicParsing="false" text="Game" toggleGroup="$group" />
+                              <TextFlow fx:id="descBox1" layoutX="23.0" layoutY="198.0" prefHeight="160.0" prefWidth="389.0" />
+                           </children>
+                        </AnchorPane>
+                     </content>
+                  </Tab>
+                  <Tab fx:id="overallTab" text="Overall Statistics">
+                     <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <RadioButton fx:id="bookRB11" layoutX="421.0" layoutY="90.0" mnemonicParsing="false" text="Book" toggleGroup="$group" />
+                              <RadioButton fx:id="dvdRB11" layoutX="421.0" layoutY="115.0" mnemonicParsing="false" text="DVD" toggleGroup="$group" />
+                              <RadioButton fx:id="laptopRB11" layoutX="421.0" layoutY="141.0" mnemonicParsing="false" text="Laptop" toggleGroup="$group" />
+                              <RadioButton fx:id="gameRB11" layoutX="421.0" layoutY="169.0" mnemonicParsing="false" text="Game" toggleGroup="$group" />
+                              <TextFlow fx:id="descBox11" layoutX="23.0" layoutY="198.0" prefHeight="160.0" prefWidth="389.0" />
+                           </children>
+                        </AnchorPane>
+                     </content>
+                  </Tab>
+              </tabs>
+            </TabPane>
+         </children>
+      </VBox>
+   </center>
+</BorderPane>
