@@ -9,8 +9,9 @@ import javafx.scene.control.Alert.AlertType;
 *
 */
 public class AlertBox {
+    
 	/**
-	 * Generate a popup.
+	 * Generate an information popup with the given message.
 	 * @param text The text to be displayed.
 	 */
 	public static void showInfoAlert(String text) {
@@ -22,6 +23,10 @@ public class AlertBox {
 		alert.showAndWait();
 	}
 	
+	/**
+	 * Generates an error message popup with the given message.
+	 * @param text The message to be displayed by the alert box.
+	 */
 	public static void showErrorAlert(String text) {
         Alert alert = new Alert(AlertType.ERROR);
         alert.setTitle("Information Dialog");
