@@ -263,11 +263,18 @@ public class CopyController {
 		ScreenManager.currentResource.addPendingRequest((User) 
 				ScreenManager.getCurrentUser());
 		AlertBox.showInfoAlert("Requested!");
-		// ScreenManager.currentResource.loanToUser((User)ScreenManager.getCurrentUser());
+		//ScreenManager.currentResource.loanToUser((User)ScreenMana
+		//ger.getCurrentUser());
 	}
 	
+	/**
+	 * The method that gets called every time the View Trailer button is clicked.
+	 * It opens a new window showign an embedded youtube video of a trailer 
+	 * for the selected DVD or video game.
+	 * @param actionEvent The event that triggers the call of this method.
+	 */
 	@FXML
-	public void showTrailerWindow(ActionEvent actioEvent)
+	public void showTrailerWindow(ActionEvent actionEvent)
 	{
 	    Resource currentResource = ScreenManager.currentResource;
 	    
@@ -279,7 +286,8 @@ public class CopyController {
 	        MovieTrailerView trailerView = new MovieTrailerView(title);
 	        
 	        if(trailerView.getWebView() !=null) {
-	            Scene trailerScene = new Scene(trailerView.getWebView(), 1600, 900);
+	            Scene trailerScene = new Scene(trailerView.getWebView(), 
+	                trailerView.getPrefViewWidth(), trailerView.getPrefViewHeight());
 	            
 	            Stage trailerWindow = new Stage();
 	            trailerWindow.setTitle(trailerView.getTrailerDescription().getName());
@@ -299,7 +307,8 @@ public class CopyController {
 	        GameTrailerView trailerView = new GameTrailerView(title);
 	        
 	        if(trailerView.getWebView() != null) {
-	            Scene trailerScene = new Scene(trailerView.getWebView(), 1600, 900);
+	            Scene trailerScene = new Scene(trailerView.getWebView(), 
+	                trailerView.getPrefViewWidth(), trailerView.getPrefViewHeight());
 	            
 	            Stage trailerWindow = new Stage();
 	            trailerWindow.setTitle(trailerView.getVideoName());
@@ -312,7 +321,6 @@ public class CopyController {
 	            trailerWindow.show();
 	        }
 	    }
-	   
 	}
 
 	/**

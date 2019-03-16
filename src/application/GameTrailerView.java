@@ -142,6 +142,22 @@ public class GameTrailerView {
     }
     
     /**
+     * Gets the default width of the WebView associated with this object.
+     * @return the default width of the WebView associated with this object.
+     */
+    public int getPrefViewWidth() {
+        return TRAILER_VIEW_WIDTH;
+    }
+    
+    /**
+     * Gets the default height of the WebView associated with this object.
+     * @return the default height of the WebView associated with this object.
+     */
+    public int getPrefViewHeight() {
+        return TRAILER_VIEW_HEIGHT;
+    }
+    
+    /**
      * Stops any web content inside the WebView associated wih this object.
      */
     public void stop() {

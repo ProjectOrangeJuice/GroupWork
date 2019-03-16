@@ -258,6 +258,22 @@ public class MovieTrailerView
     }
     
     /**
+     * Gets the default width of the WebView associated with this object.
+     * @return the default width of the WebView associated with this object.
+     */
+    public int getPrefViewWidth() {
+        return TRAILER_VIEW_WIDTH;
+    }
+    
+    /**
+     * Gets the default height of the WebView associated with this object.
+     * @return the default height of the WebView associated with this object.
+     */
+    public int getPrefViewHeight() {
+        return TRAILER_VIEW_HEIGHT;
+    }
+    
+    /**
      * Returns the substring of the given string in between the first "[" and
      * the last "]". Used to extract a subtring representing an array from a 
      * string representing a JSON object with an array field.
