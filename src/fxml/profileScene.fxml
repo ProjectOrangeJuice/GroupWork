@@ -323,7 +323,7 @@
                               <TableColumn fx:id="userEventSpacesField" prefWidth="116.0" text="Spaces Available" />
                            </columns>
                         </TableView>
-                        <Label layoutX="199.0" layoutY="73.0" text="All Upcoming Events:">
+                        <Label layoutX="199.0" layoutY="73.0" text="All Events:">
                            <font>
                               <Font size="23.0" />
                            </font>
