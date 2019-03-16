@@ -1,5 +1,7 @@
 package application;
 
+import java.sql.PreparedStatement;
+
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -78,6 +80,7 @@ public class LibrarianStatisticsContolller {
 		Resource resource = ScreenManager.getCurrentResource();
 		RadioButton selectedRadioButton = (RadioButton) group.getSelectedToggle();
 		String toogleGroupValue = selectedRadioButton.getText();
+		
 
 		requestButton.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
