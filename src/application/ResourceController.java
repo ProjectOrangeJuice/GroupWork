@@ -53,7 +53,7 @@ public class ResourceController {
 		authorBox.getChildren().addAll(authorText,authorField);
 		
 		HBox publishBox = new HBox();
-		Text publishText = new Text("Publish");
+		Text publishText = new Text("Publisher");
 		TextField publishField = new TextField (book.getPublisher());
 		publishBox.getChildren().addAll(publishText,publishField);
 		
@@ -94,45 +94,40 @@ public class ResourceController {
 	 */
 	private void setupGame() {
 		//creates instance of a book
-		Book book = (Book) ScreenManager.getCurrentResource();
+		Game game = (Game) ScreenManager.getCurrentResource();
 		
 		//inserts the common resource attributes
 		HBox titleBox = new HBox();
 		Text titleText = new Text("Title");
-		TextField titleField = new TextField (book.getTitle());
+		TextField titleField = new TextField (game.getTitle());
 		titleBox.getChildren().addAll(titleText,titleField);
 		
 		HBox yearBox = new HBox();
 		Text yearText = new Text("Year");
-		TextField yearField = new TextField (String.valueOf(book.getYear()));
+		TextField yearField = new TextField (String.valueOf(game.getYear()));
 		yearBox.getChildren().addAll(yearText,yearField);
 		
 		//the rest are not from resource
 		
-		HBox authorBox = new HBox();
-		Text authorText = new Text("Author");
-		TextField authorField = new TextField (book.getAuthor());
-		authorBox.getChildren().addAll(authorText,authorField);
-		
 		HBox publishBox = new HBox();
-		Text publishText = new Text("Publish");
-		TextField publishField = new TextField (book.getPublisher());
+		Text publishText = new Text("Publisher");
+		TextField publishField = new TextField (game.getPublisher());
 		publishBox.getChildren().addAll(publishText,publishField);
 		
 		HBox genreBox = new HBox();
 		Text genreText = new Text("Genre");
-		TextField genreField = new TextField (book.getGenre());
+		TextField genreField = new TextField (game.getGenre());
 		genreBox.getChildren().addAll(genreText,genreField);
 		
-		HBox iBox = new HBox();
-		Text iText = new Text("ISBN");
-		TextField iField = new TextField (book.getISBN());
-		iBox.getChildren().addAll(iText,iField);
+		HBox ratingBox = new HBox();
+		Text ratingText = new Text("Rating");
+		TextField ratingField = new TextField (game.getRating());
+		ratingBox.getChildren().addAll(ratingText,ratingField);
 		
-		HBox languageBox = new HBox();
-		Text languageText = new Text("Language");
-		TextField languageField = new TextField (book.getLanguage());
-		languageBox.getChildren().addAll(languageText,languageField);
+		HBox multiBox = new HBox();
+		Text multiText = new Text("Multiplayer");
+		TextField multiField = new TextField (game.getMultiplayerSupport());
+		multiBox.getChildren().addAll(multiText,multiField);
 		
 		HBox imgBox = new HBox();
 		Text imgText = new Text("Path to image");
@@ -141,13 +136,12 @@ public class ResourceController {
 		
 		Button button = new Button("Save");
 		button.setOnAction(e -> {
-			updateGame(titleField.getText(), yearField.getText(), 
-					authorField.getText(), publishField.getText(), 
-					genreField.getText(), iField.getText(), 
-					languageField.getText(), imgField.getText());
+			updateGame(titleField.getText(), yearField.getText(), publishField.getText(), 
+					genreField.getText(), ratingField.getText(), 
+					multiField.getText(), imgField.getText());
 		});
 		resourceBlock.getChildren().addAll(titleBox,yearBox,
-				authorBox,publishBox,genreBox,iBox,languageBox,imgBox,button);
+				publishBox,genreBox,ratingBox,multiBox,imgBox,button);
 	}
 	
 	
@@ -313,18 +307,18 @@ public class ResourceController {
 	
 	
 	/**
-	 * Updates a book in the database.
-	 * @param title of the book.
-	 * @param year of the book.
-	 * @param author of the book.
-	 * @param publish of the book.
-	 * @param genre of the book.
-	 * @param ISBN of the book.
-	 * @param language of the book.
-	 * @param img of the book.
+	 * Updates a game in the database.
+	 * @param title of the game.
+	 * @param year of the game.
+	 * @param author of the game.
+	 * @param publish of the game.
+	 * @param genre of the game.
+	 * @param rating of the game.
+	 * @param MultiplayerSupport of the game.
+	 * @param img of the game.
 	 */
-	private void updateGame(String title, String year, String author,
-			String publish, String genre, String ISBN, String language, 
+	private void updateGame(String title, String year,
+			String publisher, String genre, String rating, String multiplayer, 
 			String img){
 		//Checks if the year is a number
 		boolean goAhead = true;
@@ -348,18 +342,17 @@ public class ResourceController {
 		
 		//If the year is a number, update the book attributes
 		if (goAhead) {
-			Book resource = (Book) ScreenManager.getCurrentResource();
+			Game resource = (Game) ScreenManager.getCurrentResource();
 			if(!img.equals("")) {
 				resource.setThumbnail(image);
 				resource.setThumbnailDatabase(img);
 				}
 			resource.setTitle(title);
 			resource.setYear(Integer.parseInt(year));
-			resource.setAuthor(author);
-			resource.setPublisher(publish);
+			resource.setPublisher(publisher);
 			resource.setGenre(genre);
-			resource.setISBN(ISBN);
-			resource.setLanguage(language);
+			resource.setRating(rating);
+			resource.setMultiplayerSupport(multiplayer);
 
 			AlertBox.showInfoAlert("Updated!");
 		}
