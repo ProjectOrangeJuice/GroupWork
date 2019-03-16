@@ -13,6 +13,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import model.Book;
 import model.DVD;
+import model.Game;
 import model.Laptop;
 import model.Resource;
 
@@ -71,12 +72,10 @@ public class ResourceController {
 		TextField languageField = new TextField (book.getLanguage());
 		languageBox.getChildren().addAll(languageText,languageField);
 		
-		
 		HBox imgBox = new HBox();
 		Text imgText = new Text("Path to image");
 		TextField imgField = new TextField ();
 		imgBox.getChildren().addAll(imgText,imgField);
-		
 		
 		Button button = new Button("Save");
 		button.setOnAction(e -> {
@@ -85,19 +84,76 @@ public class ResourceController {
 					genreField.getText(), iField.getText(), 
 					languageField.getText(), imgField.getText());
 		});
-		
-		
 		resourceBlock.getChildren().addAll(titleBox,yearBox,
 				authorBox,publishBox,genreBox,iBox,languageBox,imgBox,button);
-		
 	}
 	
 	
+	/**
+	 * Sets up the book resource screen.
+	 */
+	private void setupGame() {
+		//creates instance of a book
+		Book book = (Book) ScreenManager.getCurrentResource();
+		
+		//inserts the common resource attributes
+		HBox titleBox = new HBox();
+		Text titleText = new Text("Title");
+		TextField titleField = new TextField (book.getTitle());
+		titleBox.getChildren().addAll(titleText,titleField);
+		
+		HBox yearBox = new HBox();
+		Text yearText = new Text("Year");
+		TextField yearField = new TextField (String.valueOf(book.getYear()));
+		yearBox.getChildren().addAll(yearText,yearField);
+		
+		//the rest are not from resource
+		
+		HBox authorBox = new HBox();
+		Text authorText = new Text("Author");
+		TextField authorField = new TextField (book.getAuthor());
+		authorBox.getChildren().addAll(authorText,authorField);
+		
+		HBox publishBox = new HBox();
+		Text publishText = new Text("Publish");
+		TextField publishField = new TextField (book.getPublisher());
+		publishBox.getChildren().addAll(publishText,publishField);
+		
+		HBox genreBox = new HBox();
+		Text genreText = new Text("Genre");
+		TextField genreField = new TextField (book.getGenre());
+		genreBox.getChildren().addAll(genreText,genreField);
+		
+		HBox iBox = new HBox();
+		Text iText = new Text("ISBN");
+		TextField iField = new TextField (book.getISBN());
+		iBox.getChildren().addAll(iText,iField);
+		
+		HBox languageBox = new HBox();
+		Text languageText = new Text("Language");
+		TextField languageField = new TextField (book.getLanguage());
+		languageBox.getChildren().addAll(languageText,languageField);
+		
+		HBox imgBox = new HBox();
+		Text imgText = new Text("Path to image");
+		TextField imgField = new TextField ();
+		imgBox.getChildren().addAll(imgText,imgField);
+		
+		Button button = new Button("Save");
+		button.setOnAction(e -> {
+			updateGame(titleField.getText(), yearField.getText(), 
+					authorField.getText(), publishField.getText(), 
+					genreField.getText(), iField.getText(), 
+					languageField.getText(), imgField.getText());
+		});
+		resourceBlock.getChildren().addAll(titleBox,yearBox,
+				authorBox,publishBox,genreBox,iBox,languageBox,imgBox,button);
+	}
 	
 	
-/**
- * Setups the DVD resource.
- */
+	/**
+	 * Setups the DVD resource.
+	 */
 	private void setupDVD() {
 		DVD dvd = (DVD) ScreenManager.getCurrentResource();
 		
@@ -142,8 +198,6 @@ public class ResourceController {
 		TextField subtitlesField = new TextField (subs);
 		subtitlesBox.getChildren().addAll(subtitlesText,subtitlesField);
 		
-		
-
 		HBox imgBox = new HBox();
 		Text imgText = new Text("Path to image");
 		TextField imgField = new TextField ();
@@ -157,18 +211,14 @@ public class ResourceController {
 					langField.getText(),subtitlesField.getText(),
 					imgField.getText());
 		});
-		
-		
 		resourceBlock.getChildren().addAll(titleBox,yearBox,
 				directorBox,runtimeBox,langBox,subtitlesBox,imgBox,button);
-		
 	}
 	
 	
-	
-/**
- * Setups the Laptop resource.
- */
+	/**
+	 * Setups the Laptop resource.
+	 */
 	private void setupLaptop() {
 		Laptop laptop = (Laptop) ScreenManager.getCurrentResource();
 		
@@ -205,18 +255,14 @@ public class ResourceController {
 		TextField imgField = new TextField ();
 		imgBox.getChildren().addAll(imgText,imgField);
 		
-		
 		Button button = new Button("Save");
 		button.setOnAction(e -> {
 			updateLaptop(titleField.getText(),yearField.getText(),
 					manuField.getText(),modelField.getText(),OSField.getText(),
 					imgField.getText());
 		});
-		
-		
 		resourceBlock.getChildren().addAll(titleBox,yearBox,manuBox,modelBox,
 				OSBox,imgBox,button);
-		
 	}
 	
 
@@ -230,41 +276,93 @@ public class ResourceController {
 	 * @param img of laptop.
 	 */
 	private void updateLaptop(String title,String year,String manu,String model,
-			String OS, String img) {
+		String OS, String img) {
 		//Checks if the year is a number
-				boolean goAhead = true;
-				Image image = null;
-				try {
-					Integer.parseInt(year);
-				}catch (NumberFormatException  e) {
-					goAhead = false;
-					AlertBox.showInfoAlert("Year must be a number");
-				}
-				try {
-					if(!img.equals("")) {
-					image = new Image(new File(img).toURI().toString());
-					}
-				}catch (Exception e) {
-					goAhead = false;
-					AlertBox.showInfoAlert("Image not found");
-				}
-				if(goAhead) {
-					Laptop laptop = (Laptop) ScreenManager.getCurrentResource();
-					if(!img.equals("")) {
-						laptop.setThumbnail(image);
-						laptop.setThumbnailDatabase(img);
-						}
-					laptop.setTitle(title);
-					laptop.setYear(Integer.parseInt(year));
-					laptop.setManufacturer(manu);
-					laptop.setModel(model);
-					laptop.setOS(OS);
-					AlertBox.showInfoAlert("Updated!");
-					
-				}
+		boolean goAhead = true;
+		Image image = null;
+		try {
+			Integer.parseInt(year);
+		}catch (NumberFormatException  e) {
+			goAhead = false;
+			AlertBox.showInfoAlert("Year must be a number");
+		}
 		
+		try {
+			if(!img.equals("")) {
+			image = new Image(new File(img).toURI().toString());
+			}
+		}catch (Exception e) {
+			goAhead = false;
+			AlertBox.showInfoAlert("Image not found");
+		}
 		
+		if(goAhead) {
+			Laptop laptop = (Laptop) ScreenManager.getCurrentResource();
+			if(!img.equals("")) {
+				laptop.setThumbnail(image);
+				laptop.setThumbnailDatabase(img);
+				}
+			laptop.setTitle(title);
+			laptop.setYear(Integer.parseInt(year));
+			laptop.setManufacturer(manu);
+			laptop.setModel(model);
+			laptop.setOS(OS);
+			AlertBox.showInfoAlert("Updated!");
+		}
+	}
+	
+	
+	/**
+	 * Updates a book in the database.
+	 * @param title of the book.
+	 * @param year of the book.
+	 * @param author of the book.
+	 * @param publish of the book.
+	 * @param genre of the book.
+	 * @param ISBN of the book.
+	 * @param language of the book.
+	 * @param img of the book.
+	 */
+	private void updateGame(String title, String year, String author,
+			String publish, String genre, String ISBN, String language, 
+			String img){
+		//Checks if the year is a number
+		boolean goAhead = true;
+		Image image = null;
+		try {
+			Integer.parseInt(year);
+		}catch (NumberFormatException  e) {
+			goAhead = false;
+			AlertBox.showInfoAlert("Year must be a number");
+		}
 		
+		try {
+			if(!img.equals("")) {
+				image = new Image(new File(img).toURI().toString());
+			}
+		}catch (Exception e) {
+			goAhead = false;
+			System.out.println(e);
+			AlertBox.showInfoAlert("Image not found");
+		}
+		
+		//If the year is a number, update the book attributes
+		if (goAhead) {
+			Book resource = (Book) ScreenManager.getCurrentResource();
+			if(!img.equals("")) {
+				resource.setThumbnail(image);
+				resource.setThumbnailDatabase(img);
+				}
+			resource.setTitle(title);
+			resource.setYear(Integer.parseInt(year));
+			resource.setAuthor(author);
+			resource.setPublisher(publish);
+			resource.setGenre(genre);
+			resource.setISBN(ISBN);
+			resource.setLanguage(language);
+
+			AlertBox.showInfoAlert("Updated!");
+		}
 	}
 	
 		
@@ -318,9 +416,9 @@ public class ResourceController {
 			resource.setLanguage(language);
 
 			AlertBox.showInfoAlert("Updated!");
-			
 		}
 	}
+	
 	
 	/**
 	 * Updates the DVD in the database.
@@ -389,9 +487,8 @@ public class ResourceController {
 			setupBook();
 		}else if(resource instanceof Laptop) {
 			setupLaptop();
+		}else if(resource instanceof Game) {
+			setupGame();
 		}
 	}
-	
-	
-	
 }
