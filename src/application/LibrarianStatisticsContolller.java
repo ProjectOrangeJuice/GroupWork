@@ -19,13 +19,19 @@ import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.Tab;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.ToggleGroup;
-import javafx.scene.text.TextFlow;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.VBox;
 import model.DBHelper;
 import model.Person;
 import model.Resource;
 
 public class LibrarianStatisticsContolller {
+	
+	@FXML
+    private ImageView resourceimage,resourceimage1,resourceimage11;
 
 	@FXML
 	private Tab weekTab;
@@ -49,7 +55,7 @@ public class LibrarianStatisticsContolller {
 	private RadioButton laptopRB1;
 
 	@FXML
-	private TextFlow descBox1;
+	private TextArea descBox1;
 
 	@FXML
 	private RadioButton gameRB;
@@ -61,7 +67,7 @@ public class LibrarianStatisticsContolller {
 	private RadioButton laptopRB11;
 
 	@FXML
-	private TextFlow descBox;
+	private TextArea descBox;
 
 	@FXML
 	private RadioButton bookRB;
@@ -79,13 +85,21 @@ public class LibrarianStatisticsContolller {
 	private RadioButton dvdRB1;
 
 	@FXML
-	private TextFlow descBox11;
+	private TextArea descBox11;
 
 	@FXML
 	private Button requestButton;
 
 	@FXML
 	private ToggleGroup group;
+	
+	@FXML
+	private VBox displayBox;
+	
+	private static final int RES_IMG_WIDTH = 200;
+    private static final int RES_IMG_HEIGHT = 200;
+   
+	
 	Person person = ScreenManager.getCurrentUser();
 	private Date desiredDate1 = null;
 	private Date desiredDate2 = null;
@@ -93,11 +107,9 @@ public class LibrarianStatisticsContolller {
 	private final String daysOfTheWeek[] = { "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday",
 			"Sunday" };
 
-	private final String FORMAT_DMYHM = new String("dd/MM/yyyy HH:mm");
+	private final String FORMAT_YMDHMS = "yyyy-MM-dd HH:mm:ss";
 
 	public void initialize() {
-
-		Resource resource = ScreenManager.getCurrentResource();
 		RadioButton selectedRadioButton = (RadioButton) group.getSelectedToggle();
 		String toogleGroupValue = selectedRadioButton.getText();
 
@@ -107,7 +119,12 @@ public class LibrarianStatisticsContolller {
 				switch (toogleGroupValue) {
 				case "bookRB":
 					try {
-						ScreenManager.setCurrentResource(getMostPopularBook(dayTab));
+						Resource mostPopResource = getMostPopularBook(dayTab);
+					
+						resourceimage.setImage(mostPopResource.getThumbnail());
+						
+						descBox.setText("This resource was borrowed the most today");
+						
 						
 					} catch (SQLException | ParseException e) {
 						// TODO Auto-generated catch block
@@ -117,7 +134,9 @@ public class LibrarianStatisticsContolller {
 					break;
 				case "bookRB1":
 					try {
-						ScreenManager.setCurrentResource(getMostPopularBook(weekTab));
+						Resource mostPopResource = getMostPopularBook(weekTab);
+						
+						resourceimage1.setImage(mostPopResource.getThumbnail());
 					} catch (SQLException | ParseException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -126,7 +145,9 @@ public class LibrarianStatisticsContolller {
 					break;
 				case "bookRB11":
 					try {
-						ScreenManager.setCurrentResource(getMostPopularBook(overallTab));
+						Resource mostPopResource = getMostPopularBook(overallTab);
+						
+						resourceimage11.setImage(mostPopResource.getThumbnail());
 					} catch (SQLException | ParseException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -135,7 +156,9 @@ public class LibrarianStatisticsContolller {
 					break;
 				case "dvdRB":
 					try {
-						ScreenManager.setCurrentResource(getMostPopularDVD(dayTab));
+						Resource mostPopResource = getMostPopularDVD(dayTab);
+						
+						resourceimage.setImage(mostPopResource.getThumbnail());
 					} catch (SQLException | ParseException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -144,7 +167,9 @@ public class LibrarianStatisticsContolller {
 					break;
 				case "dvdRB1":
 					try {
-						ScreenManager.setCurrentResource(getMostPopularDVD(weekTab));
+						Resource mostPopResource = getMostPopularDVD(weekTab);
+						
+						resourceimage1.setImage(mostPopResource.getThumbnail());
 					} catch (SQLException | ParseException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -153,7 +178,9 @@ public class LibrarianStatisticsContolller {
 					break;
 				case "dvdRB11":
 					try {
-						ScreenManager.setCurrentResource(getMostPopularDVD(overallTab));
+						Resource mostPopResource = getMostPopularDVD(overallTab);
+						
+						resourceimage11.setImage(mostPopResource.getThumbnail());
 					} catch (SQLException | ParseException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -162,43 +189,53 @@ public class LibrarianStatisticsContolller {
 					break;
 				case "laptopRB":
 					try {
-						ScreenManager.setCurrentResource(getMostPopularLaptop(dayTab));
+						Resource mostPopResource = getMostPopularLaptop(dayTab);
+						
+						resourceimage.setImage(mostPopResource.getThumbnail());
 					} catch (SQLException | ParseException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-					;
+					
 					break;
 				case "laptopRB1":
 					try {
-						ScreenManager.setCurrentResource(getMostPopularLaptop(weekTab));
+						Resource mostPopResource = getMostPopularLaptop(weekTab);
+						
+						resourceimage1.setImage(mostPopResource.getThumbnail());
 					} catch (SQLException | ParseException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-					;
+					
 					break;
 				case "laptopRB11":
 					try {
-						ScreenManager.setCurrentResource(getMostPopularLaptop(overallTab));
+						Resource mostPopResource = getMostPopularLaptop(overallTab);
+						
+						resourceimage11.setImage(mostPopResource.getThumbnail());
 					} catch (SQLException | ParseException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-					;
+					
 					break;
 				case "gameRB":
 					try {
-						ScreenManager.setCurrentResource(getMostPopularGame(dayTab));
+						Resource mostPopResource = getMostPopularGame(dayTab);
+						
+						resourceimage.setImage(mostPopResource.getThumbnail());
 					} catch (SQLException | ParseException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-					;
+					
 					break;
 				case "gameRB1":
 					try {
-						ScreenManager.setCurrentResource(getMostPopularGame(weekTab));
+						Resource mostPopResource = getMostPopularGame(weekTab);
+						
+						resourceimage1.setImage(mostPopResource.getThumbnail());
 					} catch (SQLException | ParseException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -207,7 +244,9 @@ public class LibrarianStatisticsContolller {
 					break;
 				case "gameRB11":
 					try {
-						ScreenManager.setCurrentResource(getMostPopularGame(overallTab));
+						Resource mostPopResource = getMostPopularGame(overallTab);
+						
+						resourceimage11.setImage(mostPopResource.getThumbnail());
 					} catch (SQLException | ParseException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -236,14 +275,13 @@ public class LibrarianStatisticsContolller {
 		if (tab != null) {
 			if (tab.equals(dayTab)) {
 
-				desiredDate1 = new SimpleDateFormat(FORMAT_DMYHM).parse(today + " 00:01");
-				desiredDate2 = new SimpleDateFormat(FORMAT_DMYHM).parse(today + " 23:59");
-
+				desiredDate1 = new SimpleDateFormat(FORMAT_YMDHMS).parse(today + " 00:01");
+				desiredDate2 = new SimpleDateFormat(FORMAT_YMDHMS).parse(today + " 23:59");
 				String getBooks = "SELECT * FROM  requestsToApprove, resource,book"
 						+ "WHERE requestsToApprove.rID=resource.rID AND book.rID=resource.rID"
 						+ "AND requestsToApprove.timestamp BETWEEN" + desiredDate1 + desiredDate2
 						+ "GROUP BY rID ORDER BY COUNT (rID) DESC LIMIT 1";
-
+				
 				PreparedStatement pstmt = con.prepareStatement(getBooks);
 				ResultSet bookSet = pstmt.executeQuery();
 
@@ -269,8 +307,8 @@ public class LibrarianStatisticsContolller {
 					String day = daysOfTheWeek[i];
 
 					try {
-						desiredDate1 = new SimpleDateFormat(FORMAT_DMYHM).parse(day + " 00:01");
-						desiredDate2 = new SimpleDateFormat(FORMAT_DMYHM).parse(day + " 23:59");
+						desiredDate1 = new SimpleDateFormat(FORMAT_YMDHMS).parse(day + " 00:01");
+						desiredDate2 = new SimpleDateFormat(FORMAT_YMDHMS).parse(day + " 23:59");
 					} catch (ParseException e) {
 						e.printStackTrace();
 					}
@@ -319,8 +357,8 @@ public class LibrarianStatisticsContolller {
 		Resource popDVD = null;
 		if (tab != null) {
 			if (tab.equals(dayTab)) {
-				desiredDate1 = new SimpleDateFormat(FORMAT_DMYHM).parse(today + " 00:01");
-				desiredDate2 = new SimpleDateFormat(FORMAT_DMYHM).parse(today + " 23:59");
+				desiredDate1 = new SimpleDateFormat(FORMAT_YMDHMS).parse(today + " 00:01");
+				desiredDate2 = new SimpleDateFormat(FORMAT_YMDHMS).parse(today + " 23:59");
 
 				String getDVDs = "SELECT * FROM  requestsToApprove, resource,DVD"
 						+ "WHERE requestsToApprove.rID=resource.rID AND DVD.rID=resource.rID"
@@ -352,8 +390,8 @@ public class LibrarianStatisticsContolller {
 					String day = daysOfTheWeek[i];
 
 					try {
-						desiredDate1 = new SimpleDateFormat(FORMAT_DMYHM).parse(day + " 00:01");
-						desiredDate2 = new SimpleDateFormat(FORMAT_DMYHM).parse(day + " 23:59");
+						desiredDate1 = new SimpleDateFormat(FORMAT_YMDHMS).parse(day + " 00:01");
+						desiredDate2 = new SimpleDateFormat(FORMAT_YMDHMS).parse(day + " 23:59");
 					} catch (ParseException e) {
 						e.printStackTrace();
 					}
@@ -404,8 +442,8 @@ public class LibrarianStatisticsContolller {
 
 		if (tab != null) {
 			if (tab.equals(dayTab)) {
-				desiredDate1 = new SimpleDateFormat(FORMAT_DMYHM).parse(today + " 00:01");
-				desiredDate2 = new SimpleDateFormat(FORMAT_DMYHM).parse(today + " 23:59");
+				desiredDate1 = new SimpleDateFormat(FORMAT_YMDHMS).parse(today + " 00:01");
+				desiredDate2 = new SimpleDateFormat(FORMAT_YMDHMS).parse(today + " 23:59");
 
 				String getLaptops = "SELECT * FROM  requestsToApprove, resource,Laptop"
 						+ "WHERE requestsToApprove.rID=resource.rID AND Laptop.rID=resource.rID"
@@ -437,8 +475,8 @@ public class LibrarianStatisticsContolller {
 					String day = daysOfTheWeek[i];
 
 					try {
-						desiredDate1 = new SimpleDateFormat(FORMAT_DMYHM).parse(day + " 00:01");
-						desiredDate2 = new SimpleDateFormat(FORMAT_DMYHM).parse(day + " 23:59");
+						desiredDate1 = new SimpleDateFormat(FORMAT_YMDHMS).parse(day + " 00:01");
+						desiredDate2 = new SimpleDateFormat(FORMAT_YMDHMS).parse(day + " 23:59");
 					} catch (ParseException e) {
 						e.printStackTrace();
 					}
@@ -488,8 +526,8 @@ public class LibrarianStatisticsContolller {
 
 		if (tab != null) {
 			if (tab.equals(dayTab)) {
-				desiredDate1 = new SimpleDateFormat(FORMAT_DMYHM).parse(today + " 00:01");
-				desiredDate2 = new SimpleDateFormat(FORMAT_DMYHM).parse(today + " 23:59");
+				desiredDate1 = new SimpleDateFormat(FORMAT_YMDHMS).parse(today + " 00:01");
+				desiredDate2 = new SimpleDateFormat(FORMAT_YMDHMS).parse(today + " 23:59");
 
 				String getGames = "SELECT * FROM  requestsToApprove, resource,Game"
 						+ "WHERE requestsToApprove.rID=resource.rID AND Game.rID=resource.rID"
@@ -521,8 +559,8 @@ public class LibrarianStatisticsContolller {
 					String day = daysOfTheWeek[i];
 
 					try {
-						desiredDate1 = new SimpleDateFormat(FORMAT_DMYHM).parse(day + " 00:01");
-						desiredDate2 = new SimpleDateFormat(FORMAT_DMYHM).parse(day + " 23:59");
+						desiredDate1 = new SimpleDateFormat(FORMAT_YMDHMS).parse(day + " 00:01");
+						desiredDate2 = new SimpleDateFormat(FORMAT_YMDHMS).parse(day + " 23:59");
 					} catch (ParseException e) {
 						e.printStackTrace();
 					}
@@ -587,4 +625,15 @@ public class LibrarianStatisticsContolller {
 		}
 		return mostOccuringElement;
 	}
+	
+	/**
+     * Loads resource image from Resource class, so that they can be displayed
+     * within the UI.
+     */
+    private void loadResourceImage() {
+        // create new resource image to be added.
+        resourceimage.setFitWidth(RES_IMG_WIDTH);
+        resourceimage.setFitHeight(RES_IMG_HEIGHT);
+        resourceimage.setImage(ScreenManager.currentResource.getThumbnail());
+    }
 }

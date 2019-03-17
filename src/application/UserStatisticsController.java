@@ -27,68 +27,7 @@ import model.Person;
 
 public class UserStatisticsController {
 
-	@FXML
-	private BorderPane border;
-
-	@FXML
-	private ScatterChart<Number, Number> dailyStatsGraph;
-
-	@FXML
-	private HBox hbox;
-
-	@FXML
-	private Tab dailyTab;
-
-	@FXML
-	private TextFlow monthlyStatsText;
-
-	@FXML
-	private TabPane tabs;
-
-	@FXML
-	private TextFlow dailyStatsText;
-
-	@FXML
-	private LineChart<Number, Number> monthlyStatsGraph;
-
-	@FXML
-	private AnchorPane dailyAnchor;
-
-	@FXML
-	private TextFlow weeklyStatsText;
-
-	@FXML
-	private LineChart<String, Number> weeklyStatsGraph;
-
-	// variables used to format the line charts by setting axises
-	@FXML
-	private NumberAxis dayXAxis;
-	@FXML
-	private NumberAxis dayYAxis;
-	@FXML
-	private NumberAxis monthXAxis;
-	@FXML
-	private NumberAxis monthYAxis;
-	@FXML
-	private NumberAxis weekYAxis;
-	// used to set the upper bound of the Y axis of the line charts
-	private int maxDayBorrows = 0;
-	private int maxMonthBorrows = 0;
-	private int maxWeekBorrows = 0;
-
-	// date range for charts
-	private Date desiredDate1 = null;
-	private Date desiredDate2 = null;
-
-	private final String daysOfTheWeek[] = { "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday",
-			"Sunday" };
-
-	// the format of a date used to set the desiredDate 1 and 2
-	private final String FORMAT_DMYHM = new String("dd/MM/yyyy HH:mm");
-
-	int borrowed;
-
-	DBHelper helper = new DBHelper();
+	
 	Person person = ScreenManager.getCurrentUser();
 	String username = person.getUsername();
 
@@ -102,173 +41,173 @@ public class UserStatisticsController {
 		this.initializeWeeklyStatsGraph();
 		this.initializeDailyStatsGraph();
 
-		// formating month graph
-		monthXAxis.setAutoRanging(false);
-		monthXAxis.setLowerBound(1);
-		monthXAxis.setUpperBound(31);
-		monthXAxis.setTickUnit(1);
-		monthYAxis.setAutoRanging(false);
-		monthYAxis.setLowerBound(0);
-		monthYAxis.setUpperBound(maxMonthBorrows);
-		monthYAxis.setTickUnit(1);
-
-		// formating week graph
-		weekYAxis.setAutoRanging(false);
-		weekYAxis.setLowerBound(0);
-		weekYAxis.setUpperBound(maxWeekBorrows);
-		weekYAxis.setTickUnit(1);
-
-		// formating day graph
-		dayXAxis.setAutoRanging(false);
-		dayXAxis.setLowerBound(1);
-		dayXAxis.setUpperBound(24);
-		dayXAxis.setTickUnit(1);
-		dayYAxis.setAutoRanging(false);
-		dayYAxis.setLowerBound(0);
-		dayYAxis.setUpperBound(maxDayBorrows);
-		dayYAxis.setTickUnit(1);
+	
 
 	}
+	
+
 
 	public void initializeMonthlyStatsGraph() throws SQLException {
-		
-		XYChart.Series<Number, Number> series = new XYChart.Series<Number, Number>();
-		
-		Connection con = DBHelper.getConnection();
-		
-		int numOfDaysInAMonth =0;
-		int curMonthInt = Calendar.getInstance().get(Calendar.MONTH)+1; //the current month in int and adding 1 because i am working with 1 index
-		int curYearInt = Calendar.getInstance().get(Calendar.YEAR); //the current year in int
-		GregorianCalendar cal1 = new GregorianCalendar(); // a calendar to check for leap years
-		
-		//setting the graph with different number of days according to the current month
-		if(curMonthInt == 1 ||
-			curMonthInt == 3 ||
-			curMonthInt == 5 ||
-			curMonthInt == 7 ||
-			curMonthInt == 8 ||
-			curMonthInt == 10 ||
-			curMonthInt == 12 ) {
-			numOfDaysInAMonth = 31;
-		}else if(curMonthInt == 4 ||
-				curMonthInt == 6 ||
-				curMonthInt == 9 ||
-				curMonthInt == 11){
-			numOfDaysInAMonth = 30;
-		}else if(curMonthInt == 2 && cal1.isLeapYear(curYearInt)){
-			numOfDaysInAMonth = 29;
+		String month1;
+		String month2;
+		String day1;
+		String day2;
+		Date dt = new Date();
+		Calendar c = Calendar.getInstance(); 
+		c.setTime(dt); 
+		c.add(Calendar.DATE, 1);
+		dt = c.getTime();
+		int month1T = c.get(Calendar.MONTH) + 1; // beware of month indexing from zero
+		int year1  = c.get(Calendar.YEAR);
+		int day1T = c.get(Calendar.DAY_OF_MONTH)-1;
+		if(day1T<10) {
+			day1 = "0"+day1T;
 		}else {
-			numOfDaysInAMonth = 28;
+			day1 = String.valueOf(day1T);
+		}
+		if(month1T<10) {
+			month1 = "0"+month1T;
+		}else {
+			month1 = String.valueOf(month1T);
+		}
+		c.add(Calendar.MONTH, -1);
+		int month2T = c.get(Calendar.MONTH) + 1; // beware of month indexing from zero
+		int year2  = c.get(Calendar.YEAR);
+		int day2T = c.get(Calendar.DAY_OF_MONTH)-1;
+		
+		if(day1T<10) {
+			day2 = "0"+day2T;
+		}else {
+			day2 = String.valueOf(day2T);
 		}
 		
-		//looping though the days
-		for(int i=1;i<numOfDaysInAMonth;i++){
-			
-			int dayInt = i;//the day in int format
-			String dayString = Integer.toString(dayInt); // converting the day into a String for easier use
-			int monthInt = Calendar.getInstance().get(Calendar.MONTH)+1; //the current month in int and adding 1 because i am working with 1 index
-			String curMonthString = Integer.toString(monthInt); //the current month in String
-			int yearInt = Calendar.getInstance().get(Calendar.YEAR); //the current year in int
-			String curYearString = Integer.toString(yearInt); //the current year in String
-			
-			//setting desiredDate 1 and 2
-			try {
-				desiredDate1 = new SimpleDateFormat(FORMAT_DMYHM).parse(dayString+"/"+curMonthString+"/"+curYearString+" 00:01");
-				desiredDate2 = new SimpleDateFormat(FORMAT_DMYHM).parse(dayString+"/"+curMonthString+"/"+curYearString+" 23:59");
-			} catch (ParseException e) {
-				e.printStackTrace();
-			}
-			System.out.println("Date: "+desiredDate1.toString());
-			String getBorrows = "SELECT COUNT(username) FROM borrowRecords WHERE username = ? AND timestamp BETWEEN ? AND ?";
-			PreparedStatement pstmt = con.prepareStatement(getBorrows);
-			pstmt.setString(1,username);
-			pstmt.setString(2,desiredDate1.toString());
-			pstmt.setString(3,desiredDate2.toString());
-			ResultSet borrowSet = pstmt.executeQuery();
-			
-			int borrowedThisDate = borrowSet.getInt(1);
-			
-			//adding points on the line chart
-			series.getData().add(new XYChart.Data<Number, Number>(i, borrowedThisDate));
-			
-			//finding max sold listing in a month sales
-			if(maxMonthBorrows<borrowedThisDate){
-				maxMonthBorrows=borrowedThisDate;
-			}
+		if(month1T<10) {
+			month2 = "0"+month2T;
+		}else {
+			month2 = String.valueOf(month2T);
 		}
 		
-		//adding points on the line chart
-		monthlyStatsGraph.getData().add(series);
-		con.close();
-}
+		String date1 = year1+"-"+month1+"-"+day1+" 23:59:59";
+		String date2 = year2+"-"+month2+"-"+day2+" 23:59:59";
 
-	public void initializeWeeklyStatsGraph() throws SQLException {
-		Calendar now = Calendar.getInstance();
-	    SimpleDateFormat formatDMY = new SimpleDateFormat("dd/MM/yyyy");
-	    
-	    Connection con = DBHelper.getConnection();
-	    
-	    //getting the dates of the days that are in the current week
-	    int delta = -now.get(GregorianCalendar.DAY_OF_WEEK) + 2;
-	    now.add(Calendar.DAY_OF_MONTH, delta-7 );
-	    for (int i = 0; i < 7; i++)
-	    {
-	    	daysOfTheWeek[i] = formatDMY.format(now.getTime());
-	        now.add(Calendar.DAY_OF_MONTH, 1);
-	    }
+		System.out.println(date1.toString());
+		System.out.println(date1.toString());
+		int monthStat = model.Statistics.totalBorrow(username,
+				date2,date1);
+		System.out.println("This month : "+monthStat);
+	}
 		
-		XYChart.Series<String, Number> series = new XYChart.Series<String, Number>();
 		
-		//looping though the days
-		for(int i=0;i<7;i++){
-			String day = daysOfTheWeek[i];
+		public void initializeWeeklyStatsGraph() {
+			String month1;
+			String month2;
+			String day1;
+			String day2;
+			Date dt = new Date();
+			Calendar c = Calendar.getInstance(); 
+			c.setTime(dt); 
+			c.add(Calendar.DATE, 1);
+			dt = c.getTime();
+			int month1T = c.get(Calendar.MONTH) + 1; // beware of month indexing from zero
+			int year1  = c.get(Calendar.YEAR);
+			int day1T = c.get(Calendar.DAY_OF_MONTH)-1;
+			if(day1T<10) {
+				day1 = "0"+day1T;
+			}else {
+				day1 = String.valueOf(day1T);
+			}
+			if(month1T<10) {
+				month1 = "0"+month1T;
+			}else {
+				month1 = String.valueOf(month1T);
+			}
+			c.add(Calendar.DAY_OF_MONTH, -7);
+			int month2T = c.get(Calendar.MONTH) + 1; // beware of month indexing from zero
+			int year2  = c.get(Calendar.YEAR);
+			int day2T = c.get(Calendar.DAY_OF_MONTH)-1;
 			
-			//setting desiredDate 1 and 2
-			try {
-				desiredDate1 = new SimpleDateFormat(FORMAT_DMYHM).parse(day+" 00:01");
-				desiredDate2 = new SimpleDateFormat(FORMAT_DMYHM).parse(day+" 23:59");
-			} catch (ParseException e) {
-				e.printStackTrace();
+			if(day1T<10) {
+				day2 = "0"+day2T;
+			}else {
+				day2 = String.valueOf(day2T);
 			}
 			
-			String getBorrows = "SELECT COUNT(username) FROM borrowRecords"
-					+"WHERE borrowRecords.username = " + username + 
-					"AND borrowRecords.timestamp BETWEEN" + desiredDate1 + desiredDate2;
-			PreparedStatement pstmt = con.prepareStatement(getBorrows);
-			ResultSet borrowSet = pstmt.executeQuery();
-			
-			int borrowedThisDate = borrowSet.getInt(username);
-			con.close();
-			//set the graph data
-			series.getData().add(new XYChart.Data<String, Number>(this.daysOfTheWeek[i], borrowedThisDate));
-			
-			//finding max sold listing in a week sales
-			if(maxWeekBorrows<borrowedThisDate){
-				maxWeekBorrows=borrowedThisDate;
+			if(month1T<10) {
+				month2 = "0"+month2T;
+			}else {
+				month2 = String.valueOf(month2T);
 			}
+			
+			String date1 = year1+"-"+month1+"-"+day1+" 23:59:59";
+			String date2 = year2+"-"+month2+"-"+day2+" 23:59:59";
+			
+			
+			
+			
+			
+			System.out.println(date1.toString());
+			System.out.println(date1.toString());
+			int monthStat = model.Statistics.totalBorrow(username,
+					date2,date1);
+			System.out.println("This Week : "+monthStat);
 		}
-		//set the graph data
-		weeklyStatsGraph.getData().add(series);
-	
+		
+		
+		public void initializeDailyStatsGraph() {
+			String month1;
+			String month2;
+			String day1;
+			String day2;
+			Date dt = new Date();
+			Calendar c = Calendar.getInstance(); 
+			c.setTime(dt); 
+			c.add(Calendar.DATE, 1);
+			dt = c.getTime();
+			int month1T = c.get(Calendar.MONTH) + 1; // beware of month indexing from zero
+			int year1  = c.get(Calendar.YEAR);
+			int day1T = c.get(Calendar.DAY_OF_MONTH)-1;
+			if(day1T<10) {
+				day1 = "0"+day1T;
+			}else {
+				day1 = String.valueOf(day1T);
+			}
+			if(month1T<10) {
+				month1 = "0"+month1T;
+			}else {
+				month1 = String.valueOf(month1T);
+			}
+			c.add(Calendar.DAY_OF_MONTH, -1);
+			int month2T = c.get(Calendar.MONTH) + 1; // beware of month indexing from zero
+			int year2  = c.get(Calendar.YEAR);
+			int day2T = c.get(Calendar.DAY_OF_MONTH)-1;
+			
+			if(day1T<10) {
+				day2 = "0"+day2T;
+			}else {
+				day2 = String.valueOf(day2T);
+			}
+			
+			if(month1T<10) {
+				month2 = "0"+month2T;
+			}else {
+				month2 = String.valueOf(month2T);
+			}
+			
+			String date1 = year1+"-"+month1+"-"+day1+" 23:59:59";
+			String date2 = year2+"-"+month2+"-"+day2+" 23:59:59";
+			
+			
+			
+			
+			
+			System.out.println(date1.toString());
+			System.out.println(date1.toString());
+			int monthStat = model.Statistics.totalBorrow(username,
+					date2,date1);
+			System.out.println("24hours : "+monthStat);
+		}
+
 	}
 
-	public void initializeDailyStatsGraph() throws SQLException {
-		XYChart.Series<Number, Number> series = new XYChart.Series<Number, Number>();
-		
-		Connection con = DBHelper.getConnection();
-		for(int i=0;i<24;i++){
-			
-			String getBorrows = "SELECT COUNT(username) FROM borrowRecords"
-					+"WHERE borrowRecords.username = " + username + 
-					"AND borrowRecords.timestamp BETWEEN" + desiredDate1 + desiredDate2;
-			PreparedStatement pstmt = con.prepareStatement(getBorrows);
-			ResultSet borrowSet = pstmt.executeQuery();
-			
-			int borrowedThisHour = borrowSet.getInt(username);
-			con.close();
-			
-			series.getData().add(new XYChart.Data<Number, Number>(i, borrowedThisHour));
-		}
-	}
 
-}
+
