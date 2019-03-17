@@ -7,7 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 /**
- * Models a pending user request to borrowe a book. This request needs to
+ * Models a pending user request to borrow a book. This request needs to
  * be approved by a librarian before the user is able to get a copy from 
  * the system.
  * @author Oliver Harris
