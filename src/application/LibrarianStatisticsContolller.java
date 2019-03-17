@@ -107,7 +107,7 @@ public class LibrarianStatisticsContolller {
 	private final String daysOfTheWeek[] = { "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday",
 			"Sunday" };
 
-	private final String FORMAT_YMDHMS = new String("yyyy-MM-dd HH:mm:ss");
+	private final String FORMAT_YMDHMS = "yyyy-MM-dd HH:mm:ss";
 
 	public void initialize() {
 		RadioButton selectedRadioButton = (RadioButton) group.getSelectedToggle();
