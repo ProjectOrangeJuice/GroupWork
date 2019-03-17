@@ -1,5 +1,7 @@
 package application;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.text.ParseException;
 
 import java.text.SimpleDateFormat;
@@ -18,6 +20,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.TextFlow;
+import model.DBHelper;
 import model.Person;
 
 public class UserStatisticsController {
@@ -83,12 +86,15 @@ public class UserStatisticsController {
 
 	int borrowed;
 
+	DBHelper helper = new DBHelper();
+Person person = ScreenManager.getCurrentUser();
+	
 	/**
 	 * Initialises the controller
 	 */
 	public void initialize() {
 
-		Person person = ScreenManager.getCurrentUser();
+		
 
 		// formating month graph
 		monthXAxis.setAutoRanging(false);
@@ -164,8 +170,7 @@ public class UserStatisticsController {
 			} catch (ParseException e) {
 				e.printStackTrace();
 			}
-			
-			//getting the number of sales made between desiredDate 1 and 2
+
 			int borrowedThisDate = (desiredDate1, desiredDate2);//TODO get data from database, #of things borrowed between 2 dates
 			
 			//adding points on the line chart

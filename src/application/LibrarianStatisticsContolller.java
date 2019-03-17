@@ -1,15 +1,27 @@
 package application;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.List;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.Tab;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.text.TextFlow;
+import model.DBHelper;
 import model.Person;
 import model.Resource;
 
@@ -74,64 +86,131 @@ public class LibrarianStatisticsContolller {
 
 	@FXML
 	private ToggleGroup group;
+	Person person = ScreenManager.getCurrentUser();
+	private Date desiredDate1 = null;
+	private Date desiredDate2 = null;
+
+	private final String daysOfTheWeek[] = { "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday",
+			"Sunday" };
+
+	private final String FORMAT_DMYHM = new String("dd/MM/yyyy HH:mm");
 
 	public void initialize() {
-		Person person = ScreenManager.getCurrentUser();
+
 		Resource resource = ScreenManager.getCurrentResource();
 		RadioButton selectedRadioButton = (RadioButton) group.getSelectedToggle();
 		String toogleGroupValue = selectedRadioButton.getText();
-		
 
 		requestButton.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
 				switch (toogleGroupValue) {
 				case "bookRB":
-					ScreenManager.setCurrentResource(getMostPopularBook(dayTab));
+					try {
+						ScreenManager.setCurrentResource(getMostPopularBook(dayTab));
+					} catch (SQLException | ParseException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 					;
 					break;
 				case "bookRB1":
-					ScreenManager.setCurrentResource(getMostPopularBook(weekTab));
+					try {
+						ScreenManager.setCurrentResource(getMostPopularBook(weekTab));
+					} catch (SQLException | ParseException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 					;
 					break;
 				case "bookRB11":
-					ScreenManager.setCurrentResource(getMostPopularBook(overallTab));
+					try {
+						ScreenManager.setCurrentResource(getMostPopularBook(overallTab));
+					} catch (SQLException | ParseException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 					;
 					break;
 				case "dvdRB":
-					ScreenManager.setCurrentResource(getMostPopularDVD(dayTab));
+					try {
+						ScreenManager.setCurrentResource(getMostPopularDVD(dayTab));
+					} catch (SQLException | ParseException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 					;
 					break;
 				case "dvdRB1":
-					ScreenManager.setCurrentResource(getMostPopularDVD(weekTab));
+					try {
+						ScreenManager.setCurrentResource(getMostPopularDVD(weekTab));
+					} catch (SQLException | ParseException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 					;
 					break;
 				case "dvdRB11":
-					ScreenManager.setCurrentResource(getMostPopularDVD(overallTab));
+					try {
+						ScreenManager.setCurrentResource(getMostPopularDVD(overallTab));
+					} catch (SQLException | ParseException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 					;
 					break;
 				case "laptopRB":
-					ScreenManager.setCurrentResource(getMostPopularLaptop(dayTab));
+					try {
+						ScreenManager.setCurrentResource(getMostPopularLaptop(dayTab));
+					} catch (SQLException | ParseException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 					;
 					break;
 				case "laptopRB1":
-					ScreenManager.setCurrentResource(getMostPopularLaptop(weekTab));
+					try {
+						ScreenManager.setCurrentResource(getMostPopularLaptop(weekTab));
+					} catch (SQLException | ParseException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 					;
 					break;
 				case "laptopRB11":
-					ScreenManager.setCurrentResource(getMostPopularLaptop(overallTab));
+					try {
+						ScreenManager.setCurrentResource(getMostPopularLaptop(overallTab));
+					} catch (SQLException | ParseException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 					;
 					break;
 				case "gameRB":
-					ScreenManager.setCurrentResource(getMostPopularGame(dayTab));
+					try {
+						ScreenManager.setCurrentResource(getMostPopularGame(dayTab));
+					} catch (SQLException | ParseException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 					;
 					break;
 				case "gameRB1":
-					ScreenManager.setCurrentResource(getMostPopularGame(weekTab));
+					try {
+						ScreenManager.setCurrentResource(getMostPopularGame(weekTab));
+					} catch (SQLException | ParseException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 					;
 					break;
 				case "gameRB11":
-					ScreenManager.setCurrentResource(getMostPopularGame(overallTab));
+					try {
+						ScreenManager.setCurrentResource(getMostPopularGame(overallTab));
+					} catch (SQLException | ParseException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 					;
 					break;
 				}
@@ -141,75 +220,364 @@ public class LibrarianStatisticsContolller {
 
 	}
 
-	public Resource getMostPopularBook(Tab tab) {
-		Resource popBook;
-		if(tab != null) {
-    	if(tab.equals(dayTab)) {
-			popBook = ;
+	public Resource getMostPopularBook(Tab tab) throws SQLException, ParseException {
+		SimpleDateFormat formatDMY = new SimpleDateFormat("dd/MM/yyyy");
+		Date today = new Date();
+		Resource popBook = null;
+		int bookID = 0;
+		Connection con = DBHelper.getConnection();
+		try {
+			con = DBHelper.getConnection();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-    	else if(tab.equals(weekTab)) {
-			popBook = ;
-		}
-    	else {
-			popBook = ;
+		if (tab != null) {
+			if (tab.equals(dayTab)) {
+
+				desiredDate1 = new SimpleDateFormat(FORMAT_DMYHM).parse(today + " 00:01");
+				desiredDate2 = new SimpleDateFormat(FORMAT_DMYHM).parse(today + " 23:59");
+
+				String getBooks = "SELECT * FROM  requestsToApprove, resource,book"
+						+ "WHERE requestsToApprove.rID=resource.rID AND book.rID=resource.rID"
+						+ "AND requestsToApprove.timestamp BETWEEN" + desiredDate1 + desiredDate2
+						+ "GROUP BY rID ORDER BY COUNT (rID) DESC LIMIT 1";
+
+				PreparedStatement pstmt = con.prepareStatement(getBooks);
+				ResultSet bookSet = pstmt.executeQuery();
+
+				while (bookSet.next()) {
+					bookID = bookSet.getInt("rID");
+					popBook = Resource.getResource(bookID);
+				}
+			} else if (tab.equals(weekTab)) {
+				Calendar now = Calendar.getInstance();
+
+				List<Integer> popBooks = new ArrayList<Integer>();
+
+				// getting the dates of the days that are in the current week
+				int delta = -now.get(GregorianCalendar.DAY_OF_WEEK) + 2;
+				now.add(Calendar.DAY_OF_MONTH, delta - 7);
+				for (int i = 0; i < 7; i++) {
+					daysOfTheWeek[i] = formatDMY.format(now.getTime());
+					now.add(Calendar.DAY_OF_MONTH, 1);
+				}
+
+				// looping though the days
+				for (int i = 0; i < 7; i++) {
+					String day = daysOfTheWeek[i];
+
+					try {
+						desiredDate1 = new SimpleDateFormat(FORMAT_DMYHM).parse(day + " 00:01");
+						desiredDate2 = new SimpleDateFormat(FORMAT_DMYHM).parse(day + " 23:59");
+					} catch (ParseException e) {
+						e.printStackTrace();
+					}
+
+					String getBooks = "SELECT * FROM  requestsToApprove, resource,book"
+							+ "WHERE requestsToApprove.rID=resource.rID AND book.rID=resource.rID"
+							+ "AND requestsToApprove.timestamp BETWEEN" + desiredDate1 + desiredDate2
+							+ "GROUP BY rID ORDER BY COUNT (rID) DESC LIMIT 1";
+
+					PreparedStatement pstmt = con.prepareStatement(getBooks);
+					ResultSet bookSet = pstmt.executeQuery();
+
+					while (bookSet.next()) {
+						bookID = bookSet.getInt("rID");
+						popBooks.add(bookID);
+					}
+				}
+				int mostFreq = getMostOccoringElement(popBooks);
+				popBook = Resource.getResource(mostFreq);
+			} else {
+
+				String getBooks = "SELECT * FROM  requestsToApprove, resource,book"
+						+ "WHERE requestsToApprove.rID=resource.rID AND book.rID=resource.rID"
+						+ "GROUP BY rID ORDER BY COUNT (rID) DESC LIMIT 1";
+
+				PreparedStatement pstmt = con.prepareStatement(getBooks);
+				ResultSet bookSet = pstmt.executeQuery();
+
+				while (bookSet.next()) {
+					bookID = bookSet.getInt("rID");
+					popBook = Resource.getResource(bookID);
+				}
+
+			}
 		}
 		return popBook;
-    	
-    }
-    }
+	}
 
-	public Resource getMostPopularDVD(Tab tab) {
-    	Resource popDVD;
-		if(tab != null) {
-    	if(tab.equals(dayTab)) {
-    		popDVD = ;
-		}
-    	else if(tab.equals(weekTab)) {
-    		popDVD = ;
-		}
-    	else {
-    		popDVD = ;
+	public Resource getMostPopularDVD(Tab tab) throws SQLException, ParseException {
+		SimpleDateFormat formatDMY = new SimpleDateFormat("dd/MM/yyyy");
+		Date today = new Date();
+		int dvdID = 0;
+		Connection con = DBHelper.getConnection();
+
+		Resource popDVD = null;
+		if (tab != null) {
+			if (tab.equals(dayTab)) {
+				desiredDate1 = new SimpleDateFormat(FORMAT_DMYHM).parse(today + " 00:01");
+				desiredDate2 = new SimpleDateFormat(FORMAT_DMYHM).parse(today + " 23:59");
+
+				String getDVDs = "SELECT * FROM  requestsToApprove, resource,DVD"
+						+ "WHERE requestsToApprove.rID=resource.rID AND DVD.rID=resource.rID"
+						+ "AND requestsToApprove.timestamp BETWEEN" + desiredDate1 + desiredDate2
+						+ "GROUP BY rID ORDER BY COUNT (rID) DESC LIMIT 1";
+
+				PreparedStatement pstmt = con.prepareStatement(getDVDs);
+				ResultSet dvdSet = pstmt.executeQuery();
+
+				while (dvdSet.next()) {
+					dvdID = dvdSet.getInt("rID");
+					popDVD = Resource.getResource(dvdID);
+				}
+			} else if (tab.equals(weekTab)) {
+				Calendar now = Calendar.getInstance();
+
+				List<Integer> popDVDs = new ArrayList<Integer>();
+
+				// getting the dates of the days that are in the current week
+				int delta = -now.get(GregorianCalendar.DAY_OF_WEEK) + 2;
+				now.add(Calendar.DAY_OF_MONTH, delta - 7);
+				for (int i = 0; i < 7; i++) {
+					daysOfTheWeek[i] = formatDMY.format(now.getTime());
+					now.add(Calendar.DAY_OF_MONTH, 1);
+				}
+
+				// looping though the days
+				for (int i = 0; i < 7; i++) {
+					String day = daysOfTheWeek[i];
+
+					try {
+						desiredDate1 = new SimpleDateFormat(FORMAT_DMYHM).parse(day + " 00:01");
+						desiredDate2 = new SimpleDateFormat(FORMAT_DMYHM).parse(day + " 23:59");
+					} catch (ParseException e) {
+						e.printStackTrace();
+					}
+
+					String getDVDs = "SELECT * FROM  requestsToApprove, resource,DVD"
+							+ "WHERE requestsToApprove.rID=resource.rID AND DVD.rID=resource.rID"
+							+ "AND requestsToApprove.timestamp BETWEEN" + desiredDate1 + desiredDate2
+							+ "GROUP BY rID ORDER BY COUNT (rID) DESC LIMIT 1";
+
+					PreparedStatement pstmt = con.prepareStatement(getDVDs);
+					ResultSet dvdSet = pstmt.executeQuery();
+
+					while (dvdSet.next()) {
+						dvdID = dvdSet.getInt("rID");
+						popDVDs.add(dvdID);
+					}
+				}
+				int mostFreq = getMostOccoringElement(popDVDs);
+				popDVD = Resource.getResource(mostFreq);
+			} else {
+				String getDVDs = "SELECT * FROM  requestsToApprove, resource,DVD"
+						+ "WHERE requestsToApprove.rID=resource.rID AND DVD.rID=resource.rID"
+						+ "GROUP BY rID ORDER BY COUNT (rID) DESC LIMIT 1";
+
+				PreparedStatement pstmt = con.prepareStatement(getDVDs);
+				ResultSet dvdSet = pstmt.executeQuery();
+
+				while (dvdSet.next()) {
+					dvdID = dvdSet.getInt("rID");
+
+				}
+			}
+
+			popDVD = Resource.getResource(dvdID);
 		}
 		return popDVD;
-    	
-    }
-    	
-    }
 
-	public Resource getMostPopularLaptop(Tab tab) {
-    	Resource popLaptop;
-		if(tab != null) {
-    	if(tab.equals(dayTab)) {
-    		popLaptop = ;
-		}
-    	else if(tab.equals(weekTab)) {
-    		popLaptop = ;
-		}
-    	else {
-    		popLaptop = ;
+	}
+
+	public Resource getMostPopularLaptop(Tab tab) throws SQLException, ParseException {
+		SimpleDateFormat formatDMY = new SimpleDateFormat("dd/MM/yyyy");
+		Date today = new Date();
+		int laptopID = 0;
+		Connection con = DBHelper.getConnection();
+
+		Resource popLaptop = null;
+
+		if (tab != null) {
+			if (tab.equals(dayTab)) {
+				desiredDate1 = new SimpleDateFormat(FORMAT_DMYHM).parse(today + " 00:01");
+				desiredDate2 = new SimpleDateFormat(FORMAT_DMYHM).parse(today + " 23:59");
+
+				String getLaptops = "SELECT * FROM  requestsToApprove, resource,Laptop"
+						+ "WHERE requestsToApprove.rID=resource.rID AND Laptop.rID=resource.rID"
+						+ "AND requestsToApprove.timestamp BETWEEN" + desiredDate1 + desiredDate2
+						+ "GROUP BY rID ORDER BY COUNT (rID) DESC LIMIT 1";
+
+				PreparedStatement pstmt = con.prepareStatement(getLaptops);
+				ResultSet laptopSet = pstmt.executeQuery();
+
+				while (laptopSet.next()) {
+					laptopID = laptopSet.getInt("rID");
+					popLaptop = Resource.getResource(laptopID);
+				}
+			} else if (tab.equals(weekTab)) {
+				Calendar now = Calendar.getInstance();
+
+				List<Integer> popLaptops = new ArrayList<Integer>();
+
+				// getting the dates of the days that are in the current week
+				int delta = -now.get(GregorianCalendar.DAY_OF_WEEK) + 2;
+				now.add(Calendar.DAY_OF_MONTH, delta - 7);
+				for (int i = 0; i < 7; i++) {
+					daysOfTheWeek[i] = formatDMY.format(now.getTime());
+					now.add(Calendar.DAY_OF_MONTH, 1);
+				}
+
+				// looping though the days
+				for (int i = 0; i < 7; i++) {
+					String day = daysOfTheWeek[i];
+
+					try {
+						desiredDate1 = new SimpleDateFormat(FORMAT_DMYHM).parse(day + " 00:01");
+						desiredDate2 = new SimpleDateFormat(FORMAT_DMYHM).parse(day + " 23:59");
+					} catch (ParseException e) {
+						e.printStackTrace();
+					}
+
+					String getLaptops = "SELECT * FROM  requestsToApprove, resource,Laptop"
+							+ "WHERE requestsToApprove.rID=resource.rID AND Laptop.rID=resource.rID"
+							+ "AND requestsToApprove.timestamp BETWEEN" + desiredDate1 + desiredDate2
+							+ "GROUP BY rID ORDER BY COUNT (rID) DESC LIMIT 1";
+
+					PreparedStatement pstmt = con.prepareStatement(getLaptops);
+					ResultSet laptopSet = pstmt.executeQuery();
+
+					while (laptopSet.next()) {
+						laptopID = laptopSet.getInt("rID");
+						popLaptops.add(laptopID);
+					}
+				}
+				int mostFreq = getMostOccoringElement(popLaptops);
+				popLaptop = Resource.getResource(mostFreq);
+			}
+		} else {
+			String getDVDs = "SELECT * FROM  requestsToApprove, resource,Laptop"
+					+ "WHERE requestsToApprove.rID=resource.rID AND Laptop.rID=resource.rID"
+					+ "GROUP BY rID ORDER BY COUNT (rID) DESC LIMIT 1";
+
+			PreparedStatement pstmt = con.prepareStatement(getDVDs);
+			ResultSet laptopSet = pstmt.executeQuery();
+
+			while (laptopSet.next()) {
+				laptopID = laptopSet.getInt("rID");
+
+			}
 		}
 		return popLaptop;
-    	
-    }
-    	
-    }
 
-	public Resource getMostPopularGame(Tab tab) {
-    	Resource popGame;
-		if(tab != null) {
-    	if(tab.equals(dayTab)) {
-    		popGame = ;
-		}
-    	else if(tab.equals(weekTab)) {
-    		popGame = ;
-		}
-    	else {
-    		popGame = ;
+	}
+
+	public Resource getMostPopularGame(Tab tab) throws SQLException, ParseException {
+		SimpleDateFormat formatDMY = new SimpleDateFormat("dd/MM/yyyy");
+		Date today = new Date();
+		int GameID = 0;
+		Connection con = DBHelper.getConnection();
+
+		Resource popGame = null;
+
+		if (tab != null) {
+			if (tab.equals(dayTab)) {
+				desiredDate1 = new SimpleDateFormat(FORMAT_DMYHM).parse(today + " 00:01");
+				desiredDate2 = new SimpleDateFormat(FORMAT_DMYHM).parse(today + " 23:59");
+
+				String getGames = "SELECT * FROM  requestsToApprove, resource,Game"
+						+ "WHERE requestsToApprove.rID=resource.rID AND Game.rID=resource.rID"
+						+ "AND requestsToApprove.timestamp BETWEEN" + desiredDate1 + desiredDate2
+						+ "GROUP BY rID ORDER BY COUNT (rID) DESC LIMIT 1";
+
+				PreparedStatement pstmt = con.prepareStatement(getGames);
+				ResultSet GameSet = pstmt.executeQuery();
+
+				while (GameSet.next()) {
+					GameID = GameSet.getInt("rID");
+					popGame = Resource.getResource(GameID);
+				}
+			} else if (tab.equals(weekTab)) {
+				Calendar now = Calendar.getInstance();
+
+				List<Integer> popGames = new ArrayList<Integer>();
+
+				// getting the dates of the days that are in the current week
+				int delta = -now.get(GregorianCalendar.DAY_OF_WEEK) + 2;
+				now.add(Calendar.DAY_OF_MONTH, delta - 7);
+				for (int i = 0; i < 7; i++) {
+					daysOfTheWeek[i] = formatDMY.format(now.getTime());
+					now.add(Calendar.DAY_OF_MONTH, 1);
+				}
+
+				// looping though the days
+				for (int i = 0; i < 7; i++) {
+					String day = daysOfTheWeek[i];
+
+					try {
+						desiredDate1 = new SimpleDateFormat(FORMAT_DMYHM).parse(day + " 00:01");
+						desiredDate2 = new SimpleDateFormat(FORMAT_DMYHM).parse(day + " 23:59");
+					} catch (ParseException e) {
+						e.printStackTrace();
+					}
+
+					String getGames = "SELECT * FROM  requestsToApprove, resource,Game"
+							+ "WHERE requestsToApprove.rID=resource.rID AND Game.rID=resource.rID"
+							+ "AND requestsToApprove.timestamp BETWEEN" + desiredDate1 + desiredDate2
+							+ "GROUP BY rID ORDER BY COUNT (rID) DESC LIMIT 1";
+
+					PreparedStatement pstmt = con.prepareStatement(getGames);
+					ResultSet GameSet = pstmt.executeQuery();
+
+					while (GameSet.next()) {
+						GameID = GameSet.getInt("rID");
+						popGames.add(GameID);
+					}
+				}
+				int mostFreq = getMostOccoringElement(popGames);
+				popGame = Resource.getResource(mostFreq);
+			}
+		} else {
+			String getGames = "SELECT * FROM  requestsToApprove, resource,Game"
+					+ "WHERE requestsToApprove.rID=resource.rID AND Game.rID=resource.rID"
+					+ "GROUP BY rID ORDER BY COUNT (rID) DESC LIMIT 1";
+
+			PreparedStatement pstmt = con.prepareStatement(getGames);
+			ResultSet GameSet = pstmt.executeQuery();
+
+			while (GameSet.next()) {
+				GameID = GameSet.getInt("rID");
+
+			}
 		}
 		return popGame;
-    	
-    }
-    	
-    }
 
+	}
+
+	// loop through list and get element that appears most
+	public static <T> T getMostOccoringElement(List<T> list) {
+		int size = list.size();
+		if (size == 0)
+			return null;
+
+		int count = 0;
+		int maxCount = 0;
+		T element = list.get(0);
+		T mostOccuringElement = element;
+
+		for (int index = 0; index < size; index++) {
+			if (list.get(index).equals(element)) {
+				count++;
+				if (count > maxCount) {
+					maxCount = count;
+					mostOccuringElement = element;
+				}
+			} else {
+				count = 1;
+			}
+			element = list.get(index);
+		}
+		return mostOccuringElement;
+	}
 }
