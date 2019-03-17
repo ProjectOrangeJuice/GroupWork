@@ -2,6 +2,8 @@ package application;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.text.ParseException;
 
 import java.text.SimpleDateFormat;
@@ -87,14 +89,13 @@ public class UserStatisticsController {
 	int borrowed;
 
 	DBHelper helper = new DBHelper();
-Person person = ScreenManager.getCurrentUser();
-	
+	Person person = ScreenManager.getCurrentUser();
+	String username = person.getUsername();
+
 	/**
 	 * Initialises the controller
 	 */
 	public void initialize() {
-
-		
 
 		// formating month graph
 		monthXAxis.setAutoRanging(false);
@@ -124,9 +125,11 @@ Person person = ScreenManager.getCurrentUser();
 
 	}
 
-	public void initializeMonthlyStatsGraph() {
+	public void initializeMonthlyStatsGraph() throws SQLException {
 		
 		XYChart.Series<Number, Number> series = new XYChart.Series<Number, Number>();
+		
+		Connection con = DBHelper.getConnection();
 		
 		int numOfDaysInAMonth =0;
 		int curMonthInt = Calendar.getInstance().get(Calendar.MONTH)+1; //the current month in int and adding 1 because i am working with 1 index
@@ -171,7 +174,13 @@ Person person = ScreenManager.getCurrentUser();
 				e.printStackTrace();
 			}
 
-			int borrowedThisDate = (desiredDate1, desiredDate2);//TODO get data from database, #of things borrowed between 2 dates
+			String getBorrows = "SELECT COUNT(username) FROM borrowRecords"
+					+"WHERE borrowRecords.username = " + username + 
+					"AND borrowRecords.timestamp BETWEEN" + desiredDate1 + desiredDate2;
+			PreparedStatement pstmt = con.prepareStatement(getBorrows);
+			ResultSet borrowSet = pstmt.executeQuery();
+			
+			int borrowedThisDate = borrowSet.getInt(username);
 			
 			//adding points on the line chart
 			series.getData().add(new XYChart.Data<Number, Number>(i, borrowedThisDate));
@@ -187,9 +196,11 @@ Person person = ScreenManager.getCurrentUser();
 		
 }
 
-	public void initializeWeeklyStatsGraph() {
+	public void initializeWeeklyStatsGraph() throws SQLException {
 		Calendar now = Calendar.getInstance();
 	    SimpleDateFormat formatDMY = new SimpleDateFormat("dd/MM/yyyy");
+	    
+	    Connection con = DBHelper.getConnection();
 	    
 	    //getting the dates of the days that are in the current week
 	    int delta = -now.get(GregorianCalendar.DAY_OF_WEEK) + 2;
@@ -214,7 +225,13 @@ Person person = ScreenManager.getCurrentUser();
 				e.printStackTrace();
 			}
 			
-			int borrowedThisDate = (desiredDate1, desiredDate2);//TODO get data from database, #of things borrowed between 2 dates
+			String getBorrows = "SELECT COUNT(username) FROM borrowRecords"
+					+"WHERE borrowRecords.username = " + username + 
+					"AND borrowRecords.timestamp BETWEEN" + desiredDate1 + desiredDate2;
+			PreparedStatement pstmt = con.prepareStatement(getBorrows);
+			ResultSet borrowSet = pstmt.executeQuery();
+			
+			int borrowedThisDate = borrowSet.getInt(username);
 			
 			//set the graph data
 			series.getData().add(new XYChart.Data<String, Number>(this.daysOfTheWeek[i], borrowedThisDate));
@@ -229,10 +246,20 @@ Person person = ScreenManager.getCurrentUser();
 	
 	}
 
-	public void initializeDailyStatsGraph() {
+	public void initializeDailyStatsGraph() throws SQLException {
+		XYChart.Series<Number, Number> series = new XYChart.Series<Number, Number>();
+		
+		Connection con = DBHelper.getConnection();
 		for(int i=0;i<24;i++){
 			
-			int borrowedThisHour = ();//TODO get data from database, #of things borrowed this hour
+			String getBorrows = "SELECT COUNT(username) FROM borrowRecords"
+					+"WHERE borrowRecords.username = " + username + 
+					"AND borrowRecords.timestamp BETWEEN" + desiredDate1 + desiredDate2;
+			PreparedStatement pstmt = con.prepareStatement(getBorrows);
+			ResultSet borrowSet = pstmt.executeQuery();
+			
+			int borrowedThisHour = borrowSet.getInt(username);
+			
 			
 			series.getData().add(new XYChart.Data<Number, Number>(i, borrowedThisHour));
 		}
