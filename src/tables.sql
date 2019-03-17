@@ -236,15 +236,15 @@ CREATE TABLE IF NOT EXISTS `borrowRecords` (
 	FOREIGN KEY (username) REFERENCES `users`(`username`) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
-INSERT INTO `borrowRecords` VALUES (1,1,'Manny','Returned on 08/12/2018');
-INSERT INTO `borrowRecords` VALUES (2,11,'Manny','Returned on 08/12/2018');
-INSERT INTO `borrowRecords` VALUES (3,10,'Jackie','Returned on 08/12/2018');
-INSERT INTO `borrowRecords` VALUES (4,10,'Steveo','Returned on 08/12/2018');
-INSERT INTO `borrowRecords` VALUES (5,10,'Manny','Returned on 08/12/2018');
-INSERT INTO `borrowRecords` VALUES (6,1,'Jackie','Returned on 08/12/2018');
-INSERT INTO `borrowRecords` VALUES (7,26,'Manny','Returned on 08/12/2018');
-INSERT INTO `borrowRecords` VALUES (8,27,'Steveo','Returned on 08/12/2018');
-INSERT INTO `borrowRecords` VALUES (9,28,'Jackie','Returned on 08/12/2018');
+INSERT INTO `borrowRecords`('borrowId','copyId','username','description') VALUES (1,1,'Manny','Returned on 08/12/2018');
+INSERT INTO `borrowRecords`('borrowId','copyId','username','description') VALUES (2,11,'Manny','Returned on 08/12/2018');
+INSERT INTO `borrowRecords`('borrowId','copyId','username','description') VALUES (3,10,'Jackie','Returned on 08/12/2018');
+INSERT INTO `borrowRecords`('borrowId','copyId','username','description') VALUES (4,10,'Steveo','Returned on 08/12/2018');
+INSERT INTO `borrowRecords`('borrowId','copyId','username','description') VALUES (5,10,'Manny','Returned on 08/12/2018');
+INSERT INTO `borrowRecords`('borrowId','copyId','username','description') VALUES (6,1,'Jackie','Returned on 08/12/2018');
+INSERT INTO `borrowRecords`('borrowId','copyId','username','description') VALUES (7,26,'Manny','Returned on 08/12/2018');
+INSERT INTO `borrowRecords`('borrowId','copyId','username','description') VALUES (8,27,'Steveo','Returned on 08/12/2018');
+INSERT INTO `borrowRecords`('borrowId','copyId','username','description') VALUES (9,28,'Jackie','Returned on 08/12/2018');
 
 DROP TABLE IF EXISTS `requestsToApprove`;
 CREATE TABLE IF NOT EXISTS `requestsToApprove` (
