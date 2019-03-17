@@ -59,8 +59,8 @@ import model.User;
 /**
  * Profile Controller is responsible for handling events within the library resources,
  * my profile, and staff profile tabs.
- * @author Kane
- *
+ * @author Kane Miles
+ * @version 1.1
  */
 public class ProfileController {
 

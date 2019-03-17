@@ -13,6 +13,7 @@ import javafx.scene.image.Image;
  * multiple copies that can be borrowed or requested.
  * Based heavily on the Book class.
  * @author Charles Day
+ * @version 1.0
  */
 public class Game extends Resource {
     /**The daily fine amount for over due copies of this type of resource.*/

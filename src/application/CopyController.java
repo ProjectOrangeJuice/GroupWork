@@ -34,7 +34,7 @@ import model.User;
  * about a resource and allows the user to request a copy if there is a free 
  * copy available.
  * @author Joe Wright
- *
+ * @author Oliver Harris
  */
 public class CopyController {
 
@@ -85,9 +85,18 @@ public class CopyController {
     @FXML
     private VBox seeReviews;
 
-    private int RES_IMG_WIDTH = 200;
-    private int RES_IMG_HEIGHT = 200;
-
+    private static final int RES_IMG_WIDTH = 200;
+    private static final int RES_IMG_HEIGHT = 200;
+    
+    private static final double ROUND = 100.0;
+    private static final double REVIEW_SPACING = 8;
+    
+ // star, name,what,when
+    private static final int STAR_INDEX = 0;
+    private static final int NAME_INDEX = 1;
+    private static final int REVIEW_INDEX = 2;
+    private static final int WHEN_INDEX = 3;
+    
     /**
      * Sets new scene on stage within program using fxml file provided.
      *
@@ -120,8 +129,8 @@ public class CopyController {
 
             HBox avg = new HBox(); // ready for images
             Text avgText = new Text("Rating: " +
-                Math.round(model.Review.getAvgStar(resourceId) * 100.0) /
-                    100.0);
+                Math.round(model.Review.getAvgStar(resourceId) * ROUND) /
+                    ROUND);
             avgText.setStyle("-fx-font: 24 arial;");
             avg.getChildren().add(avgText);
             seeReviews.getChildren().add(avg);
@@ -132,12 +141,12 @@ public class CopyController {
                 VBox topV = new VBox();
                 HBox topH = new HBox();
                 // star, name,what,when
-                Text title = new Text(" from " + review[1]);
-                Text when = new Text(" [" + review[3] + "]");
+                Text title = new Text(" from " + review[NAME_INDEX]);
+                Text when = new Text(" [" + review[WHEN_INDEX] + "]");
                 when.setStyle("-fx-font:12 arial;");
-                Text star = new Text("Rating: " + review[0]);
+                Text star = new Text("Rating: " + review[STAR_INDEX]);
                 star.setFill(Color.GREEN);
-                Text reviewText = new Text(review[2]);
+                Text reviewText = new Text(review[REVIEW_INDEX]);
                 reviewText.setStyle("-fx-font:15 arial;");
                 topH.getChildren().addAll(star, title, when);
 
@@ -159,7 +168,7 @@ public class CopyController {
                 seeReviews.getChildren().add(topV);
 
             }
-            seeReviews.setSpacing(8);
+            seeReviews.setSpacing(REVIEW_SPACING);
 
         }
         else {

@@ -178,15 +178,16 @@ public class UserStatisticsController {
 			} catch (ParseException e) {
 				e.printStackTrace();
 			}
-
-			String getBorrows = "SELECT COUNT(username) FROM borrowRecords"
-					+"WHERE borrowRecords.username = " + username + 
-					"AND borrowRecords.timestamp BETWEEN" + desiredDate1 + desiredDate2;
+			System.out.println("Date: "+desiredDate1.toString());
+			String getBorrows = "SELECT COUNT(username) FROM borrowRecords WHERE username = ? AND timestamp BETWEEN ? AND ?";
 			PreparedStatement pstmt = con.prepareStatement(getBorrows);
+			pstmt.setString(1,username);
+			pstmt.setString(2,desiredDate1.toString());
+			pstmt.setString(3,desiredDate2.toString());
 			ResultSet borrowSet = pstmt.executeQuery();
 			
-			int borrowedThisDate = borrowSet.getInt(username);
-			con.close();
+			int borrowedThisDate = borrowSet.getInt(1);
+			
 			//adding points on the line chart
 			series.getData().add(new XYChart.Data<Number, Number>(i, borrowedThisDate));
 			
@@ -198,7 +199,7 @@ public class UserStatisticsController {
 		
 		//adding points on the line chart
 		monthlyStatsGraph.getData().add(series);
-		
+		con.close();
 }
 
 	public void initializeWeeklyStatsGraph() throws SQLException {
