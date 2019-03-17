@@ -298,9 +298,7 @@ public class ProfileController {
 	public void logoutAction(MouseEvent event) {
 		changeScene(event, "/fxml/loginScene.fxml");
 	}
-
-
-
+	
 
 	/**
 	 * Loads user information from Screen Manager class, so that
@@ -325,7 +323,11 @@ public class ProfileController {
 			}
 
 			Double userBalance = ((User) currentUser).getAccountBalance();
-			accountBalance.setText("Â£" + Double.toString(userBalance));
+			
+			//WARNING: the '£' character differs in GIT and in Java
+			//TODO: Maybe set GIT & Java to UTF-8?
+			accountBalance.setText("£" + Double.toString(userBalance));
+			
 			userAvatarView.setImage(new Image(currentUser.getAvatar()));
 		}else {
 			//get all information in about user from ScreenManager class.
@@ -333,19 +335,19 @@ public class ProfileController {
 			String fullname = staff.getFirstName() + " " + staff.getLastName();
 
 			userLabel1.setText(staff.getUsername());
-			fullnameLabel1.setText(fullnameLabel1.getText() +
+			fullnameLabel1.setText("Full name: " +
 					" " + fullname);
-			addressLabel1.setText(addressLabel1.getText() +
+			addressLabel1.setText("Address: " +
 					" " + staff.getAddress());
-			phoneLabel1.setText(phoneLabel1.getText() +
+			phoneLabel1.setText("Phone Number: " +
 					" " + staff.getPhoneNumber());
-			postcodeLabel1.setText(postcodeLabel1.getText() +
+			postcodeLabel1.setText("Postcode: " +
 					" " + staff.getPostcode());
-			dateLabel1.setText(dateLabel1.getText() +
+			dateLabel1.setText("Employment Date: " +
 					" " + staff.getEmploymentDate());
-			staffIDLabel1.setText(staffIDLabel1.getText() +
+			staffIDLabel1.setText("Staff ID: " +
 					" " + staff.getStaffID());
-			lastLoginLabel2.setText(lastLoginLabel2.getText() +
+			lastLoginLabel2.setText("Last login: " +
 					" " + staff.getLastLogin());
 
 			staffAvatarView.setImage(new Image(currentUser.getAvatar()));
@@ -528,10 +530,9 @@ public class ProfileController {
 			staffProfileTab.setDisable(true);
 			userProfileTab.setDisable(false);
 		}
+		
 		//get resources
-
 		resources = Resource.getResources();
-
 
 		System.out.println(resources.size());
 		ScreenManager.setResources(resources);
@@ -539,14 +540,16 @@ public class ProfileController {
 		//for each resource in resources array
 		for(int i = 0; i < resources.size(); i++) {
 		    System.out.println(resources.get(i).getTitle());
+		    
 			if(search(i)) {
 				StackPane imagePane;
+				
 				if(resources.get(i).compareTimeDifference(currentUser) == true) {
 					imagePane = createImage(resources.get(i), COPY_IMG_WIDTH, COPY_IMG_HEIGHT);
 
 					((ImageView) imagePane.getChildren().get(2)).setFitWidth(COPY_IMG_WIDTH);
 					((ImageView) imagePane.getChildren().get(2)).setImage(
-						new Image("/graphics/" + "New.png"));
+						new Image("/graphics/" + "New.png")); //TODO: Possible bug: 'java.lang.OutOfMemoryError: Java heap space'
 					((ImageView) imagePane.getChildren().get(2)).setPreserveRatio(true);
 				}
 				else {
@@ -584,7 +587,6 @@ public class ProfileController {
 				imagePane.setOnMouseClicked(clickHandler);
 			}
 		}	
-
 	}
 
 	/**

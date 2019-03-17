@@ -90,8 +90,7 @@ public abstract class Person {
      */
     public void setFirstName(String firstName) {
         this.firstName = firstName;
-        Person.updateDatabase("users", this.getUsername(), "firstName",
-firstName);
+        Person.updateDatabase("users", this.getUsername(), "firstName", firstName);
     }
 
     /**
@@ -262,14 +261,14 @@ firstName);
             }
             else {
                 dbConnection.close();
-                // throw new IllegalStateException("Either too many or not enough rows
-                // returned.");
             }
 
             // Catch most other errors!
         }
         catch (SQLException e) {
+        	System.out.println("\nCaught SQL Error in Person.java:");
             System.out.println(e);
+            System.out.println("\n");
         }
         // By default return null.
         return null;
@@ -336,16 +335,16 @@ firstName);
         try {
             if (!userBorrowing(username)) {
 
-                Connection connectionToDb = DBHelper.getConnection();
-                PreparedStatement sqlStatement = connectionToDb.prepareStatement("DELETE FROM userRequests WHERE userName= ?");
+                Connection connectionToDB = DBHelper.getConnection();
+                PreparedStatement sqlStatement = connectionToDB.prepareStatement("DELETE FROM userRequests WHERE userName= ?");
                 sqlStatement.setString(1, username);
                 sqlStatement.executeUpdate();
-                sqlStatement = connectionToDb.prepareStatement("DELETE FROM users WHERE userName= ?");
+                sqlStatement = connectionToDB.prepareStatement("DELETE FROM users WHERE userName= ?");
                 sqlStatement.setString(1, username);
                 sqlStatement.executeUpdate();
-
+                
+                connectionToDB.close();
                 return true;
-
             }
 
         }
@@ -365,13 +364,14 @@ firstName);
         Connection connectionToDB = DBHelper.getConnection();
         PreparedStatement sqlStatement = connectionToDB.prepareStatement("SELECT" + 
             " * FROM borrowRecords WHERE username= ?");
+        
         sqlStatement.setString(1, username);
         ResultSet results = sqlStatement.executeQuery();
+        connectionToDB.close();
+        
         if (results.next()) {
             return true;
         }
         return false;
-
     }
-
 }
