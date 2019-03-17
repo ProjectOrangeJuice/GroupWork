@@ -319,7 +319,11 @@ public class ProfileController {
 			}
 
 			Double userBalance = ((User) currentUser).getAccountBalance();
+			
+			//WARNING: the '£' character differs in GIT and in Java
+			//Not sure how to fix... Maybe set GIT & Java to UTF-8?
 			accountBalance.setText("£" + Double.toString(userBalance));
+			
 			userAvatarView.setImage(new Image(currentUser.getAvatar()));
 		}else {
 			//get all information in about user from ScreenManager class.
