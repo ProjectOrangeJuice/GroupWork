@@ -319,7 +319,7 @@ public class ProfileController {
 			}
 
 			Double userBalance = ((User) currentUser).getAccountBalance();
-			accountBalance.setText("Â£" + Double.toString(userBalance));
+			accountBalance.setText("£" + Double.toString(userBalance));
 			userAvatarView.setImage(new Image(currentUser.getAvatar()));
 		}else {
 			//get all information in about user from ScreenManager class.
@@ -327,19 +327,19 @@ public class ProfileController {
 			String fullname = staff.getFirstName() + " " + staff.getLastName();
 
 			userLabel1.setText(staff.getUsername());
-			fullnameLabel1.setText(fullnameLabel1.getText() +
+			fullnameLabel1.setText("Full name: " +
 					" " + fullname);
-			addressLabel1.setText(addressLabel1.getText() +
+			addressLabel1.setText("Address: " +
 					" " + staff.getAddress());
-			phoneLabel1.setText(phoneLabel1.getText() +
+			phoneLabel1.setText("Phone Number: " +
 					" " + staff.getPhoneNumber());
-			postcodeLabel1.setText(postcodeLabel1.getText() +
+			postcodeLabel1.setText("Postcode: " +
 					" " + staff.getPostcode());
-			dateLabel1.setText(dateLabel1.getText() +
+			dateLabel1.setText("Employment Date: " +
 					" " + staff.getEmploymentDate());
-			staffIDLabel1.setText(staffIDLabel1.getText() +
+			staffIDLabel1.setText("Staff ID: " +
 					" " + staff.getStaffID());
-			lastLoginLabel2.setText(lastLoginLabel2.getText() +
+			lastLoginLabel2.setText("Last login: " +
 					" " + staff.getLastLogin());
 
 			staffAvatarView.setImage(new Image(currentUser.getAvatar()));
