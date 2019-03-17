@@ -16,79 +16,83 @@ import javafx.scene.layout.AnchorPane;
 import model.Review;
 
 public class WriteReviewController {
-	  @FXML
-	   private AnchorPane writeReviewBox;
-	  
-	  @FXML
-	  private TextArea reviewBox;//Displays reviews
-	  
-	  @FXML
-	  private ToggleGroup star;//rating
-	  
-	  @FXML
-	  private RadioButton r1;//inputs 1 rating
-	  @FXML
-	  private RadioButton r2;//inputs 2 rating
-	  @FXML
-	  private RadioButton r3;//inputs 3 rating
-	  @FXML
-	  private RadioButton r4;//inputs 4 rating
-	  @FXML
-	  private RadioButton r5;//inputs 5 rating
-	 
-	/**
-	 * Method that allows the user to submit a review and rating
-	 * @param event event of the button being pressed
-	 */
-	@FXML
-	public void submitReview(MouseEvent event) {
-		int starValue = 0;
-		
-		//Changes the rating depending on what radio button is clicked
-		System.out.println(star.getSelectedToggle());
-		Toggle selected = star.getSelectedToggle();
-		if(selected.equals(r1)) {
-			System.out.println("r1..");
-			starValue = 1;
-		}else if(selected.equals(r2)) {
-			starValue = 2;
-		}else if(selected.equals(r3)) {
-			starValue = 3;
-		}else if(selected.equals(r4)) {
-			starValue = 4;
-		}else if(selected.equals(r5)) {
-			starValue = 5;
-		}else {
-			System.out.println("No value selected, this shouldn't be possible");
-			return;
-		}
-		
-		//sets text variable to whatever the user has wrote in the review box
-		String text = reviewBox.getText();
-		
-		Review.addReview(ScreenManager.getCurrentUser().getUsername(),
-				ScreenManager.getCurrentResource().getUniqueID(),
-				starValue, text);
-		
-		
-		reviewBox.setText("Your review has been added!");
-		reviewBox.setEditable(false);
-		
-	}
-	
-	/**
-	 * display review box if user has borrowed and hasn't already reviewed
-	 */
-	@FXML
-	public void initialize() {
-		
-		if(!Review.hasBorrowed(ScreenManager.getCurrentUser().getUsername(),
-				ScreenManager.getCurrentResource().getUniqueID()) ||
-				Review.hasReviewed(ScreenManager.getCurrentUser().getUsername(),
-						ScreenManager.getCurrentResource().getUniqueID())) {
-			writeReviewBox.setVisible(false);
-		}
-		
-	}
-	
+    @FXML
+    private AnchorPane writeReviewBox;
+
+    @FXML
+    private TextArea reviewBox;// Displays reviews
+
+    @FXML
+    private ToggleGroup star;// rating
+
+    @FXML
+    private RadioButton r1;// inputs 1 rating
+    @FXML
+    private RadioButton r2;// inputs 2 rating
+    @FXML
+    private RadioButton r3;// inputs 3 rating
+    @FXML
+    private RadioButton r4;// inputs 4 rating
+    @FXML
+    private RadioButton r5;// inputs 5 rating
+
+    /**
+     * Method that allows the user to submit a review and rating
+     * 
+     * @param event event of the button being pressed
+     */
+    @FXML
+    public void submitReview(MouseEvent event) {
+        int starValue = 0;
+
+        // Changes the rating depending on what radio button is clicked
+        System.out.println(star.getSelectedToggle());
+        Toggle selected = star.getSelectedToggle();
+        if (selected.equals(r1)) {
+            System.out.println("r1..");
+            starValue = 1;
+        }
+        else if (selected.equals(r2)) {
+            starValue = 2;
+        }
+        else if (selected.equals(r3)) {
+            starValue = 3;
+        }
+        else if (selected.equals(r4)) {
+            starValue = 4;
+        }
+        else if (selected.equals(r5)) {
+            starValue = 5;
+        }
+        else {
+            System.out.println("No value selected, this shouldn't be possible");
+            return;
+        }
+
+        // sets text variable to whatever the user has wrote in the review box
+        String text = reviewBox.getText();
+
+        Review.addReview(ScreenManager.getCurrentUser().getUsername(),
+            ScreenManager.getCurrentResource().getUniqueID(), starValue, text);
+
+        reviewBox.setText("Your review has been added!");
+        reviewBox.setEditable(false);
+
+    }
+
+    /**
+     * Displays review box if user has borrowed and hasn't already reviewed.
+     */
+    @FXML
+    public void initialize() {
+
+        if (!Review.hasBorrowed(ScreenManager.getCurrentUser().getUsername(),
+            ScreenManager.getCurrentResource().getUniqueID()) ||
+            Review.hasReviewed(ScreenManager.getCurrentUser().getUsername(),
+                ScreenManager.getCurrentResource().getUniqueID())) {
+            writeReviewBox.setVisible(false);
+        }
+
+    }
+
 }
