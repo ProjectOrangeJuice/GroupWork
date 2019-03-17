@@ -15,8 +15,6 @@ import javafx.scene.image.Image;
  * @author Charles Day
  */
 public class Game extends Resource {
-	
-	//TODO: Update attributes
     /**The daily fine amount for over due copies of this type of resource.*/
     private static final int MAX_FINE_AMOUNT = 25;
     
@@ -46,8 +44,10 @@ public class Game extends Resource {
      * @param genre The genre of the game.
      * @param rating The rating of the game.
      * @param multiplayerSupport The multi-player support of the game.
+     * @param timestamp The timestamp of when it was created.
      */
-    public Game(int uniqueID, String title, int year, Image thumbnail, String timestamp, String publisher, String genre,
+    public Game(int uniqueID, String title, int year, Image thumbnail,
+    		String timestamp, String publisher, String genre,
             String rating, String multiplayerSupport) {
         super(uniqueID, title, year, thumbnail, timestamp);
         this.publisher = publisher;
@@ -68,9 +68,9 @@ public class Game extends Resource {
             Statement stmt = conn.createStatement(); // prep a statement
             ResultSet rs = stmt.executeQuery(
                 "SELECT resource.rID, resource.year, resource.title, "
-                + "resource.thumbnail, publisher," +
-                    "genre, rating, multiplayer, timestamp FROM game, resource WHERE game.rID "
-                    + "= resource.rID"); 
+                + "resource.thumbnail, publisher,"
+                + "genre, rating, multiplayer, timestamp FROM game, resource WHERE game.rID "
+                + "= resource.rID"); 
 
             while (rs.next()) {
                 Image resourceImage = new Image(rs.getString("thumbnail"), true);
@@ -133,8 +133,8 @@ public class Game extends Resource {
      * @return The rating of game.
      */
     public String getRating() {
-		return rating;
-	}
+    	return rating;
+    }
     
     /**
      * Sets the rating variable of this resource and updates the database.
