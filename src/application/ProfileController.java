@@ -324,9 +324,9 @@ public class ProfileController {
 
 			Double userBalance = ((User) currentUser).getAccountBalance();
 			
-			//WARNING: the '£' character differs in GIT and in Java
+			//WARNING: the 'ï¿½' character differs in GIT and in Java
 			//TODO: Maybe set GIT & Java to UTF-8?
-			accountBalance.setText("£" + Double.toString(userBalance));
+			accountBalance.setText("ï¿½" + Double.toString(userBalance));
 			
 			userAvatarView.setImage(new Image(currentUser.getAvatar()));
 		}else {
@@ -1357,7 +1357,7 @@ public class ProfileController {
 		//if user is not a librarian and has selected an event
 		if(ScreenManager.getCurrentUser() instanceof User && selectedEvent != null) {
 			//if event is happening in the future
-			if(model.Event.checkFutureDate(selectedEvent.getDate())) {
+			if(model.Event.checkFutureDate(selectedEvent.getDateTime())) {
 				ArrayList<Integer> usersEvents = ((User) ScreenManager.getCurrentUser()).loadUserEvents();
 				//if event has spaces and user isn't already going
 				if(selectedEvent.getMaxAttending() > 0 && !(usersEvents.contains(selectedEvent.getID()))) {
