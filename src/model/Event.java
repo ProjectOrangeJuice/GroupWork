@@ -12,10 +12,10 @@ import java.util.ArrayList;
 import application.ScreenManager;
 
 /**
- * Event class object used for creating, updating and deleting events 
- * locally and within the database.
+ * Event class object used for creating, updating and deleting event objects
+ * both locally and within the database.
  * @author Kane
- *
+ * @version 1.0
  */
 public class Event {
 	
