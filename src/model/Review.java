@@ -52,8 +52,8 @@ public class Review {
 
 		try {
 			Connection connection = DBHelper.getConnection();
-			PreparedStatement statement = connection
-					.prepareStatement("SELECT * FROM reviews WHERE"
+			PreparedStatement statement = connection.prepareStatement(
+					"SELECT * FROM reviews WHERE"
 							+ " username=? AND resourceId=?");
 			statement.setString(1, username);
 			statement.setInt(2, rId);
@@ -111,8 +111,8 @@ public class Review {
 	public static double getAvgStar(int resourceId) {
 		try {
 			Connection connection = DBHelper.getConnection();
-			PreparedStatement statement = connection
-					.prepareStatement("SELECT avg(star) FROM reviews "
+			PreparedStatement statement = connection.prepareStatement(
+					"SELECT avg(star) FROM reviews "
 							+ "WHERE resourceId=?");
 			statement.setInt(1, resourceId);
 			ResultSet results = statement.executeQuery();
@@ -141,8 +141,8 @@ public class Review {
 	public static void addReview(String username, int resource, int star, String text) {
 		try {
 			Connection connection = DBHelper.getConnection();
-			PreparedStatement statement = connection
-					.prepareStatement("INSERT INTO reviews(resourceId,"
+			PreparedStatement statement = connection.prepareStatement(
+					"INSERT INTO reviews(resourceId,"
 							+ "username,star,review) VALUES(?,?,?,?)");
 			statement.setInt(1, resource);
 			statement.setString(2, username);
@@ -157,7 +157,7 @@ public class Review {
 	}
 
 	/**
-	 * Get method for the written reviews people have left on a specfic resource
+	 * Get method for the written reviews people have left on a specific resource
 	 * 
 	 * @param resourceId
 	 *            id of resource
@@ -174,10 +174,12 @@ public class Review {
 			while (results.next()) {
 
 				// star, name,what,when
-				String[] re = { String.valueOf(results.getInt(4)), 
+				String[] re = { 
+						String.valueOf(results.getInt(4)), 
 						results.getString(3), results.getString(5),
 						results.getString(6), 
-						String.valueOf(results.getInt(1)) };
+						String.valueOf(results.getInt(1)) 
+						};
 
 				reviews.add(re);
 
@@ -227,7 +229,7 @@ public class Review {
 	 * @param reviewId id of a review
 	 */
 	public static void removeReview(int reviewId) {
-		System.out.println("to remove.. "+reviewId);
+	
 		try {
             Connection connection = DBHelper.getConnection();
 
