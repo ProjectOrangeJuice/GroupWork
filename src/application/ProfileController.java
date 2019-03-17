@@ -524,10 +524,9 @@ public class ProfileController {
 			staffProfileTab.setDisable(true);
 			userProfileTab.setDisable(false);
 		}
+		
 		//get resources
-
 		resources = Resource.getResources();
-
 
 		System.out.println(resources.size());
 		ScreenManager.setResources(resources);
@@ -535,14 +534,16 @@ public class ProfileController {
 		//for each resource in resources array
 		for(int i = 0; i < resources.size(); i++) {
 		    System.out.println(resources.get(i).getTitle());
+		    
 			if(search(i)) {
 				StackPane imagePane;
+				
 				if(resources.get(i).compareTimeDifference(currentUser) == true) {
 					imagePane = createImage(resources.get(i), COPY_IMG_WIDTH, COPY_IMG_HEIGHT);
 
 					((ImageView) imagePane.getChildren().get(2)).setFitWidth(COPY_IMG_WIDTH);
 					((ImageView) imagePane.getChildren().get(2)).setImage(
-						new Image("/graphics/" + "New.png"));
+						new Image("/graphics/" + "New.png")); //TODO: Possible bug: 'java.lang.OutOfMemoryError: Java heap space'
 					((ImageView) imagePane.getChildren().get(2)).setPreserveRatio(true);
 				}
 				else {
@@ -580,7 +581,6 @@ public class ProfileController {
 				imagePane.setOnMouseClicked(clickHandler);
 			}
 		}	
-
 	}
 
 	/**

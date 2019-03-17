@@ -730,7 +730,7 @@ public abstract class Resource {
             }
         }
         catch (NullPointerException e){
-        	//TODO: Find alternative to catch this.
+        	//TODO: Find alternative to catch this, bit spammy atm
             System.out.println("Null pointer exception caught, try log in a second time.");
             return true;
         }
