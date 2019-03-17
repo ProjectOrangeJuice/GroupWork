@@ -701,10 +701,20 @@ public abstract class Resource {
     	return LIMIT_AMOUNT;
     }
     
+    /**
+     * time of the resource added.
+     * @return the time added
+     */
     public String getTimeStamp() {
         return this.timestamp;
     }
     
+    /**
+     * Method to check if user last login compared to resource added timestamp
+     * @param person current user
+     * @return true is user last login was before resource added time, false otherwise.
+     * @throws ParseException
+     */
     public boolean compareTimeDifference(Person person) throws ParseException {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date resourceDate = formatter.parse(this.timestamp);

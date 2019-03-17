@@ -50,6 +50,7 @@ public class Book extends Resource {
      * @param genre The genre of the book.
      * @param isbn The ISBN code of the book.
      * @param language The language of the book.
+     * @param timestamp The time when this resource was added.
      */
     public Book(int uniqueID, String title, int year, Image thumbnail,
     		String timestamp,String author, String publisher, String genre,

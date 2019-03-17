@@ -57,6 +57,7 @@ public class Laptop extends Resource {
      * @param title The title of this resource.
      * @param year The year this resource appeared.
      * @param thumbnail A small image of this resource.
+     * @param timestamp The time when this resource was added.
      * @param manufacturer The manufacturer of the laptop.
      * @param model The model of the laptop.
      * @param operatingSystem The operating system of the laptop.

@@ -33,6 +33,7 @@ public class DVD extends Resource {
      * @param title The title of this resource.
      * @param year The year this resource appeared.
      * @param thumbnail A small image of this resource.
+     * @param timestamp The time when this resource was added.
      * @param director The director of the movie.
      * @param runtime The run time of the movie.
      * @param language The language the movie is in.

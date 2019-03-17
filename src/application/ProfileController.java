@@ -505,7 +505,6 @@ public class ProfileController {
 		loadCopies();
 		loadRequested();
 		loadBorrowHistory();
-		loadNewResources();
 
 	}
 
@@ -535,39 +534,50 @@ public class ProfileController {
 		for(int i = 0; i < resources.size(); i++) {
 		    System.out.println(resources.get(i).getTitle());
 			if(search(i)) {
-			StackPane imagePane = createImage(resources.get(i),
-					RES_IMG_WIDTH, RES_IMG_HEIGHT);
+				StackPane imagePane;
+				if(resources.get(i).compareTimeDifference(currentUser) == true) {
+					imagePane = createImage(resources.get(i), COPY_IMG_WIDTH, COPY_IMG_HEIGHT);
 
-			//get last image in last resource HBox.
-			HBox latestHBox = (HBox)
-					vResourceBox.getChildren().get(
-							vResourceBox.getChildren().size() - 1);
-			latestHBox.setSpacing(5);
+					((ImageView) imagePane.getChildren().get(2)).setFitWidth(COPY_IMG_WIDTH);
+					((ImageView) imagePane.getChildren().get(2)).setImage(
+						new Image("/graphics/" + "New.png"));
+					((ImageView) imagePane.getChildren().get(2)).setPreserveRatio(true);
+				}
+				else {
+					imagePane = createImage(resources.get(i),
+							RES_IMG_WIDTH, RES_IMG_HEIGHT);
+				}
+				
+				//get last image in last resource HBox.
+				HBox latestHBox = (HBox)
+						vResourceBox.getChildren().get(
+								vResourceBox.getChildren().size() - 1);
+				latestHBox.setSpacing(5);
 
-			//if there is at least one image in last resource HBox
-			if(!latestHBox.getChildren().isEmpty()) {
-				//if the number of resources in resource HBox is more than
-				//the width of the resource VBox / the width of a resource image
-				if(latestHBox.getChildren().size() > (vResourceBox.getPrefWidth()
-				- RES_IMG_WIDTH) / RES_IMG_WIDTH) {
-					//create new HBox below last HBox
-					HBox hResourceBox = new HBox();
-					hResourceBox.setSpacing(5);
-					//add image to new HBox
-					hResourceBox.getChildren().add(imagePane);
-					vResourceBox.getChildren().add(hResourceBox);
+				//if there is at least one image in last resource HBox
+				if(!latestHBox.getChildren().isEmpty()) {
+					//if the number of resources in resource HBox is more than
+					//the width of the resource VBox / the width of a resource image
+					if(latestHBox.getChildren().size() > (vResourceBox.getPrefWidth()
+					- RES_IMG_WIDTH) / RES_IMG_WIDTH) {
+						//create new HBox below last HBox
+						HBox hResourceBox = new HBox();
+						hResourceBox.setSpacing(5);
+						//add image to new HBox
+						hResourceBox.getChildren().add(imagePane);
+						vResourceBox.getChildren().add(hResourceBox);
+					} else {
+						latestHBox.getChildren().add(imagePane); //add new image to last HBox
+					}
 				} else {
 					latestHBox.getChildren().add(imagePane); //add new image to last HBox
 				}
-			} else {
-				latestHBox.getChildren().add(imagePane); //add new image to last HBox
-			}
 
-			imagePane.setOnMouseEntered(enterHandler);
-			imagePane.setOnMouseExited(exitHandler);
-			imagePane.setOnMouseClicked(clickHandler);
-		}
-	}
+				imagePane.setOnMouseEntered(enterHandler);
+				imagePane.setOnMouseExited(exitHandler);
+				imagePane.setOnMouseClicked(clickHandler);
+			}
+		}	
 
 	}
 
@@ -594,37 +604,6 @@ public class ProfileController {
 			imagePane.setOnMouseClicked(clickHandler);
 
 			}
-	}
-	
-	private void loadNewImage(ArrayList<Resource> resources, String bannerName) {
-
-		for(Resource resource : resources) {
-
-			StackPane imagePane = createImage(resource, COPY_IMG_WIDTH, COPY_IMG_HEIGHT);
-
-			((ImageView) imagePane.getChildren().get(2)).setFitWidth(COPY_IMG_WIDTH);
-			((ImageView) imagePane.getChildren().get(2)).setImage(
-				new Image("/graphics/" + bannerName));
-			((ImageView) imagePane.getChildren().get(2)).setPreserveRatio(true);
-
-			vResourceBox.getChildren().add(imagePane);
-
-			imagePane.setOnMouseEntered(enterHandler);
-			imagePane.setOnMouseExited(exitHandler);
-			imagePane.setOnMouseClicked(clickHandler);
-
-			}
-	}
-	
-	private void loadNewResources() throws ParseException {
-		ArrayList<Resource> checkResource = Resource.getResources();
-		ArrayList<Resource> newResource = new ArrayList<Resource>();
-		for(Resource resource : checkResource) {
-			if(resource.compareTimeDifference(currentUser) == true) {
-				newResource.add(resource);
-			}
-		}
-		loadNewImage(newResource, "new.png");
 	}
 
 	/**
@@ -683,7 +662,6 @@ public class ProfileController {
 		displayAll();
 
 		loadResourceImages();
-		loadNewResources();
 		loadEventTable();
 		
 		createEventButton.setDisable(ScreenManager.getCurrentUser() instanceof User);
