@@ -85,9 +85,11 @@ public class CopyController {
     @FXML
     private VBox seeReviews;
 
-    private int RES_IMG_WIDTH = 200;
-    private int RES_IMG_HEIGHT = 200;
-
+    private static final int RES_IMG_WIDTH = 200;
+    private static final int RES_IMG_HEIGHT = 200;
+    
+    private static final double ROUND = 100.0;
+    private static final double REVIEW_SPACING = 8;
     /**
      * Sets new scene on stage within program using fxml file provided.
      *
@@ -120,8 +122,8 @@ public class CopyController {
 
             HBox avg = new HBox(); // ready for images
             Text avgText = new Text("Rating: " +
-                Math.round(model.Review.getAvgStar(resourceId) * 100.0) /
-                    100.0);
+                Math.round(model.Review.getAvgStar(resourceId) * ROUND) /
+                    ROUND);
             avgText.setStyle("-fx-font: 24 arial;");
             avg.getChildren().add(avgText);
             seeReviews.getChildren().add(avg);
@@ -159,7 +161,7 @@ public class CopyController {
                 seeReviews.getChildren().add(topV);
 
             }
-            seeReviews.setSpacing(8);
+            seeReviews.setSpacing(REVIEW_SPACING);
 
         }
         else {
