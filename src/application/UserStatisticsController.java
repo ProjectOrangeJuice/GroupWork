@@ -181,7 +181,7 @@ public class UserStatisticsController {
 			ResultSet borrowSet = pstmt.executeQuery();
 			
 			int borrowedThisDate = borrowSet.getInt(username);
-			
+			con.close();
 			//adding points on the line chart
 			series.getData().add(new XYChart.Data<Number, Number>(i, borrowedThisDate));
 			
@@ -232,7 +232,7 @@ public class UserStatisticsController {
 			ResultSet borrowSet = pstmt.executeQuery();
 			
 			int borrowedThisDate = borrowSet.getInt(username);
-			
+			con.close();
 			//set the graph data
 			series.getData().add(new XYChart.Data<String, Number>(this.daysOfTheWeek[i], borrowedThisDate));
 			
@@ -259,7 +259,7 @@ public class UserStatisticsController {
 			ResultSet borrowSet = pstmt.executeQuery();
 			
 			int borrowedThisHour = borrowSet.getInt(username);
-			
+			con.close();
 			
 			series.getData().add(new XYChart.Data<Number, Number>(i, borrowedThisHour));
 		}

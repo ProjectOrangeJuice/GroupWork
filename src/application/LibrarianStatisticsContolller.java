@@ -305,6 +305,7 @@ public class LibrarianStatisticsContolller {
 
 			}
 		}
+		con.close();
 		return popBook;
 	}
 
@@ -387,6 +388,7 @@ public class LibrarianStatisticsContolller {
 
 			popDVD = Resource.getResource(dvdID);
 		}
+		con.close();
 		return popDVD;
 
 	}
@@ -469,6 +471,7 @@ public class LibrarianStatisticsContolller {
 
 			}
 		}
+		con.close();
 		return popLaptop;
 
 	}
@@ -551,6 +554,7 @@ public class LibrarianStatisticsContolller {
 
 			}
 		}
+		con.close();
 		return popGame;
 
 	}
