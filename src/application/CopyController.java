@@ -34,7 +34,7 @@ import model.User;
  * about a resource and allows the user to request a copy if there is a free 
  * copy available.
  * @author Joe Wright
- *
+ * @author Oliver Harris
  */
 public class CopyController {
 
