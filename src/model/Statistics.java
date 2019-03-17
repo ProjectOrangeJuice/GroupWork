@@ -35,5 +35,38 @@ public class Statistics {
 		
 	}
 	
-	
+	public static Resource getMostPopularBook(String date1, String date2) {
+		try {
+			Connection con = DBHelper.getConnection();
+			String getBooks = "SELECT * FROM  majorStat, resource,book "
+					+ "WHERE majorStat.resource=resource.rID AND book.rID=resource.rID "
+					+ "AND majorStat.timestamp BETWEEN ? AND ? "
+					+ "GROUP BY majorStat.resource ORDER BY COUNT (majorStat.resource) DESC LIMIT 1";
+			PreparedStatement pstmt = con.prepareStatement(getBooks);
+			pstmt.setString(1,date1);
+			pstmt.setString(2,date2);
+			ResultSet bookSet = pstmt.executeQuery();
+			if (!bookSet.isBeforeFirst() ) {    
+			    System.out.println("No data"); 
+			    con.close();
+			    return null;
+			} else {
+				
+				int bookId = bookSet.getInt(1);
+			
+				Resource bookR = Resource.getResource(bookId);
+			
+				con.close();
+				return bookR;
+				
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+		
+		
+		
+	}
 }

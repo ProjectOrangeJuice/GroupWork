@@ -632,6 +632,12 @@ public abstract class Resource {
             sqlStatement.setInt(1, uniqueID);
             sqlStatement.setString(2, requester.getUsername());
             sqlStatement.executeUpdate();
+            
+           PreparedStatement sqlStatement2 = dbConnection.prepareStatement(
+                    "INSERT INTO majorStat('resource') VALUES (?)");
+                sqlStatement2.setInt(1, getUniqueID());
+                sqlStatement2.executeUpdate();
+          
         }
         catch (SQLException e) {
             e.printStackTrace();
