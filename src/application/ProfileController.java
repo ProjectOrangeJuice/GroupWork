@@ -141,6 +141,9 @@ public class ProfileController {
 	private Button staffEditAvatar;//allows staff to edit avatar
 	@FXML
 	private Button userEditAvatar;//allows user to edit avatar
+	
+	@FXML
+	private Button statsButton;
 
 	//check boxes
 	@FXML
@@ -229,6 +232,9 @@ public class ProfileController {
 	
 	@FXML
 	private Button createEventButton;
+	
+	@FXML
+	private Button staffStatsButton;
 
 	//may remove fixed size resource images
 	//when dealing with window resizing.
@@ -1014,6 +1020,54 @@ public class ProfileController {
 			e2.printStackTrace();
 		}
 		System.out.println("Launch avatar editor.");
+	}
+	
+	/**
+	 * Opens the statistics scene when the button is clicked
+	 * Different scene opens depending on current user
+	 * @param event button being clicked
+	 */
+	@FXML
+	private void openStatistics(MouseEvent event) {
+		try {
+			FXMLLoader fxmlLoader =
+					new FXMLLoader(getClass().getResource("/fxml/userStatistics.fxml"));
+			Parent root1 = (Parent) fxmlLoader.load();
+			Stage stage = new Stage();
+			stage.initModality(Modality.APPLICATION_MODAL);
+			stage.setTitle("Statistics");
+			stage.setScene(new Scene(root1));
+			stage.show();
+
+		} catch (IOException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
+		System.out.println("Open user statistics.");
+	}
+	
+	/**
+	 * Opens the statistics scene when the button is clicked
+	 * Different scene opens depending on current user
+	 * @param event button being clicked
+	 */
+	@FXML
+	private void openStaffStatistics(MouseEvent event) {
+		try {
+			FXMLLoader fxmlLoader =
+					new FXMLLoader(getClass().getResource("/fxml/LibrarianStatistics.fxml"));
+			Parent root1 = (Parent) fxmlLoader.load();
+			Stage stage = new Stage();
+			stage.initModality(Modality.APPLICATION_MODAL);
+			stage.setTitle("Statistics");
+			stage.setScene(new Scene(root1));
+			stage.show();
+
+		} catch (IOException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
+		System.out.println("Open librarian statistics.");
 	}
 
 
