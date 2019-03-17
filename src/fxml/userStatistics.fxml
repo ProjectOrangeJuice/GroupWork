@@ -18,13 +18,16 @@
                 <NumberAxis label="Items Borrowed" side="LEFT" />
               </yAxis>
             </BarChart>
-            <VBox prefHeight="200.0" prefWidth="100.0" />
-            <Label fx:id="dayLabel" layoutX="594.0" layoutY="10.0" text="Borrowed Today" />
-            <TextField fx:id="borrowTodayTxt" layoutX="470.0" layoutY="10.0" />
-            <Label fx:id="weekLabel" layoutX="348.0" layoutY="10.0" text="Borrowed This Week" />
-            <TextField fx:id="borrowWeekTxt" />
-            <Label fx:id="monthLabel" text="Borrowed This Month" />
-            <TextField fx:id="borrowMonthTxt" layoutX="504.0" layoutY="10.0" />
+            <VBox prefHeight="400.0" prefWidth="217.0">
+               <children>
+                  <Label fx:id="dayLabel" text="Borrowed Today" />
+                  <TextField fx:id="borrowTodayTxt" editable="false" />
+                  <Label fx:id="weekLabel" text="Borrowed This Week" />
+                  <TextField fx:id="borrowWeekTxt" editable="false" />
+                  <Label fx:id="monthLabel" text="Borrowed This Month" />
+                  <TextField fx:id="borrowMonthTxt" editable="false" />
+               </children>
+            </VBox>
          </children>
       </HBox>
    </center>
