@@ -24,6 +24,7 @@ import model.Event;
 /**
  * Controller class for Event Creation Scene.
  * @author Kane
+ * @version 1.0
  *
  */
 public class EventCreationController {
