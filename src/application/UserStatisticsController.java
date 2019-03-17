@@ -94,8 +94,13 @@ public class UserStatisticsController {
 
 	/**
 	 * Initialises the controller
+	 * @throws SQLException 
 	 */
-	public void initialize() {
+	public void initialize() throws SQLException {
+		
+		this.initializeMonthlyStatsGraph();
+		this.initializeWeeklyStatsGraph();
+		this.initializeDailyStatsGraph();
 
 		// formating month graph
 		monthXAxis.setAutoRanging(false);

@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.chart.*?>
 <?import javafx.scene.text.*?>
 <?import javafx.scene.control.*?>
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="LibrarianStatisticsContolller">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.LibrarianStatisticsContolller">
    <center>
       <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
          <children>
@@ -50,6 +51,22 @@
                               <RadioButton fx:id="laptopRB11" layoutX="421.0" layoutY="141.0" mnemonicParsing="false" text="Laptop" toggleGroup="$group" />
                               <RadioButton fx:id="gameRB11" layoutX="421.0" layoutY="169.0" mnemonicParsing="false" text="Game" toggleGroup="$group" />
                               <TextFlow fx:id="descBox11" layoutX="23.0" layoutY="198.0" prefHeight="160.0" prefWidth="389.0" />
+                           </children>
+                        </AnchorPane>
+                     </content>
+                  </Tab>
+                  <Tab fx:id="overallTab1" text="Fines">
+                     <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <LineChart layoutX="14.0" layoutY="14.0" prefHeight="338.0" prefWidth="571.0">
+                                <xAxis>
+                                  <CategoryAxis label="Day" side="BOTTOM" />
+                                </xAxis>
+                                <yAxis>
+                                  <NumberAxis label="Fines" side="LEFT" />
+                                </yAxis>
+                              </LineChart>
                            </children>
                         </AnchorPane>
                      </content>

@@ -108,6 +108,7 @@ public class LibrarianStatisticsContolller {
 				case "bookRB":
 					try {
 						ScreenManager.setCurrentResource(getMostPopularBook(dayTab));
+						
 					} catch (SQLException | ParseException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -470,6 +471,7 @@ public class LibrarianStatisticsContolller {
 				laptopID = laptopSet.getInt("rID");
 
 			}
+			popLaptop = Resource.getResource(laptopID);
 		}
 		con.close();
 		return popLaptop;
@@ -553,6 +555,7 @@ public class LibrarianStatisticsContolller {
 				GameID = GameSet.getInt("rID");
 
 			}
+			popGame = Resource.getResource(GameID);
 		}
 		con.close();
 		return popGame;

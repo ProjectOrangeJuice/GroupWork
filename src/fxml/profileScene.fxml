@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Accordion?>
 <?import javafx.scene.control.Button?>
@@ -24,7 +30,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane focusTraversable="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="400.0" minWidth="600.0" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.ProfileController">
+<BorderPane focusTraversable="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="400.0" minWidth="600.0" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.ProfileController">
 
    <center>
       <TabPane fx:id="tabs" prefHeight="972.0" prefWidth="1920.0" BorderPane.alignment="CENTER">
@@ -92,6 +98,7 @@
                                  <children>
                                     <Button mnemonicParsing="false" onAction="#pickAvatar" text="Pick avatar" />
                                     <Button fx:id="userEditAvatar" mnemonicParsing="false" onMouseClicked="#openAvatarEditor" text="Make avatar" />
+                                    <Button fx:id="statsButton" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onMouseClicked="#openStatistics" text="Statistics" />
                                  </children>
                               </HBox>
                               <Separator prefWidth="200.0">
@@ -190,6 +197,7 @@
                                        <children>
                                           <Button mnemonicParsing="false" onAction="#pickAvatar" text="Pick avatar" />
                                           <Button fx:id="userEditAvatar1" mnemonicParsing="false" onMouseClicked="#openAvatarEditor" text="Make avatar" />
+                                          <Button fx:id="staffStatsButton" layoutX="93.0" layoutY="10.0" mnemonicParsing="false" onMouseClicked="#openStaffStatistics" text="Statistics" />
                                        </children>
                                     </HBox>
                                     <Separator prefWidth="200.0">
