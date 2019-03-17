@@ -87,6 +87,7 @@ public class Game extends Resource {
 
                 System.out.println("New game added!");
             }
+            conn.close();
         }
         catch (SQLException e) {
             e.printStackTrace();

@@ -48,6 +48,7 @@ public class User extends Person {
         this.accountBalance = accountBalance;
     }
 
+    
     /**
      * Adds a copy of a resource that the user has withdrawn.
      * 
@@ -55,9 +56,10 @@ public class User extends Person {
      */
     public void addBorrowedCopy(Copy copy) {
         this.copiesList.add(copy);
-        // Updater not needed as copy already updates the database.
+        //Updater not needed as copy already updates the database.
     }
 
+    
     /**
      * Returns all copies that the user has currently withdrawn.
      * 
@@ -67,6 +69,7 @@ public class User extends Person {
         return copiesList;
     }
 
+    
     /**
      * Method that gets the list of all requested resources.
      * @return the list of all requested resources 
@@ -85,7 +88,8 @@ public class User extends Person {
             while (rs.next()) {
                 requestedResource.add(Resource.getResource(rs.getInt("rID")));
             }
-
+            
+            dbConnection.close();
         }
         catch (SQLException e) {
             System.out.println("Cannot find requested requested resources.");
@@ -93,9 +97,9 @@ public class User extends Person {
         }
 
         return requestedResource;
-
     }
 
+    
     /**
      * Removes a copy from the list of copies withdrawn.
      * 
@@ -106,6 +110,7 @@ public class User extends Person {
         // Updater not needed as copy already updates the database.
     }
 
+    
     /**
      * Allows payments to be added to the account balance.
      * 
@@ -117,6 +122,7 @@ public class User extends Person {
             Double.toString(this.accountBalance));
     }
 
+    
     /**
      * Returns the current account balance.
      * 
@@ -126,6 +132,7 @@ public class User extends Person {
         return accountBalance;
     }
 
+    
     /**
      * Reduces the users balance.
      * 
@@ -144,6 +151,7 @@ public class User extends Person {
         statement.executeUpdate();
     }
 
+    
     /**
      * Checks the users balance.
      * 
@@ -167,10 +175,9 @@ public class User extends Person {
         results.close();
         connection.close();
         return balance;
-        
-
     }
 
+    
     /**
      * A method that adds a balance to the user in the database.
      * @param username username of the user
@@ -216,11 +223,10 @@ public class User extends Person {
     		System.out.println("Failed to load user events;");
             e.printStackTrace();
     	}
-
         return eventsList;
-    	
     }
 
+    
     /**
      * Method that loads the users borrow history.
      * @return The list of all resources whose copies this user has ever borrowed
@@ -251,10 +257,10 @@ public class User extends Person {
             System.out.println("Failed to load user history;");
             e.printStackTrace();
         }
-
         return borrowHistory;
     }
 
+    
     /**
      * Loads the copies the user is currently is borrowing and adds them to
      * this object's copy list.
@@ -280,6 +286,7 @@ public class User extends Person {
             e.printStackTrace();
         }
     }
+    
     
     /**
      * A method that checks if a user has any outstanding fines.
@@ -307,6 +314,7 @@ public class User extends Person {
         return false;
     }
 
+    
     /**
      * Boolean method that checks if the resource is being borrowed.
      * @param resource that is being borrowed
@@ -321,6 +329,7 @@ public class User extends Person {
         return false;
     }
 
+    
     /**
      * A method that gets a list of resources recommended for the user based on what they 
      * have previously borrowed.
@@ -381,6 +390,7 @@ public class User extends Person {
 
         return recommendedResource;
     }
+    
     
     /**
 	 * Check of the user have over requested an item
