@@ -43,12 +43,12 @@
                               <RadioButton fx:id="dvdRB1" layoutX="421.0" layoutY="115.0" mnemonicParsing="false" text="DVD" toggleGroup="$group" />
                               <RadioButton fx:id="laptopRB1" layoutX="421.0" layoutY="141.0" mnemonicParsing="false" text="Laptop" toggleGroup="$group" />
                               <RadioButton fx:id="gameRB1" layoutX="421.0" layoutY="169.0" mnemonicParsing="false" text="Game" toggleGroup="$group" />
-                              <TextFlow fx:id="descBox1" layoutX="23.0" layoutY="231.0" prefHeight="127.0" prefWidth="511.0" />
                               <VBox fx:id="displayBox1" layoutX="6.0" layoutY="7.0" prefHeight="213.0" prefWidth="387.0">
                                  <children>
                                     <ImageView fx:id="resourceimage1" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
                                  </children>
                               </VBox>
+                              <TextArea fx:id="descBox1" layoutX="26.0" layoutY="238.0" prefHeight="119.0" prefWidth="385.0" />
                            </children>
                         </AnchorPane>
                      </content>
@@ -61,12 +61,12 @@
                               <RadioButton fx:id="dvdRB11" layoutX="421.0" layoutY="115.0" mnemonicParsing="false" text="DVD" toggleGroup="$group" />
                               <RadioButton fx:id="laptopRB11" layoutX="421.0" layoutY="141.0" mnemonicParsing="false" text="Laptop" toggleGroup="$group" />
                               <RadioButton fx:id="gameRB11" layoutX="421.0" layoutY="169.0" mnemonicParsing="false" text="Game" toggleGroup="$group" />
-                              <TextFlow fx:id="descBox11" layoutX="23.0" layoutY="243.0" prefHeight="115.0" prefWidth="430.0" />
                               <VBox fx:id="displayBox11" layoutX="14.0" layoutY="15.0" prefHeight="209.0" prefWidth="378.0">
                                  <children>
                                     <ImageView fx:id="resourceimage11" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
                                  </children>
                               </VBox>
+                              <TextArea fx:id="descBox11" layoutX="22.0" layoutY="232.0" prefHeight="119.0" prefWidth="385.0" />
                            </children>
                         </AnchorPane>
                      </content>

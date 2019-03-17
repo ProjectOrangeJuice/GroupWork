@@ -89,11 +89,7 @@ public class UserStatisticsController {
 		
 		String date1 = year1+"-"+month1+"-"+day1+" 23:59:59";
 		String date2 = year2+"-"+month2+"-"+day2+" 23:59:59";
-		
-		
-		
-		
-		
+
 		System.out.println(date1.toString());
 		System.out.println(date1.toString());
 		int monthStat = model.Statistics.totalBorrow(username,
