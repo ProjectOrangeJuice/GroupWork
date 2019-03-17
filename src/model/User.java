@@ -391,20 +391,21 @@ public class User extends Person {
         return recommendedResource;
     }
     
-    
+	public int getRequestLimit() {
+		int requestLimit = 0;
+		for (int i = 0; i < copiesList.size(); i++) {
+			requestLimit += copiesList.get(i).getResource().getLimitAmount();
+		}
+		System.out.println("request limit:" + requestLimit);
+		return requestLimit;
+	}
+	
     /**
 	 * Check of the user have over requested an item
 	 * @return true if the user have over requested, false otherwise
 	 */
 	public boolean exceedLimit(Resource resource) {
-		ArrayList<Copy> borrowedCopies = copiesList;
-		int requestLimit = 0;
-		for (int i = 0; i < borrowedCopies.size(); i++) {
-			requestLimit += borrowedCopies.get(i).getResource().getLimitAmount();
-		}
-		
-		int availableRequest = resource.getLimitAmount() + requestLimit;
-		
+		int availableRequest = resource.getLimitAmount() + this.getRequestLimit();
 		if (availableRequest > 5) {
 			return true;
 		}
