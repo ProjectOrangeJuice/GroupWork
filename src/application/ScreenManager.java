@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import model.Book;
 import model.Copy;
 import model.DVD;
+import model.Game;
 import model.Laptop;
 import model.Librarian;
 import model.Person;
@@ -23,10 +24,13 @@ public class ScreenManager {
 	private static Librarian currentLibrarian;
 
 	public static Resource currentResource;
+	public static Copy currentCopy;
+	
 	public static Book currentBook;
 	public static Laptop currentLaptop;
 	public static DVD currentDVD;
-	public static Copy currentCopy;
+	public static Game currentGame;
+	
 
 	/**
 	* Getter method for getting currentUser.

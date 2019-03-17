@@ -153,18 +153,10 @@ public class CopyController {
 				}else {
 					topV.getChildren().addAll(topH,reviewText);
 				}
-				
-				
-				
-				
 				seeReviews.getChildren().add(topV);
 				
-				
-				
 			}
-			
-			seeReviews.setSpacing(8);
-			
+			seeReviews.setSpacing(8);	
 			
 		}else {
 			Text avgText = new Text("No reviews yet!");
@@ -189,8 +181,9 @@ public class CopyController {
 		resourceName.setWrapText(true);
 		// Adds all the common attributes to the text area
 		centertextarea.appendText(
-				"uniqueID: " + Integer.toString(uniqueId) + "\ntitle: " +
-		title + "\nyear: " + Integer.toString(year));
+				"UniqueID: " + Integer.toString(uniqueId) + 
+				"\nTitle: " + title + 
+				"\nYear: " + Integer.toString(year));
 
 		// If the resource is a Book, it will add the book attributes to the
 		// text area.
@@ -202,9 +195,12 @@ public class CopyController {
 			String ISBN = ScreenManager.currentBook.getISBN();
 			String language = ScreenManager.currentBook.getLanguage();
 
-			centertextarea.appendText("\nauthor: " + author + "\npublisher: " +
-			publisher + "\ngenre: " + genre
-					+ "\nISBN: " + ISBN + "\nlanguage: " + language);
+			centertextarea.appendText(
+					"\nAuthor: " + author + 
+					"\nPublisher: " + publisher + 
+					"\nGenre: " + genre + 
+					"\nISBN: " + ISBN + 
+					"\nLanguage: " + language);
 
 			// If the resource is a Laptop, it will add the laptop attributes to
 			// the text area.
@@ -214,8 +210,10 @@ public class CopyController {
 			String model = ScreenManager.currentLaptop.getModel();
 			String OS = ScreenManager.currentLaptop.getOS();
 
-			centertextarea.appendText("\nmanufacturer: " + manufacturer +
-					"\nmodel: " + model + "\nOS: " + OS);
+			centertextarea.appendText(
+					"\nManufacturer: " + manufacturer + 
+					"\nModel: " + model + 
+					"\nOS: " + OS);
 
 			// If the resource is a DVD, it will add the attributes of a dvd to
 			// the text area.
@@ -226,9 +224,25 @@ public class CopyController {
 			String language = ScreenManager.currentDVD.getLanguage();
 
 			centertextarea.appendText(
-					"\ndirector: " + director + "\nruntime: " + 
-			Integer.toString(runtime) + "\nlanguage: " + language);
-
+					"\nDirector: " + director + 
+					"\nRuntime: " + Integer.toString(runtime) + 
+					"\nLanguage: " + language);
+		
+		   // If the resource is a Game, it will add the attributes of a Game to
+		   // the text area.
+		} else if (ScreenManager.currentResource instanceof Game) {
+			ScreenManager.currentGame = (Game) ScreenManager.currentResource;
+			
+			String publisher = ScreenManager.currentGame.getPublisher();
+			String genre = ScreenManager.currentGame.getGenre();
+			String rating = ScreenManager.currentGame.getRating();
+			String multiplayer = ScreenManager.currentGame.getMultiplayerSupport();
+	
+			centertextarea.appendText(
+					"\nPublisher: " + publisher +
+					"\nGenre: " + genre +
+					"\nRating: " + rating +
+					"\nHas Mulitplayer? " + multiplayer );
 		}
 	
 		// This sets the textbox depending if the number of copies is equal to 0
