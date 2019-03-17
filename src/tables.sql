@@ -83,6 +83,7 @@ CREATE TABLE IF NOT EXISTS `fines` (
 	`amount`	REAL,
 	`dateTime`	TEXT,
 	`paid`	INTEGER,
+	`timestamp` DATETIME DEFAULT CURRENT_TIMESTAMP
 	FOREIGN KEY(`username`) REFERENCES `users`(`username`),
 	FOREIGN KEY(`rID`) REFERENCES `resource`(`rID`)
 );
