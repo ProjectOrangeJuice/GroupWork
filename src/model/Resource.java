@@ -628,7 +628,7 @@ public abstract class Resource {
         try {
             dbConnection = DBHelper.getConnection();
             sqlStatement = dbConnection.prepareStatement(
-                "INSERT INTO requestsToApprove VALUES (?,?)");
+                "INSERT INTO requestsToApprove('rID','userName') VALUES (?,?)");
             sqlStatement.setInt(1, uniqueID);
             sqlStatement.setString(2, requester.getUsername());
             sqlStatement.executeUpdate();
