@@ -508,12 +508,11 @@ public class ProfileController {
 		}
 		
 		Resource.loadDatabaseResources();
-		loadResourceImages();
 		loadUserInformation();
 		loadCopies();
 		loadRequested();
 		loadBorrowHistory();
-
+		loadResourceImages();
 	}
 
 
