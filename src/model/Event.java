@@ -22,7 +22,7 @@ public class Event {
 	private int ID;
 	private String title;
 	private String details;
-	private String date;
+	private String dateTime;
 	private int maxAttending;
 	
 	private static int totalEventNo = 0; //total no. of events (tracks eventID).
@@ -35,7 +35,7 @@ public class Event {
 	public Event(String title, String details, String date, int maxAttending) {
 		this.title = title;
 		this.details = details;
-		this.date = date;
+		this.dateTime = date;
 		this.maxAttending = maxAttending;
 	}
 	
@@ -120,7 +120,7 @@ public class Event {
 			Connection connectionToDB = DBHelper.getConnection();
 	        Statement stmt = connectionToDB.createStatement();
 	        stmt.executeUpdate("UPDATE events SET title = '" + event.title +
-	        "', details = '" + event.details + "', date = '" + event.date +
+	        "', details = '" + event.details + "', date = '" + event.dateTime +
 	        "', maxAllowed = " + event.maxAttending + " WHERE eID = " + event.ID);
 	        connectionToDB.close();
 		} catch (SQLException e) {
@@ -146,59 +146,119 @@ public class Event {
 		}
 	}
 
+	/**
+	 * Adds a new event to the static arrayList of events.
+	 * @param title Title of event
+	 * @param details Details of event
+	 * @param date date & time of event
+	 * @param maxAllowed total number of people who can attend the event
+	 */
 	public static void addEvent(String title, String details, String date, int maxAllowed) {
 		allEvents.add(new Event(title, details, date, maxAllowed));
 	}
 
+	/**
+	 * Returns Event ID.
+	 * @return The event's ID attribute.
+	 */
 	public int getID() {
 		return ID;
 	}
 
+	/**
+	 * Sets new ID for event.
+	 * @param iD The event's new ID attribute.
+	 */
 	public void setID(int iD) {
 		ID = iD;
 	}
 
+	/**
+	 * Returns title of event.
+	 * @return The event's title attribute.
+	 */
 	public String getTitle() {
 		return title;
 	}
 	
+	/**
+	 * Sets new title for event.
+	 * @param title The event's new title attribute.
+	 */
 	public void setTitle(String title) {
 		this.title = title;
 	}
 	
+	/**
+	 * Returns details of new event.
+	 * @return The event's details attribute.
+	 */
 	public String getDetails() {
 		return details;
 	}
 	
+	/**
+	 * Sets details for new event.
+	 * @param details The event's new details attribute.
+	 */
 	public void setDetails(String details) {
 		this.details = details;
 	}
 	
-	public String getDate() {
-		return date;
+	/**
+	 * Returns date & time of event.
+	 * @return The date & time attribute.
+	 */
+	public String getDateTime() {
+		return dateTime;
 	}
 	
+	/**
+	 * Sets new date & time of event.
+	 * @param date The event's new new date & time attribute.
+	 */
 	public void setDate(String date) {
-		this.date = date;
+		this.dateTime = date;
 	}
 	
+	/**
+	 * Returns max allowed attendants of event.
+	 * @return The maxAttending attribute.
+	 */
 	public int getMaxAttending() {
 		return maxAttending;
 	}
 	
+	/**
+	 * Sets new max allowed attendants for event.
+	 * @param maxAttending The event's new maxAttending attribute.
+	 */
 	public void setMaxAttending(int maxAttending) {
 		this.maxAttending = maxAttending;
 	}
 	
+	/**
+	 * Returns ArrayList containing all events from DB
+	 * available to the user.
+	 * @return The allEvents ArrayList.
+	 */
 	public static ArrayList<Event> getAllEvents() {
 		return allEvents;
 	}
 
+	/**
+	 * Sets new ArrayList of events.
+	 * @param newEvents New ArrayList of events.
+	 */
 	public static void setAllEvents(ArrayList<Event> newEvents) {
 		allEvents = newEvents;
 	}
 	
-	public static ArrayList<Event> getUserEvents() throws SQLException {
+	/**
+	 * Returns all events that current user has enrolled in.
+	 * @return The userEvents ArrayList.
+	 */
+	public static ArrayList<Event> getUserEvents() {
 		return usersEvents;
 	}
 
