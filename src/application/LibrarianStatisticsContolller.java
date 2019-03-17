@@ -31,7 +31,7 @@ import model.Resource;
 public class LibrarianStatisticsContolller {
 	
 	@FXML
-    private ImageView resourceimage;
+    private ImageView resourceimage,resourceimage1,resourceimage11;
 
 	@FXML
 	private Tab weekTab;
@@ -106,12 +106,8 @@ public class LibrarianStatisticsContolller {
 	private final String FORMAT_YMDHMS = new String("yyyy-MM-dd HH:mm:ss");
 
 	public void initialize() {
-
-		Resource resource = ScreenManager.getCurrentResource();
 		RadioButton selectedRadioButton = (RadioButton) group.getSelectedToggle();
 		String toogleGroupValue = selectedRadioButton.getText();
-		Image thumbnail;
-		
 
 		requestButton.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
@@ -119,9 +115,10 @@ public class LibrarianStatisticsContolller {
 				switch (toogleGroupValue) {
 				case "bookRB":
 					try {
-						ScreenManager.setCurrentResource(getMostPopularBook(dayTab));
-						thumbnail = resource.getThumbnail();
-						displayBox.
+						Resource mostPopResource = getMostPopularBook(dayTab);
+					
+						resourceimage.setImage(mostPopResource.getThumbnail());
+						
 						
 					} catch (SQLException | ParseException e) {
 						// TODO Auto-generated catch block

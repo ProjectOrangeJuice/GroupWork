@@ -62,16 +62,14 @@ public class UserStatisticsController {
 
 	public void initializeMonthlyStatsGraph() throws SQLException {
 		
-		Calendar cal = Calendar.getInstance();
-		int dayOfMonth = cal.get(Calendar.DAY_OF_MONTH);
-		int dayInt = dayOfMonth;//the day in int format
-		String dayString = Integer.toString(dayInt); // converting the day into a String for easier use
-		int monthInt = Calendar.getInstance().get(Calendar.MONTH)+1; //the current month in int and adding 1 because i am working with 1 index
-		int nextMonthInt = monthInt+1;
-		String nextMonth = Integer.toString(nextMonthInt); 
-		String curMonthString = Integer.toString(monthInt); //the current month in String
-		int yearInt = Calendar.getInstance().get(Calendar.YEAR); //the current year in int
-		String curYearString = Integer.toString(yearInt); //the current year in String
+		Date dt = new Date();
+		Calendar c = Calendar.getInstance(); 
+		c.setTime(dt); 
+		c.add(Calendar.DATE, 1);
+		dt = c.getTime();
+		c.add(Calendar.MONTH, -1);
+		int month = c.get(Calendar.MONTH) + 1; // beware of month indexing from zero
+		int year  = c.get(Calendar.YEAR);
 		
 		//setting desiredDate 1 and 2
 		try {
