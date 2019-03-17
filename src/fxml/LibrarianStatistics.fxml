@@ -24,8 +24,13 @@
                               <RadioButton fx:id="dvdRB" layoutX="421.0" layoutY="115.0" mnemonicParsing="false" text="DVD" toggleGroup="$group" />
                               <RadioButton fx:id="laptopRB" layoutX="421.0" layoutY="141.0" mnemonicParsing="false" text="Laptop" toggleGroup="$group" />
                               <RadioButton fx:id="gameRB" layoutX="421.0" layoutY="169.0" mnemonicParsing="false" text="Game" toggleGroup="$group" />
-                              <TextFlow fx:id="descBox" layoutX="23.0" layoutY="198.0" prefHeight="160.0" prefWidth="389.0" />
                               <Button fx:id="requestButton" layoutX="418.0" layoutY="198.0" mnemonicParsing="false" text="Request" />
+                              <VBox fx:id="displayBox" layoutX="14.0" layoutY="7.0" prefHeight="212.0" prefWidth="387.0">
+                                 <children>
+                                    <ImageView fx:id="resourceimage" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
+                                 </children>
+                              </VBox>
+                              <TextArea fx:id="descBox" layoutX="33.0" layoutY="256.0" prefHeight="102.0" prefWidth="364.0" />
                            </children>
                         </AnchorPane>
                   </content>
@@ -38,7 +43,12 @@
                               <RadioButton fx:id="dvdRB1" layoutX="421.0" layoutY="115.0" mnemonicParsing="false" text="DVD" toggleGroup="$group" />
                               <RadioButton fx:id="laptopRB1" layoutX="421.0" layoutY="141.0" mnemonicParsing="false" text="Laptop" toggleGroup="$group" />
                               <RadioButton fx:id="gameRB1" layoutX="421.0" layoutY="169.0" mnemonicParsing="false" text="Game" toggleGroup="$group" />
-                              <TextFlow fx:id="descBox1" layoutX="23.0" layoutY="198.0" prefHeight="160.0" prefWidth="389.0" />
+                              <TextFlow fx:id="descBox1" layoutX="23.0" layoutY="231.0" prefHeight="127.0" prefWidth="511.0" />
+                              <VBox fx:id="displayBox1" layoutX="6.0" layoutY="7.0" prefHeight="213.0" prefWidth="387.0">
+                                 <children>
+                                    <ImageView fx:id="resourceimage1" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
+                                 </children>
+                              </VBox>
                            </children>
                         </AnchorPane>
                      </content>
@@ -52,9 +62,9 @@
                               <RadioButton fx:id="laptopRB11" layoutX="421.0" layoutY="141.0" mnemonicParsing="false" text="Laptop" toggleGroup="$group" />
                               <RadioButton fx:id="gameRB11" layoutX="421.0" layoutY="169.0" mnemonicParsing="false" text="Game" toggleGroup="$group" />
                               <TextFlow fx:id="descBox11" layoutX="23.0" layoutY="243.0" prefHeight="115.0" prefWidth="430.0" />
-                              <VBox fx:id="displayBox" layoutX="14.0" layoutY="15.0" prefHeight="209.0" prefWidth="378.0">
+                              <VBox fx:id="displayBox11" layoutX="14.0" layoutY="15.0" prefHeight="209.0" prefWidth="378.0">
                                  <children>
-                                    <ImageView fx:id="resourceimage" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
+                                    <ImageView fx:id="resourceimage11" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
                                  </children>
                               </VBox>
                            </children>
