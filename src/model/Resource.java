@@ -722,7 +722,6 @@ public abstract class Resource {
         Date loginDate = formatter.parse(person.getLastLogin());
         long timeDifference = loginDate.getTime() - resourceDate.getTime();
         
-       
             if (timeDifference < 0) {
                 return true;
             }
@@ -731,10 +730,10 @@ public abstract class Resource {
             }
         }
         catch (NullPointerException e){
+        	//TODO: Find alternative to catch this.
             System.out.println("Null pointer exception caught, try log in a second time.");
             return true;
         }
-        
     }
     
     /**
