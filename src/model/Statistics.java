@@ -5,13 +5,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-/*
+/**
  * Database queries.
  * @author James Finlayson
  * @author Oliver Harris
  * @author Zhing Hang Lee
  */
-
 public class Statistics {
 
 	/**

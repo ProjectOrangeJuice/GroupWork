@@ -1,10 +1,4 @@
 package application;
-/**
- * Controller class for the write a review GUI
- * @author Oliver Harris
- * @author Joe Wright
- */
-
 
 import javafx.fxml.FXML;
 import javafx.scene.control.RadioButton;
@@ -15,6 +9,11 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import model.Review;
 
+/**
+ * Controller class for the write a review GUI
+ * @author Oliver Harris
+ * @author Joe Wright
+ */
 public class WriteReviewController {
     @FXML
     private AnchorPane writeReviewBox;
