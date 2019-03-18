@@ -46,7 +46,7 @@ DROP TABLE IF EXISTS `system`;
 CREATE TABLE IF NOT EXISTS `system` (
 	`ver`	INTEGER
 );
-INSERT INTO `system` VALUES (5);
+INSERT INTO `system` VALUES (10);
 
 DROP TABLE IF EXISTS `resource`;
 CREATE TABLE IF NOT EXISTS `resource` (
@@ -87,8 +87,14 @@ CREATE TABLE IF NOT EXISTS `fines` (
 	FOREIGN KEY(`username`) REFERENCES `users`(`username`),
 	FOREIGN KEY(`rID`) REFERENCES `resource`(`rID`)
 );
-INSERT INTO `fines` VALUES (1,"Manny",1,3,5.0,'hi',1);
-INSERT INTO `fines` VALUES (2,"Steveo",2,100,10.0,'always',1);
+INSERT INTO `fines` VALUES (1,"Manny",1,3,5.0,'hi',0,"2019-03-10 11:01:01");
+INSERT INTO `fines` VALUES (2,"Steveo",2,100,10.0,'always',0,"2019-03-10 01:01:01");
+INSERT INTO `fines` VALUES (3,"Manny",1,3,5.0,'hi',1,"2019-03-10 01:01:01");
+INSERT INTO `fines` VALUES (4,"Steveo",2,100,10.0,'always',1,"2019-03-10 01:01:01");
+INSERT INTO `fines` VALUES (5,"Manny",1,3,5.0,'hi',1,"2019-03-10 01:01:01");
+INSERT INTO `fines` VALUES (6,"Steveo",2,100,10.0,'always',1,"2019-03-10 01:01:01");
+INSERT INTO `fines` VALUES (7,"Manny",1,3,5.0,'hi',1,"2019-03-10 01:01:01");
+INSERT INTO `fines` VALUES (8,"Steveo",2,100,10.0,'always',1,"2019-03-10 01:01:01");
 
 DROP TABLE IF EXISTS `book`;
 CREATE TABLE IF NOT EXISTS `book` (
