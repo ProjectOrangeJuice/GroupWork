@@ -7,7 +7,7 @@ import java.sql.SQLException;
 
 /*
  * Database queries.
- * @author James 
+ * @author James Finlayson
  * @author Oliver Harris
  * @author Zhing Hang Lee
  */

@@ -8,7 +8,6 @@ import javafx.scene.chart.LineChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TextArea;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import model.Person;
 import model.Resource;
@@ -85,6 +84,9 @@ public class LibrarianStatisticsContolller {
 
 	Person person = ScreenManager.getCurrentUser();
 
+	/**
+	 * Initialises the controller
+	 */
 	public void initialize() {
 		this.weeklyBook();
 		this.weeklyDVD();
@@ -101,6 +103,11 @@ public class LibrarianStatisticsContolller {
 		this.initialiseFineChart();
 	}
 
+	/**
+	 * gets the most popular book for this week 
+	 * sets the tumbnail as displayed image
+	 * sets the title as variable in description box
+	 */
 	public void weeklyBook() {
 
 		String date1 = dateFormat(0, 0);
@@ -108,8 +115,8 @@ public class LibrarianStatisticsContolller {
 
 		int Book = Statistics.getMostPopularBook(date2, date1);
 		if(Book!=-1) {
-			Image bimg = findResource(Book).getThumbnail();
-			bookImg.setImage(bimg);
+			bookImg.setImage(findResource(Book).getThumbnail());
+			descBox.appendText("The most popular book is: " + findResource(Book).getTitle()+ "\n");
 		}
 		else {
 			bookImg.setImage(null);
@@ -117,6 +124,11 @@ public class LibrarianStatisticsContolller {
 
 	}
 
+	/**
+	 * gets the most popular book for this month 
+	 * sets the tumbnail as displayed image
+	 * sets the title as variable in description box
+	 */
 	public void monthlyBook() {
 
 		String date1 = dateFormat(0, 0);
@@ -125,6 +137,7 @@ public class LibrarianStatisticsContolller {
 		int Book = Statistics.getMostPopularBook(date2, date1);
 		if(Book!=-1) {
 			bookImg1.setImage(findResource(Book).getThumbnail());
+			descBox1.appendText("The most popular book is: " + findResource(Book).getTitle()+ "\n");
 		}
 		else {
 			bookImg1.setImage(null);
@@ -132,6 +145,11 @@ public class LibrarianStatisticsContolller {
 
 	}
 
+	/**
+	 * gets the most popular book for all time 
+	 * sets the tumbnail as displayed image
+	 * sets the title as variable in description box
+	 */
 	public void allTimeBook() {
 
 		String date1 = dateFormat(0, 0);
@@ -140,6 +158,7 @@ public class LibrarianStatisticsContolller {
 		int Book = Statistics.getMostPopularBook(date2, date1);
 		if(Book!=-1) {
 			bookImg11.setImage(findResource(Book).getThumbnail());
+			descBox11.appendText("The most popular book is: " + findResource(Book).getTitle()+ "\n");
 		}
 		else {
 			bookImg11.setImage(null);
@@ -147,6 +166,11 @@ public class LibrarianStatisticsContolller {
 
 	}
 
+	/**
+	 * gets the most popular DVD for this week 
+	 * sets the tumbnail as displayed image
+	 * sets the title as variable in description box
+	 */
 	public void weeklyDVD() {
 
 		String date1 = dateFormat(0, 0);
@@ -155,6 +179,7 @@ public class LibrarianStatisticsContolller {
 		int DVD = Statistics.getMostPopularDVD(date2, date1);
 		if(DVD!=-1) {
 			dvdImg.setImage(findResource(DVD).getThumbnail());
+			descBox.appendText("The most popular DVD is: " + findResource(DVD).getTitle()+ "\n");
 		}
 		else {
 			dvdImg.setImage(null);
@@ -162,6 +187,11 @@ public class LibrarianStatisticsContolller {
 
 	}
 
+	/**
+	 * gets the most popular DVD for this month 
+	 * sets the tumbnail as displayed image
+	 * sets the title as variable in description box
+	 */
 	public void monthlyDVD() {
 
 		String date1 = dateFormat(0, 0);
@@ -170,6 +200,7 @@ public class LibrarianStatisticsContolller {
 		int DVD = Statistics.getMostPopularDVD(date2, date1);
 		if(DVD!=-1) {
 			dvdImg1.setImage(findResource(DVD).getThumbnail());
+			descBox1.appendText("The most popular DVD is: " + findResource(DVD).getTitle()+ "\n");
 		}
 		else {
 			dvdImg1.setImage(null);
@@ -177,6 +208,11 @@ public class LibrarianStatisticsContolller {
 
 	}
 
+	/**
+	 * gets the most popular DVD for all time
+	 * sets the tumbnail as displayed image
+	 * sets the title as variable in description box
+	 */
 	public void allTimeDVD() {
 
 		String date1 = dateFormat(0, 0);
@@ -185,6 +221,7 @@ public class LibrarianStatisticsContolller {
 		int DVD = Statistics.getMostPopularDVD(date2, date1);
 		if(DVD!=-1) {
 			dvdImg11.setImage(findResource(DVD).getThumbnail());
+			descBox11.appendText("The most popular DVD is: " + findResource(DVD).getTitle()+ "\n");
 		}
 		else {
 			dvdImg11.setImage(null);
@@ -192,6 +229,11 @@ public class LibrarianStatisticsContolller {
 
 	}
 
+	/**
+	 * gets the most popular Laptop for this week 
+	 * sets the tumbnail as displayed image
+	 * sets the title as variable in description box
+	 */
 	public void weeklyLaptop() {
 
 		String date1 = dateFormat(0, 0);
@@ -200,6 +242,7 @@ public class LibrarianStatisticsContolller {
 		int Laptop = Statistics.getMostPopularLaptop(date2, date1);
 		if(Laptop!=-1) {
 			laptopImg.setImage(findResource(Laptop).getThumbnail());
+			descBox.appendText("The most popular Laptop is: " + findResource(Laptop).getTitle()+ "\n");
 		}
 		else {
 			laptopImg.setImage(null);
@@ -207,6 +250,11 @@ public class LibrarianStatisticsContolller {
 
 	}
 
+	/**
+	 * gets the most popular Laptop for this month 
+	 * sets the tumbnail as displayed image
+	 * sets the title as variable in description box
+	 */
 	public void monthlyLaptop() {
 
 		String date1 = dateFormat(0, 0);
@@ -215,6 +263,7 @@ public class LibrarianStatisticsContolller {
 		int Laptop = Statistics.getMostPopularLaptop(date2, date1);
 		if(Laptop!=-1) {
 			laptopImg1.setImage(findResource(Laptop).getThumbnail());
+			descBox1.appendText("The most popular Laptop is: " + findResource(Laptop).getTitle()+ "\n");
 		}
 		else {
 			laptopImg1.setImage(null);
@@ -222,6 +271,11 @@ public class LibrarianStatisticsContolller {
 
 	}
 
+	/**
+	 * gets the most popular Laptop for all time
+	 * sets the tumbnail as displayed image
+	 * sets the title as variable in description box
+	 */
 	public void allTimeLaptop() {
 
 		String date1 = dateFormat(0, 0);
@@ -230,6 +284,7 @@ public class LibrarianStatisticsContolller {
 		int Laptop = Statistics.getMostPopularLaptop(date2, date1);
 		if(Laptop!=-1) {
 			laptopImg11.setImage(findResource(Laptop).getThumbnail());
+			descBox11.appendText("The most popular Laptop is: " + findResource(Laptop).getTitle()+ "\n");
 		}
 		else {
 			laptopImg11.setImage(null);
@@ -237,6 +292,11 @@ public class LibrarianStatisticsContolller {
 
 	}
 
+	/**
+	 * gets the most popular Game for this week 
+	 * sets the tumbnail as displayed image
+	 * sets the title as variable in description box
+	 */
 	public void weeklyGame() {
 
 		String date1 = dateFormat(0, 0);
@@ -245,6 +305,7 @@ public class LibrarianStatisticsContolller {
 		int Game = Statistics.getMostPopularGame(date2, date1);
 		if(Game!=-1) {
 			gameImg.setImage(findResource(Game).getThumbnail());
+			descBox.appendText("The most popular Game is: " + findResource(Game).getTitle()+ "\n");
 		}
 		else {
 			gameImg.setImage(null);
@@ -252,6 +313,11 @@ public class LibrarianStatisticsContolller {
 
 	}
 
+	/**
+	 * gets the most popular Game for this month 
+	 * sets the tumbnail as displayed image
+	 * sets the title as variable in description box
+	 */
 	public void monthlyGame() {
 
 		String date1 = dateFormat(0, 0);
@@ -260,6 +326,7 @@ public class LibrarianStatisticsContolller {
 		int Game = Statistics.getMostPopularGame(date2, date1);
 		if(Game!=-1) {
 			gameImg1.setImage(findResource(Game).getThumbnail());
+			descBox1.appendText("The most popular Game is: " + findResource(Game).getTitle() + "\n");
 		}
 		else {
 			gameImg1.setImage(null);
@@ -267,6 +334,11 @@ public class LibrarianStatisticsContolller {
 
 	}
 
+	/**
+	 * gets the most popular Game for all time 
+	 * sets the tumbnail as displayed image
+	 * sets the title as variable in description box
+	 */
 	public void allTimeGame() {
 
 		String date1 = dateFormat(0, 0);
@@ -275,6 +347,7 @@ public class LibrarianStatisticsContolller {
 		int Game = Statistics.getMostPopularGame(date2, date1);
 		if(Game!=-1) {
 			gameImg11.setImage(findResource(Game).getThumbnail());
+			descBox11.appendText("The most popular Game is: " + findResource(Game).getTitle()+ "\n");
 		}
 		else {
 			gameImg11.setImage(null);
@@ -282,6 +355,9 @@ public class LibrarianStatisticsContolller {
 
 	}
 	
+	/**
+	 * initialises chart to display number of fines for given time period
+	 */
 	public void initialiseFineChart() {
 		String date1 = dateFormat(0, 0);
 		String date2 = dateFormat(0, 48);
@@ -294,6 +370,12 @@ public class LibrarianStatisticsContolller {
 		
 	}
 
+	/**
+	 * finds specific resource in set of all resources using rID
+	 * 
+	 * @param rID
+	 * @return resource
+	 */
 	private Resource findResource(int rID) {
 		for (Resource r : Resource.getResources()) {
 			
