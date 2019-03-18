@@ -35,7 +35,7 @@ public class Statistics {
 		
 	}
 	
-	public static Resource getMostPopularBook(String date1, String date2) {
+	public static int getMostPopularBook(String date1, String date2) {
 		try {
 			Connection con = DBHelper.getConnection();
 			String getBooks = "SELECT * FROM  majorStat, resource,book "
@@ -49,22 +49,22 @@ public class Statistics {
 			if (!bookSet.isBeforeFirst() ) {    
 			    System.out.println("No data"); 
 			    con.close();
-			    return null;
+			    return -1;
 			} else {
 				
 				int bookId = bookSet.getInt(1);
 			
-				Resource bookR = Resource.getResource(bookId);
+				
 			
 				con.close();
-				return bookR;
+				return bookId;
 				
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return null;
+		return -1;
 		
 		
 		
