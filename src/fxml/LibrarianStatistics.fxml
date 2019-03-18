@@ -17,56 +17,49 @@
                   <content>
                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
-                              <RadioButton fx:id="bookRB" layoutX="421.0" layoutY="90.0" mnemonicParsing="false" text="Book">
-                                 <toggleGroup>
-                                    <ToggleGroup fx:id="group" />
-                                 </toggleGroup></RadioButton>
-                              <RadioButton fx:id="dvdRB" layoutX="421.0" layoutY="115.0" mnemonicParsing="false" text="DVD" toggleGroup="$group" />
-                              <RadioButton fx:id="laptopRB" layoutX="421.0" layoutY="141.0" mnemonicParsing="false" text="Laptop" toggleGroup="$group" />
-                              <RadioButton fx:id="gameRB" layoutX="421.0" layoutY="169.0" mnemonicParsing="false" text="Game" toggleGroup="$group" />
-                              <Button fx:id="requestButton" layoutX="418.0" layoutY="198.0" mnemonicParsing="false" text="Request" />
-                              <VBox fx:id="displayBox" layoutX="14.0" layoutY="7.0" prefHeight="212.0" prefWidth="387.0">
+                              <TextArea fx:id="descBox" layoutX="33.0" layoutY="256.0" prefHeight="102.0" prefWidth="521.0" />
+                              <HBox layoutX="14.0" layoutY="14.0" prefHeight="100.0" prefWidth="200.0">
                                  <children>
-                                    <ImageView fx:id="resourceimage" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
+                                    <ImageView fx:id="bookImg" fitHeight="150.0" fitWidth="136.0" pickOnBounds="true" preserveRatio="true" />
+                                    <ImageView fx:id="dvdImg" fitHeight="150.0" fitWidth="128.0" layoutX="10.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" />
+                                    <ImageView fx:id="laptopImg" fitHeight="150.0" fitWidth="126.0" layoutX="410.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" />
+                                    <ImageView fx:id="gameImg" fitHeight="150.0" fitWidth="126.0" pickOnBounds="true" preserveRatio="true" />
                                  </children>
-                              </VBox>
-                              <TextArea fx:id="descBox" layoutX="33.0" layoutY="256.0" prefHeight="102.0" prefWidth="364.0" />
+                              </HBox>
                            </children>
                         </AnchorPane>
                   </content>
                 </Tab>
-                  <Tab fx:id="weekTab" text="Weekly Statistics">
+                  <Tab fx:id="dayTab1" text="Weekly Statistics">
                      <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
-                              <RadioButton fx:id="bookRB1" layoutX="421.0" layoutY="90.0" mnemonicParsing="false" text="Book" toggleGroup="$group" />
-                              <RadioButton fx:id="dvdRB1" layoutX="421.0" layoutY="115.0" mnemonicParsing="false" text="DVD" toggleGroup="$group" />
-                              <RadioButton fx:id="laptopRB1" layoutX="421.0" layoutY="141.0" mnemonicParsing="false" text="Laptop" toggleGroup="$group" />
-                              <RadioButton fx:id="gameRB1" layoutX="421.0" layoutY="169.0" mnemonicParsing="false" text="Game" toggleGroup="$group" />
-                              <VBox fx:id="displayBox1" layoutX="6.0" layoutY="7.0" prefHeight="213.0" prefWidth="387.0">
+                              <TextArea fx:id="descBox1" layoutX="33.0" layoutY="256.0" prefHeight="102.0" prefWidth="521.0" />
+                              <HBox layoutX="14.0" layoutY="14.0" prefHeight="100.0" prefWidth="200.0">
                                  <children>
-                                    <ImageView fx:id="resourceimage1" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
+                                    <ImageView fx:id="bookImg1" fitHeight="150.0" fitWidth="136.0" pickOnBounds="true" preserveRatio="true" />
+                                    <ImageView fx:id="dvdImg1" fitHeight="150.0" fitWidth="128.0" layoutX="10.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" />
+                                    <ImageView fx:id="laptopImg1" fitHeight="150.0" fitWidth="126.0" layoutX="410.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" />
+                                    <ImageView fx:id="gameImg1" fitHeight="150.0" fitWidth="126.0" pickOnBounds="true" preserveRatio="true" />
                                  </children>
-                              </VBox>
-                              <TextArea fx:id="descBox1" layoutX="26.0" layoutY="238.0" prefHeight="119.0" prefWidth="385.0" />
+                              </HBox>
                            </children>
                         </AnchorPane>
                      </content>
                   </Tab>
-                  <Tab fx:id="overallTab" text="Overall Statistics">
+                  <Tab fx:id="dayTab11" text="Overall Statistics">
                      <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
-                              <RadioButton fx:id="bookRB11" layoutX="421.0" layoutY="90.0" mnemonicParsing="false" text="Book" toggleGroup="$group" />
-                              <RadioButton fx:id="dvdRB11" layoutX="421.0" layoutY="115.0" mnemonicParsing="false" text="DVD" toggleGroup="$group" />
-                              <RadioButton fx:id="laptopRB11" layoutX="421.0" layoutY="141.0" mnemonicParsing="false" text="Laptop" toggleGroup="$group" />
-                              <RadioButton fx:id="gameRB11" layoutX="421.0" layoutY="169.0" mnemonicParsing="false" text="Game" toggleGroup="$group" />
-                              <VBox fx:id="displayBox11" layoutX="14.0" layoutY="15.0" prefHeight="209.0" prefWidth="378.0">
+                              <TextArea fx:id="descBox11" layoutX="33.0" layoutY="256.0" prefHeight="102.0" prefWidth="521.0" />
+                              <HBox layoutX="14.0" layoutY="14.0" prefHeight="100.0" prefWidth="200.0">
                                  <children>
-                                    <ImageView fx:id="resourceimage11" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
+                                    <ImageView fx:id="bookImg11" fitHeight="150.0" fitWidth="136.0" pickOnBounds="true" preserveRatio="true" />
+                                    <ImageView fx:id="dvdImg11" fitHeight="150.0" fitWidth="128.0" layoutX="10.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" />
+                                    <ImageView fx:id="laptopImg11" fitHeight="150.0" fitWidth="126.0" layoutX="410.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" />
+                                    <ImageView fx:id="gameImg11" fitHeight="150.0" fitWidth="126.0" pickOnBounds="true" preserveRatio="true" />
                                  </children>
-                              </VBox>
-                              <TextArea fx:id="descBox11" layoutX="22.0" layoutY="232.0" prefHeight="119.0" prefWidth="385.0" />
+                              </HBox>
                            </children>
                         </AnchorPane>
                      </content>

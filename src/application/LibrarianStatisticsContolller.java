@@ -1,100 +1,81 @@
 package application;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.List;
 
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
-import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleGroup;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
-import model.DBHelper;
 import model.Person;
 import model.Resource;
+import model.Statistics;
 
 public class LibrarianStatisticsContolller {
 	
-	@FXML
-    private ImageView resourceimage,resourceimage1,resourceimage11;
+    @FXML
+    private ImageView bookImg;
 
-	@FXML
-	private Tab weekTab;
+    @FXML
+    private ImageView bookImg1;
 
-	@FXML
-	private RadioButton bookRB1;
+    @FXML
+    private Tab dayTab11;
 
-	@FXML
-	private Tab overallTab;
+    @FXML
+    private ImageView dvdImg11;
 
-	@FXML
-	private RadioButton bookRB11;
+    @FXML
+    private ImageView gameImg11;
 
-	@FXML
-	private RadioButton gameRB11;
+    @FXML
+    private ImageView dvdImg;
 
-	@FXML
-	private Tab dayTab;
+    @FXML
+    private Tab overallTab1;
 
-	@FXML
-	private RadioButton laptopRB1;
+    @FXML
+    private ImageView laptopImg;
 
-	@FXML
-	private TextArea descBox1;
+    @FXML
+    private ImageView gameImg;
 
-	@FXML
-	private RadioButton gameRB;
+    @FXML
+    private ImageView gameImg1;
 
-	@FXML
-	private RadioButton dvdRB11;
+    @FXML
+    private Tab dayTab;
 
-	@FXML
-	private RadioButton laptopRB11;
+    @FXML
+    private ImageView bookImg11;
 
-	@FXML
-	private TextArea descBox;
+    @FXML
+    private TextArea descBox1;
 
-	@FXML
-	private RadioButton bookRB;
+    @FXML
+    private ImageView dvdImg1;
 
-	@FXML
-	private RadioButton gameRB1;
+    @FXML
+    private TextArea descBox;
 
-	@FXML
-	private RadioButton dvdRB;
+    @FXML
+    private ImageView laptopImg11;
 
-	@FXML
-	private RadioButton laptopRB;
+    @FXML
+    private Tab dayTab1;
 
-	@FXML
-	private RadioButton dvdRB1;
+    @FXML
+    private TextArea descBox11;
 
-	@FXML
-	private TextArea descBox11;
-
-	@FXML
-	private Button requestButton;
-
-	@FXML
-	private ToggleGroup group;
-	
-	@FXML
-	private VBox displayBox;
+    @FXML
+    private ImageView laptopImg1;
 	
 	private static final int RES_IMG_WIDTH = 200;
     private static final int RES_IMG_HEIGHT = 200;
@@ -110,9 +91,63 @@ public class LibrarianStatisticsContolller {
 	private final String FORMAT_YMDHMS = new String("yyyy-MM-dd HH:mm:ss");
 
 	public void initialize() {
+		this.weeklyBook();
+	}
+	
+	public void weeklyBook() {
+		
+		String month1;
+		String month2;
+		String day1;
+		String day2;
+		Date dt = new Date();
+		Calendar c = Calendar.getInstance(); 
+		c.setTime(dt); 
+		c.add(Calendar.DATE, 1);
+		dt = c.getTime();
+		int month1T = c.get(Calendar.MONTH) + 1; // beware of month indexing from zero
+		int year1  = c.get(Calendar.YEAR);
+		int day1T = c.get(Calendar.DAY_OF_MONTH)-1;
+		if(day1T<10) {
+			day1 = "0"+day1T;
+		}else {
+			day1 = String.valueOf(day1T);
+		}
+		if(month1T<10) {
+			month1 = "0"+month1T;
+		}else {
+			month1 = String.valueOf(month1T);
+		}
+		c.add(Calendar.DAY_OF_MONTH, -7);
+		int month2T = c.get(Calendar.MONTH) + 1; // beware of month indexing from zero
+		int year2  = c.get(Calendar.YEAR);
+		int day2T = c.get(Calendar.DAY_OF_MONTH)-1;
+		
+		if(day1T<10) {
+			day2 = "0"+day2T;
+		}else {
+			day2 = String.valueOf(day2T);
+		}
+		
+		if(month1T<10) {
+			month2 = "0"+month2T;
+		}else {
+			month2 = String.valueOf(month2T);
+		}
+		
+		String date1 = year1+"-"+month1+"-"+day1+" 23:59:59";
+		String date2 = year2+"-"+month2+"-"+day2+" 23:59:59";
+		
+		Resource book = Statistics.getMostPopularBook(date1, date2);
+		System.out.println(book.getTitle());
+	}
+		
+		/**
+
 		RadioButton selectedRadioButton = (RadioButton) group.getSelectedToggle();
 		String toogleGroupValue = selectedRadioButton.getText();
-
+		
+		
 		requestButton.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
@@ -629,11 +664,11 @@ public class LibrarianStatisticsContolller {
 	/**
      * Loads resource image from Resource class, so that they can be displayed
      * within the UI.
-     */
+   
     private void loadResourceImage() {
         // create new resource image to be added.
         resourceimage.setFitWidth(RES_IMG_WIDTH);
         resourceimage.setFitHeight(RES_IMG_HEIGHT);
         resourceimage.setImage(ScreenManager.currentResource.getThumbnail());
-    }
+    }  */
 }

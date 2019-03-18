@@ -30,6 +30,9 @@ public class UserStatisticsController {
 	
 	Person person = ScreenManager.getCurrentUser();
 	String username = person.getUsername();
+	XYChart.Series monthData = new XYChart.Series();
+	XYChart.Series dayData = new XYChart.Series();
+	XYChart.Series monthData = new XYChart.Series();
 
 	/**
 	 * Initialises the controller
@@ -48,6 +51,7 @@ public class UserStatisticsController {
 
 
 	public void initializeMonthlyStatsGraph() throws SQLException {
+		
 		String month1;
 		String month2;
 		String day1;
