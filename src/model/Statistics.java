@@ -9,7 +9,7 @@ import java.sql.SQLException;
  * Database queries.
  * @author James 
  * @author Oliver Harris
- * @author Lee Zack
+ * @author Zhing Hang Lee
  */
 
 public class Statistics {
@@ -196,6 +196,12 @@ public class Statistics {
 		return -1;
 	}
 	
+	/**
+	 * Get most fine between 2 dates.
+	 * @param date1 The first date
+	 * @param date2 The second date
+	 * @return the total fines between 2 dates
+	 */
 	public int getMostFine(String date1, String date2) {
 		Connection con;
 		int fineTotal = 0;
