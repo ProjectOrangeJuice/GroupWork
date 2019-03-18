@@ -37,7 +37,7 @@ public class UserStatisticsController {
 	String username = person.getUsername();
 	XYChart.Series monthData = new XYChart.Series();
 	XYChart.Series dayData = new XYChart.Series();
-	XYChart.Series monthData = new XYChart.Series();
+	XYChart.Series weekData = new XYChart.Series();
 	
 	private static final String END_HOUR = "23:59:59";
 
@@ -130,6 +130,7 @@ public class UserStatisticsController {
 		}
 		
 		String date1 = year2 + "-" + month2 + "-" + day2 + " "+END_HOUR;
+		return date1;
 	}
 
 }
