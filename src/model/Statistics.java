@@ -6,12 +6,21 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /*
- * Database queries
+ * Database queries.
  * @author James 
+ * @author Oliver Harris
+ * @author Lee Zack
  */
 
 public class Statistics {
 
+	/**
+	 * Get the total borrowed between a date by a user.
+	 * @param username The username the statistic is being generated for.
+	 * @param date1 The first date.
+	 * @param date2 The second date.
+	 * @return The total borrowed between the dates.
+	 */
 	public static int totalBorrow(String username, String date1, String date2) {
 		Connection con;
 		int borrowedTotal = 0;
@@ -35,6 +44,12 @@ public class Statistics {
 		
 	}
 	
+	/**
+	 * Get the most popular book between two dates.
+	 * @param date1 The first date.
+	 * @param date2 The second date.
+	 * @return The resourceId of the most popular. -1 if there are none.
+	 */
 	public static int getMostPopularBook(String date1, String date2) {
 		try {
 			Connection con = DBHelper.getConnection();
@@ -66,6 +81,13 @@ public class Statistics {
 		}
 		return -1;
 	}
+	
+	/**
+	 * Get the most popular DVD between two dates.
+	 * @param date1 The first date.
+	 * @param date2 The second date.
+	 * @return The resourceId of the most popular. -1 if there are none.
+	 */
 	public static int getMostPopularDVD(String date1, String date2) {
 		try {
 			Connection con = DBHelper.getConnection();
@@ -98,6 +120,12 @@ public class Statistics {
 		return -1;
 	}
 	
+	/**
+	 * Get the most popular laptop between two dates.
+	 * @param date1 The first date.
+	 * @param date2 The second date.
+	 * @return The resourceId of the most popular. -1 if there are none.
+	 */
 	public static int getMostPopularLaptop(String date1, String date2) {
 		try {
 			Connection con = DBHelper.getConnection();
@@ -130,6 +158,12 @@ public class Statistics {
 		return -1;
 	}
 	
+	/**
+	 * Get the most popular game between two dates.
+	 * @param date1 The first date.
+	 * @param date2 The second date.
+	 * @return The resourceId of the most popular. -1 if there are none.
+	 */
 	public static int getMostPopularGame(String date1, String date2) {
 		try {
 			Connection con = DBHelper.getConnection();
