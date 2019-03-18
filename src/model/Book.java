@@ -71,6 +71,7 @@ public class Book extends Resource {
      * @param thumbnail A small image of this resource.
     * @param author The author of the book.
      * @param publisher The publisher of the book.
+     * @param timestamp The time when this resource was added.
      */
     public Book(int uniqueID, String title, int year, Image thumbnail, 
     		String timestamp, String author, String publisher) {

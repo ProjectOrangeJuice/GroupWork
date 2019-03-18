@@ -364,11 +364,10 @@ public class LibrarianStatisticsContolller {
 
 	}
 	
-<<<<<<< HEAD
+
 	/**
 	 * initialises chart to display number of fines for given time period
 	 */
-=======
 	@FXML
     public void prev(MouseEvent event) {
        monthStart+=30;
@@ -384,7 +383,6 @@ public class LibrarianStatisticsContolller {
 		}
     }
 	
->>>>>>> 8c26816e7c149a625d57f5c605e1ff831c021059
 	public void initialiseFineChart() {
 		String date1 = dateFormat(monthStart, 0);
 		String date2 = dateFormat(monthEnd, 0);
