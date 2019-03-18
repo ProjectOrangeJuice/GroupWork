@@ -15,7 +15,7 @@ import model.Person;
 /**
  * Users statistics display.
  * 
- * @author James
+ * @author James Finlayson 905234
  *
  */
 public class UserStatisticsController {

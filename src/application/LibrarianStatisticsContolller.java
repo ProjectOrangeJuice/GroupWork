@@ -8,11 +8,17 @@ import javafx.scene.chart.LineChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TextArea;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import model.Person;
 import model.Resource;
 import model.Statistics;
 
+/**
+ * 
+ * @author James Finlayson 905234
+ *
+ */
 public class LibrarianStatisticsContolller {
 
 	@FXML
@@ -102,7 +108,8 @@ public class LibrarianStatisticsContolller {
 
 		int Book = Statistics.getMostPopularBook(date2, date1);
 		if(Book!=-1) {
-			bookImg.setImage(findResource(Book).getThumbnail());
+			Image bimg = findResource(Book).getThumbnail();
+			bookImg.setImage(bimg);
 		}
 		else {
 			bookImg.setImage(null);
