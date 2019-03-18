@@ -99,11 +99,11 @@ public class Statistics {
 	public static int getMostPopularDVD(String date1, String date2) {
 		try {
 			Connection con = DBHelper.getConnection();
-			String getBooks = "SELECT * FROM  majorStat, resource,dvd"
+			String getDVD = "SELECT * FROM  majorStat, resource,dvd "
 					+ "WHERE majorStat.resource=resource.rID AND dvd.rID=resource.rID "
 					+ "AND majorStat.timestamp BETWEEN ? AND ? "
 					+ "GROUP BY majorStat.resource ORDER BY COUNT (majorStat.resource) DESC LIMIT 1";
-			PreparedStatement pstmt = con.prepareStatement(getBooks);
+			PreparedStatement pstmt = con.prepareStatement(getDVD);
 			pstmt.setString(1, date1);
 			pstmt.setString(2, date2);
 			ResultSet bookSet = pstmt.executeQuery();
@@ -138,11 +138,11 @@ public class Statistics {
 	public static int getMostPopularLaptop(String date1, String date2) {
 		try {
 			Connection con = DBHelper.getConnection();
-			String getBooks = "SELECT * FROM  majorStat, resource,laptop "
+			String getLaptop = "SELECT * FROM  majorStat, resource,laptop "
 					+ "WHERE majorStat.resource=resource.rID AND laptop.rID=resource.rID "
 					+ "AND majorStat.timestamp BETWEEN ? AND ? "
 					+ "GROUP BY majorStat.resource ORDER BY COUNT (majorStat.resource) DESC LIMIT 1";
-			PreparedStatement pstmt = con.prepareStatement(getBooks);
+			PreparedStatement pstmt = con.prepareStatement(getLaptop);
 			pstmt.setString(1, date1);
 			pstmt.setString(2, date2);
 			ResultSet bookSet = pstmt.executeQuery();
@@ -177,11 +177,11 @@ public class Statistics {
 	public static int getMostPopularGame(String date1, String date2) {
 		try {
 			Connection con = DBHelper.getConnection();
-			String getBooks = "SELECT * FROM  majorStat, resource,game "
+			String getGame = "SELECT * FROM  majorStat, resource,game "
 					+ "WHERE majorStat.resource=resource.rID AND game.rID=resource.rID "
 					+ "AND majorStat.timestamp BETWEEN ? AND ? "
 					+ "GROUP BY majorStat.resource ORDER BY COUNT (majorStat.resource) DESC LIMIT 1";
-			PreparedStatement pstmt = con.prepareStatement(getBooks);
+			PreparedStatement pstmt = con.prepareStatement(getGame);
 			pstmt.setString(1, date1);
 			pstmt.setString(2, date2);
 			ResultSet bookSet = pstmt.executeQuery();
