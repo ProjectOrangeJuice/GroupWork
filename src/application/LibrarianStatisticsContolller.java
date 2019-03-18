@@ -10,10 +10,12 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 import model.Person;
 import model.Resource;
 import model.Statistics;
+import model.User;
 
 /**
  * 
@@ -288,6 +290,21 @@ public class LibrarianStatisticsContolller {
 		}
 
 	}
+	
+	@FXML
+    public void prev(MouseEvent event) {
+       monthStart+=30;
+       monthEnd+=30;
+       initialiseFineChart();
+    }
+	@FXML
+    public void next(MouseEvent event) {
+		if(monthStart>0) {
+       monthStart-=30;
+       monthEnd-=30;
+       initialiseFineChart();
+		}
+    }
 	
 	public void initialiseFineChart() {
 		String date1 = dateFormat(0, 0);

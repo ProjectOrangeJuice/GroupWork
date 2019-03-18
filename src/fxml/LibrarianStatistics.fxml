@@ -143,8 +143,8 @@
                                   <NumberAxis label="Fines" side="LEFT" />
                                 </yAxis>
                               </LineChart>
-                              <Button layoutX="14.0" layoutY="327.0" mnemonicParsing="false" text="Prev 30" />
-                              <Button layoutX="99.0" layoutY="327.0" mnemonicParsing="false" text="Next 30" />
+                              <Button layoutX="14.0" layoutY="327.0" mnemonicParsing="false" onMouseClicked="#prev" text="Prev 30" />
+                              <Button layoutX="99.0" layoutY="327.0" mnemonicParsing="false" onMouseClicked="#next" text="Next 30" />
                               <Text fx:id="avgFine" layoutX="230.0" layoutY="294.0" strokeType="OUTSIDE" strokeWidth="0.0" text="avg fine" wrappingWidth="309.7294921875" />
                            </children>
                         </AnchorPane>
