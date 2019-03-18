@@ -1,13 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.image.*?>
-<?import javafx.scene.chart.*?>
-<?import javafx.scene.text.*?>
-<?import javafx.scene.control.*?>
-<?import java.lang.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.LineChart?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.LibrarianStatisticsContolller">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.LibrarianStatisticsContolller">
    <center>
       <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
          <children>
@@ -20,10 +26,30 @@
                               <TextArea fx:id="descBox" layoutX="33.0" layoutY="256.0" prefHeight="102.0" prefWidth="521.0" />
                               <HBox layoutX="14.0" layoutY="14.0" prefHeight="100.0" prefWidth="200.0">
                                  <children>
-                                    <ImageView fx:id="bookImg" fitHeight="150.0" fitWidth="136.0" pickOnBounds="true" preserveRatio="true" />
-                                    <ImageView fx:id="dvdImg" fitHeight="150.0" fitWidth="128.0" layoutX="10.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" />
-                                    <ImageView fx:id="laptopImg" fitHeight="150.0" fitWidth="126.0" layoutX="410.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" />
-                                    <ImageView fx:id="gameImg" fitHeight="150.0" fitWidth="126.0" pickOnBounds="true" preserveRatio="true" />
+                                    <VBox prefHeight="200.0" prefWidth="100.0">
+                                       <children>
+                                          <ImageView fx:id="bookImg" fitHeight="150.0" fitWidth="136.0" pickOnBounds="true" preserveRatio="true" />
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Book" />
+                                       </children>
+                                    </VBox>
+                                    <VBox prefHeight="200.0" prefWidth="100.0">
+                                       <children>
+                                          <ImageView fx:id="dvdImg" fitHeight="150.0" fitWidth="128.0" pickOnBounds="true" preserveRatio="true" />
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" text="DVD" />
+                                       </children>
+                                    </VBox>
+                                    <VBox prefHeight="200.0" prefWidth="100.0">
+                                       <children>
+                                          <ImageView fx:id="laptopImg" fitHeight="150.0" fitWidth="126.0" pickOnBounds="true" preserveRatio="true" />
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Laptop" />
+                                       </children>
+                                    </VBox>
+                                    <VBox prefHeight="200.0" prefWidth="100.0">
+                                       <children>
+                                          <ImageView fx:id="gameImg" fitHeight="150.0" fitWidth="126.0" pickOnBounds="true" preserveRatio="true" />
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Game" />
+                                       </children>
+                                    </VBox>
                                  </children>
                               </HBox>
                            </children>
@@ -37,10 +63,30 @@
                               <TextArea fx:id="descBox1" layoutX="33.0" layoutY="256.0" prefHeight="102.0" prefWidth="521.0" />
                               <HBox layoutX="14.0" layoutY="14.0" prefHeight="100.0" prefWidth="200.0">
                                  <children>
-                                    <ImageView fx:id="bookImg1" fitHeight="150.0" fitWidth="136.0" pickOnBounds="true" preserveRatio="true" />
-                                    <ImageView fx:id="dvdImg1" fitHeight="150.0" fitWidth="128.0" layoutX="10.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" />
-                                    <ImageView fx:id="laptopImg1" fitHeight="150.0" fitWidth="126.0" layoutX="410.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" />
-                                    <ImageView fx:id="gameImg1" fitHeight="150.0" fitWidth="126.0" pickOnBounds="true" preserveRatio="true" />
+                                    <VBox prefHeight="200.0" prefWidth="100.0">
+                                       <children>
+                                          <ImageView fx:id="bookImg1" fitHeight="150.0" fitWidth="136.0" pickOnBounds="true" preserveRatio="true" />
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Book" />
+                                       </children>
+                                    </VBox>
+                                    <VBox prefHeight="200.0" prefWidth="100.0">
+                                       <children>
+                                          <ImageView fx:id="dvdImg1" fitHeight="150.0" fitWidth="128.0" pickOnBounds="true" preserveRatio="true" />
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" text="DVD" />
+                                       </children>
+                                    </VBox>
+                                    <VBox prefHeight="200.0" prefWidth="100.0">
+                                       <children>
+                                          <ImageView fx:id="laptopImg1" fitHeight="150.0" fitWidth="126.0" pickOnBounds="true" preserveRatio="true" />
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Laptop" />
+                                       </children>
+                                    </VBox>
+                                    <VBox prefHeight="200.0" prefWidth="100.0">
+                                       <children>
+                                          <ImageView fx:id="gameImg1" fitHeight="150.0" fitWidth="126.0" pickOnBounds="true" preserveRatio="true" />
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Game" />
+                                       </children>
+                                    </VBox>
                                  </children>
                               </HBox>
                            </children>
@@ -54,10 +100,30 @@
                               <TextArea fx:id="descBox11" layoutX="33.0" layoutY="256.0" prefHeight="102.0" prefWidth="521.0" />
                               <HBox layoutX="14.0" layoutY="14.0" prefHeight="100.0" prefWidth="200.0">
                                  <children>
-                                    <ImageView fx:id="bookImg11" fitHeight="150.0" fitWidth="136.0" pickOnBounds="true" preserveRatio="true" />
-                                    <ImageView fx:id="dvdImg11" fitHeight="150.0" fitWidth="128.0" layoutX="10.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" />
-                                    <ImageView fx:id="laptopImg11" fitHeight="150.0" fitWidth="126.0" layoutX="410.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" />
-                                    <ImageView fx:id="gameImg11" fitHeight="150.0" fitWidth="126.0" pickOnBounds="true" preserveRatio="true" />
+                                    <VBox prefHeight="200.0" prefWidth="100.0">
+                                       <children>
+                                          <ImageView fx:id="bookImg11" fitHeight="150.0" fitWidth="136.0" pickOnBounds="true" preserveRatio="true" />
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Book" />
+                                       </children>
+                                    </VBox>
+                                    <VBox prefHeight="200.0" prefWidth="100.0">
+                                       <children>
+                                          <ImageView fx:id="dvdImg11" fitHeight="150.0" fitWidth="128.0" pickOnBounds="true" preserveRatio="true" />
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" text="DVD" />
+                                       </children>
+                                    </VBox>
+                                    <VBox prefHeight="200.0" prefWidth="100.0">
+                                       <children>
+                                          <ImageView fx:id="laptopImg11" fitHeight="150.0" fitWidth="126.0" pickOnBounds="true" preserveRatio="true" />
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Laptop" />
+                                       </children>
+                                    </VBox>
+                                    <VBox prefHeight="200.0" prefWidth="100.0">
+                                       <children>
+                                          <ImageView fx:id="gameImg11" fitHeight="150.0" fitWidth="126.0" pickOnBounds="true" preserveRatio="true" />
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Game" />
+                                       </children>
+                                    </VBox>
                                  </children>
                               </HBox>
                            </children>
