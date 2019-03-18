@@ -38,7 +38,7 @@ public class Statistics {
 			pstmt.setString(3, date2);
 			ResultSet borrowSet = pstmt.executeQuery();
 
-			borrowedTotal = borrowSet.getInt(1);
+			borrowedTotal = borrowSet.getInt("rID");
 			con.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -74,7 +74,7 @@ public class Statistics {
 				return -1;
 			} else {
 
-				int bookId = bookSet.getInt(1);
+				int bookId = bookSet.getInt("rID");
 
 				con.close();
 				return bookId;
@@ -106,17 +106,17 @@ public class Statistics {
 			PreparedStatement pstmt = con.prepareStatement(getDVD);
 			pstmt.setString(1, date1);
 			pstmt.setString(2, date2);
-			ResultSet bookSet = pstmt.executeQuery();
-			if (!bookSet.isBeforeFirst()) {
+			ResultSet DVDSet = pstmt.executeQuery();
+			if (!DVDSet.isBeforeFirst()) {
 				System.out.println("No data");
 				con.close();
 				return -1;
 			} else {
 
-				int bookId = bookSet.getInt(1);
+				int DVDId = DVDSet.getInt("rID");
 
 				con.close();
-				return bookId;
+				return DVDId;
 
 			}
 		} catch (SQLException e) {
@@ -145,17 +145,18 @@ public class Statistics {
 			PreparedStatement pstmt = con.prepareStatement(getLaptop);
 			pstmt.setString(1, date1);
 			pstmt.setString(2, date2);
-			ResultSet bookSet = pstmt.executeQuery();
-			if (!bookSet.isBeforeFirst()) {
+			ResultSet laptopSet = pstmt.executeQuery();
+			if (!laptopSet.isBeforeFirst()) {
 				System.out.println("No data");
 				con.close();
 				return -1;
 			} else {
 
-				int bookId = bookSet.getInt(1);
+				int laptopId = laptopSet.getInt("rID");
+				System.out.println("most pop laptop: "+laptopId);
 
 				con.close();
-				return bookId;
+				return laptopId;
 
 			}
 		} catch (SQLException e) {
@@ -184,17 +185,17 @@ public class Statistics {
 			PreparedStatement pstmt = con.prepareStatement(getGame);
 			pstmt.setString(1, date1);
 			pstmt.setString(2, date2);
-			ResultSet bookSet = pstmt.executeQuery();
-			if (!bookSet.isBeforeFirst()) {
+			ResultSet gameSet = pstmt.executeQuery();
+			if (!gameSet.isBeforeFirst()) {
 				System.out.println("No data");
 				con.close();
 				return -1;
 			} else {
 
-				int bookId = bookSet.getInt(1);
+				int gameId = gameSet.getInt("rID");
 
 				con.close();
-				return bookId;
+				return gameId;
 
 			}
 		} catch (SQLException e) {
