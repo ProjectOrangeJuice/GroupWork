@@ -196,4 +196,25 @@ public class Statistics {
 		return -1;
 	}
 	
+	public int getMostFine(String date1, String date2) {
+		Connection con;
+		int fineTotal = 0;
+		try {
+			con = DBHelper.getConnection();
+		
+		String getFine = "SELECT COUNT(fineID) FROM fines WHERE timestamp BETWEEN ? AND ?";
+		PreparedStatement pstmt = con.prepareStatement(getFine);
+		pstmt.setString(1,date1);
+		pstmt.setString(2,date2);
+		ResultSet fineSet = pstmt.executeQuery();
+		
+		fineTotal = fineSet.getInt(1);
+		con.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return fineTotal;
+	}
+	
 }
