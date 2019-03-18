@@ -371,8 +371,8 @@ public class LibrarianStatisticsContolller {
 		String date1 = dateFormat(monthStart, 0);
 		String date2 = dateFormat(monthEnd, 0);
 		// Change average text
-		double avg = Statistics.getAvgFine(date1, date2);
-		avgFine.setText("Average fine for 30 to " + monthEnd + " days ago is " + avg);
+		double total = Statistics.getAvgFine(date2, date1);
+		avgFine.setText("Total fine for "+monthStart+" to " + monthEnd + " days ago is " + total);
 
 		XYChart.Series series = new XYChart.Series();
 
@@ -383,6 +383,8 @@ public class LibrarianStatisticsContolller {
 			System.out.println("For " + i + " - " + fines);
 			series.getData().add(new XYChart.Data("" + i, fines));
 		}
+		fineChart.getData().removeAll();
+		fineChart.getData().clear();
 		fineChart.getData().add(series);
 
 	}
