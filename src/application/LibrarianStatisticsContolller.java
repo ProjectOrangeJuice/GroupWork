@@ -26,440 +26,442 @@ public class LibrarianStatisticsContolller {
 	@FXML
 	private ImageView bookImg;
 
-	@FXML
-	private ImageView bookImg1;
+    @FXML
+    private ImageView bookImg1;
 
-	@FXML
-	private Tab dayTab11;
+    @FXML
+    private Tab dayTab11;
 
-	@FXML
-	private ImageView dvdImg11;
+    @FXML
+    private ImageView dvdImg11;
 
-	@FXML
-	private ImageView gameImg11;
+    @FXML
+    private ImageView gameImg11;
 
-	@FXML
-	private ImageView dvdImg;
+    @FXML
+    private ImageView dvdImg;
 
-	@FXML
-	private Tab overallTab1;
+    @FXML
+    private Tab overallTab1;
 
-	@FXML
-	private ImageView laptopImg;
+    @FXML
+    private ImageView laptopImg;
 
-	@FXML
-	private ImageView gameImg;
+    @FXML
+    private ImageView gameImg;
 
-	@FXML
-	private ImageView gameImg1;
+    @FXML
+    private ImageView gameImg1;
 
-	@FXML
-	private Tab dayTab;
+    @FXML
+    private Tab dayTab;
 
-	@FXML
-	private ImageView bookImg11;
+    @FXML
+    private ImageView bookImg11;
 
-	@FXML
-	private TextArea descBox1;
+    @FXML
+    private TextArea descBox1;
 
-	@FXML
-	private ImageView dvdImg1;
+    @FXML
+    private ImageView dvdImg1;
 
-	@FXML
-	private TextArea descBox;
+    @FXML
+    private TextArea descBox;
 
-	@FXML
-	private ImageView laptopImg11;
+    @FXML
+    private ImageView laptopImg11;
 
-	@FXML
-	private Tab dayTab1;
+    @FXML
+    private Tab dayTab1;
 
-	@FXML
-	private TextArea descBox11;
+    @FXML
+    private TextArea descBox11;
 
-	@FXML
-	private ImageView laptopImg1;
-	
-	@FXML
-	private Text avgFine;
-	
-	@FXML
+    @FXML
+    private ImageView laptopImg1;
+    
+    @FXML
+    private Text avgFine;
+    
+    @FXML
     private LineChart<?, ?> fineChart;
 
-	private static final String END_HOUR = "23:59:59";
-	
-	private int monthStart = 0;
-	private int monthEnd = 30;
+    private static final String END_HOUR = "23:59:59";
+    
+    private int monthStart = 0;
+    private int monthEnd = 30;
 
-	Person person = ScreenManager.getCurrentUser();
+    Person person = ScreenManager.getCurrentUser();
 
-	/**
-	 * Initialises the controller
-	 */
-	public void initialize() {
-		this.weeklyBook();
-		this.weeklyDVD();
-		this.weeklyLaptop();
-		this.weeklyGame();
-		this.monthlyBook();
-		this.monthlyDVD();
-		this.monthlyGame();
-		this.monthlyLaptop();
-		this.allTimeBook();
-		this.allTimeDVD();
-		this.allTimeGame();
-		this.allTimeLaptop();
-		this.initialiseFineChart();
-	}
+    /**
+     * Initialises the controller
+     */
+    public void initialize() {
+        this.weeklyBook();
+        this.weeklyDVD();
+        this.weeklyLaptop();
+        this.weeklyGame();
+        this.monthlyBook();
+        this.monthlyDVD();
+        this.monthlyGame();
+        this.monthlyLaptop();
+        this.allTimeBook();
+        this.allTimeDVD();
+        this.allTimeGame();
+        this.allTimeLaptop();
+        this.initialiseFineChart();
+    }
 
-	/**
-	 * gets the most popular book for this week 
-	 * sets the tumbnail as displayed image
-	 * sets the title as variable in description box
-	 */
-	public void weeklyBook() {
+    /**
+     * gets the most popular book for this week 
+     * sets the tumbnail as displayed image
+     * sets the title as variable in description box
+     */
+    public void weeklyBook() {
 
-		String date1 = dateFormat(0, 0);
-		String date2 = dateFormat(7, 0);
+        String date1 = dateFormat(0, 0);
+        String date2 = dateFormat(7, 0);
 
-		int Book = Statistics.getMostPopularBook(date2, date1);
-		if(Book!=-1) {
-			bookImg.setImage(findResource(Book).getThumbnail());
-			descBox.appendText("The most popular book is: " + findResource(Book).getTitle()+ "\n");
-		}
-		else {
-			bookImg.setImage(null);
-		}
+        int Book = Statistics.getMostPopularBook(date2, date1);
+        if(Book!=-1) {
+            bookImg.setImage(findResource(Book).getThumbnail());
+            descBox.appendText("The most popular book is: " + findResource(Book).getTitle()+ "\n");
+        }
+        else {
+            bookImg.setImage(null);
+        }
 
-	}
+    }
 
-	/**
-	 * gets the most popular book for this month 
-	 * sets the tumbnail as displayed image
-	 * sets the title as variable in description box
-	 */
-	public void monthlyBook() {
+    /**
+     * gets the most popular book for this month 
+     * sets the tumbnail as displayed image
+     * sets the title as variable in description box
+     */
+    public void monthlyBook() {
 
-		String date1 = dateFormat(0, 0);
-		String date2 = dateFormat(0, 1);
+        String date1 = dateFormat(0, 0);
+        String date2 = dateFormat(0, 1);
 
-		int Book = Statistics.getMostPopularBook(date2, date1);
-		if(Book!=-1) {
-			bookImg1.setImage(findResource(Book).getThumbnail());
-			descBox1.appendText("The most popular book is: " + findResource(Book).getTitle()+ "\n");
-		}
-		else {
-			bookImg1.setImage(null);
-		}
+        int Book = Statistics.getMostPopularBook(date2, date1);
+        if(Book!=-1) {
+            bookImg1.setImage(findResource(Book).getThumbnail());
+            descBox1.appendText("The most popular book is: " + findResource(Book).getTitle()+ "\n");
+        }
+        else {
+            bookImg1.setImage(null);
+        }
 
-	}
+    }
 
-	/**
-	 * gets the most popular book for all time 
-	 * sets the tumbnail as displayed image
-	 * sets the title as variable in description box
-	 */
-	public void allTimeBook() {
+    /**
+     * gets the most popular book for all time 
+     * sets the tumbnail as displayed image
+     * sets the title as variable in description box
+     */
+    public void allTimeBook() {
 
-		String date1 = dateFormat(0, 0);
-		String date2 = dateFormat(0, 48);
+        String date1 = dateFormat(0, 0);
+        String date2 = dateFormat(0, 48);
 
-		int Book = Statistics.getMostPopularBook(date2, date1);
-		if(Book!=-1) {
-			bookImg11.setImage(findResource(Book).getThumbnail());
-			descBox11.appendText("The most popular book is: " + findResource(Book).getTitle()+ "\n");
-		}
-		else {
-			bookImg11.setImage(null);
-		}
+        int Book = Statistics.getMostPopularBook(date2, date1);
+        if(Book!=-1) {
+            bookImg11.setImage(findResource(Book).getThumbnail());
+            descBox11.appendText("The most popular book is: " + findResource(Book).getTitle()+ "\n");
+        }
+        else {
+            bookImg11.setImage(null);
+        }
 
-	}
+    }
 
-	/**
-	 * gets the most popular DVD for this week 
-	 * sets the tumbnail as displayed image
-	 * sets the title as variable in description box
-	 */
-	public void weeklyDVD() {
+    /**
+     * gets the most popular DVD for this week 
+     * sets the tumbnail as displayed image
+     * sets the title as variable in description box
+     */
+    public void weeklyDVD() {
 
-		String date1 = dateFormat(0, 0);
-		String date2 = dateFormat(7, 0);
+        String date1 = dateFormat(0, 0);
+        String date2 = dateFormat(7, 0);
 
-		int DVD = Statistics.getMostPopularDVD(date2, date1);
-		if(DVD!=-1) {
-			dvdImg.setImage(findResource(DVD).getThumbnail());
-			descBox.appendText("The most popular DVD is: " + findResource(DVD).getTitle()+ "\n");
-		}
-		else {
-			dvdImg.setImage(null);
-		}
+        int DVD = Statistics.getMostPopularDVD(date2, date1);
+        if(DVD!=-1) {
+            dvdImg.setImage(findResource(DVD).getThumbnail());
+            descBox.appendText("The most popular DVD is: " + findResource(DVD).getTitle()+ "\n");
+        }
+        else {
+            dvdImg.setImage(null);
+        }
 
-	}
+    }
 
-	/**
-	 * gets the most popular DVD for this month 
-	 * sets the tumbnail as displayed image
-	 * sets the title as variable in description box
-	 */
-	public void monthlyDVD() {
+    /**
+     * gets the most popular DVD for this month 
+     * sets the tumbnail as displayed image
+     * sets the title as variable in description box
+     */
+    public void monthlyDVD() {
 
-		String date1 = dateFormat(0, 0);
-		String date2 = dateFormat(0, 1);
+        String date1 = dateFormat(0, 0);
+        String date2 = dateFormat(0, 1);
 
-		int DVD = Statistics.getMostPopularDVD(date2, date1);
-		if(DVD!=-1) {
-			dvdImg1.setImage(findResource(DVD).getThumbnail());
-			descBox1.appendText("The most popular DVD is: " + findResource(DVD).getTitle()+ "\n");
-		}
-		else {
-			dvdImg1.setImage(null);
-		}
+        int DVD = Statistics.getMostPopularDVD(date2, date1);
+        if(DVD!=-1) {
+            dvdImg1.setImage(findResource(DVD).getThumbnail());
+            descBox1.appendText("The most popular DVD is: " + findResource(DVD).getTitle()+ "\n");
+        }
+        else {
+            dvdImg1.setImage(null);
+        }
 
-	}
+    }
 
-	/**
-	 * gets the most popular DVD for all time
-	 * sets the tumbnail as displayed image
-	 * sets the title as variable in description box
-	 */
-	public void allTimeDVD() {
+    /**
+     * gets the most popular DVD for all time
+     * sets the tumbnail as displayed image
+     * sets the title as variable in description box
+     */
+    public void allTimeDVD() {
 
-		String date1 = dateFormat(0, 0);
-		String date2 = dateFormat(0, 48);
+        String date1 = dateFormat(0, 0);
+        String date2 = dateFormat(0, 48);
 
-		int DVD = Statistics.getMostPopularDVD(date2, date1);
-		if(DVD!=-1) {
-			dvdImg11.setImage(findResource(DVD).getThumbnail());
-			descBox11.appendText("The most popular DVD is: " + findResource(DVD).getTitle()+ "\n");
-		}
-		else {
-			dvdImg11.setImage(null);
-		}
+        int DVD = Statistics.getMostPopularDVD(date2, date1);
+        if(DVD!=-1) {
+            dvdImg11.setImage(findResource(DVD).getThumbnail());
+            descBox11.appendText("The most popular DVD is: " + findResource(DVD).getTitle()+ "\n");
+        }
+        else {
+            dvdImg11.setImage(null);
+        }
 
-	}
+    }
 
-	/**
-	 * gets the most popular Laptop for this week 
-	 * sets the tumbnail as displayed image
-	 * sets the title as variable in description box
-	 */
-	public void weeklyLaptop() {
+    /**
+     * gets the most popular Laptop for this week 
+     * sets the tumbnail as displayed image
+     * sets the title as variable in description box
+     */
+    public void weeklyLaptop() {
 
-		String date1 = dateFormat(0, 0);
-		String date2 = dateFormat(7, 0);
+        String date1 = dateFormat(0, 0);
+        String date2 = dateFormat(7, 0);
 
-		int Laptop = Statistics.getMostPopularLaptop(date2, date1);
-		if(Laptop!=-1) {
-			laptopImg.setImage(findResource(Laptop).getThumbnail());
-			descBox.appendText("The most popular Laptop is: " + findResource(Laptop).getTitle()+ "\n");
-		}
-		else {
-			laptopImg.setImage(null);
-		}
+        int Laptop = Statistics.getMostPopularLaptop(date2, date1);
+        if(Laptop!=-1) {
+            laptopImg.setImage(findResource(Laptop).getThumbnail());
+            descBox.appendText("The most popular Laptop is: " + findResource(Laptop).getTitle()+ "\n");
+        }
+        else {
+            laptopImg.setImage(null);
+        }
 
-	}
+    }
 
-	/**
-	 * gets the most popular Laptop for this month 
-	 * sets the tumbnail as displayed image
-	 * sets the title as variable in description box
-	 */
-	public void monthlyLaptop() {
+    /**
+     * gets the most popular Laptop for this month 
+     * sets the tumbnail as displayed image
+     * sets the title as variable in description box
+     */
+    public void monthlyLaptop() {
 
-		String date1 = dateFormat(0, 0);
-		String date2 = dateFormat(0, 1);
+        String date1 = dateFormat(0, 0);
+        String date2 = dateFormat(0, 1);
 
-		int Laptop = Statistics.getMostPopularLaptop(date2, date1);
-		if(Laptop!=-1) {
-			laptopImg1.setImage(findResource(Laptop).getThumbnail());
-			descBox1.appendText("The most popular Laptop is: " + findResource(Laptop).getTitle()+ "\n");
-		}
-		else {
-			laptopImg1.setImage(null);
-		}
+        int Laptop = Statistics.getMostPopularLaptop(date2, date1);
+        if(Laptop!=-1) {
+            laptopImg1.setImage(findResource(Laptop).getThumbnail());
+            descBox1.appendText("The most popular Laptop is: " + findResource(Laptop).getTitle()+ "\n");
+        }
+        else {
+            laptopImg1.setImage(null);
+        }
 
-	}
+    }
 
-	/**
-	 * gets the most popular Laptop for all time
-	 * sets the tumbnail as displayed image
-	 * sets the title as variable in description box
-	 */
-	public void allTimeLaptop() {
+    /**
+     * gets the most popular Laptop for all time
+     * sets the tumbnail as displayed image
+     * sets the title as variable in description box
+     */
+    public void allTimeLaptop() {
 
-		String date1 = dateFormat(0, 0);
-		String date2 = dateFormat(0, 48);
+        String date1 = dateFormat(0, 0);
+        String date2 = dateFormat(0, 48);
 
-		int Laptop = Statistics.getMostPopularLaptop(date2, date1);
-		if(Laptop!=-1) {
-			laptopImg11.setImage(findResource(Laptop).getThumbnail());
-			descBox11.appendText("The most popular Laptop is: " + findResource(Laptop).getTitle()+ "\n");
-		}
-		else {
-			laptopImg11.setImage(null);
-		}
+        int Laptop = Statistics.getMostPopularLaptop(date2, date1);
+        if(Laptop!=-1) {
+            laptopImg11.setImage(findResource(Laptop).getThumbnail());
+            descBox11.appendText("The most popular Laptop is: " + findResource(Laptop).getTitle()+ "\n");
+        }
+        else {
+            laptopImg11.setImage(null);
+        }
 
-	}
+    }
 
-	/**
-	 * gets the most popular Game for this week 
-	 * sets the tumbnail as displayed image
-	 * sets the title as variable in description box
-	 */
-	public void weeklyGame() {
+    /**
+     * gets the most popular Game for this week 
+     * sets the tumbnail as displayed image
+     * sets the title as variable in description box
+     */
+    public void weeklyGame() {
 
-		String date1 = dateFormat(0, 0);
-		String date2 = dateFormat(7, 0);
+        String date1 = dateFormat(0, 0);
+        String date2 = dateFormat(7, 0);
 
-		int Game = Statistics.getMostPopularGame(date2, date1);
-		if(Game!=-1) {
-			gameImg.setImage(findResource(Game).getThumbnail());
-			descBox.appendText("The most popular Game is: " + findResource(Game).getTitle()+ "\n");
-		}
-		else {
-			gameImg.setImage(null);
-		}
+        int Game = Statistics.getMostPopularGame(date2, date1);
+        if(Game!=-1) {
+            gameImg.setImage(findResource(Game).getThumbnail());
+            descBox.appendText("The most popular Game is: " + findResource(Game).getTitle()+ "\n");
+        }
+        else {
+            gameImg.setImage(null);
+        }
 
-	}
+    }
 
-	/**
-	 * gets the most popular Game for this month 
-	 * sets the tumbnail as displayed image
-	 * sets the title as variable in description box
-	 */
-	public void monthlyGame() {
+    /**
+     * gets the most popular Game for this month 
+     * sets the tumbnail as displayed image
+     * sets the title as variable in description box
+     */
+    public void monthlyGame() {
 
-		String date1 = dateFormat(0, 0);
-		String date2 = dateFormat(0, 1);
+        String date1 = dateFormat(0, 0);
+        String date2 = dateFormat(0, 1);
 
-		int Game = Statistics.getMostPopularGame(date2, date1);
-		if(Game!=-1) {
-			gameImg1.setImage(findResource(Game).getThumbnail());
-			descBox1.appendText("The most popular Game is: " + findResource(Game).getTitle() + "\n");
-		}
-		else {
-			gameImg1.setImage(null);
-		}
+        int Game = Statistics.getMostPopularGame(date2, date1);
+        if(Game!=-1) {
+            gameImg1.setImage(findResource(Game).getThumbnail());
+            descBox1.appendText("The most popular Game is: " + findResource(Game).getTitle() + "\n");
+        }
+        else {
+            gameImg1.setImage(null);
+        }
 
-	}
+    }
 
-	/**
-	 * gets the most popular Game for all time 
-	 * sets the tumbnail as displayed image
-	 * sets the title as variable in description box
-	 */
-	public void allTimeGame() {
+    /**
+     * gets the most popular Game for all time 
+     * sets the tumbnail as displayed image
+     * sets the title as variable in description box
+     */
+    public void allTimeGame() {
 
-		String date1 = dateFormat(0, 0);
-		String date2 = dateFormat(0, 48);
+        String date1 = dateFormat(0, 0);
+        String date2 = dateFormat(0, 48);
 
-		int Game = Statistics.getMostPopularGame(date2, date1);
-		if(Game!=-1) {
-			gameImg11.setImage(findResource(Game).getThumbnail());
-			descBox11.appendText("The most popular Game is: " + findResource(Game).getTitle()+ "\n");
-		}
-		else {
-			gameImg11.setImage(null);
-		}
+        int Game = Statistics.getMostPopularGame(date2, date1);
+        if(Game!=-1) {
+            gameImg11.setImage(findResource(Game).getThumbnail());
+            descBox11.appendText("The most popular Game is: " + findResource(Game).getTitle()+ "\n");
+        }
+        else {
+            gameImg11.setImage(null);
+        }
 
-	}
-	
-
-	/**
-	 * initialises chart to display number of fines for given time period
-	 */
-	@FXML
+    }
+    
+<<<<<<< HEAD
+    /**
+     * initialises chart to display number of fines for given time period
+     */
+=======
+    @FXML
     public void prev(MouseEvent event) {
        monthStart+=30;
        monthEnd+=30;
        initialiseFineChart();
     }
-	@FXML
+    @FXML
     public void next(MouseEvent event) {
-		if(monthStart>0) {
+        if(monthStart>0) {
        monthStart-=30;
        monthEnd-=30;
        initialiseFineChart();
-		}
+        }
     }
-	
-	public void initialiseFineChart() {
-		String date1 = dateFormat(monthStart, 0);
-		String date2 = dateFormat(monthEnd, 0);
-		//Change average text
-		double avg = Statistics.getAvgFine(date1, date2);
-		avgFine.setText("Average fine for 30 to "+monthEnd+" days ago is "+avg);
-		
-		
-		
-		XYChart.Series series = new XYChart.Series();
-		
-		for(int i = monthStart;i<monthEnd;i++) {
-			date1 = dateFormat(i-1, 0);
-			date2 = dateFormat(i, 0);
-			int fines = Statistics.getMostFine(date2, date1);
-			System.out.println("For "+i+" - "+fines);
-			series.getData().add(new XYChart.Data("Fines", fines));
-		}
-		
-		
-		
-	}
+    
+>>>>>>> 8c26816e7c149a625d57f5c605e1ff831c021059
+    public void initialiseFineChart() {
+        String date1 = dateFormat(monthStart, 0);
+        String date2 = dateFormat(monthEnd, 0);
+        //Change average text
+        double avg = Statistics.getAvgFine(date1, date2);
+        avgFine.setText("Average fine for 30 to "+monthEnd+" days ago is "+avg);
+        
+        
+        
+        XYChart.Series series = new XYChart.Series();
+        
+        for(int i = monthStart;i<monthEnd;i++) {
+            date1 = dateFormat(i-1, 0);
+            date2 = dateFormat(i, 0);
+            int fines = Statistics.getMostFine(date2, date1);
+            System.out.println("For "+i+" - "+fines);
+            series.getData().add(new XYChart.Data("Fines", fines));
+        }
+        
+        
+        
+    }
 
-	/**
-	 * finds specific resource in set of all resources using rID
-	 * 
-	 * @param rID
-	 * @return resource
-	 */
-	private Resource findResource(int rID) {
-		for (Resource r : Resource.getResources()) {
-			
-				if (r.getUniqueID() == rID) {
-					return r;
-				}
-			}return null;
+    /**
+     * finds specific resource in set of all resources using rID
+     * 
+     * @param rID
+     * @return resource
+     */
+    private Resource findResource(int rID) {
+        for (Resource r : Resource.getResources()) {
+            
+                if (r.getUniqueID() == rID) {
+                    return r;
+                }
+            }return null;
 
-		}
-		
-	/**
-	 * Generate a string with a date.
-	 * 
-	 * @param daysBackwards
-	 *            The number of days to go back.
-	 * @param monthsBackwards
-	 *            The number of months to go back.
-	 * @return A string with the date.
-	 */
-	private String dateFormat(int daysBackwards, int monthsBackwards) {
-		String month1;
-		String month2;
-		String day1;
-		String day2;
-		Date dt = new Date();
-		Calendar c = Calendar.getInstance();
-		c.setTime(dt);
-		c.add(Calendar.DATE, 1);
-		dt = c.getTime();
+        }
+        
+    /**
+     * Generate a string with a date.
+     * 
+     * @param daysBackwards
+     *            The number of days to go back.
+     * @param monthsBackwards
+     *            The number of months to go back.
+     * @return A string with the date.
+     */
+    private String dateFormat(int daysBackwards, int monthsBackwards) {
+        String month1;
+        String month2;
+        String day1;
+        String day2;
+        Date dt = new Date();
+        Calendar c = Calendar.getInstance();
+        c.setTime(dt);
+        c.add(Calendar.DATE, 1);
+        dt = c.getTime();
 
-		c.add(Calendar.DAY_OF_MONTH, -1);
-		int month2T = c.get(Calendar.MONTH) + 1 - monthsBackwards; // beware of month indexing from zero
-		int year2 = c.get(Calendar.YEAR);
-		int day2T = c.get(Calendar.DAY_OF_MONTH) - daysBackwards;
+        c.add(Calendar.DAY_OF_MONTH, -1);
+        int month2T = c.get(Calendar.MONTH) + 1 - monthsBackwards; // beware of month indexing from zero
+        int year2 = c.get(Calendar.YEAR);
+        int day2T = c.get(Calendar.DAY_OF_MONTH) - daysBackwards;
 
-		if (day2T < 10) {
-			day2 = "0" + day2T;
-		} else {
-			day2 = String.valueOf(day2T);
-		}
+        if (day2T < 10) {
+            day2 = "0" + day2T;
+        } else {
+            day2 = String.valueOf(day2T);
+        }
 
-		if (month2T < 10) {
-			month2 = "0" + month2T;
-		} else {
-			month2 = String.valueOf(month2T);
-		}
+        if (month2T < 10) {
+            month2 = "0" + month2T;
+        } else {
+            month2 = String.valueOf(month2T);
+        }
 
-		String date1 = year2 + "-" + month2 + "-" + day2 + " " + END_HOUR;
-		return date1;
-	}
+        String date1 = year2 + "-" + month2 + "-" + day2 + " " + END_HOUR;
+        return date1;
+    }
 }
