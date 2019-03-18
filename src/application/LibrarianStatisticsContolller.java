@@ -10,6 +10,7 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.text.Text;
 import model.Person;
 import model.Resource;
 import model.Statistics;
@@ -79,9 +80,15 @@ public class LibrarianStatisticsContolller {
 	private ImageView laptopImg1;
 	
 	@FXML
+	private Text avgFine;
+	
+	@FXML
     private LineChart<?, ?> fineChart;
 
 	private static final String END_HOUR = "23:59:59";
+	
+	private int monthStart = 0;
+	private int monthEnd = 30;
 
 	Person person = ScreenManager.getCurrentUser();
 
@@ -284,7 +291,12 @@ public class LibrarianStatisticsContolller {
 	
 	public void initialiseFineChart() {
 		String date1 = dateFormat(0, 0);
-		String date2 = dateFormat(0, 48);
+		String date2 = dateFormat(monthStart, monthEnd);
+		//Change average text
+		double avg = Statistics.getAvgFine(date1, date2);
+		avgFine.setText("Average fine for "+monthEnd+" days ago is "+avg);
+		
+		
 		
 		XYChart.Series series = new XYChart.Series();
 		
