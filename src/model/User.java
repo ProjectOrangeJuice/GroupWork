@@ -391,6 +391,10 @@ public class User extends Person {
         return recommendedResource;
     }
     
+    /**
+     * Get the total limit of borrowed copies by the user
+     * @return total limit of borrowed resources
+     */
 	public int getRequestLimit() {
 		int requestLimit = 0;
 		for (int i = 0; i < copiesList.size(); i++) {
