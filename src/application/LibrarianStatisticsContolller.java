@@ -94,9 +94,13 @@ public class LibrarianStatisticsContolller {
 		String date1 = dateFormat(0, 0);
 		String date2 = dateFormat(7, 0);
 
-		int book = Statistics.getMostPopularBook(date2, date1);
-		bookImg.setImage(findResource(book).getThumbnail());
-		descBox.setText("");
+		int Book = Statistics.getMostPopularBook(date2, date1);
+		if(Book!=-1) {
+			bookImg.setImage(findResource(Book).getThumbnail());
+		}
+		else {
+			bookImg.setImage(null);
+		}
 
 	}
 
@@ -105,8 +109,13 @@ public class LibrarianStatisticsContolller {
 		String date1 = dateFormat(0, 0);
 		String date2 = dateFormat(0, 1);
 
-		int book = Statistics.getMostPopularBook(date2, date1);
-		bookImg1.setImage(findResource(book).getThumbnail());
+		int Book = Statistics.getMostPopularBook(date2, date1);
+		if(Book!=-1) {
+			bookImg1.setImage(findResource(Book).getThumbnail());
+		}
+		else {
+			bookImg1.setImage(null);
+		}
 
 	}
 
@@ -115,8 +124,13 @@ public class LibrarianStatisticsContolller {
 		String date1 = dateFormat(0, 0);
 		String date2 = dateFormat(0, 48);
 
-		int book = Statistics.getMostPopularBook(date2, date1);
-		bookImg11.setImage(findResource(book).getThumbnail());
+		int Book = Statistics.getMostPopularBook(date2, date1);
+		if(Book!=-1) {
+			bookImg11.setImage(findResource(Book).getThumbnail());
+		}
+		else {
+			bookImg11.setImage(null);
+		}
 
 	}
 
@@ -126,7 +140,12 @@ public class LibrarianStatisticsContolller {
 		String date2 = dateFormat(7, 0);
 
 		int DVD = Statistics.getMostPopularDVD(date2, date1);
-		dvdImg.setImage(findResource(DVD).getThumbnail());
+		if(DVD!=-1) {
+			dvdImg.setImage(findResource(DVD).getThumbnail());
+		}
+		else {
+			dvdImg.setImage(null);
+		}
 
 	}
 
@@ -136,7 +155,12 @@ public class LibrarianStatisticsContolller {
 		String date2 = dateFormat(0, 1);
 
 		int DVD = Statistics.getMostPopularDVD(date2, date1);
-		dvdImg1.setImage(findResource(DVD).getThumbnail());
+		if(DVD!=-1) {
+			dvdImg1.setImage(findResource(DVD).getThumbnail());
+		}
+		else {
+			dvdImg1.setImage(null);
+		}
 
 	}
 
@@ -146,7 +170,12 @@ public class LibrarianStatisticsContolller {
 		String date2 = dateFormat(0, 48);
 
 		int DVD = Statistics.getMostPopularDVD(date2, date1);
-		dvdImg11.setImage(findResource(DVD).getThumbnail());
+		if(DVD!=-1) {
+			dvdImg11.setImage(findResource(DVD).getThumbnail());
+		}
+		else {
+			dvdImg11.setImage(null);
+		}
 
 	}
 
@@ -156,7 +185,12 @@ public class LibrarianStatisticsContolller {
 		String date2 = dateFormat(7, 0);
 
 		int Laptop = Statistics.getMostPopularLaptop(date2, date1);
-		laptopImg.setImage(findResource(Laptop).getThumbnail());
+		if(Laptop!=-1) {
+			laptopImg.setImage(findResource(Laptop).getThumbnail());
+		}
+		else {
+			laptopImg.setImage(null);
+		}
 
 	}
 
@@ -166,7 +200,12 @@ public class LibrarianStatisticsContolller {
 		String date2 = dateFormat(0, 1);
 
 		int Laptop = Statistics.getMostPopularLaptop(date2, date1);
-		laptopImg1.setImage(findResource(Laptop).getThumbnail());
+		if(Laptop!=-1) {
+			laptopImg1.setImage(findResource(Laptop).getThumbnail());
+		}
+		else {
+			laptopImg1.setImage(null);
+		}
 
 	}
 
@@ -176,7 +215,12 @@ public class LibrarianStatisticsContolller {
 		String date2 = dateFormat(0, 48);
 
 		int Laptop = Statistics.getMostPopularLaptop(date2, date1);
-		laptopImg11.setImage(findResource(Laptop).getThumbnail());
+		if(Laptop!=-1) {
+			laptopImg11.setImage(findResource(Laptop).getThumbnail());
+		}
+		else {
+			laptopImg11.setImage(null);
+		}
 
 	}
 
@@ -186,7 +230,12 @@ public class LibrarianStatisticsContolller {
 		String date2 = dateFormat(7, 0);
 
 		int Game = Statistics.getMostPopularGame(date2, date1);
-		gameImg.setImage(findResource(Game).getThumbnail());
+		if(Game!=-1) {
+			gameImg.setImage(findResource(Game).getThumbnail());
+		}
+		else {
+			gameImg.setImage(null);
+		}
 
 	}
 
@@ -196,7 +245,12 @@ public class LibrarianStatisticsContolller {
 		String date2 = dateFormat(0, 1);
 
 		int Game = Statistics.getMostPopularGame(date2, date1);
-		gameImg1.setImage(findResource(Game).getThumbnail());
+		if(Game!=-1) {
+			gameImg1.setImage(findResource(Game).getThumbnail());
+		}
+		else {
+			gameImg1.setImage(null);
+		}
 
 	}
 
@@ -206,23 +260,25 @@ public class LibrarianStatisticsContolller {
 		String date2 = dateFormat(0, 48);
 
 		int Game = Statistics.getMostPopularGame(date2, date1);
-		gameImg11.setImage(findResource(Game).getThumbnail());
+		if(Game!=-1) {
+			gameImg11.setImage(findResource(Game).getThumbnail());
+		}
+		else {
+			gameImg11.setImage(null);
+		}
 
 	}
 
 	private Resource findResource(int rID) {
 		for (Resource r : Resource.getResources()) {
-			if (rID != -1) {
+			
 				if (r.getUniqueID() == rID) {
 					return r;
 				}
-			} else {
-				System.out.println("No records found.");
-			}
-		}
-		return null;
-	}
+			}return null;
 
+		}
+		
 	/**
 	 * Generate a string with a date.
 	 * 
