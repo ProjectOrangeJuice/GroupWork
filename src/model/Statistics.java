@@ -206,7 +206,7 @@ public class Statistics {
 	}
 
 	/**
-	 * Get most fine between 2 dates.
+	 * Get number of fines between 2 dates.
 	 * 
 	 * @param date1
 	 *            The first date
@@ -221,6 +221,36 @@ public class Statistics {
 			con = DBHelper.getConnection();
 
 			String getFine = "SELECT COUNT(fineID) FROM fines WHERE timestamp BETWEEN ? AND ?";
+			PreparedStatement pstmt = con.prepareStatement(getFine);
+			pstmt.setString(1, date1);
+			pstmt.setString(2, date2);
+			ResultSet fineSet = pstmt.executeQuery();
+
+			fineTotal = fineSet.getInt(1);
+			con.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return fineTotal;
+	}
+	
+	/**
+	 * Get the average fines between two dates.
+	 * 
+	 * @param date1
+	 *            The first date
+	 * @param date2
+	 *            The second date
+	 * @return the total fines between 2 dates
+	 */
+	public static double getAvgFine(String date1, String date2) {
+		Connection con;
+		int fineTotal = 0;
+		try {
+			con = DBHelper.getConnection();
+
+			String getFine = "SELECT AVG(amount) FROM fines WHERE timestamp BETWEEN ? AND ?";
 			PreparedStatement pstmt = con.prepareStatement(getFine);
 			pstmt.setString(1, date1);
 			pstmt.setString(2, date2);

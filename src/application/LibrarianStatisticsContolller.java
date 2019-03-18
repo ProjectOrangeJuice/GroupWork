@@ -9,9 +9,12 @@ import javafx.scene.chart.XYChart;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.text.Text;
 import model.Person;
 import model.Resource;
 import model.Statistics;
+import model.User;
 
 /**
  * 
@@ -78,9 +81,15 @@ public class LibrarianStatisticsContolller {
 	private ImageView laptopImg1;
 	
 	@FXML
+	private Text avgFine;
+	
+	@FXML
     private LineChart<?, ?> fineChart;
 
 	private static final String END_HOUR = "23:59:59";
+	
+	private int monthStart = 0;
+	private int monthEnd = 30;
 
 	Person person = ScreenManager.getCurrentUser();
 
@@ -355,18 +364,47 @@ public class LibrarianStatisticsContolller {
 
 	}
 	
+<<<<<<< HEAD
 	/**
 	 * initialises chart to display number of fines for given time period
 	 */
+=======
+	@FXML
+    public void prev(MouseEvent event) {
+       monthStart+=30;
+       monthEnd+=30;
+       initialiseFineChart();
+    }
+	@FXML
+    public void next(MouseEvent event) {
+		if(monthStart>0) {
+       monthStart-=30;
+       monthEnd-=30;
+       initialiseFineChart();
+		}
+    }
+	
+>>>>>>> 8c26816e7c149a625d57f5c605e1ff831c021059
 	public void initialiseFineChart() {
-		String date1 = dateFormat(0, 0);
-		String date2 = dateFormat(0, 48);
+		String date1 = dateFormat(monthStart, 0);
+		String date2 = dateFormat(monthEnd, 0);
+		//Change average text
+		double avg = Statistics.getAvgFine(date1, date2);
+		avgFine.setText("Average fine for 30 to "+monthEnd+" days ago is "+avg);
+		
+		
 		
 		XYChart.Series series = new XYChart.Series();
 		
-		int fines = Statistics.getMostFine(date1, date2);
+		for(int i = monthStart;i<monthEnd;i++) {
+			date1 = dateFormat(i-1, 0);
+			date2 = dateFormat(i, 0);
+			int fines = Statistics.getMostFine(date2, date1);
+			System.out.println("For "+i+" - "+fines);
+			series.getData().add(new XYChart.Data("Fines", fines));
+		}
 		
-		series.getData().add(new XYChart.Data("Fines", fines));
+		
 		
 	}
 
