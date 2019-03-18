@@ -9,7 +9,7 @@ import java.sql.SQLException;
  * Database queries.
  * @author James 
  * @author Oliver Harris
- * @author Lee Zack
+ * @author Zhing Hang Lee
  */
 
 public class Statistics {
