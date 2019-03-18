@@ -150,7 +150,7 @@ public class Event {
 	 * Adds a new event to the static arrayList of events.
 	 * @param title Title of event
 	 * @param details Details of event
-	 * @param date date & time of event
+	 * @param date date and time of event
 	 * @param maxAllowed total number of people who can attend the event
 	 */
 	public static void addEvent(String title, String details, String date, int maxAllowed) {
@@ -206,16 +206,16 @@ public class Event {
 	}
 	
 	/**
-	 * Returns date & time of event.
-	 * @return The date & time attribute.
+	 * Returns date and time of event.
+	 * @return The date and time attribute.
 	 */
 	public String getDateTime() {
 		return dateTime;
 	}
 	
 	/**
-	 * Sets new date & time of event.
-	 * @param date The event's new new date & time attribute.
+	 * Sets new date and time of event.
+	 * @param date The event's new new date and time attribute.
 	 */
 	public void setDate(String date) {
 		this.dateTime = date;

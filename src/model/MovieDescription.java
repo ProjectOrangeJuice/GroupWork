@@ -100,7 +100,7 @@ public class MovieDescription {
     
     /**
      * Sets whether this movide is just a video.
-     * @param isAdult True if the movie is just a video, false if not.
+     * @param isVideo True if the movie is just a video, false if not.
      */
     @JsonSetter("video")
     public void setVideo(boolean isVideo) {
