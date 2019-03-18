@@ -1,28 +1,15 @@
 package application;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.ParseException;
-
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 
 import javafx.fxml.FXML;
-import javafx.scene.chart.LineChart;
-import javafx.scene.chart.NumberAxis;
-import javafx.scene.chart.ScatterChart;
+import javafx.scene.chart.BarChart;
 import javafx.scene.chart.XYChart;
-import javafx.scene.control.Tab;
-import javafx.scene.control.TabPane;
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.text.TextFlow;
-import model.DBHelper;
 import model.Person;
 
 /**
@@ -33,12 +20,33 @@ import model.Person;
  */
 public class UserStatisticsController {
 
+	@FXML
+	private BorderPane border;
+
+	@FXML
+	private BarChart<?, ?> borrowChart;
+
+	@FXML
+	private Label dayLabel;
+
+	@FXML
+	private TextField borrowTodayTxt;
+
+	@FXML
+	private TextField borrowWeekTxt;
+
+	@FXML
+	private Label monthLabel;
+
+	@FXML
+	private TextField borrowMonthTxt;
+
+	@FXML
+	private Label weekLabel;
+
 	Person person = ScreenManager.getCurrentUser();
 	String username = person.getUsername();
-	XYChart.Series monthData = new XYChart.Series();
-	XYChart.Series dayData = new XYChart.Series();
-	XYChart.Series weekData = new XYChart.Series();
-	
+
 	private static final String END_HOUR = "23:59:59";
 
 	/**
@@ -54,51 +62,70 @@ public class UserStatisticsController {
 
 	}
 
-	
 	/**
 	 * Setups the values for the monthly stats.
 	 */
 	public void initializeMonthlyStatsGraph() {
 
-		String date1 = dateFormat(0,0);
-		String date2 = dateFormat(0,1);
+		XYChart.Series series = new XYChart.Series();
+
+		String date1 = dateFormat(0, 0);
+		String date2 = dateFormat(0, 1);
 
 		System.out.println(date1.toString());
 		System.out.println(date1.toString());
 		int monthStat = model.Statistics.totalBorrow(username, date2, date1);
 		System.out.println("This month : " + monthStat);
+		borrowMonthTxt.setText(""+monthStat);
+		series.getData().add(new XYChart.Data("Monthly", monthStat));
+		borrowChart.getData().add(series);
 	}
 
 	/**
 	 * Sets up the weekly stats.
 	 */
 	public void initializeWeeklyStatsGraph() {
-		String date1 = dateFormat(0,0);
-		String date2 = dateFormat(7,0);
+
+		XYChart.Series series = new XYChart.Series();
+
+		String date1 = dateFormat(0, 0);
+		String date2 = dateFormat(7, 0);
 
 		System.out.println(date1.toString());
 		System.out.println(date1.toString());
 		int monthStat = model.Statistics.totalBorrow(username, date2, date1);
 		System.out.println("This Week : " + monthStat);
+		borrowWeekTxt.setText(""+monthStat);
+		series.getData().add(new XYChart.Data("Weekly", monthStat));
+		borrowChart.getData().add(series);
 	}
 
 	/**
 	 * Sets up the daily stats.
 	 */
 	public void initializeDailyStatsGraph() {
-		String date1 = dateFormat(0,0);
-		String date2 = dateFormat(0,1);
+
+		XYChart.Series series = new XYChart.Series();
+
+		String date1 = dateFormat(0, 0);
+		String date2 = dateFormat(0, 1);
 
 		System.out.println(date1.toString());
 		System.out.println(date1.toString());
 		int monthStat = model.Statistics.totalBorrow(username, date2, date1);
 		System.out.println("24hours : " + monthStat);
+		borrowTodayTxt.setText(""+monthStat);
+		series.getData().add(new XYChart.Data("Daily", monthStat));
+		borrowChart.getData().add(series);
 	}
-	
+
 	/**
 	 * Generate a string with a date.
-	 * @param daysBackwards The number of days to go back.
-	 * @param monthsBackwards The number of months to go back.
+	 * 
+	 * @param daysBackwards
+	 *            The number of days to go back.
+	 * @param monthsBackwards
+	 *            The number of months to go back.
 	 * @return A string with the date.
 	 */
 	private String dateFormat(int daysBackwards, int monthsBackwards) {
@@ -128,8 +155,8 @@ public class UserStatisticsController {
 		} else {
 			month2 = String.valueOf(month2T);
 		}
-		
-		String date1 = year2 + "-" + month2 + "-" + day2 + " "+END_HOUR;
+
+		String date1 = year2 + "-" + month2 + "-" + day2 + " " + END_HOUR;
 		return date1;
 	}
 
