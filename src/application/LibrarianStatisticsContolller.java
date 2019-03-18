@@ -4,6 +4,8 @@ import java.util.Calendar;
 import java.util.Date;
 
 import javafx.fxml.FXML;
+import javafx.scene.chart.LineChart;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.ImageView;
@@ -69,6 +71,9 @@ public class LibrarianStatisticsContolller {
 
 	@FXML
 	private ImageView laptopImg1;
+	
+	@FXML
+    private LineChart<?, ?> fineChart;
 
 	private static final String END_HOUR = "23:59:59";
 
@@ -87,6 +92,7 @@ public class LibrarianStatisticsContolller {
 		this.allTimeDVD();
 		this.allTimeGame();
 		this.allTimeLaptop();
+		this.initialiseFineChart();
 	}
 
 	public void weeklyBook() {
@@ -267,6 +273,18 @@ public class LibrarianStatisticsContolller {
 			gameImg11.setImage(null);
 		}
 
+	}
+	
+	public void initialiseFineChart() {
+		String date1 = dateFormat(0, 0);
+		String date2 = dateFormat(0, 48);
+		
+		XYChart.Series series = new XYChart.Series();
+		
+		int fines = Statistics.getMostFine(date1, date2);
+		
+		series.getData().add(new XYChart.Data("Fines", fines));
+		
 	}
 
 	private Resource findResource(int rID) {

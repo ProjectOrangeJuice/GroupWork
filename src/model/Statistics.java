@@ -202,7 +202,7 @@ public class Statistics {
 	 * @param date2 The second date
 	 * @return the total fines between 2 dates
 	 */
-	public int getMostFine(String date1, String date2) {
+	public static int getMostFine(String date1, String date2) {
 		Connection con;
 		int fineTotal = 0;
 		try {
