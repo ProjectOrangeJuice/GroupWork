@@ -92,10 +92,10 @@ public class Book extends Resource {
             ResultSet rs = stmt.executeQuery(
                 "SELECT resource.rID, resource.year, resource.title, "
                 + "resource.thumbnail, author,"
-                + "group_concat(categories.category) as categories, publisher," +
+                + " publisher," +
                     "genre, ISBN, language, timestamp FROM "
                    
-                    + " resource WHERE book.rID "
+                    + "book, resource WHERE book.rID "
                     + "= resource.rID  "
                     + "group by book.rId"); 
 
