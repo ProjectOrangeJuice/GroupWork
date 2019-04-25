@@ -17,7 +17,48 @@ public class ReadingList {
 		}
 	}
 
+	public static ArrayList<ReadingList> myLists(String username){
+		ArrayList<ReadingList> readingList = new ArrayList<ReadingList>();
+		 Connection connection;
+		try {
+			connection = DBHelper.getConnection();
+		
+        PreparedStatement statement = connection.prepareStatement("SELECT group_concat(rId) as resources" + 
+        " FROM usersList WHERE username = ? group by username");
+        statement.setString(1, username);
+        
+        ResultSet results = statement.executeQuery();
+        while (results.next()) {
+       	 readingList.add(new ReadingList(results.getString("resources").split(","),""));
+        }
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return readingList;
+	}
 	
+	
+	public static String[] followedList(String username) {
+		
+		 Connection connection;
+		try {
+			connection = DBHelper.getConnection();
+		
+       PreparedStatement statement = connection.prepareStatement("SELECT group_concat(rId) as lists" + 
+       " FROM usersFollows WHERE username = ? group by username");
+       statement.setString(1, username);
+       
+       ResultSet results = statement.executeQuery();
+       while (results.next()) {
+      	 return results.getString("lists").split(",");
+       }
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
 	
 	public static ArrayList<ReadingList> databaseReader() {
 		ArrayList<ReadingList> readingList = new ArrayList<ReadingList>();
