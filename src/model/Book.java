@@ -19,28 +19,28 @@ public class Book extends Resource {
 
     /**The daily fine amount for over due copies of this type of resource.*/
     private static final int MAX_FINE_AMOUNT = 25;
-    
+
     /**The maximum fine amount for over due copies of this type of resource.*/
     private static final int DAILY_FINE_AMOUNT = 2;
 
     /**Author of the book.*/
     private String author;
-    
+
     /**Publisher of the book.*/
     private String publisher;
-    
+
     /**Genre of the book.*/
     private String genre;
-    
+
     /**ISBN code of the book.*/
     private String isbn;
-    
+
     /**Language of the book.*/
     private String language;
 
     /**
      * Makes a new book with the given data, representing all the fields of this book.
-     * 
+     *
      * @param uniqueID The unique number that identifies this resource.
      * @param title The title of this resource.
      * @param year The year this resource appeared.
@@ -73,13 +73,13 @@ public class Book extends Resource {
      * @param publisher The publisher of the book.
      * @param timestamp The time when this resource was added.
      */
-    public Book(int uniqueID, String title, int year, Image thumbnail, 
+    public Book(int uniqueID, String title, int year, Image thumbnail,
     		String timestamp, String author, String publisher) {
         super(uniqueID, title, year, thumbnail, timestamp);
         this.author = author;
         this.publisher = publisher;
     }
-    
+
     /**
      * Method that loads the details of all book resources from the book database table and
      * adds them to the list of all resources.
@@ -91,16 +91,20 @@ public class Book extends Resource {
             Statement stmt = conn.createStatement(); // prep a statement
             ResultSet rs = stmt.executeQuery(
                 "SELECT resource.rID, resource.year, resource.title, "
-                + "resource.thumbnail, author, publisher," +
-                    "genre, ISBN, language, timestamp FROM book, resource WHERE book.rID "
-                    + "= resource.rID"); 
+                + "resource.thumbnail, author,"
+                + "group_concat(categories.category) as categories, publisher," +
+                    "genre, ISBN, language, timestamp FROM "
+                    + "book LEFT JOIN categories on book.rId = categories.rId,"
+                    + " resource WHERE book.rID "
+                    + "= resource.rID  "
+                    + "group by book.rId"); 
 
             while (rs.next()) {
                 Image resourceImage = new Image(rs.getString("thumbnail"), true);
-                
-                resources.add(new Book(rs.getInt("rID"), rs.getString("title"), 
+                System.out.println("Categorieesss "+rs.getString("categories"));
+                resources.add(new Book(rs.getInt("rID"), rs.getString("title"),
                 		rs.getInt("year"), resourceImage, rs.getString("timestamp"),
-                    rs.getString("author"), rs.getString("publisher"), 
+                    rs.getString("author"), rs.getString("publisher"),
                     rs.getString("genre"), rs.getString("ISBN"),
                     rs.getString("language")));
 
@@ -260,7 +264,7 @@ public class Book extends Resource {
         score += super.getLikenessScore(otherResource);
         return score;
     }
-    
+
     /**
      * Return the default limit number from resource to restrict user over requesting
      */
