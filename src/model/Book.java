@@ -94,14 +94,14 @@ public class Book extends Resource {
                 + "resource.thumbnail, author,"
                 + "group_concat(categories.category) as categories, publisher," +
                     "genre, ISBN, language, timestamp FROM "
-                    + "book LEFT JOIN categories on book.rId = categories.rId,"
+                   
                     + " resource WHERE book.rID "
                     + "= resource.rID  "
                     + "group by book.rId"); 
 
             while (rs.next()) {
                 Image resourceImage = new Image(rs.getString("thumbnail"), true);
-                System.out.println("Categorieesss "+rs.getString("categories"));
+              
                 resources.add(new Book(rs.getInt("rID"), rs.getString("title"),
                 		rs.getInt("year"), resourceImage, rs.getString("timestamp"),
                     rs.getString("author"), rs.getString("publisher"),
