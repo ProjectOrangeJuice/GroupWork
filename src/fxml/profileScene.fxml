@@ -339,9 +339,9 @@
                   </AnchorPane>
               </content>
             </Tab>
-            <Tab text="Reading list">
+            <Tab fx:id="readingList" closable="false" onSelectionChanged="#reloadReadingList" text="Reading list">
               <content>
-                  <AnchorPane minHeight="300.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                  <AnchorPane fx:id="readingListContent" minHeight="300.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
                                  <children>
                                     <fx:include fx:id="child" source="readingList.fxml" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                                  </children>

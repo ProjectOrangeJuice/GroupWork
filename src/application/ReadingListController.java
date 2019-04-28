@@ -34,11 +34,28 @@ public class ReadingListController {
 	
 	@FXML
 	public void initialize() {
-		
+		setupReadingList();
 		setupMyList();
 		
 		
 	 }
+	
+	
+	private void setupReadingList() {
+		ArrayList<ReadingList> lists = ReadingList.databaseReader();
+		otherList.getChildren().removeAll();
+		otherList.getChildren().clear();
+		Text listText = new Text("Reading lists");
+		listText.setFont(Font.font ("Verdana", 20));
+		otherList.setSpacing(2);
+		otherList.getChildren().add(listText);
+		for( ReadingList l : lists) {
+			Text t = new Text(l.getName());
+			otherList.getChildren().add(t);
+		}
+		
+		
+	}
 
 	private void setupMyList() {
 		 yourList.getChildren().removeAll();
@@ -52,6 +69,7 @@ public class ReadingListController {
 
 		System.out.println("The bit that is important..");
 		ReadingList myList = ReadingList.myList(ScreenManager.getCurrentUser().getUsername());
+		if(myList != null) {
 		for(Resource r : myList.getResources()) {
 			VBox vbox = new VBox();
 			vbox.setSpacing(2);
@@ -114,6 +132,7 @@ public class ReadingListController {
 			
 			yourList.getChildren().addAll(box,text);
 			
+		}
 		}
 	}
 	

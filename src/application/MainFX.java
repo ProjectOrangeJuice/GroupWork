@@ -38,13 +38,13 @@ public class MainFX extends Application {
 			
 			
 			
-			Person User1 = Person.loadPerson("Manny");
-			ScreenManager.setCurrentUser((Person) User1);
-			Parent root = FXMLLoader.load(
-					getClass().getResource("/fxml/profileScene.fxml"));
-			
+		//	Person User1 = Person.loadPerson("Manger1");
+		//	ScreenManager.setCurrentUser((Person) User1);
 		//	Parent root = FXMLLoader.load(
-		//			getClass().getResource("/fxml/loginScene.fxml"));
+		//			getClass().getResource("/fxml/profileScene.fxml"));
+			
+			Parent root = FXMLLoader.load(
+					getClass().getResource("/fxml/loginScene.fxml"));
 			currentScene = new Scene(root);
 			currentScene.getStylesheets().add(
 					getClass().getResource("/css/application.css").toExternalForm());

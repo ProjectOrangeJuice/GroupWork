@@ -34,7 +34,9 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -173,6 +175,10 @@ public class ProfileController {
 	@FXML
 	private TableView staffCopiesExplorerTable;
 
+	
+	@FXML
+	Tab readingList;
+	
 	//Manage Users
 	@FXML
 	private TableView<Person> staffUsersTable;
@@ -235,6 +241,9 @@ public class ProfileController {
 	
 	@FXML
 	private Button staffStatsButton;
+	
+	@FXML
+	private AnchorPane readingListContent;
 
 	//may remove fixed size resource images
 	//when dealing with window resizing.
@@ -264,6 +273,17 @@ public class ProfileController {
 
 	}
 
+	
+	@FXML
+	public void reloadReadingList(Event e) throws IOException {
+		System.out.println("Reloading");
+		readingListContent.getChildren().clear();
+		  Pane newLoadedPane =  FXMLLoader.load(getClass().getResource("/fxml/readingList.fxml"));
+		  newLoadedPane.prefWidthProperty().bind(readingListContent.widthProperty());
+		  newLoadedPane.prefHeightProperty().bind(readingListContent.heightProperty());
+		  readingListContent.getChildren().add(newLoadedPane);
+	
+	}
 
 	/**
 	 * Switches the tabs.

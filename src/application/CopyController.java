@@ -1,6 +1,7 @@
 package application;
 
 import java.io.IOException;
+import java.util.Optional;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -8,9 +9,12 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -124,6 +128,7 @@ public class CopyController {
     
     @FXML
     public void doListButton() {
+    	if (ScreenManager.getCurrentUser() instanceof User) {
     	String user = ScreenManager.getCurrentUser().getUsername();
     	int id = ScreenManager.getCurrentResource().getUniqueID();
     	if(ReadingList.isInMyList(user, id)) {
@@ -132,6 +137,30 @@ public class CopyController {
     	}else {
     	ReadingList.addToMyList(user,id);
     	addListButton.setText("Remove from list");
+    	}
+    	}else {
+    		
+    		
+    		TextInputDialog dialog = new TextInputDialog("Tran");
+    		dialog.setTitle("What reading list?");
+    		dialog.setHeaderText("Enter reading list name");
+    		Optional<String> result = dialog.showAndWait();
+    		result.ifPresent(name->{
+    			if(name.length() > 1) {
+    				ReadingList.addToReadingList(
+    						ScreenManager.getCurrentResource().getUniqueID(),
+    						name);
+    			}else {
+    				Alert alert = new Alert(AlertType.INFORMATION);
+    				alert.setTitle("Error");
+    				alert.setContentText("The name was too short");
+
+    				alert.showAndWait();
+    			}
+    		});
+    		
+    		
+    		
     	}
     	
     }
@@ -454,7 +483,7 @@ public class CopyController {
         }
         else {
             requestbutt.setDisable(true);
-            addListButton.setDisable(true);
+           
             setupStaffButtons();
 
         }

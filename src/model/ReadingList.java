@@ -30,7 +30,11 @@ public class ReadingList {
         
         ResultSet results = statement.executeQuery();
         while (results.next()) {
+        	try {
        	 readingList = new ReadingList(results.getString("resources").split(","),"");
+        	}catch(NullPointerException e) {
+        		
+        	}
         }
         connection.close();
 		} catch (SQLException e) {
@@ -133,6 +137,35 @@ public class ReadingList {
 			e.printStackTrace();
 		}
 		return null;
+	}
+	
+	public static void addToReadingList(int r, String name) {
+		try {
+			 Connection connection = DBHelper.getConnection();
+		
+      PreparedStatement statement = connection.prepareStatement("SELECT rId "
+      		+ "FROM readingList where name=? and rId=?");
+      statement.setString(1, name);
+      statement.setInt(2, r);
+      
+      ResultSet results = statement.executeQuery();
+      if(results.next()) {
+   	  
+      }else {
+   	   statement = connection.prepareStatement("INSERT INTO readingList("
+   	   		+ "name,rId) VALUES(?,?)");
+   	       statement.setString(1, name);
+   	       statement.setInt(2, r);
+   	       statement.execute();
+   	       connection.close();
+ 
+      }
+     
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 	
 	public ArrayList<Resource> getResources() {
