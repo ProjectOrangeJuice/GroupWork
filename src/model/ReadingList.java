@@ -60,6 +60,22 @@ public class ReadingList {
 		return null;
 	}
 	
+	public ArrayList<Resource> getResources() {
+		return resources;
+	}
+
+	public void setResources(ArrayList<Resource> resources) {
+		this.resources = resources;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
 	public static ArrayList<ReadingList> databaseReader() {
 		ArrayList<ReadingList> readingList = new ArrayList<ReadingList>();
 		 Connection connection;
