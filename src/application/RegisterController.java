@@ -154,7 +154,7 @@ public class RegisterController implements Initializable {
 		}
 
 	}
-	
+
 	/**
 	 * Returns user to main login scene.
 	 * @param event changes that will be made.
@@ -163,7 +163,7 @@ public class RegisterController implements Initializable {
 	public void backToLogin(MouseEvent event) {
 		changeScene(event, "/fxml/loginScene.fxml");
 	}
-	
+
 	/**
 	 * Creates an account with the details provided if they are valid. If there is a
 	 * problem with the details displays error message indicating where the problem
@@ -222,7 +222,7 @@ public class RegisterController implements Initializable {
 		}
 
 		// if all text fields are valid create account.
-		if (validateUsername() && validateFirstName() && 
+		if (validateUsername() && validateFirstName() &&
 				validateLastName() && validatePhoneNumber()
 				&& validateAddress() && validatePostCode()) {
 
@@ -348,7 +348,7 @@ public class RegisterController implements Initializable {
 	private boolean validateStaffId() {
 		String staffIdText = staffId.getText();
 
-		return !(staffIdText.length() > 2 || staffIdText.length() < 2 || 
+		return !(staffIdText.length() > 2 || staffIdText.length() < 2 ||
 				validateExistingStaffId(staffIdText));
 	}
 
@@ -386,7 +386,7 @@ public class RegisterController implements Initializable {
 		boolean selected = librarianCheckBox.isSelected();
 		return selected;
 	}
-	
+
 	/**
 	 * Builds account in database using inputted info and chosen avatar. Then return
 	 * user to login page.
@@ -397,7 +397,9 @@ public class RegisterController implements Initializable {
 		try {
 			Connection conn = DBHelper.getConnection();
 			PreparedStatement pstmt = conn.prepareStatement("INSERT INTO "
-					+ "users VALUES (?,?,?,?,?,?,?,0)");
+					+ "users(username,firstName,lastName,telephone,"
+					+ "address,postcode,avatarpath,accountBalance)"
+					+ " VALUES (?,?,?,?,?,?,?,0)");
 			pstmt.setString(1, username.getText());
 			pstmt.setString(2, firstName.getText());
 			pstmt.setString(3, lastName.getText());
@@ -518,7 +520,7 @@ public class RegisterController implements Initializable {
 	@FXML
 	protected void browseAvatarAction(ActionEvent event) {
 		FileChooser chooser = new FileChooser();
-		FileChooser.ExtensionFilter extentionFilter = 
+		FileChooser.ExtensionFilter extentionFilter =
 				new FileChooser.ExtensionFilter("PNG files (*.png)", "*.png");
 		chooser.getExtensionFilters().add(extentionFilter);
 		chooser.setTitle("Open File");
