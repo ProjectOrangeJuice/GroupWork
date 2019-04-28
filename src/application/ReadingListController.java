@@ -1,9 +1,12 @@
 package application;
 
+import java.util.ArrayList;
+
 import javafx.fxml.FXML;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import model.ReadingList;
+import model.Resource;
 
 public class ReadingListController {
 	
@@ -20,12 +23,13 @@ public class ReadingListController {
 		
 		yourList.getChildren().add(yours);
 		otherList.getChildren().add(theirs);
-		System.out.println(ScreenManager.getCurrentUser().getUsername());
-		for(ReadingList r : ReadingList.myLists(ScreenManager.getCurrentUser().getUsername())) {
+		System.out.println("The bit that is important..");
+		ReadingList myList = ReadingList.myList(ScreenManager.getCurrentUser().getUsername());
+		for(Resource r : myList.getResources()) {
 		
 			String name = r.getResources().get(0).getTitle();
 			System.out.println("-"+name);
-			yourList.getChildren().add(new Text(name));
+			//yourList.getChildren().add(new Text(name));
 			
 		}
 		

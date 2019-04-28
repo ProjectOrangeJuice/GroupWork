@@ -25,6 +25,7 @@ import model.Book;
 import model.DVD;
 import model.Game;
 import model.Laptop;
+import model.ReadingList;
 import model.Resource;
 import model.Review;
 import model.User;
@@ -81,6 +82,9 @@ public class CopyController {
 
     @FXML
     private Text overLimit;
+    
+    @FXML
+    private Button addListButton;
 
     @FXML
     private VBox seeReviews;
@@ -115,6 +119,21 @@ public class CopyController {
             e.printStackTrace();
         }
 
+    }
+    
+    
+    @FXML
+    public void doListButton() {
+    	String user = ScreenManager.getCurrentUser().getUsername();
+    	int id = ScreenManager.getCurrentResource().getUniqueID();
+    	if(ReadingList.isInMyList(user, id)) {
+    		ReadingList.removeFromMyList(user, id);
+    		addListButton.setText("Add to list");
+    	}else {
+    	ReadingList.addToMyList(user,id);
+    	addListButton.setText("Remove from list");
+    	}
+    	
     }
 
     /**
@@ -428,9 +447,14 @@ public class CopyController {
         if (ScreenManager.getCurrentUser() instanceof User) {
             checkIfBorrowed();
             setupLimit();
+            if(ReadingList.isInMyList(ScreenManager.getCurrentUser().getUsername(),
+            		ScreenManager.getCurrentResource().getUniqueID())) {
+            	addListButton.setText("Remove from list");
+            }
         }
         else {
             requestbutt.setDisable(true);
+            addListButton.setDisable(true);
             setupStaffButtons();
 
         }
