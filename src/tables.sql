@@ -987,8 +987,8 @@ DROP TABLE IF EXISTS `readingList`;
 
 CREATE TABLE `readingList`
   ( `id` INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
-                                                    `name` TEXT, `rId` INTEGER
-   FOREIGN KEY (RESOURCE) REFERENCES `rId` (`rID`) ON UPDATE CASCADE ON DELETE CASCADE
+                                                    `name` TEXT, `rId` INTEGER,
+   FOREIGN KEY (`rId`) REFERENCES `resource` (`rID`) ON UPDATE CASCADE ON DELETE CASCADE
 
 );
 
@@ -999,8 +999,8 @@ DROP TABLE IF EXISTS `userFollows`;
 CREATE TABLE `userFollows`
   ( `id` INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
                                                     `listId` INTEGER, `username` INTEGER,
-   FOREIGN KEY (READINGLIST) REFERENCES `listId` (`name`) ON UPDATE CASCADE ON DELETE CASCADE,
-FOREIGN KEY (USERS) REFERENCES `username` (`username`) ON
+   FOREIGN KEY (`listId`) REFERENCES `readingList` (`name`) ON UPDATE CASCADE ON DELETE CASCADE,
+FOREIGN KEY (`username`) REFERENCES `users` (`username`) ON
 UPDATE CASCADE ON
 DELETE CASCADE
 
@@ -1013,7 +1013,7 @@ DROP TABLE IF EXISTS `userList`;
 CREATE TABLE `usersList`
   ( `id` INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE,
                                            `rId` INTEGER, `username` TEXT,
-   FOREIGN KEY (USERS) REFERENCES `username` (`username`) ON UPDATE CASCADE ON DELETE CASCADE
+   FOREIGN KEY (`username`) REFERENCES `users` (`username`) ON UPDATE CASCADE ON DELETE CASCADE
 
 );
 
