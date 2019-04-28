@@ -987,7 +987,7 @@ DROP TABLE IF EXISTS `readingList`;
 
 CREATE TABLE `readingList`
   ( `id` INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
-                                                    `name` TEXT, `rId` INTEGER,
+                                                    `name` TEXT,`description` TEXT, `rId` INTEGER,
    FOREIGN KEY (`rId`) REFERENCES `resource` (`rID`) ON UPDATE CASCADE ON DELETE CASCADE
 
 );
