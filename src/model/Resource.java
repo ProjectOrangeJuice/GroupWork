@@ -1193,6 +1193,38 @@ public abstract class Resource {
             }
         }
     }
+    
+    
+    public String[] hasBorrowed(String username) {
+
+        String[] output = null;
+
+        try {
+            Connection dbConnection = DBHelper.getConnection();
+            PreparedStatement sqlStatement = dbConnection.prepareStatement(
+                "SELECT group_concat(borrowRecords.timestamp) as stamps FROM borrowRecords, copies "
+                          + "WHERE borrowRecords.username = ? and  copies.copyID = borrowRecords.copyId and"
+                          + " copies.rID = ?");
+            sqlStatement.setString(1, username);
+            sqlStatement.setInt(2, getUniqueID());
+            ResultSet rs = sqlStatement.executeQuery();
+
+           while(rs.next()) {
+        	   try {
+               output = rs.getString("stamps").split(",");
+        	   } catch (NullPointerException e) {
+        		   
+        	   }
+               System.out.println("has borrowed.. "+output);
+            }
+            dbConnection.close();
+        }
+        catch (SQLException e) {
+            System.out.println("Failed to load user history;");
+            e.printStackTrace();
+        }
+        return output;
+    }
 
     /**
      * A wrapper function that returns a string representing a date, or null if 
