@@ -9,6 +9,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -20,6 +21,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import model.ReadingList;
 import model.Resource;
+import model.User;
 
 public class ReadingListController {
 
@@ -41,6 +43,98 @@ public class ReadingListController {
 	 }
 	
 	
+	
+	private void displayReadingList(ReadingList list) {
+		otherList.getChildren().removeAll();
+		otherList.getChildren().clear();
+		
+		Text listText = new Text(list.getName());
+		listText.setFont(Font.font ("Verdana", 20));
+		
+		Button close = new Button("Close");
+		close.setOnMouseClicked(new EventHandler<MouseEvent>(){
+
+	          @Override
+	          public void handle(MouseEvent arg0) {
+	           setupReadingList();
+	          }
+
+	      });
+		
+		Button follow = new Button("Follow");
+		
+		follow.setOnMouseClicked(new EventHandler<MouseEvent>(){
+
+	          @Override
+	          public void handle(MouseEvent arg0) {
+	           ReadingList.changeFollow(ScreenManager.getCurrentUser().getUsername(),
+	        		   list.getName());
+	           if(ReadingList.follows(ScreenManager.getCurrentUser().getUsername(),
+	        		   list.getName())) {
+	        	   follow.setText("Unfollow");
+	           }else {
+	        	   follow.setText("Follow");
+	           }
+	          }
+
+	      });
+		
+		HBox h = new HBox();
+		h.setSpacing(10);
+		h.getChildren().addAll(close,follow);
+		
+		
+		otherList.setSpacing(5);
+		otherList.getChildren().addAll(listText,h);
+		
+		ArrayList<Resource> resources = list.getResources();
+		HBox hbox = new HBox();
+		for(int i = 0; i<resources.size();i++) {
+			Resource r = resources.get(i);
+			VBox item = new VBox();
+			ImageView img = generateImageView(r.getThumbnail());
+			img.setOnMouseClicked(new EventHandler<MouseEvent>(){
+
+		          @Override
+		          public void handle(MouseEvent arg0) {
+		            ScreenManager.setCurrentResource(r);
+		            try {
+		    			FXMLLoader fxmlLoader =
+		    					new FXMLLoader(getClass().getResource("/fxml/copyScene.fxml"));
+		                Parent root1 = (Parent) fxmlLoader.load();
+		                Stage stage = new Stage();
+		                stage.initModality(Modality.APPLICATION_MODAL);
+		                //stage.initStyle(StageStyle.UNDECORATED);
+		                stage.setTitle("Resource Information");
+		                stage.setScene(new Scene(root1));
+		                stage.show();
+		    		} catch (IOException e) {
+		    			e.printStackTrace();
+		    		}
+		            
+		          }
+
+		      });
+			Text name = new Text(r.getTitle());
+			item.getChildren().addAll(img,name);
+			
+			if(i != 0 && i % 3 == 0) {
+				System.out.println("Adding to main");
+				otherList.getChildren().add(hbox);
+				hbox = new HBox();
+				hbox.getChildren().add(item);
+			}else {
+				System.out.println("Adding to inner");
+				hbox.getChildren().add(item);
+			}
+			
+		}
+		otherList.getChildren().add(hbox);
+		
+		
+	}
+	
+	
 	private void setupReadingList() {
 		ArrayList<ReadingList> lists = ReadingList.databaseReader();
 		otherList.getChildren().removeAll();
@@ -49,10 +143,54 @@ public class ReadingListController {
 		listText.setFont(Font.font ("Verdana", 20));
 		otherList.setSpacing(2);
 		otherList.getChildren().add(listText);
+		ArrayList<VBox> vboxs = new ArrayList<VBox>();
 		for( ReadingList l : lists) {
+			VBox vbox = new VBox();
+			vbox.setMinWidth(200);
+			vbox.setSpacing(5);
+
 			Text t = new Text(l.getName());
-			otherList.getChildren().add(t);
+			t.setFont(Font.font(15));
+			
+			
+			TextArea desc = new TextArea(l.getDescription());
+			if(ScreenManager.getCurrentUser() instanceof User) {
+				desc.setEditable(false);
+				desc.setDisable(true);
+			}else {
+				desc.setEditable(true);
+			}
+			vbox.getChildren().addAll(t,desc);
+			vbox.setOnMouseClicked(new EventHandler<MouseEvent>(){
+
+		          @Override
+		          public void handle(MouseEvent arg0) {
+		           displayReadingList(l);
+		            
+		          }
+
+		      });
+			
+			
+			vboxs.add(vbox);
+			System.out.println("Value created");
 		}
+		HBox hbox = new HBox();
+		for(int i = 0; i<vboxs.size();i++) {
+			if(i != 0 && i % 3 == 0) {
+				System.out.println("Adding to main");
+				otherList.getChildren().add(hbox);
+				hbox = new HBox();
+				hbox.getChildren().add(vboxs.get(i));
+			}else {
+				System.out.println("Adding to inner");
+				hbox.getChildren().add(vboxs.get(i));
+			}
+			
+		}
+		otherList.getChildren().add(hbox);
+		
+		
 		
 		
 	}

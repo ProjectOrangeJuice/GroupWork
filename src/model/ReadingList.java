@@ -9,9 +9,19 @@ import java.util.ArrayList;
 public class ReadingList {
 	ArrayList<Resource> resources = new ArrayList<Resource>();
 	String name;
+	String description;
 	
-	public ReadingList(String[] resourceList, String name) {
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public ReadingList(String[] resourceList, String name,String description) {
 		this.name = name;
+		this.description = description;
 		for(String resource : resourceList) {
 			System.out.println("Converting.,.. "+resource);
 			resources.add(Resource.getResource(Integer.parseInt(resource)));
@@ -31,7 +41,7 @@ public class ReadingList {
         ResultSet results = statement.executeQuery();
         while (results.next()) {
         	try {
-       	 readingList = new ReadingList(results.getString("resources").split(","),"");
+       	 readingList = new ReadingList(results.getString("resources").split(","),"","");
         	}catch(NullPointerException e) {
         		
         	}
@@ -118,6 +128,71 @@ public class ReadingList {
 		return output;
 	}
 	
+	
+	@SuppressWarnings("resource")
+	public static void changeFollow(String username, String list) {
+		System.out.println("name! - "+list);
+		try {
+			 Connection connection = DBHelper.getConnection();
+		
+      PreparedStatement statement = connection.prepareStatement("SELECT listId "
+      		+ "FROM userFollows where username=? AND listId=?");
+      statement.setString(1, username);
+      statement.setString(2, list);
+      
+      ResultSet results = statement.executeQuery();
+      if(results.next()) {
+    	  statement = connection.prepareStatement("DELETE FROM userFollows "
+    	  		+ "WHERE username=? and listId=?");
+    	   	       statement.setString(1, username);
+    	   	       statement.setString(2, list);
+    	   	       statement.execute();
+    	   	       connection.close();
+   	   
+      }else {
+   	   statement = connection.prepareStatement("INSERT INTO userFollows("
+   	   		+ "username,listId) VALUES(?,?)");
+   	       statement.setString(1, username);
+   	       statement.setString(2, list);
+   	       statement.execute();
+   	       connection.close();
+   	       
+      }
+     
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	
+	public static boolean follows(String username, String list) {
+		try {
+			 Connection connection = DBHelper.getConnection();
+		
+     PreparedStatement statement = connection.prepareStatement("SELECT listId "
+     		+ "FROM userFollows where username=? AND listId=?");
+     statement.setString(1, username);
+     statement.setString(2, list);
+     
+     ResultSet results = statement.executeQuery();
+     if(results.next()) {
+    	 connection.close();
+  	  return true;
+  	   
+     }else {
+    	 connection.close();
+  	 return false;
+  	       
+     }
+    
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return false;
+	}
+	
 	public static String[] followedList(String username) {
 		
 		 Connection connection;
@@ -190,12 +265,12 @@ public class ReadingList {
 		try {
 			connection = DBHelper.getConnection();
 		
-         PreparedStatement statement = connection.prepareStatement("SELECT name,group_concat(rId) as resources" + 
+         PreparedStatement statement = connection.prepareStatement("SELECT name,group_concat(rId) as resources,description" + 
          " FROM readingList group by name");
          
          ResultSet results = statement.executeQuery();
          while (results.next()) {
-        	 readingList.add(new ReadingList(results.getString("resources").split(","),results.getString("name")));
+        	 readingList.add(new ReadingList(results.getString("resources").split(","),results.getString("name"),results.getString("description")));
          }
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

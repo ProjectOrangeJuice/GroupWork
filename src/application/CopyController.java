@@ -141,7 +141,7 @@ public class CopyController {
     	}else {
     		
     		
-    		TextInputDialog dialog = new TextInputDialog("Tran");
+    		TextInputDialog dialog = new TextInputDialog("");
     		dialog.setTitle("What reading list?");
     		dialog.setHeaderText("Enter reading list name");
     		Optional<String> result = dialog.showAndWait();

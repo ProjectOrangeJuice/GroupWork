@@ -998,8 +998,7 @@ DROP TABLE IF EXISTS `userFollows`;
 
 CREATE TABLE `userFollows`
   ( `id` INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
-                                                    `listId` INTEGER, `username` INTEGER,
-   FOREIGN KEY (`listId`) REFERENCES `readingList` (`name`) ON UPDATE CASCADE ON DELETE CASCADE,
+                                                    `listId` TEXT, `username` TEXT,
 FOREIGN KEY (`username`) REFERENCES `users` (`username`) ON
 UPDATE CASCADE ON
 DELETE CASCADE
