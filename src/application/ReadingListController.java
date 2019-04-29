@@ -1,8 +1,11 @@
 package application;
 
+
 import java.io.IOException;
 import java.util.ArrayList;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -10,8 +13,10 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -35,8 +40,11 @@ public class ReadingListController {
 	private VBox otherList;
 	
 	@FXML
+	private TextField searchBox;
+	
+	@FXML
 	public void initialize() {
-		setupReadingList();
+		setupReadingList("");
 		setupMyList();
 		
 		
@@ -56,7 +64,7 @@ public class ReadingListController {
 
 	          @Override
 	          public void handle(MouseEvent arg0) {
-	           setupReadingList();
+	           setupReadingList("");
 	          }
 
 	      });
@@ -135,7 +143,7 @@ public class ReadingListController {
 	}
 	
 	
-	private void setupReadingList() {
+	private void setupReadingList(String search) {
 		ArrayList<ReadingList> lists = ReadingList.databaseReader();
 		otherList.getChildren().removeAll();
 		otherList.getChildren().clear();
@@ -145,6 +153,9 @@ public class ReadingListController {
 		otherList.getChildren().add(listText);
 		ArrayList<VBox> vboxs = new ArrayList<VBox>();
 		for( ReadingList l : lists) {
+			if(search == "" || l.contains(search)) {
+				
+			
 			VBox vbox = new VBox();
 			vbox.setMinWidth(200);
 			vbox.setSpacing(5);
@@ -154,9 +165,22 @@ public class ReadingListController {
 			
 			
 			TextArea desc = new TextArea(l.getDescription());
+			desc.setWrapText(true);
+			
+			desc.textProperty().addListener(new ChangeListener<String>() {
+			    @Override
+			    public void changed(final ObservableValue<? extends String> observable, final String oldValue, final String newValue) {
+			        l.setDescription(newValue);
+			    }
+			});
+			
+			
+			desc.setMinHeight(100);
+			
 			if(ScreenManager.getCurrentUser() instanceof User) {
 				desc.setEditable(false);
-				desc.setDisable(true);
+				desc.setMouseTransparent(true);
+				desc.setFocusTraversable(false);
 			}else {
 				desc.setEditable(true);
 			}
@@ -174,6 +198,7 @@ public class ReadingListController {
 			
 			vboxs.add(vbox);
 			System.out.println("Value created");
+			}
 		}
 		HBox hbox = new HBox();
 		for(int i = 0; i<vboxs.size();i++) {
@@ -195,6 +220,13 @@ public class ReadingListController {
 		
 	}
 
+	
+	@FXML
+	public void doSearch(KeyEvent e) {
+		setupReadingList(searchBox.getText());
+		
+	}
+	
 	private void setupMyList() {
 		 yourList.getChildren().removeAll();
 	   		yourList.getChildren().clear();

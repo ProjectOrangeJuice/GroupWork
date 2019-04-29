@@ -17,6 +17,22 @@ public class ReadingList {
 
 	public void setDescription(String description) {
 		this.description = description;
+		 Connection connection;
+			try {
+				connection = DBHelper.getConnection();
+			
+	        PreparedStatement statement = connection.prepareStatement("UPDATE "
+	        		+ "readingList SET description=? WHERE name=?");
+	        statement.setString(1, description);
+	        statement.setString(2, name);
+	        
+	       statement.executeUpdate();
+	     
+	        connection.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 	}
 
 	public ReadingList(String[] resourceList, String name,String description) {
@@ -279,5 +295,14 @@ public class ReadingList {
 		return readingList;
 	}
 	
+	
+	
+	public boolean contains(String search) {
+		if(getName().toLowerCase().contains(search.toLowerCase())) {
+			return true;
+		}else {
+			return false;
+		}
+	}
 	
 }
