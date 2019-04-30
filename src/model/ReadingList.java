@@ -27,7 +27,7 @@ public class ReadingList {
 			 Connection connection = DBHelper.getConnection();
 		
        PreparedStatement statement = connection.prepareStatement("SELECT name"
-       		+ "FROM listDesc where name=?");
+       		+ " FROM listDesc where name=?");
        statement.setString(1, name);
        
        ResultSet results = statement.executeQuery();
@@ -39,9 +39,10 @@ public class ReadingList {
     	   statement.execute();
        }else {
     	   statement = connection.prepareStatement("INSERT INTO listDesc("
-    	   		+ "desc,image) VALUES(?,?)");
-    	       statement.setString(1, description);
-    	       statement.setString(2, IMAGE_DEFAULT);
+    	   		+ "name,desc,image) VALUES(?,?,?)");
+    	   statement.setString(1, name);
+    	       statement.setString(2, description);
+    	       statement.setString(3, IMAGE_DEFAULT);
     	       statement.execute();
     	      
        }
@@ -62,10 +63,12 @@ public class ReadingList {
 			System.out.println("Converting.,.. "+resource);
 			resources.add(Resource.getResource(Integer.parseInt(resource)));
 		}
-		if(image != null ) {
-		this.image = new Image(image);
-		}else {
+		if(image == null || image.equals("")) {
 			this.image = new Image(IMAGE_DEFAULT);
+			
+		}else {
+			System.out.println("Attempting with image: "+image);
+			this.image = new Image(image);
 		}
 	}
 
@@ -229,7 +232,8 @@ public class ReadingList {
     	   	       statement.setString(2, list);
     	   	       statement.execute();
     	   	       connection.close();
-   	   
+   	   statement.execute();
+   	   connection.close();
       }else {
    	   statement = connection.prepareStatement("INSERT INTO userFollows("
    	   		+ "username,listId) VALUES(?,?)");
@@ -246,6 +250,25 @@ public class ReadingList {
 		}
 		
 	}
+	
+	public static void removeFromList(String name, int rid) {
+		try {
+			 Connection connection = DBHelper.getConnection();
+		
+     PreparedStatement statement = connection.prepareStatement("DELETE FROM readingList "
+     		+ "WHERE name=? AND rId=?");
+     statement.setString(1, name);
+     statement.setInt(2, rid);
+     
+      statement.executeUpdate();
+       connection.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	
 	
 	public static boolean follows(String username, String list) {
 		try {
@@ -308,7 +331,7 @@ public class ReadingList {
       
       ResultSet results = statement.executeQuery();
       if(results.next()) {
-   	  
+   	  connection.close();
       }else {
    	   statement = connection.prepareStatement("INSERT INTO readingList("
    	   		+ "name,rId) VALUES(?,?)");
@@ -355,6 +378,7 @@ public class ReadingList {
          while (results.next()) {
         	 readingList.add(new ReadingList(results.getString("resources").split(","),results.getString("name"),results.getString("desc"),results.getString("image")));
          }
+         connection.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

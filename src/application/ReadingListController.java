@@ -90,6 +90,7 @@ public class ReadingListController {
 	           }else {
 	        	   follow.setText("Follow");
 	           }
+	           setupMyList();
 	          }
 
 	      });
@@ -132,6 +133,20 @@ public class ReadingListController {
 		      });
 			Text name = new Text(r.getTitle());
 			item.getChildren().addAll(img,name);
+			if(!(ScreenManager.getCurrentUser() instanceof User)) {
+			Button remove = new Button("Remove");
+			remove.setOnMouseClicked(new EventHandler<MouseEvent>(){
+
+		          @Override
+		          public void handle(MouseEvent arg0) {
+		          ReadingList.removeFromList(list.getName(),r.getUniqueID());
+		          setupReadingList(list.getName());
+		          }
+
+		      });
+			item.getChildren().add(remove);
+			}
+			
 			
 			if(i != 0 && i % 3 == 0) {
 				System.out.println("Adding to main");
