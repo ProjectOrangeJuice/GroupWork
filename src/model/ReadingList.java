@@ -6,43 +6,108 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import javafx.scene.image.Image;
+
 public class ReadingList {
 	ArrayList<Resource> resources = new ArrayList<Resource>();
 	String name;
 	String description;
+	Image image;
+	static String IMAGE_DEFAULT = "/graphics/readinglist.jpg";
 	
 	public String getDescription() {
 		return description;
 	}
 
+	
 	public void setDescription(String description) {
 		this.description = description;
-		 Connection connection;
-			try {
-				connection = DBHelper.getConnection();
-			
-	        PreparedStatement statement = connection.prepareStatement("UPDATE "
-	        		+ "readingList SET description=? WHERE name=?");
-	        statement.setString(1, description);
-	        statement.setString(2, name);
-	        
-	       statement.executeUpdate();
-	     
-	        connection.close();
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+	
+		 try {
+			 Connection connection = DBHelper.getConnection();
+		
+       PreparedStatement statement = connection.prepareStatement("SELECT name"
+       		+ "FROM listDesc where name=?");
+       statement.setString(1, name);
+       
+       ResultSet results = statement.executeQuery();
+       if(results.next()) {
+    	   statement = connection.prepareStatement("UPDATE "
+    	       		+ " listDesc SET desc=? WHERE name=?");
+    	   statement.setString(2, name);
+    	   statement.setString(1, description);
+    	   statement.execute();
+       }else {
+    	   statement = connection.prepareStatement("INSERT INTO listDesc("
+    	   		+ "desc,image) VALUES(?,?)");
+    	       statement.setString(1, description);
+    	       statement.setString(2, IMAGE_DEFAULT);
+    	       statement.execute();
+    	      
+       }
+       connection.close();
+ 
+      
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	
 	}
 
-	public ReadingList(String[] resourceList, String name,String description) {
+	public ReadingList(String[] resourceList, String name,String description,String image) {
 		this.name = name;
 		this.description = description;
 		for(String resource : resourceList) {
 			System.out.println("Converting.,.. "+resource);
 			resources.add(Resource.getResource(Integer.parseInt(resource)));
 		}
+		if(image != null ) {
+		this.image = new Image(image);
+		}else {
+			this.image = new Image(IMAGE_DEFAULT);
+		}
 	}
+
+	public Image getImage() {
+		return image;
+	}
+
+
+	public void setImage(String image) {
+		this.image = new Image(image);
+		 try {
+			 Connection connection = DBHelper.getConnection();
+		
+       PreparedStatement statement = connection.prepareStatement("SELECT name"
+       		+ " FROM listDesc where name=?");
+       statement.setString(1, name);
+       
+       ResultSet results = statement.executeQuery();
+       if(results.next()) {
+    	   statement = connection.prepareStatement("UPDATE "
+    	       		+ " listDesc SET image=? WHERE name=?");
+    	   statement.setString(2, name);
+    	   statement.setString(1, image);
+    	   statement.execute();
+       }else {
+    	   statement = connection.prepareStatement("INSERT INTO listDesc("
+    	   		+ "name,image) VALUES(?,?)");
+    	       statement.setString(1, name);
+    	       statement.setString(2, image);
+    	       statement.execute();
+    	      
+       }
+       connection.close();
+ 
+      
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	
+	}
+
 
 	public static ReadingList myList(String username){
 		ReadingList readingList =null;
@@ -57,7 +122,7 @@ public class ReadingList {
         ResultSet results = statement.executeQuery();
         while (results.next()) {
         	try {
-       	 readingList = new ReadingList(results.getString("resources").split(","),"","");
+       	 readingList = new ReadingList(results.getString("resources").split(","),"","","");
         	}catch(NullPointerException e) {
         		
         	}
@@ -209,25 +274,27 @@ public class ReadingList {
 		return false;
 	}
 	
-	public static String[] followedList(String username) {
-		
+	public static ArrayList<ReadingList> followedList(String username) {
+		ArrayList<ReadingList> list = new ArrayList<ReadingList>();
 		 Connection connection;
 		try {
 			connection = DBHelper.getConnection();
 		
-       PreparedStatement statement = connection.prepareStatement("SELECT group_concat(rId) as lists" + 
-       " FROM usersFollows WHERE username = ? group by username");
+       PreparedStatement statement = connection.prepareStatement("SELECT group_concat(readingList.rId) as resources,readingList.name, IFNULL(listDesc.desc,'') as desc, "
+       		+ " listDesc.image as image FROM userFollows, readingList LEFT JOIN listDesc on listDesc.name = readingList.name WHERE userFollows.listId = readingList.name "
+       		+ "AND userFollows.username=? group by readingList.name");
        statement.setString(1, username);
        
        ResultSet results = statement.executeQuery();
        while (results.next()) {
-      	 return results.getString("lists").split(",");
+      	 list.add(new ReadingList(results.getString("resources").split(","),results.getString("name"),results.getString("desc"),results.getString("image")));
        }
+       connection.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return null;
+		return list;
 	}
 	
 	public static void addToReadingList(int r, String name) {
@@ -281,12 +348,12 @@ public class ReadingList {
 		try {
 			connection = DBHelper.getConnection();
 		
-         PreparedStatement statement = connection.prepareStatement("SELECT name,group_concat(rId) as resources,description" + 
-         " FROM readingList group by name");
+         PreparedStatement statement = connection.prepareStatement("SELECT readingList.name,group_concat(rId) as resources,IFNULL(listDesc.desc,'') as desc,listDesc.image as image" + 
+         " FROM readingList LEFT JOIN listDesc on readingList.name = listDesc.name group by readingList.name");
          
          ResultSet results = statement.executeQuery();
          while (results.next()) {
-        	 readingList.add(new ReadingList(results.getString("resources").split(","),results.getString("name"),results.getString("description")));
+        	 readingList.add(new ReadingList(results.getString("resources").split(","),results.getString("name"),results.getString("desc"),results.getString("image")));
          }
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

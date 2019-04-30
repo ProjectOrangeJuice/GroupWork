@@ -1,6 +1,7 @@
 package application;
 
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -22,6 +23,8 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import javafx.stage.FileChooser;
+import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import model.ReadingList;
@@ -68,8 +71,12 @@ public class ReadingListController {
 	          }
 
 	      });
-		
-		Button follow = new Button("Follow");
+		Button follow = new Button();
+		if(ReadingList.follows(ScreenManager.getCurrentUser().getUsername(), list.getName())) {
+		follow.setText("Unfollow");
+		}else {
+			follow.setText("Follow");
+		}
 		
 		follow.setOnMouseClicked(new EventHandler<MouseEvent>(){
 
@@ -159,6 +166,10 @@ public class ReadingListController {
 			VBox vbox = new VBox();
 			vbox.setMinWidth(200);
 			vbox.setSpacing(5);
+			ImageView i = generateImageView(l.getImage());
+			
+			
+			
 
 			Text t = new Text(l.getName());
 			t.setFont(Font.font(15));
@@ -181,19 +192,53 @@ public class ReadingListController {
 				desc.setEditable(false);
 				desc.setMouseTransparent(true);
 				desc.setFocusTraversable(false);
+				vbox.setOnMouseClicked(new EventHandler<MouseEvent>(){
+
+			          @Override
+			          public void handle(MouseEvent arg0) {
+			           displayReadingList(l);
+			            
+			          }
+
+			      });
 			}else {
 				desc.setEditable(true);
+				
+				i.setOnMouseClicked(new EventHandler<MouseEvent>(){
+
+			          @Override
+			          public void handle(MouseEvent arg0) {
+			        	  FileChooser fileChooser = new FileChooser();
+			        	  fileChooser.setTitle("Open image File");
+			        	  fileChooser.getExtensionFilters().addAll(
+			        	          new ExtensionFilter("Image Files", "*.png", "*.jpg", "*.gif")
+			        	          );
+	
+			        	  File selectedFile = fileChooser.showOpenDialog(new Stage());
+			        	  if (selectedFile != null) {
+			        		  System.out.println("image.. "+selectedFile.getAbsolutePath());
+			        		  System.out.println("image.. "+"/graphics/"+selectedFile.getName());
+			        		  l.setImage("/graphics/"+selectedFile.getName());
+			        	     setupReadingList("");
+			        	  }
+			          }
+
+			      });
+				
+				
+				t.setOnMouseClicked(new EventHandler<MouseEvent>(){
+
+			          @Override
+			          public void handle(MouseEvent arg0) {
+			           displayReadingList(l);
+			            
+			          }
+
+			      });
+				
 			}
-			vbox.getChildren().addAll(t,desc);
-			vbox.setOnMouseClicked(new EventHandler<MouseEvent>(){
-
-		          @Override
-		          public void handle(MouseEvent arg0) {
-		           displayReadingList(l);
-		            
-		          }
-
-		      });
+			vbox.getChildren().addAll(i,t,desc);
+			
 			
 			
 			vboxs.add(vbox);
@@ -304,6 +349,63 @@ public class ReadingListController {
 			
 		}
 		}
+		
+		
+		//Add their followed readinglists
+		ArrayList<ReadingList>followed = ReadingList.followedList(ScreenManager.getCurrentUser().getUsername());
+		for(ReadingList l: followed) {
+			VBox vbox = new VBox();
+			vbox.setSpacing(2);
+			Button remove = new Button("Remove");
+			vbox.getChildren().add(remove);
+			TextArea desc = new TextArea(l.getDescription());
+			desc.setWrapText(true);
+			desc.setEditable(false);
+			desc.setMouseTransparent(true);
+			desc.setFocusTraversable(false);
+		
+			
+			desc.setMinHeight(100);
+			
+			
+				vbox.getChildren().add(desc);
+			
+			
+			
+			ImageView image = generateImageView(l.getImage());
+			image.setOnMouseClicked(new EventHandler<MouseEvent>(){
+
+		          @Override
+		          public void handle(MouseEvent arg0) {
+		           displayReadingList(l);
+		            
+		          }
+
+		      });
+			
+			Text text = new Text(l.getName());
+
+			
+			remove.setOnMouseClicked(new EventHandler<MouseEvent>(){
+
+		          @Override
+		          public void handle(MouseEvent arg0) {
+		        	  ReadingList.changeFollow(ScreenManager.getCurrentUser().getUsername(), l.getName());
+		         
+		          
+		   		setupMyList();
+		          }
+		      });
+			
+			
+			HBox box = new HBox();
+			box.setMinWidth(300);
+			box.getChildren().addAll(image,vbox);
+			
+			yourList.getChildren().addAll(box,text);
+			
+		}
+		
 	}
 	
 	

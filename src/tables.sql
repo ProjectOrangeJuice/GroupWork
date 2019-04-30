@@ -987,7 +987,7 @@ DROP TABLE IF EXISTS `readingList`;
 
 CREATE TABLE `readingList`
   ( `id` INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
-                                                    `name` TEXT,`description` TEXT, `rId` INTEGER,
+                                                    `name` TEXT,`rId` INTEGER,
    FOREIGN KEY (`rId`) REFERENCES `resource` (`rID`) ON UPDATE CASCADE ON DELETE CASCADE
 
 );
@@ -1013,6 +1013,16 @@ CREATE TABLE `usersList`
   ( `id` INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE,
                                            `rId` INTEGER, `username` TEXT,
    FOREIGN KEY (`username`) REFERENCES `users` (`username`) ON UPDATE CASCADE ON DELETE CASCADE
+
+);
+
+DROP TABLE IF EXISTS `listDesc`;
+
+
+CREATE TABLE `listDesc`
+  ( `id` INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE,
+                                           `name` TEXT, `desc` TEXT, `image` TEXT
+  
 
 );
 
