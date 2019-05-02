@@ -306,8 +306,11 @@ public abstract class Resource {
          */
   
         if (!freeCopies.isEmpty()) {
-        
-            Copy copyToBorrow = freeCopies.removeFirst();
+        	for(int i = 0; i < freeCopies.size();i++) {
+            Copy copyToBorrow = freeCopies.get(i);
+            if(ReserveFeature.checkReserved(copyToBorrow.getCopyID(), copyToBorrow.getLoanDuration(), LocalDate.now())){
+            	freeCopies.remove(i);
+            
 
             copyToBorrow.resetDates();
             copyToBorrow.setBorrower(user);
@@ -319,6 +322,9 @@ public abstract class Resource {
             saveCopyToDB(copyToBorrow);
             insertBorrowRecord(user, copyToBorrow);
             return true;
+            }
+        	}
+        	return false;
         }
         /*
          * Else, add the user to the request queue and set the due date of the
