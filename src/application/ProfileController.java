@@ -55,6 +55,7 @@ import model.Game;
 import model.Laptop;
 import model.Librarian;
 import model.Person;
+import model.ReserveFeature;
 import model.Resource;
 import model.User;
 
@@ -789,6 +790,11 @@ public class ProfileController {
 	 */
 	@FXML
 	private void displayRequested() {
+		
+	
+		
+		
+		
 		staffHistoryFind.setDisable(true);
 		staffApproveCopy.setDisable(false);
 		staffReturnCopy.setDisable(true);

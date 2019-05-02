@@ -9,6 +9,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -268,6 +269,11 @@ public abstract class Resource {
          * the queue and take that person out of the queue.
          */
         else {
+        	
+        	//Check to see if it's reserved.
+        
+        	if(!ReserveFeature.checkReserved(returnedCopy.getCopyID(), returnedCopy.getLoanDuration(), LocalDate.now())){
+        	
             User firstRequest = userRequestQueue.peek();
 
             returnedCopy.resetDates();
@@ -280,6 +286,9 @@ public abstract class Resource {
             userRequestQueue.dequeue();
             
             Resource.insertBorrowRecord(firstRequest, returnedCopy);
+        	}else {
+        		ReserveFeature.setReserve(returnedCopy.getCopyID());
+        	}
         }
     }
 

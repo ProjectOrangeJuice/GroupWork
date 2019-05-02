@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Types;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.LocalDate;
@@ -16,14 +17,8 @@ import java.util.Date;
 import java.util.Locale;
 
 public class ReserveFeature {
-
-	public static void main(String[] args) {
-		
 	
-		
-		System.out.println("Free copy- "+getFreeCopy(1, LocalDate.now()));
-
-	}
+	
 
 	public static int getFreeCopy(int rId,LocalDate date) {
 		int free = 0;
@@ -90,7 +85,66 @@ public class ReserveFeature {
 		return free;
 	}
 
+public static void setReserve(int copyId) {
+	//Copy returned, and someone is waiting for it.
+	try {
+		 Connection connection = DBHelper.getConnection();
 
+		 
+		 PreparedStatement statement = connection.prepareStatement("SELECT * FROM reserve"
+	   		+ " WHERE copyId=?");
+	       statement.setInt(1, copyId);
+	       ResultSet r = statement.executeQuery();
+	       statement = connection.prepareStatement("UPDATE copies "
+	   	   	   		+ "SET keeper=? AND dueDate=? where copyID=?");
+	   	   	       statement.setInt(3, copyId);
+	   	   	       int due = getDue(copyId);
+	   	   	       if(due==0) {
+	   	   	    	   statement.setNull(2, Types.INTEGER);
+	   	   	       }else {
+	   	   	    	   statement.setInt(2, due);
+	   	   	       }
+	   	   	       statement.setString(1 ,r.getString("username"));
+	   	   	       statement.execute();
+	       
+	       connection.close();
+	       
+	       
+	}catch(SQLException e) {
+		e.printStackTrace();
+		
+	}
+}
+	
+private static int getDue(int copyId) {
+	int due = 0;
+	try {
+		 Connection connection = DBHelper.getConnection();
+
+
+		 PreparedStatement statement = connection.prepareStatement("SELECT copies.loanDuration  FROM copies,resource,userRequests WHERE "
+		 		+ "userRequests.rID=resource.rID AND copies.rID=resource.rID AND copies.copyID = ?" 
+		 		);
+	       statement.setInt(1, copyId);
+
+	       ResultSet results = statement.executeQuery();
+	       if(results.next()) {
+	    	
+	    	   due = results.getInt("due");
+	       connection.close();
+	       }
+
+
+
+	} catch (SQLException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+	
+	return due;
+	}
+
+	
 	public static boolean checkReserved(int copyId, int duration, LocalDate date) {
 		boolean free = true;
 		try {
@@ -104,7 +158,7 @@ public class ReserveFeature {
   	       ResultSet results = statement.executeQuery();
   	       while(results.next()) {
   	    	 String dateDB = results.getString("when");
-  	    	 System.out.println("out put sis "+dateDB);
+  	
 
   	    	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/MM/yyyy");
 
@@ -166,6 +220,28 @@ public class ReserveFeature {
    	       statement.setString(2, username );
    	       statement.setString(3,date);
    	       statement.execute();
+   	     LocalDate date2 = selectedDate.minusDays(2);
+   	    instant = Instant.from(date2.atStartOfDay(ZoneId.systemDefault()));
+		 dateFull = Date.from(instant);
+		  normal = new SimpleDateFormat("dd/MM/yyyy");
+	       date = normal.format(dateFull);
+   	  
+	       
+	       
+	   	    statement = connection.prepareStatement("SELECT * "
+	   	   	   		+ "FROM copies WHERE copyID=?");
+	   	   	       statement.setInt(1, copy);
+	 
+	   	   	       ResultSet r = statement.executeQuery();
+	   	   	       if(r.getString("dueDate")==null) {
+   	       
+   	    statement = connection.prepareStatement("UPDATE copies "
+   	   	   		+ "SET dueDate=? where copyID=?");
+   	   	       statement.setInt(2, copy);
+   	   	       statement.setString(1,date);
+   	   	       statement.execute();
+	   	   	       }
+   	       
    	       connection.close();
 
 
