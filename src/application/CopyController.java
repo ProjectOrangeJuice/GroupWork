@@ -482,7 +482,7 @@ public class CopyController {
     		AlertBox.showErrorAlert("No date selected");
     	}else {
     		Resource r = ScreenManager.getCurrentResource();
-    		ReserveFeature.reserve(r.getUniqueID(), "username", dateSelected);
+    		ReserveFeature.reserve(r.getUniqueID(), ScreenManager.getCurrentUser().getUsername(), dateSelected);
     	}
     	
     }
@@ -494,6 +494,12 @@ public class CopyController {
                 LocalDate today = LocalDate.now();
 
                 setDisable(empty || date.compareTo(today) < 0 );
+                
+                System.out.println("Date in question " + date.toString());
+                System.out.println("copy id? "+ReserveFeature.getFreeCopy(ScreenManager.getCurrentResource().getUniqueID(), date) );
+               if(ReserveFeature.getFreeCopy(ScreenManager.getCurrentResource().getUniqueID(), date) == 0) {
+            	   setDisable(true);
+               }
             }
         });
     }

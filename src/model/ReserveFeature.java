@@ -7,17 +7,25 @@ import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
 public class ReserveFeature {
 
+	public static void main(String[] args) {
+		
+	
+		
+		System.out.println("Free copy- "+getFreeCopy(1, LocalDate.now()));
 
+	}
 
-	private static int getFreeCopy(int rId,LocalDate date) {
+	public static int getFreeCopy(int rId,LocalDate date) {
 		int free = 0;
 		try {
 			 Connection connection = DBHelper.getConnection();
@@ -84,7 +92,7 @@ public class ReserveFeature {
 
 
 	public static boolean checkReserved(int copyId, int duration, LocalDate date) {
-		boolean free = false;
+		boolean free = true;
 		try {
 			 Connection connection = DBHelper.getConnection();
 
@@ -96,17 +104,23 @@ public class ReserveFeature {
   	       ResultSet results = statement.executeQuery();
   	       while(results.next()) {
   	    	 String dateDB = results.getString("when");
+  	    	 System.out.println("out put sis "+dateDB);
 
-    		 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MMM/yyyy", Locale.ENGLISH);
-    		   LocalDate dbDate = LocalDate.parse(dateDB, formatter);
+  	    	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/MM/yyyy");
 
+  			
+  			//convert String to LocalDate
+  			LocalDate dbDate = LocalDate.parse(dateDB, formatter);
+  	    	 
+    		
+    		   System.out.println("Check res. "+ChronoUnit.DAYS.between(dbDate, date)+" with duration of "+duration);
     		   if(date.isAfter(dbDate)) {
-    			   if(ChronoUnit.DAYS.between(dbDate, date) > duration) {
-    				   free = true;
+    			   if(ChronoUnit.DAYS.between(dbDate, date) < duration) {
+    				   free = false;
     			   }
     		   }else {
-    			   if(ChronoUnit.DAYS.between(date, dbDate) > duration) {
-    				   free = true;
+    			   if(ChronoUnit.DAYS.between(date, dbDate) < 2) {
+    				   free = false;
     			   }
     		   }
 
@@ -127,7 +141,10 @@ public class ReserveFeature {
 	}
 
 
-	public static void reserve(int rId, String username, LocalDate selectedDate) {
+	
+	
+	
+	public static boolean reserve(int rId, String username, LocalDate selectedDate) {
 		Instant instant = Instant.from(selectedDate.atStartOfDay(ZoneId.systemDefault()));
 		Date dateFull = Date.from(instant);
 		  SimpleDateFormat normal = new SimpleDateFormat("dd/MM/yyyy");
@@ -135,14 +152,17 @@ public class ReserveFeature {
 
 		System.out.println("Converted date is "+date);
 
-		System.out.println(getFreeCopy(rId,selectedDate));
+		int copy = getFreeCopy(rId,selectedDate);
+		if(copy==0) {
+			return false;
+		}
 		try {
 			 Connection connection = DBHelper.getConnection();
 
 
-			 PreparedStatement statement = connection.prepareStatement("INSERT INTO reserver("
-   	   		+ "copyId,username,when) VALUES(?,?,?)");
-   	       statement.setInt(1, 1);
+			 PreparedStatement statement = connection.prepareStatement("INSERT INTO reserve("
+   	   		+ "copyId,username,'when') VALUES(?,?,?)");
+   	       statement.setInt(1, copy);
    	       statement.setString(2, username );
    	       statement.setString(3,date);
    	       statement.execute();
@@ -154,9 +174,11 @@ public class ReserveFeature {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
+return true;
 	}
 
 
 
+	
+	
 }
