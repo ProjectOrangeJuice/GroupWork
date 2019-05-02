@@ -1022,7 +1022,7 @@ DROP TABLE IF EXISTS `listDesc`;
 CREATE TABLE `listDesc`
   ( `id` INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE,
                                            `name` TEXT, `desc` TEXT, `image` TEXT
-  
+
 
 );
 
@@ -1034,7 +1034,7 @@ CREATE TABLE `reserve`
                                            `copyId` INTEGER, `username` TEXT, `when` TEXT,
 FOREIGN KEY (`username`) REFERENCES `users` (`username`) ON UPDATE CASCADE ON DELETE CASCADE,
    FOREIGN KEY (`copyId`) REFERENCES `copies`(`copyID`) ON UPDATE CASCADE ON DELETE CASCADE
-  
+
 
 );
 

@@ -40,7 +40,7 @@
                   <Button fx:id="addListButton" mnemonicParsing="false" onAction="#doListButton" text="Add to list" />
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Reserve" />
                   <DatePicker fx:id="datepicker" />
-                  <Button mnemonicParsing="false" text="Reserve on date selected" />
+                  <Button mnemonicParsing="false" onAction="#reserveOn" text="Reserve on date selected" />
                </children>
             </VBox>
             <VBox layoutX="216.0" layoutY="44.0" prefHeight="364.0" prefWidth="484.0">

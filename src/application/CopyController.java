@@ -33,6 +33,7 @@ import model.DVD;
 import model.Game;
 import model.Laptop;
 import model.ReadingList;
+import model.ReserveFeature;
 import model.Resource;
 import model.Review;
 import model.User;
@@ -474,6 +475,17 @@ public class CopyController {
         }
     }
     
+    @FXML
+    public void reserveOn(ActionEvent event) {
+    	LocalDate dateSelected = datepicker.getValue();
+    	if(dateSelected == null) {
+    		AlertBox.showErrorAlert("No date selected");
+    	}else {
+    		Resource r = ScreenManager.getCurrentResource();
+    		ReserveFeature.reserve(r.getUniqueID(), "username", dateSelected);
+    	}
+    	
+    }
     
     private void setupDatePicker() {
     	datepicker.setDayCellFactory(picker -> new DateCell() {
