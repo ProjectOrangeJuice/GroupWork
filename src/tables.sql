@@ -1027,4 +1027,15 @@ CREATE TABLE `listDesc`
 );
 
 
+DROP TABLE IF EXIST `reserve`;
+
+CREATE TABLE `reserve`
+  ( `id` INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE,
+                                           `copyId` INTEGER, `username` TEXT, `when` TEXT,
+FOREIGN KEY (`username`) REFERENCES `users` (`username`) ON UPDATE CASCADE ON DELETE CASCADE,
+   FOREIGN KEY (`copyId`) REFERENCES `copies`(`copyID`) ON UPDATE CASCADE ON DELETE CASCADE
+  
+
+);
+
 COMMIT;

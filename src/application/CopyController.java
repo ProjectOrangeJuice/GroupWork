@@ -1,6 +1,7 @@
 package application;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.Optional;
 
 import javafx.event.ActionEvent;
@@ -12,6 +13,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.DateCell;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextInputDialog;
@@ -45,7 +48,10 @@ public class CopyController {
 
     @FXML
     private BorderPane borderpane1;// borderpane
-
+    
+    @FXML
+    private DatePicker datepicker;
+    
     @FXML
     private AnchorPane leftanchor;// anchor for left side of borderpane
 
@@ -467,6 +473,19 @@ public class CopyController {
 
         }
     }
+    
+    
+    private void setupDatePicker() {
+    	datepicker.setDayCellFactory(picker -> new DateCell() {
+            public void updateItem(LocalDate date, boolean empty) {
+                super.updateItem(date, empty);
+                LocalDate today = LocalDate.now();
+
+                setDisable(empty || date.compareTo(today) < 0 );
+            }
+        });
+    }
+    
 
     /**
      * Initialize the window.
@@ -494,6 +513,10 @@ public class CopyController {
             ScreenManager.currentResource.getClass() == Game.class)) {
             viewTrailerButton.setDisable(true);
         }
+        
+        
+        //disable dates
+        setupDatePicker();
 
     }
 
