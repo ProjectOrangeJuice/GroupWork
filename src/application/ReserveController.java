@@ -32,7 +32,7 @@ public class ReserveController {
 			  SimpleDateFormat normal = new SimpleDateFormat("dd/MM/yyyy");
 		       String date = normal.format(dateFull);
 		      
-		    if(date != r.getDate()) {
+		    if(!date.equals( r.getDate())) {
 		    	AlertBox.showErrorAlert("Not reserved for today!");
 		    }else {
 		    	

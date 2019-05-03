@@ -484,6 +484,7 @@ public class CopyController {
     	}else {
     		Resource r = ScreenManager.getCurrentResource();
     		ReserveFeature.reserve(r.getUniqueID(), ScreenManager.getCurrentUser().getUsername(), dateSelected);
+    		AlertBox.showInfoAlert("Reserved!");
     	}
     	
     }
