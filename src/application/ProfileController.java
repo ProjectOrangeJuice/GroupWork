@@ -878,7 +878,8 @@ public class ProfileController {
 		String username = row.getKeeper();
 
 		User user = (User)Person.loadPerson(username);
-		if(!Resource.getResource(resourceID).loanToUser(user)) {
+		int free = Resource.getResource(resourceID).loanToUser(user);
+		if(free == 0) {
 			AlertBox.showInfoAlert("Waiting for free copy");
 		}else {
 			
@@ -907,8 +908,14 @@ public class ProfileController {
 				// blank out the approve button and display text informing the user to return an
 				// item before requesting for a new one.
 			}
+			
+			if(free != 1) {
+				AlertBox.showInfoAlert("Allowed for "+free+" days");
+				}else {
+					AlertBox.showInfoAlert("Approved");
+				}
 		}
-
+	
 		System.out.println("Approved copy!");
 		displayRequested();
 	}

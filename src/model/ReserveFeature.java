@@ -17,8 +17,40 @@ import java.util.Date;
 import java.util.Locale;
 
 public class ReserveFeature {
-	
-	
+
+
+
+	private static final double RESERVE_FINE = 5;
+
+
+public static ArrayList<Reserve> getReserves(){
+	ArrayList<Reserve> r = new ArrayList<Reserve>();
+	try {
+		 Connection connection = DBHelper.getConnection();
+
+
+		 PreparedStatement statement = connection.prepareStatement("SELECT * FROM reserve,copies,resource WHERE copies.rID= resource.rID AND reserve.copyId=copies.copyID" 		);
+
+
+	       ResultSet results = statement.executeQuery();
+	       while(results.next()) {
+	    	   r.add(new Reserve(results.getString("username"),results.getString("title"),results.getString("due"),results.getInt("copyId"),results.getInt("rID"),results.getInt("id")));
+
+	       }
+
+
+
+	       connection.close();
+
+
+
+	} catch (SQLException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+	return r;
+}
+
 
 	public static int getFreeCopy(int rId,LocalDate date) {
 		int free = 0;
@@ -90,7 +122,7 @@ public static void setReserve(int copyId) {
 	try {
 		 Connection connection = DBHelper.getConnection();
 
-		 
+
 		 PreparedStatement statement = connection.prepareStatement("SELECT * FROM reserve"
 	   		+ " WHERE copyId=?");
 	       statement.setInt(1, copyId);
@@ -106,16 +138,16 @@ public static void setReserve(int copyId) {
 	   	   	       }
 	   	   	       statement.setString(1 ,r.getString("username"));
 	   	   	       statement.execute();
-	       
+
 	       connection.close();
-	       
-	       
+
+
 	}catch(SQLException e) {
 		e.printStackTrace();
-		
+
 	}
 }
-	
+
 private static int getDue(int copyId) {
 	int due = 0;
 	try {
@@ -123,13 +155,13 @@ private static int getDue(int copyId) {
 
 
 		 PreparedStatement statement = connection.prepareStatement("SELECT copies.loanDuration  FROM copies,resource,userRequests WHERE "
-		 		+ "userRequests.rID=resource.rID AND copies.rID=resource.rID AND copies.copyID = ?" 
+		 		+ "userRequests.rID=resource.rID AND copies.rID=resource.rID AND copies.copyID = ?"
 		 		);
 	       statement.setInt(1, copyId);
 
 	       ResultSet results = statement.executeQuery();
 	       if(results.next()) {
-	    	
+
 	    	   due = results.getInt("due");
 	       connection.close();
 	       }
@@ -140,11 +172,75 @@ private static int getDue(int copyId) {
 		// TODO Auto-generated catch block
 		e.printStackTrace();
 	}
-	
+
 	return due;
 	}
 
-	
+
+
+public static void checkForLate() {
+	try {
+		 Connection connection = DBHelper.getConnection();
+
+		 Instant instant = Instant.from(LocalDate.now().atStartOfDay(ZoneId.systemDefault()));
+			Date dateFull = Date.from(instant);
+			  SimpleDateFormat normal = new SimpleDateFormat("dd/MM/yyyy");
+		       String date = normal.format(dateFull);
+
+		 PreparedStatement statement = connection.prepareStatement("SELECT * FROM reserve,copies"
+	   		+ " WHERE copies.copyId=reserve.copyId AND 'due' < ?");
+	       statement.setString(1, date);
+
+	       ResultSet results = statement.executeQuery();
+	       while(results.next()) {
+	    	 String username = results.getString("reserve.username");
+	    	 statement = connection.prepareStatement(
+	                    "INSERT INTO fines (userName,rID,daysOver,amount,dateTime,"
+	                     + "paid) VALUES (?,?,?,?,?,0)");
+
+	                statement.setString(1,username);
+	                statement.setInt(2, results.getInt("copies.rID"));
+	                statement.setInt(3, 1);
+	                statement.setDouble(4, RESERVE_FINE);
+
+	                SimpleDateFormat normalDateFormat = new SimpleDateFormat(
+	                    "dd/MM/yyyy");
+	                statement.setString(5, date);
+
+
+	                statement.executeUpdate();
+
+
+	                statement = connection.prepareStatement(
+		                    "DELETE FROM reserve WHERE id=?");
+
+		                statement.setInt(1,results.getInt("reserve.id"));
+
+
+		                statement.executeUpdate();
+
+
+
+
+		   }
+
+
+
+
+
+
+	       connection.close();
+
+
+
+	} catch (SQLException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+
+}
+
+
 	public static boolean checkReserved(int copyId, int duration, LocalDate date) {
 		boolean free = true;
 		try {
@@ -157,16 +253,16 @@ private static int getDue(int copyId) {
 
   	       ResultSet results = statement.executeQuery();
   	       while(results.next()) {
-  	    	 String dateDB = results.getString("when");
-  	
+  	    	 String dateDB = results.getString("due");
+
 
   	    	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/MM/yyyy");
 
-  			
+
   			//convert String to LocalDate
   			LocalDate dbDate = LocalDate.parse(dateDB, formatter);
-  	    	 
-    		
+
+
     		   System.out.println("Check res. "+ChronoUnit.DAYS.between(dbDate, date)+" with duration of "+duration);
     		   if(date.isAfter(dbDate)) {
     			   if(ChronoUnit.DAYS.between(dbDate, date) < duration) {
@@ -195,9 +291,9 @@ private static int getDue(int copyId) {
 	}
 
 
-	
-	
-	
+
+
+
 	public static boolean reserve(int rId, String username, LocalDate selectedDate) {
 		Instant instant = Instant.from(selectedDate.atStartOfDay(ZoneId.systemDefault()));
 		Date dateFull = Date.from(instant);
@@ -215,7 +311,7 @@ private static int getDue(int copyId) {
 
 
 			 PreparedStatement statement = connection.prepareStatement("INSERT INTO reserve("
-   	   		+ "copyId,username,'when') VALUES(?,?,?)");
+   	   		+ "copyId,username,due) VALUES(?,?,?)");
    	       statement.setInt(1, copy);
    	       statement.setString(2, username );
    	       statement.setString(3,date);
@@ -225,23 +321,23 @@ private static int getDue(int copyId) {
 		 dateFull = Date.from(instant);
 		  normal = new SimpleDateFormat("dd/MM/yyyy");
 	       date = normal.format(dateFull);
-   	  
-	       
-	       
+
+
+
 	   	    statement = connection.prepareStatement("SELECT * "
 	   	   	   		+ "FROM copies WHERE copyID=?");
 	   	   	       statement.setInt(1, copy);
-	 
+
 	   	   	       ResultSet r = statement.executeQuery();
 	   	   	       if(r.getString("dueDate")==null) {
-   	       
+
    	    statement = connection.prepareStatement("UPDATE copies "
    	   	   		+ "SET dueDate=? where copyID=?");
    	   	       statement.setInt(2, copy);
    	   	       statement.setString(1,date);
    	   	       statement.execute();
 	   	   	       }
-   	       
+
    	       connection.close();
 
 
@@ -255,6 +351,6 @@ return true;
 
 
 
-	
-	
+
+
 }

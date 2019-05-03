@@ -2,8 +2,14 @@ package model;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.Date;
 
 /**
@@ -60,6 +66,42 @@ public class Copy implements Comparable<Copy> {
         borrowDate = null;
         lastRenewal = null;
         dueDate = null;
+    }
+    
+    
+    
+    public int getLoanAmount() {
+    	try {
+   		 Connection connection = DBHelper.getConnection();
+
+   		
+
+   		 PreparedStatement statement = connection.prepareStatement("SELECT * FROM copies"
+   	   		+ " WHERE copyId=?");
+   	       statement.setInt(1, copyID);
+
+   	       ResultSet results = statement.executeQuery();
+   	       String date = results.getString("dueDate");
+   	       if(date == null) {
+   	    	   connection.close();
+   	    	   return 1;
+   	       }
+
+ 	    	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/MM/yyyy");
+
+ 			
+ 			//convert String to LocalDate
+ 			LocalDate dbDate = LocalDate.parse(date, formatter);
+ 			
+ 			connection.close();
+ 			return (int) ChronoUnit.DAYS.between(LocalDate.now(),dbDate);
+    	
+
+   	} catch (SQLException e) {
+   		// TODO Auto-generated catch block
+   		e.printStackTrace();
+   	}
+    	return 0;
     }
 
     /**
@@ -272,7 +314,7 @@ public class Copy implements Comparable<Copy> {
             lastRenewal = null;
 
             updateDBValue(copyID, "borrowDate", null);
-            updateDBValue(copyID, "dueDate", null);
+           // updateDBValue(copyID, "dueDate", null);
             updateDBValue(copyID, "lastRenewal", null);
       //  }
        // else {

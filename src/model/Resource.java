@@ -297,9 +297,9 @@ public abstract class Resource {
      * else it adds the user to the request queue.
      * 
      * @param user The user that wants to borrow a copy of this resource.
-     * @return If the user has the copy or is in the queue (false)
+     * @return number of days allowed to loan. 0 if none, 1 for indefinitely
      */
-    public boolean loanToUser(User user) {
+    public int loanToUser(User user) {
         /*
          * If there are free copies, mark a copy as borrowed and reserve it for
          * the user.
@@ -321,10 +321,10 @@ public abstract class Resource {
 
             saveCopyToDB(copyToBorrow);
             insertBorrowRecord(user, copyToBorrow);
-            return true;
+            return copyToBorrow.getLoanAmount();
             }
         	}
-        	return false;
+        	return 0;
         }
         /*
          * Else, add the user to the request queue and set the due date of the
@@ -343,7 +343,7 @@ public abstract class Resource {
                 AlertBox.showErrorAlert("No copies in the database!");
             }
                
-            return false;
+            return 0;
         }
     }
 
