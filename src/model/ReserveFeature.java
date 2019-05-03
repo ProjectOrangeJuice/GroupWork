@@ -15,10 +15,21 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
+
+/**
+ * New reserve feature. Handles reservations.
+ * @author Oliver Harris.
+ */
 public class ReserveFeature {
 
+	/** The Constant RESERVE_FINE. */
 	private static final double RESERVE_FINE = 5;
 
+	/**
+	 * Gets the reserves.
+	 *
+	 * @return the reserves.
+	 */
 	public static ArrayList<Reserve> getReserves() {
 		ArrayList<Reserve> r = new ArrayList<Reserve>();
 		try {
@@ -43,6 +54,13 @@ public class ReserveFeature {
 		return r;
 	}
 
+	/**
+	 * Gets the free copy.
+	 *
+	 * @param rId the resource id.
+	 * @param date the date it is required.
+	 * @return the free copy.
+	 */
 	public static int getFreeCopy(int rId, LocalDate date) {
 		int free = 0;
 		try {
@@ -93,15 +111,20 @@ public class ReserveFeature {
 			connection.close();
 
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+		
 			e.printStackTrace();
 		}
 
 		return free;
 	}
 
+	/**
+	 * Reserve a copy.
+	 *
+	 * @param copyId the copy to reserve.
+	 */
 	public static void setReserve(int copyId) {
-		// Copy returned, and someone is waiting for it.
+		
 		try {
 			Connection connection = DBHelper.getConnection();
 
@@ -127,6 +150,12 @@ public class ReserveFeature {
 		}
 	}
 
+	/**
+	 * Gets the amount of days somebody can loan a copy.
+	 *
+	 * @param copyId the copy id.
+	 * @return the number of days the loan is.
+	 */
 	private static int getDue(int copyId) {
 		int due = 0;
 		try {
@@ -152,6 +181,9 @@ public class ReserveFeature {
 		return due;
 	}
 
+	/**
+	 * Check for late collections and fine them.
+	 */
 	public static void checkForLate() {
 		try {
 			Connection connection = DBHelper.getConnection();
@@ -198,6 +230,14 @@ public class ReserveFeature {
 
 	}
 
+	/**
+	 * Check reserved.
+	 *
+	 * @param copyId the copy id
+	 * @param duration the duration
+	 * @param date the date
+	 * @return true, if successful
+	 */
 	public static boolean checkReserved(int copyId, int duration, LocalDate date) {
 		boolean free = true;
 		try {
@@ -238,6 +278,14 @@ public class ReserveFeature {
 		return free;
 	}
 
+	/**
+	 * Reserve a resource.
+	 *
+	 * @param rId the resource id.
+	 * @param username the username.
+	 * @param selectedDate the selected date.
+	 * @return true, if successful.
+	 */
 	public static boolean reserve(int rId, String username, LocalDate selectedDate) {
 		Instant instant = Instant.from(selectedDate.atStartOfDay(ZoneId.systemDefault()));
 		Date dateFull = Date.from(instant);
