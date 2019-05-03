@@ -27,6 +27,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import model.MyList;
 import model.ReadingList;
 import model.Resource;
 import model.User;
@@ -166,7 +167,7 @@ public class ReadingListController {
 	
 	
 	private void setupReadingList(String search) {
-		ArrayList<ReadingList> lists = ReadingList.databaseReader();
+		ArrayList<ReadingList> lists = ReadingList.readReadingLists();
 		otherList.getChildren().removeAll();
 		otherList.getChildren().clear();
 		Text listText = new Text("Reading lists");
@@ -298,7 +299,7 @@ public class ReadingListController {
 		yourList.setSpacing(2);
 
 		System.out.println("The bit that is important..");
-		ReadingList myList = ReadingList.myList(ScreenManager.getCurrentUser().getUsername());
+		MyList myList = MyList.getMyList(ScreenManager.getCurrentUser().getUsername());
 		if(myList != null) {
 		for(Resource r : myList.getResources()) {
 			VBox vbox = new VBox();
@@ -347,7 +348,7 @@ public class ReadingListController {
 
 		          @Override
 		          public void handle(MouseEvent arg0) {
-		           ReadingList.removeFromMyList(
+		           MyList.removeFromMyList(
 		        		   ScreenManager.getCurrentUser().getUsername(),
 		        		  r.getUniqueID());
 		          

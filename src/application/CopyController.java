@@ -32,6 +32,7 @@ import model.Book;
 import model.DVD;
 import model.Game;
 import model.Laptop;
+import model.MyList;
 import model.ReadingList;
 import model.ReserveFeature;
 import model.Resource;
@@ -138,11 +139,11 @@ public class CopyController {
     	if (ScreenManager.getCurrentUser() instanceof User) {
     	String user = ScreenManager.getCurrentUser().getUsername();
     	int id = ScreenManager.getCurrentResource().getUniqueID();
-    	if(ReadingList.isInMyList(user, id)) {
-    		ReadingList.removeFromMyList(user, id);
+    	if(MyList.isInMyList(user, id)) {
+    		MyList.removeFromMyList(user, id);
     		addListButton.setText("Add to list");
     	}else {
-    	ReadingList.addToMyList(user,id);
+    	MyList.addToMyList(user,id);
     	addListButton.setText("Remove from list");
     	}
     	}else {
@@ -513,7 +514,7 @@ public class CopyController {
         if (ScreenManager.getCurrentUser() instanceof User) {
             checkIfBorrowed();
             setupLimit();
-            if(ReadingList.isInMyList(ScreenManager.getCurrentUser().getUsername(),
+            if(MyList.isInMyList(ScreenManager.getCurrentUser().getUsername(),
             		ScreenManager.getCurrentResource().getUniqueID())) {
             	addListButton.setText("Remove from list");
             }
