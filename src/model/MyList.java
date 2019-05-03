@@ -6,10 +6,22 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+
+/**
+ * The users list of resources they follow object.
+ * @author Oliver Harris.
+ */
 public class MyList {
+	
+	/** The resources. */
 	ArrayList<Resource> resources = new ArrayList<Resource>();
 
 	
+	/**
+	 * Instantiates a new my list.
+	 *
+	 * @param resourceList the resource list.
+	 */
 	public MyList(String[] resourceList) {
 		for(String resource : resourceList) {
 			resources.add(Resource.getResource(Integer.parseInt(resource)));
@@ -17,11 +29,22 @@ public class MyList {
 	}
 	
 	
+	/**
+	 * Gets the resources.
+	 *
+	 * @return the resources.
+	 */
 	public ArrayList<Resource> getResources() {
 		return resources;
 	}
 	
 
+	/**
+	 * Gets the my list.
+	 *
+	 * @param username the username
+	 * @return the my list
+	 */
 	public static MyList getMyList(String username){
 		MyList readingList =null;
 		 Connection connection;
@@ -50,6 +73,12 @@ public class MyList {
 	
 	
 
+	/**
+	 * Removes the resource from my list.
+	 *
+	 * @param username the username.
+	 * @param id the resource id.
+	 */
 	public static void removeFromMyList(String username, int id) {
 		try {
 			 Connection connection = DBHelper.getConnection();
@@ -69,6 +98,13 @@ public class MyList {
 	
 	}
 	
+	/**
+	 * Checks if a resource is in my list.
+	 *
+	 * @param username the username.
+	 * @param id the resource id.
+	 * @return true, if is in my list.
+	 */
 	public static boolean isInMyList(String username, int id) {
 		boolean output = false;
 		try {
@@ -94,6 +130,13 @@ public class MyList {
 	}
 	
 	
+	/**
+	 * Adds the resource to my list.
+	 *
+	 * @param username the username.
+	 * @param id the resource id.
+	 * @return true, if successful.
+	 */
 	public static boolean addToMyList(String username, int id) {
 		try {
 			 Connection connection = DBHelper.getConnection();
