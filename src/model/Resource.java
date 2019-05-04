@@ -311,6 +311,29 @@ public abstract class Resource {
     	return loanToUser(user,false);
     }
     
+    /** Remove a request 
+     * @param username The username to remove.
+     */
+    private void removeRequest(String username) {
+    	for(int i = 0; i<pendingRequests.size();i++) {
+    		if(pendingRequests.get(i).getUsername().equals(username)) {
+    			pendingRequests.remove(i);
+    		}
+    	}
+    	
+    	 try {
+             Connection dbConnection = DBHelper.getConnection();
+             PreparedStatement sqlStatement = dbConnection.prepareStatement(
+                 "DELETE FROM requestsToApprove WHERE rID = ? and userName=?");
+             sqlStatement.setInt(1, getUniqueID());
+             sqlStatement.setString(2, username);
+             sqlStatement.executeUpdate();
+         }
+         catch (SQLException e) {
+             e.printStackTrace();
+         }
+    	
+    }
     
     /**
      * Ensures a copy is loaned to the given user if there are available copies,
@@ -326,38 +349,51 @@ public abstract class Resource {
          */
 
         if (!freeCopies.isEmpty()) {
+        	int free = 0;
         	for(int i = 0; i < freeCopies.size();i++) {
             Copy copyToBorrow = freeCopies.get(i);
             if(reserved || 
             		ReserveFeature.checkReserved(copyToBorrow.getCopyID(),
             		copyToBorrow.getLoanDuration(), LocalDate.now())){
+            	
+            	
             	freeCopies.remove(i);
 
-
+            
             copyToBorrow.resetDates();
             copyToBorrow.setBorrower(user);
             copyToBorrow.setBorrowDate(new Date());
-            if(!userRequestQueue.isEmpty() || !pendingRequests.isEmpty()) {
+            
+            if(!pendingRequests.isEmpty()) {
             	//someone is waiting
             	if(freeCopies.isEmpty()) {
             		copyToBorrow.setDueDate();
             	}else {
+            		System.out.println("copy to borrow.. "+copyToBorrow);
+            		System.out.println("Nodue.. "+noDueDateCopies);
             		noDueDateCopies.add(copyToBorrow);
+            		free = 1;
             	}
             		
             	
             }else {
             	noDueDateCopies.add(copyToBorrow);
+            	free = 1;
             }
             
             user.addBorrowedCopy(copyToBorrow);
-
+            
             saveCopyToDB(copyToBorrow);
             insertBorrowRecord(user, copyToBorrow);
-            return copyToBorrow.getLoanAmount();
+            if(free != 1) {
+            	return copyToBorrow.getLoanAmount();
+            }else {
+            	return free;
+            }
+            
             }
         	}
-        	return 0;
+        	return free;
         }
         /*
          * Else, add the user to the request queue and set the due date of the
@@ -1193,6 +1229,7 @@ public abstract class Resource {
                 copy.getCopyID();
                 sqlStatement.setInt(7, copy.getCopyID());
                 sqlStatement.setInt(1, uniqueID);
+                System.out.println("RESETTING LOAN DURATION: "+copy.getLoanDuration());
                 sqlStatement.setInt(3, copy.getLoanDuration());
 
                 sqlStatement.setString(4,

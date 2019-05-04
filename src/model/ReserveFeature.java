@@ -216,6 +216,7 @@ public class ReserveFeature {
 				due = results.getInt("due");
 				connection.close();
 			}
+			connection.close();
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
