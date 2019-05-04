@@ -32,20 +32,34 @@ import model.ReadingList;
 import model.Resource;
 import model.User;
 
+
+/**
+ * The Class ReadingListController.
+ * @author Oliver Harris
+ */
 public class ReadingListController {
 
+    /** The Constant RES_IMG_WIDTH. */
     private static final int RES_IMG_WIDTH = 150;
+    
+    /** The Constant RES_IMG_HEIGHT. */
     private static final int RES_IMG_HEIGHT = 200;
 	
+	/** The left list. */
 	@FXML
 	private VBox yourList;
 	
+	/** The right list. */
 	@FXML
 	private VBox otherList;
 	
+	/** The search box. */
 	@FXML
 	private TextField searchBox;
 	
+	/**
+	 * Initialize.
+	 */
 	@FXML
 	public void initialize() {
 		setupReadingList("");
@@ -56,6 +70,11 @@ public class ReadingListController {
 	
 	
 	
+	/**
+	 * Display reading list.
+	 *
+	 * @param list the reading list.
+	 */
 	private void displayReadingList(ReadingList list) {
 		otherList.getChildren().removeAll();
 		otherList.getChildren().clear();
@@ -166,6 +185,11 @@ public class ReadingListController {
 	}
 	
 	
+	/**
+	 * Sets up the reading list.
+	 *
+	 * @param search The search word.
+	 */
 	private void setupReadingList(String search) {
 		ArrayList<ReadingList> lists = ReadingList.readReadingLists();
 		otherList.getChildren().removeAll();
@@ -282,12 +306,20 @@ public class ReadingListController {
 	}
 
 	
+	/**
+	 * Search action.
+	 *
+	 * @param e the key press.
+	 */
 	@FXML
 	public void doSearch(KeyEvent e) {
 		setupReadingList(searchBox.getText());
 		
 	}
 	
+	/**
+	 * Setup the users list.
+	 */
 	private void setupMyList() {
 		 yourList.getChildren().removeAll();
 	   		yourList.getChildren().clear();
@@ -427,6 +459,12 @@ public class ReadingListController {
 	
 	
 
+	/**
+	 * Generate image view.
+	 *
+	 * @param image the image
+	 * @return the image view
+	 */
 	private ImageView generateImageView(Image image) {
 		ImageView resourceimage = new ImageView();
 			resourceimage.setFitWidth(RES_IMG_WIDTH);

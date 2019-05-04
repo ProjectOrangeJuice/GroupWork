@@ -48,6 +48,12 @@ import model.User;
  */
 public class CopyController {
 
+	@FXML
+	private Text rError;
+	
+	@FXML
+	private Button reserveButton;
+	
     @FXML
     private BorderPane borderpane1;// borderpane
     
@@ -476,6 +482,10 @@ public class CopyController {
         }
     }
     
+    /**
+     * Reserve resource on selected date.
+     * @param event The action event.
+     */
     @FXML
     public void reserveOn(ActionEvent event) {
     	LocalDate dateSelected = datepicker.getValue();
@@ -486,9 +496,12 @@ public class CopyController {
     		ReserveFeature.reserve(r.getUniqueID(), ScreenManager.getCurrentUser().getUsername(), dateSelected);
     		AlertBox.showInfoAlert("Reserved!");
     	}
-    	
+    	checkCanReserve();
     }
     
+    /**
+     * Blanks out days that are unavailable.
+     */
     private void setupDatePicker() {
     	datepicker.setDayCellFactory(picker -> new DateCell() {
             public void updateItem(LocalDate date, boolean empty) {
@@ -506,6 +519,20 @@ public class CopyController {
         });
     }
     
+    /**
+     * Checks if the user can reserve this item.
+     */
+    private void checkCanReserve() {
+    	String date = ReserveFeature.canReserve(ScreenManager.getCurrentResource().getUniqueID(),ScreenManager.getCurrentUser().getUsername() );
+    	if(date.equals("")) {
+    		rError.setVisible(false);
+    		reserveButton.setDisable(false);
+    	}else {
+    		rError.setText("Reserved for "+date);
+    		reserveButton.setDisable(true);
+    		rError.setVisible(true);
+    	}
+    }
 
     /**
      * Initialize the window.
@@ -537,6 +564,7 @@ public class CopyController {
         
         //disable dates
         setupDatePicker();
+        checkCanReserve();
 
     }
 

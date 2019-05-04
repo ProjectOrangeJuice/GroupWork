@@ -28,7 +28,7 @@ public class Reserve {
 	/** The id. */
 	private int id;
 	
-	/** The r id. */
+	/** The resource id. */
 	private int rId;
 	
 	/**

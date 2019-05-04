@@ -53,6 +53,41 @@ public class ReserveFeature {
 		}
 		return r;
 	}
+	
+	/**
+	 * Checks to see if the user has already reserved a resource.
+	 * @param rId The resource id.
+	 * @param username The username.
+	 * @return Date they have reserved, or empty if  they haven't
+	 */
+	public static String canReserve(int rId, String username) {
+		String date = "";
+		try {
+			Connection connection = DBHelper.getConnection();
+
+			PreparedStatement statement = connection.prepareStatement("SELECT * FROM reserve,copies "
+					+ "WHERE reserve.copyId=copies.copyID AND  copies.rID=?");
+			statement.setInt(1, rId);
+
+			ResultSet results = statement.executeQuery();
+			if (results.next()) {
+				
+				date = results.getString("due");
+				
+			}
+
+		
+			connection.close();
+			return date;
+		} catch (SQLException e) {
+		
+			e.printStackTrace();
+		}
+		return "";
+	}
+	
+	
+	
 
 	/**
 	 * Gets the free copy.
