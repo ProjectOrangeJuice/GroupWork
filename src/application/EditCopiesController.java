@@ -38,7 +38,7 @@ import model.User;
 public class EditCopiesController {
 
 	private ArrayList<Copy> copies; //arraylist of the copies
-	ObservableList<Copy> copyData = FXCollections.observableArrayList();//arraylist of the copy data
+	ObservableList<Copy> copyData = FXCollections.observableArrayList();
 	
 	@FXML
 	private TextField loanDur; //textbox which holds the loan duration
@@ -159,7 +159,8 @@ public class EditCopiesController {
 	private void addCopy(ActionEvent event) {
 		String duration = loanDur.getText();
 		boolean goAhead = true;
-		//converts the duration to text, if there is a format error it throws an exception and declines the add copy.
+		//converts the duration to text, if there is a format error 
+		//it throws an exception and declines the add copy.
 		try {
 			Integer.parseInt(duration);
 		} catch (NumberFormatException e){
