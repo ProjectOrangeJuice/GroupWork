@@ -71,8 +71,10 @@ public class ReserveFeature {
 
 			PreparedStatement statement = connection.prepareStatement(
 					"SELECT * FROM reserve,copies " 
-			+ "WHERE reserve.copyId=copies.copyID AND  copies.rID=?");
+			+ "WHERE reserve.copyId=copies.copyID AND  copies.rID=?"
+			+ " AND username=?");
 			statement.setInt(1, rId);
+			statement.setString(2,username);
 
 			ResultSet results = statement.executeQuery();
 			if (results.next()) {
