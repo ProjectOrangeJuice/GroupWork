@@ -67,6 +67,17 @@ public class ReadingListController {
 		
 		
 	 }
+
+	/**
+	 * Search action.
+	 *
+	 * @param e the key press.
+	 */
+	@FXML
+	public void doSearch(KeyEvent e) {
+		setupReadingList(searchBox.getText());
+		
+	}
 	
 	
 	
@@ -305,17 +316,6 @@ public class ReadingListController {
 		
 	}
 
-	
-	/**
-	 * Search action.
-	 *
-	 * @param e the key press.
-	 */
-	@FXML
-	public void doSearch(KeyEvent e) {
-		setupReadingList(searchBox.getText());
-		
-	}
 	
 	/**
 	 * Setup the users list.

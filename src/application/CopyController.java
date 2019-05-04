@@ -119,6 +119,43 @@ public class CopyController {
     private static final int REVIEW_INDEX = 2;
     private static final int WHEN_INDEX = 3;
     
+    
+    
+    /**
+     * Initialize the window.
+     */
+    @FXML
+    public void initialize() {
+        if (ScreenManager.getCurrentUser() instanceof User) {
+            checkIfBorrowed();
+            setupLimit();
+            if(MyList.isInMyList(ScreenManager.getCurrentUser().getUsername(),
+            		ScreenManager.getCurrentResource().getUniqueID())) {
+            	addListButton.setText("Remove from list");
+            }
+        }
+        else {
+            requestbutt.setDisable(true);
+            reserveButton.setDisable(false);
+            setupStaffButtons();
+
+        }
+        loadResourceImage();
+        loadResourceInformation();
+
+        if (!(ScreenManager.currentResource.getClass() == DVD.class ||
+            ScreenManager.currentResource.getClass() == Game.class)) {
+            viewTrailerButton.setDisable(true);
+        }
+        
+        
+        //disable dates
+        setupDatePicker();
+        checkCanReserve();
+
+    }
+
+    
     /**
      * Sets new scene on stage within program using fxml file provided.
      *
@@ -179,165 +216,7 @@ public class CopyController {
     	
     }
 
-    /**
-     * Method that deals with reviews and if the user is staff, a remove button
-     * appears.
-     */
-    private void dealWithReviews() {
-        int resourceId = ScreenManager.currentResource.getUniqueID();
-        boolean hasReviews = model.Review.hasReviews(resourceId);
-
-        if (hasReviews) {
-
-            HBox avg = new HBox(); // ready for images
-            Text avgText = new Text("Rating: " +
-                Math.round(model.Review.getAvgStar(resourceId) * ROUND) /
-                    ROUND);
-            avgText.setStyle("-fx-font: 24 arial;");
-            avg.getChildren().add(avgText);
-            seeReviews.getChildren().add(avg);
-
-            // Now for the actual reviews
-            for (String[] review : Review.getReviews(resourceId)) {
-
-                VBox topV = new VBox();
-                HBox topH = new HBox();
-                // star, name,what,when
-                Text title = new Text(" from " + review[NAME_INDEX]);
-                Text when = new Text(" [" + review[WHEN_INDEX] + "]");
-                when.setStyle("-fx-font:12 arial;");
-                Text star = new Text("Rating: " + review[STAR_INDEX]);
-                star.setFill(Color.GREEN);
-                Text reviewText = new Text(review[REVIEW_INDEX]);
-                reviewText.setStyle("-fx-font:15 arial;");
-                topH.getChildren().addAll(star, title, when);
-
-                // if staff , add button.
-                if (ScreenManager.getCurrentUser() instanceof model.Librarian) {
-
-                    Button removeReview = new Button("Remove");
-                    removeReview.setOnAction((event) -> {
-                        Review.removeReview(Integer.valueOf(review[4]));
-                        seeReviews.getChildren().clear();
-
-                        dealWithReviews();
-                    });
-                    topV.getChildren().addAll(topH, reviewText, removeReview);
-                }
-                else {
-                    topV.getChildren().addAll(topH, reviewText);
-                }
-                seeReviews.getChildren().add(topV);
-
-            }
-            seeReviews.setSpacing(REVIEW_SPACING);
-
-        }
-        else {
-            Text avgText = new Text("No reviews yet!");
-            seeReviews.getChildren().add(avgText);
-        }
-    }
-
-    /**
-     * Loads resource information from Screen Manager class, so that it can be
-     * displayed within the UI. Shows different information depending on the
-     * resource.
-     */
-    private void loadResourceInformation() {
-
-        // Gets the common attributes between each resource
-        int uniqueId = ScreenManager.currentResource.getUniqueID();
-        String title = ScreenManager.currentResource.getTitle();
-        int year = ScreenManager.currentResource.getYear();
-        dealWithReviews();
-
-        resourceName.setText(title);
-        resourceName.setWrapText(true);
-        // Adds all the common attributes to the text area
-        centertextarea.appendText("UniqueID: " + Integer.toString(uniqueId) +
-            "\nTitle: " + title + "\nYear: " + Integer.toString(year));
-
-        // If the resource is a Book, it will add the book attributes to the
-        // text area.
-        if (ScreenManager.currentResource instanceof Book) {
-            ScreenManager.currentBook = (Book) ScreenManager.currentResource;
-            String author = ScreenManager.currentBook.getAuthor();
-            String publisher = ScreenManager.currentBook.getPublisher();
-            String genre = ScreenManager.currentBook.getGenre();
-            String isbn = ScreenManager.currentBook.getISBN();
-            String language = ScreenManager.currentBook.getLanguage();
-
-            centertextarea.appendText("\nAuthor: " + author + "\nPublisher: " +
-                publisher + "\nGenre: " + genre + "\nISBN: " + isbn +
-                "\nLanguage: " + language);
-
-            // If the resource is a Laptop, it will add the laptop attributes to
-            // the text area.
-        }
-        else if (ScreenManager.currentResource instanceof Laptop) {
-            ScreenManager.currentLaptop = (Laptop) ScreenManager.currentResource;
-            String manufacturer = ScreenManager.currentLaptop.getManufacturer();
-            String model = ScreenManager.currentLaptop.getModel();
-            String operatingSystem = ScreenManager.currentLaptop.getOS();
-
-            centertextarea.appendText("\nManufacturer: " + manufacturer +
-                "\nModel: " + model + "\nOS: " + operatingSystem);
-
-            // If the resource is a DVD, it will add the attributes of a dvd to
-            // the text area.
-        }
-        else if (ScreenManager.currentResource instanceof DVD) {
-            ScreenManager.currentDVD = (DVD) ScreenManager.currentResource;
-            String director = ScreenManager.currentDVD.getDirector();
-            int runtime = ScreenManager.currentDVD.getRuntime();
-            String language = ScreenManager.currentDVD.getLanguage();
-
-            centertextarea
-                .appendText("\nDirector: " + director + "\nRuntime: " +
-                    Integer.toString(runtime) + "\nLanguage: " + language);
-
-            // If the resource is a Game, it will add the attributes of a Game
-            // to
-            // the text area.
-        }
-        else if (ScreenManager.currentResource instanceof Game) {
-            ScreenManager.currentGame = (Game) ScreenManager.currentResource;
-
-            String publisher = ScreenManager.currentGame.getPublisher();
-            String genre = ScreenManager.currentGame.getGenre();
-            String rating = ScreenManager.currentGame.getRating();
-            String multiplayer = ScreenManager.currentGame
-                .getMultiplayerSupport();
-
-            centertextarea.appendText("\nPublisher: " + publisher +
-                "\nGenre: " + genre + "\nRating: " + rating +
-                "\nHas Mulitplayer? " + multiplayer);
-        }
-
-        // This sets the textbox depending if the number of copies is equal to 0
-        // or not.
-        if (ScreenManager.currentResource.getNrOfCopies() == 0) {
-            copytext.setText("All Copies are currently being borrowed.");
-        }
-        else {
-            copytext.setText("Copies: " + Integer
-                .toString(ScreenManager.currentResource.getNrOfCopies()));
-        }
-
-    }
-
-    /**
-     * Loads resource image from Resource class, so that they can be displayed
-     * within the UI.
-     */
-    private void loadResourceImage() {
-        // create new resource image to be added.
-        resourceimage.setFitWidth(RES_IMG_WIDTH);
-        resourceimage.setFitHeight(RES_IMG_HEIGHT);
-        resourceimage.setImage(ScreenManager.currentResource.getThumbnail());
-    }
-
+   
     /**
      * When the button is clicked, it will send a request to a librarian and
      * they can either decline or accept said request.
@@ -520,6 +399,166 @@ public class CopyController {
     }
     
     /**
+     * Method that deals with reviews and if the user is staff, a remove button
+     * appears.
+     */
+    private void dealWithReviews() {
+        int resourceId = ScreenManager.currentResource.getUniqueID();
+        boolean hasReviews = model.Review.hasReviews(resourceId);
+
+        if (hasReviews) {
+
+            HBox avg = new HBox(); // ready for images
+            Text avgText = new Text("Rating: " +
+                Math.round(model.Review.getAvgStar(resourceId) * ROUND) /
+                    ROUND);
+            avgText.setStyle("-fx-font: 24 arial;");
+            avg.getChildren().add(avgText);
+            seeReviews.getChildren().add(avg);
+
+            // Now for the actual reviews
+            for (String[] review : Review.getReviews(resourceId)) {
+
+                VBox topV = new VBox();
+                HBox topH = new HBox();
+                // star, name,what,when
+                Text title = new Text(" from " + review[NAME_INDEX]);
+                Text when = new Text(" [" + review[WHEN_INDEX] + "]");
+                when.setStyle("-fx-font:12 arial;");
+                Text star = new Text("Rating: " + review[STAR_INDEX]);
+                star.setFill(Color.GREEN);
+                Text reviewText = new Text(review[REVIEW_INDEX]);
+                reviewText.setStyle("-fx-font:15 arial;");
+                topH.getChildren().addAll(star, title, when);
+
+                // if staff , add button.
+                if (ScreenManager.getCurrentUser() instanceof model.Librarian) {
+
+                    Button removeReview = new Button("Remove");
+                    removeReview.setOnAction((event) -> {
+                        Review.removeReview(Integer.valueOf(review[4]));
+                        seeReviews.getChildren().clear();
+
+                        dealWithReviews();
+                    });
+                    topV.getChildren().addAll(topH, reviewText, removeReview);
+                }
+                else {
+                    topV.getChildren().addAll(topH, reviewText);
+                }
+                seeReviews.getChildren().add(topV);
+
+            }
+            seeReviews.setSpacing(REVIEW_SPACING);
+
+        }
+        else {
+            Text avgText = new Text("No reviews yet!");
+            seeReviews.getChildren().add(avgText);
+        }
+    }
+
+    /**
+     * Loads resource information from Screen Manager class, so that it can be
+     * displayed within the UI. Shows different information depending on the
+     * resource.
+     */
+    private void loadResourceInformation() {
+
+        // Gets the common attributes between each resource
+        int uniqueId = ScreenManager.currentResource.getUniqueID();
+        String title = ScreenManager.currentResource.getTitle();
+        int year = ScreenManager.currentResource.getYear();
+        dealWithReviews();
+
+        resourceName.setText(title);
+        resourceName.setWrapText(true);
+        // Adds all the common attributes to the text area
+        centertextarea.appendText("UniqueID: " + Integer.toString(uniqueId) +
+            "\nTitle: " + title + "\nYear: " + Integer.toString(year));
+
+        // If the resource is a Book, it will add the book attributes to the
+        // text area.
+        if (ScreenManager.currentResource instanceof Book) {
+            ScreenManager.currentBook = (Book) ScreenManager.currentResource;
+            String author = ScreenManager.currentBook.getAuthor();
+            String publisher = ScreenManager.currentBook.getPublisher();
+            String genre = ScreenManager.currentBook.getGenre();
+            String isbn = ScreenManager.currentBook.getISBN();
+            String language = ScreenManager.currentBook.getLanguage();
+
+            centertextarea.appendText("\nAuthor: " + author + "\nPublisher: " +
+                publisher + "\nGenre: " + genre + "\nISBN: " + isbn +
+                "\nLanguage: " + language);
+
+            // If the resource is a Laptop, it will add the laptop attributes to
+            // the text area.
+        }
+        else if (ScreenManager.currentResource instanceof Laptop) {
+            ScreenManager.currentLaptop = (Laptop) ScreenManager.currentResource;
+            String manufacturer = ScreenManager.currentLaptop.getManufacturer();
+            String model = ScreenManager.currentLaptop.getModel();
+            String operatingSystem = ScreenManager.currentLaptop.getOS();
+
+            centertextarea.appendText("\nManufacturer: " + manufacturer +
+                "\nModel: " + model + "\nOS: " + operatingSystem);
+
+            // If the resource is a DVD, it will add the attributes of a dvd to
+            // the text area.
+        }
+        else if (ScreenManager.currentResource instanceof DVD) {
+            ScreenManager.currentDVD = (DVD) ScreenManager.currentResource;
+            String director = ScreenManager.currentDVD.getDirector();
+            int runtime = ScreenManager.currentDVD.getRuntime();
+            String language = ScreenManager.currentDVD.getLanguage();
+
+            centertextarea
+                .appendText("\nDirector: " + director + "\nRuntime: " +
+                    Integer.toString(runtime) + "\nLanguage: " + language);
+
+            // If the resource is a Game, it will add the attributes of a Game
+            // to
+            // the text area.
+        }
+        else if (ScreenManager.currentResource instanceof Game) {
+            ScreenManager.currentGame = (Game) ScreenManager.currentResource;
+
+            String publisher = ScreenManager.currentGame.getPublisher();
+            String genre = ScreenManager.currentGame.getGenre();
+            String rating = ScreenManager.currentGame.getRating();
+            String multiplayer = ScreenManager.currentGame
+                .getMultiplayerSupport();
+
+            centertextarea.appendText("\nPublisher: " + publisher +
+                "\nGenre: " + genre + "\nRating: " + rating +
+                "\nHas Mulitplayer? " + multiplayer);
+        }
+
+        // This sets the textbox depending if the number of copies is equal to 0
+        // or not.
+        if (ScreenManager.currentResource.getNrOfCopies() == 0) {
+            copytext.setText("All Copies are currently being borrowed.");
+        }
+        else {
+            copytext.setText("Copies: " + Integer
+                .toString(ScreenManager.currentResource.getNrOfCopies()));
+        }
+
+    }
+
+    /**
+     * Loads resource image from Resource class, so that they can be displayed
+     * within the UI.
+     */
+    private void loadResourceImage() {
+        // create new resource image to be added.
+        resourceimage.setFitWidth(RES_IMG_WIDTH);
+        resourceimage.setFitHeight(RES_IMG_HEIGHT);
+        resourceimage.setImage(ScreenManager.currentResource.getThumbnail());
+    }
+
+    
+    /**
      * Checks if the user can reserve this item.
      */
     private void checkCanReserve() {
@@ -534,38 +573,5 @@ public class CopyController {
     	}
     }
 
-    /**
-     * Initialize the window.
-     */
-    @FXML
-    public void initialize() {
-        if (ScreenManager.getCurrentUser() instanceof User) {
-            checkIfBorrowed();
-            setupLimit();
-            if(MyList.isInMyList(ScreenManager.getCurrentUser().getUsername(),
-            		ScreenManager.getCurrentResource().getUniqueID())) {
-            	addListButton.setText("Remove from list");
-            }
-        }
-        else {
-            requestbutt.setDisable(true);
-            reserveButton.setDisable(false);
-            setupStaffButtons();
-
-        }
-        loadResourceImage();
-        loadResourceInformation();
-
-        if (!(ScreenManager.currentResource.getClass() == DVD.class ||
-            ScreenManager.currentResource.getClass() == Game.class)) {
-            viewTrailerButton.setDisable(true);
-        }
-        
-        
-        //disable dates
-        setupDatePicker();
-        checkCanReserve();
-
-    }
-
+   
 }

@@ -47,8 +47,39 @@ public class EditCopiesController {
 	@FXML
 	private TableView<Copy> copiesTable;//table for copies
 	
-	
 
+	/**
+	 * Calls the setup copy method when the program starts.
+	 */
+	@FXML
+	 public void initialize() {
+		setupCopy();
+	}
+
+	/**
+	 * Change the holdback value.
+	 * @param e The actionEvent.
+	 */
+	public  void allowReserve(ActionEvent e) {
+		Copy copy = copiesTable.getSelectionModel().getSelectedItem();
+		if(copy != null) {
+			copy.setHoldback("yes");
+		}
+		repop();
+	}
+	
+	/**
+	 * Change the holdback value.
+	 * @param e The actionEvent.
+	 */
+	public void disallowReserve(ActionEvent e) {
+		Copy copy = copiesTable.getSelectionModel().getSelectedItem();
+		if(copy != null) {
+			copy.setHoldback("no");
+		}
+		repop();
+	}
+	
 	
 	/**
 	 * Method that calls  creates the table.
@@ -103,30 +134,6 @@ public class EditCopiesController {
 
 	}
 	
-	
-	/**
-	 * Change the holdback value.
-	 * @param e The actionEvent.
-	 */
-	public  void allowReserve(ActionEvent e) {
-		Copy copy = copiesTable.getSelectionModel().getSelectedItem();
-		if(copy != null) {
-			copy.setHoldback("yes");
-		}
-		repop();
-	}
-	
-	/**
-	 * Chagne the holdback value.
-	 * @param e The actionEvent.
-	 */
-	public void disallowReserve(ActionEvent e) {
-		Copy copy = copiesTable.getSelectionModel().getSelectedItem();
-		if(copy != null) {
-			copy.setHoldback("no");
-		}
-		repop();
-	}
 	
 	/**
 	 * Removes the copy from the table.
@@ -236,11 +243,4 @@ public class EditCopiesController {
 		
 	}
 	
-	/**
-	 * Calls the setup copy method when the program starts.
-	 */
-	@FXML
-	 public void initialize() {
-		setupCopy();
-	}
 }

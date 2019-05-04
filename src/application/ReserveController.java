@@ -28,6 +28,18 @@ public class ReserveController {
 	TableView table;
 	
 	/**
+	 * Initialize.
+	 */
+	@FXML
+	public void initialize() {
+		ReserveFeature.checkForLate();
+		
+		rebuildTable();
+		 
+		
+	}
+	
+	/**
 	 * Approve the reserve.
 	 *
 	 * @param e the ActionEvent.
@@ -116,15 +128,5 @@ public class ReserveController {
 	
 	}
 	
-	/**
-	 * Initialize.
-	 */
-	@FXML
-	public void initialize() {
-		ReserveFeature.checkForLate();
-		
-		rebuildTable();
-		 
-		
-	}
+
 }
