@@ -101,14 +101,13 @@ public class ReserveFeature {
 		try {
 			Connection connection = DBHelper.getConnection();
 
-			PreparedStatement statement = connection.prepareStatement("SELECT * FROM copies" + " WHERE rID=?");
+			PreparedStatement statement = connection.prepareStatement("SELECT * FROM copies" + " WHERE rID=? AND holdBack='no'");
 			statement.setInt(1, rId);
 
 			ResultSet results = statement.executeQuery();
 			while (results.next()) {
 				if (results.getString("borrowDate") == null) {
-					System.out.println("Contains a free copy");
-
+				
 					free = results.getInt("copyID");
 				} else {
 					String dateDB = results.getString("dueDate");
@@ -116,7 +115,7 @@ public class ReserveFeature {
 						DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MMM/yyyy", Locale.ENGLISH);
 						LocalDate dbDate = LocalDate.parse(dateDB, formatter);
 						if (date.isAfter(dbDate)) {
-							System.out.println("Due date is after!");
+						
 							free = results.getInt("copyID");
 						}
 					}
@@ -126,7 +125,7 @@ public class ReserveFeature {
 						int duration = results.getInt("loanDuration");
 						LocalDate today = LocalDate.now();
 						if (ChronoUnit.DAYS.between(today, date) > duration) {
-							System.out.println("Copy can be free");
+							
 							free = results.getInt("copyID");
 						}
 
@@ -290,8 +289,6 @@ public class ReserveFeature {
 				// convert String to LocalDate
 				LocalDate dbDate = LocalDate.parse(dateDB, formatter);
 
-				System.out.println(
-						"Check res. " + ChronoUnit.DAYS.between(dbDate, date) + " with duration of " + duration);
 				if (date.isAfter(dbDate)) {
 					if (ChronoUnit.DAYS.between(dbDate, date) < duration) {
 						free = false;
@@ -327,7 +324,7 @@ public class ReserveFeature {
 		SimpleDateFormat normal = new SimpleDateFormat("dd/MM/yyyy");
 		String date = normal.format(dateFull);
 
-		System.out.println("Converted date is " + date);
+	
 
 		int copy = getFreeCopy(rId, selectedDate);
 		if (copy == 0) {
