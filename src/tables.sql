@@ -536,6 +536,7 @@ DROP TABLE IF EXISTS `copies`;
 CREATE TABLE IF NOT EXISTS `copies` (`copyID` INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
                                                                                          `rID` INTEGER NOT NULL,
                                                                                                        `keeper` TEXT, loanDuration INTEGER, borrowDate TEXT, lastRenewal TEXT, dueDate TEXT,
+                                                                                                       holdBack varchar(255) DEFAULT `yes`,
                                      FOREIGN KEY(`keeper`) REFERENCES `users`(`username`),
                                      FOREIGN KEY(`rID`) REFERENCES `resource`(`rID`));
 
