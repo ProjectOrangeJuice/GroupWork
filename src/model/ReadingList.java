@@ -16,6 +16,9 @@ import javafx.scene.image.Image;
  */
 public class ReadingList {
 	
+	/** The image default. */
+	private static final String IMAGE_DEFAULT = "/graphics/readinglist.jpg";	
+	
 	/** The resources. */
 	ArrayList<Resource> resources = new ArrayList<Resource>();
 	
@@ -28,8 +31,32 @@ public class ReadingList {
 	/** The image. */
 	Image image;
 	
-	/** The image default. */
-	static String IMAGE_DEFAULT = "/graphics/readinglist.jpg";
+
+	
+	
+	/**
+	 * Instantiates a new reading list.
+	 *
+	 * @param resourceList the resource list.
+	 * @param name the name.
+	 * @param description the description.
+	 * @param image the image.
+	 */
+	public ReadingList(String[] resourceList, String name,String description,String image) {
+		this.name = name;
+		this.description = description;
+		for(String resource : resourceList) {
+			System.out.println("Converting.,.. "+resource);
+			resources.add(Resource.getResource(Integer.parseInt(resource)));
+		}
+		if(image == null || image.equals("")) {
+			this.image = new Image(IMAGE_DEFAULT);
+			
+		}else {
+			System.out.println("Attempting with image: "+image);
+			this.image = new Image(image);
+		}
+	}
 	
 	/**
 	 * Gets the description.
@@ -82,29 +109,7 @@ public class ReadingList {
 	
 	}
 
-	/**
-	 * Instantiates a new reading list.
-	 *
-	 * @param resourceList the resource list.
-	 * @param name the name.
-	 * @param description the description.
-	 * @param image the image.
-	 */
-	public ReadingList(String[] resourceList, String name,String description,String image) {
-		this.name = name;
-		this.description = description;
-		for(String resource : resourceList) {
-			System.out.println("Converting.,.. "+resource);
-			resources.add(Resource.getResource(Integer.parseInt(resource)));
-		}
-		if(image == null || image.equals("")) {
-			this.image = new Image(IMAGE_DEFAULT);
-			
-		}else {
-			System.out.println("Attempting with image: "+image);
-			this.image = new Image(image);
-		}
-	}
+	
 
 	/**
 	 * Gets the image.
@@ -164,7 +169,6 @@ public class ReadingList {
 	 * @param username the username.
 	 * @param list the list.
 	 */
-	@SuppressWarnings("resource")
 	public static void changeFollow(String username, String list) {
 		System.out.println("name! - "+list);
 		try {
