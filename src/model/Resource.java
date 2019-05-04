@@ -24,7 +24,7 @@ import javafx.scene.image.Image;
  * a certain book, DVD, type of laptop, etc. and consists of multiple copies
  * that can be borrowed or requested. It has a unique ID, a title, the year it
  * came out and a thumbnail image.
- * 
+ *
  * @author Kane Miles
  * @author Alexandru Dascalu
  * @version 1.5
@@ -32,17 +32,17 @@ import javafx.scene.image.Image;
 public abstract class Resource {
     /**A list of all resources in the application.*/
     protected static ArrayList<Resource> resources = new ArrayList<>();
-    
+
     /**
      * A default number for each resource used to limit the number of items a user
      * can checkout.
      */
     protected static final int LIMIT_AMOUNT = 1;
-    
-    /**Number of milliseconds in a day. Used when calculating the number of 
+
+    /**Number of milliseconds in a day. Used when calculating the number of
      * days a copy is overdue. Its value is {@value}.*/
     private static final long MILLISECONDS_IN_DAY = 1000 * 60 * 60 * 24;
-    
+
     /** A unique number that identifies this resource. */
     protected final int uniqueID;
 
@@ -60,7 +60,7 @@ public abstract class Resource {
      * new additions.
      */
     protected String timestamp;
-    
+
     /** A list of all the copies of this resource. */
     private ArrayList<Copy> copyList;
 
@@ -74,13 +74,13 @@ public abstract class Resource {
      * gotten one because there is no free copy.*/
     private Queue<User> userRequestQueue;
 
-    /**A list of users with pending requests to borrow a copy of this resource 
+    /**A list of users with pending requests to borrow a copy of this resource
      * that need to be authorised by a librarian.*/
     private ArrayList<User> pendingRequests;
-    
+
     /**
      * Makes a new resource whose details are the given arguments.
-     * 
+     *
      * @param uniqueID The unique number that identifies this resource.
      * @param title The title of this resource.
      * @param year The year this resource appeared.
@@ -109,7 +109,7 @@ public abstract class Resource {
         loadUserQueue();
         loadPendingRequests();
     }
-    
+
     /**
      * Loads all the resources from the database and adds them to the list of
      *  all resources.
@@ -121,7 +121,7 @@ public abstract class Resource {
         DVD.loadDatabaseDVDs();
         Game.loadDatabaseGames();
     }
-    
+
     /**
      * Gets a reference to the resource with the given resource ID.
      * @param resourceID Unique ID of the resource we want.
@@ -136,7 +136,7 @@ public abstract class Resource {
 
         return null;
     }
-    
+
     /**
      * Getter for list of all resources of the application.
      * @return The list of all resources.
@@ -159,7 +159,7 @@ public abstract class Resource {
      */
     public void addCopy(Copy copy) {
         copyList.add(copy);
-        
+
         if (copy.getBorrower() == null) {
             freeCopies.addFirst(copy);
         }
@@ -182,7 +182,7 @@ public abstract class Resource {
             saveCopyToDB(copy);
         }
     }
-    
+
     /**
      * Returns to number of free copies available for this resource.
      * @return int No. of free copies.
@@ -221,7 +221,7 @@ public abstract class Resource {
                         e.printStackTrace();
                     }
                 }
-                
+
                 if(dbConnection != null) {
                     try {
                         dbConnection.close();
@@ -242,13 +242,13 @@ public abstract class Resource {
      * This method ensures a returned copy is marked a free copy or that it is
      * reserved for the user at the front of the request queue. It also ensures
      * that any fines that need to be applied are added to the database.
-     * 
+     *
      * @param returnedCopy The copy being returned.
      */
     public void processReturn(Copy returnedCopy) {
         applyFines(returnedCopy);
         Resource.insertReturnDate(returnedCopy.getBorrower(), returnedCopy);
-        
+
         /*
          * If the user request queue is empty, add the copy to the list of free
          * copies and mark it as free.
@@ -269,11 +269,11 @@ public abstract class Resource {
          * the queue and take that person out of the queue.
          */
         else {
-        	
+
         	//Check to see if it's reserved.
-        
+
         	if(!ReserveFeature.checkReserved(returnedCopy.getCopyID(), returnedCopy.getLoanDuration(), LocalDate.now())){
-        	
+
             User firstRequest = userRequestQueue.peek();
 
             returnedCopy.resetDates();
@@ -284,7 +284,7 @@ public abstract class Resource {
             noDueDateCopies.add(returnedCopy);
             firstRequest.addBorrowedCopy(returnedCopy);
             userRequestQueue.dequeue();
-            
+
             Resource.insertBorrowRecord(firstRequest, returnedCopy);
         	}else {
         		ReserveFeature.setReserve(returnedCopy.getCopyID());
@@ -295,7 +295,7 @@ public abstract class Resource {
     /**
      * Ensures a copy is loaned to the given user if there are available copies,
      * else it adds the user to the request queue.
-     * 
+     *
      * @param user The user that wants to borrow a copy of this resource.
      * @return number of days allowed to loan. 0 if none, 1 for indefinitely
      */
@@ -304,13 +304,13 @@ public abstract class Resource {
          * If there are free copies, mark a copy as borrowed and reserve it for
          * the user.
          */
-  
+
         if (!freeCopies.isEmpty()) {
         	for(int i = 0; i < freeCopies.size();i++) {
             Copy copyToBorrow = freeCopies.get(i);
             if(ReserveFeature.checkReserved(copyToBorrow.getCopyID(), copyToBorrow.getLoanDuration(), LocalDate.now())){
             	freeCopies.remove(i);
-            
+
 
             copyToBorrow.resetDates();
             copyToBorrow.setBorrower(user);
@@ -331,18 +331,18 @@ public abstract class Resource {
          * borrowed copy with no due date that has been borrowed the longest.
          */
         else {
-        	
+
             userRequestQueue.enqueue(user);
             try {
                 Copy firstCopy = noDueDateCopies.poll();
-                
+
                 firstCopy.setDueDate();
                 saveCopyToDB(firstCopy);
             } catch(NullPointerException e) {
                 e.printStackTrace();
                 AlertBox.showErrorAlert("No copies in the database!");
             }
-               
+
             return 0;
         }
     }
@@ -370,7 +370,7 @@ public abstract class Resource {
     public void setThumbnail(Image thumbnail) {
         this.thumbnail = thumbnail;
     }
-    
+
     /**
      * Sets the database value
      * @param thumbnail New location.
@@ -456,7 +456,7 @@ public abstract class Resource {
     /**
      * Returns a string with the unique ID and availability of each copy of this
      * resource. The information of each copy is on each separate line.
-     * 
+     *
      * @return A string where each line of the unique ID and availability of a
      *         copy of this resource.
      */
@@ -475,12 +475,12 @@ public abstract class Resource {
      *  the list of copies of this resource object.
      */
     public void loadCopyList() {
-        Connection dbConnection = null; 
-        Statement sqlStatement = null; 
-        ResultSet savedCopies = null; 
+        Connection dbConnection = null;
+        Statement sqlStatement = null;
+        ResultSet savedCopies = null;
         try {
-            dbConnection = DBHelper.getConnection(); 
-            sqlStatement = dbConnection.createStatement(); 
+            dbConnection = DBHelper.getConnection();
+            sqlStatement = dbConnection.createStatement();
             savedCopies = sqlStatement.executeQuery("SELECT * FROM " +
                "copies WHERE rID=" + uniqueID);
 
@@ -541,7 +541,7 @@ public abstract class Resource {
                     e.printStackTrace();
                 }
             }
-            
+
             if(sqlStatement != null) {
                 try {
                     sqlStatement.close();
@@ -550,7 +550,7 @@ public abstract class Resource {
                     e.printStackTrace();
                 }
             }
-            
+
             if(dbConnection != null) {
                 try {
                     dbConnection.close();
@@ -563,14 +563,14 @@ public abstract class Resource {
     }
 
     /**
-     * Saves the user queue or users waiting to get a copy of this resource 
+     * Saves the user queue or users waiting to get a copy of this resource
      * to the database.
      */
     public void saveUserQueue() {
         LinkedList<User> orderedUsers = userRequestQueue.getOrderedList();
         Connection dbConnection = null;
         PreparedStatement sqlStatement = null;
-        
+
         try {
             dbConnection = DBHelper.getConnection();
             sqlStatement = dbConnection
@@ -614,7 +614,7 @@ public abstract class Resource {
     /**
      * Gets the number of copies that this resource has, whether free or
      * borrowed.
-     * 
+     *
      * @return The number of copies of this resource.
      */
     public int getNrOfCopies() {
@@ -622,9 +622,9 @@ public abstract class Resource {
     }
 
     /**
-     * Getter for the list of users waiting to have their borrow request 
+     * Getter for the list of users waiting to have their borrow request
      * approved by a librarian.
-     * @return The list of users waiting to have their borrow request 
+     * @return The list of users waiting to have their borrow request
      * approved by a librarian.
      */
     public ArrayList<User> getPendingRequests() {
@@ -647,12 +647,12 @@ public abstract class Resource {
             sqlStatement.setInt(1, uniqueID);
             sqlStatement.setString(2, requester.getUsername());
             sqlStatement.executeUpdate();
-            
+
            PreparedStatement sqlStatement2 = dbConnection.prepareStatement(
                     "INSERT INTO majorStat('resource') VALUES (?)");
                 sqlStatement2.setInt(1, getUniqueID());
                 sqlStatement2.executeUpdate();
-          
+
         }
         catch (SQLException e) {
             e.printStackTrace();
@@ -713,7 +713,7 @@ public abstract class Resource {
             return false;
         }
     }
-    
+
     /**
      * limit Amount used to restrict number of items a user can borrow
      * @return the default amount of the resource.
@@ -721,7 +721,7 @@ public abstract class Resource {
     public int getLimitAmount() {
     	return LIMIT_AMOUNT;
     }
-    
+
     /**
      * time of the resource added.
      * @return the time added
@@ -729,7 +729,7 @@ public abstract class Resource {
     public String getTimeStamp() {
         return this.timestamp;
     }
-    
+
     /**
      * Method to check if user last login compared to resource added timestamp
      * @param person current user
@@ -742,7 +742,7 @@ public abstract class Resource {
         try {
         Date loginDate = formatter.parse(person.getLastLogin());
         long timeDifference = loginDate.getTime() - resourceDate.getTime();
-        
+
             if (timeDifference < 0) {
                 return true;
             }
@@ -756,7 +756,7 @@ public abstract class Resource {
             return true;
         }
     }
-    
+
     /**
      * Updates the database value in a resource table.
      * @param tableName The table where the change will be made.
@@ -840,7 +840,7 @@ public abstract class Resource {
             }
         }
     }
-    
+
     private static void insertBorrowRecord(User borrower, Copy copyToBorrow) {
         Connection connectionToDB = null;
         PreparedStatement sqlStatement = null;
@@ -848,10 +848,10 @@ public abstract class Resource {
             connectionToDB = DBHelper.getConnection();
             sqlStatement = connectionToDB.prepareStatement(
                 "INSERT INTO borrowRecords (copyID,username,description) VALUES (?,?,?)");
-            
+
             sqlStatement.setInt(1, copyToBorrow.getCopyID());
             sqlStatement.setString(2, borrower.getUsername());
-            
+
             SimpleDateFormat normalDateFormat = new SimpleDateFormat("dd/MM/yyyy");
             sqlStatement.setString(3, "Borrow Date:" + normalDateFormat.format(
                 copyToBorrow.getBorrowDate()));
@@ -879,24 +879,24 @@ public abstract class Resource {
             }
         }
     }
-    
+
     private static void insertReturnDate(User borrower, Copy copyToBorrow) {
         Connection connectionToDB = null;
         PreparedStatement sqlStatement = null;
         try {
             connectionToDB = DBHelper.getConnection();
             sqlStatement = connectionToDB.prepareStatement(
-                "UPDATE borrowRecords SET description=? WHERE copyID=? AND " + 
+                "UPDATE borrowRecords SET description=? WHERE copyID=? AND " +
                     "username=? AND description=?");
-            
+
             SimpleDateFormat normalDateFormat = new SimpleDateFormat("dd/MM/yyyy");
-            
+
             String oldDescription = "Borrow Date:" + normalDateFormat.format(
                 copyToBorrow.getBorrowDate());
-            
-            String newDescription = oldDescription + "Return Date: " + 
+
+            String newDescription = oldDescription + "Return Date: " +
                 normalDateFormat.format(new Date());
-            
+
             sqlStatement.setString(1, newDescription);
             sqlStatement.setInt(2, copyToBorrow.getCopyID());
             sqlStatement.setString(3, borrower.getUsername());
@@ -925,7 +925,7 @@ public abstract class Resource {
             }
         }
     }
-    
+
     /**
      * Applies fines to the user of the copy being returned, if that is the case,
      *  based on the due date and the current date.
@@ -936,7 +936,7 @@ public abstract class Resource {
         if (dueDate == null) {
             return;
         }
-        
+
         Date today = new Date();
         int daysOverDue = (int) ((today.getTime() - dueDate.getTime()) /
             MILLISECONDS_IN_DAY);
@@ -991,7 +991,7 @@ public abstract class Resource {
             }
         }
     }
-    
+
     /**
      * Rebuilds the queue of borrowed copies with no due date set from the list
      * of all copies.
@@ -1007,13 +1007,13 @@ public abstract class Resource {
     }
 
     /**
-     * Loads the queue of users who want a copy of this resource but can not 
+     * Loads the queue of users who want a copy of this resource but can not
      * because there are no free copies from the database from the database
      * into the queue of this resource.
      */
     private void loadUserQueue() {
         userRequestQueue.clean();
-        
+
         Connection dbConnection = null;
         Statement sqlStatement = null;
         try {
@@ -1053,15 +1053,15 @@ public abstract class Resource {
     }
 
     /**
-     * Loads the queue of users who want a copy of this resource and whose 
-     * requests need to be approved by a librarian from the database this 
+     * Loads the queue of users who want a copy of this resource and whose
+     * requests need to be approved by a librarian from the database this
      * resource.
      */
     private void loadPendingRequests() {
         pendingRequests.clear();
         Connection dbConnection = null;
         Statement sqlStatement = null;
-        
+
         try {
             dbConnection = DBHelper.getConnection();
             sqlStatement = dbConnection.createStatement();
@@ -1121,7 +1121,7 @@ public abstract class Resource {
                 SimpleDateFormat normalDateFormat = new SimpleDateFormat(
                     "dd/MM/yyyy");
                 sqlStatement = dbConnection.prepareStatement(
-                    "INSERT INTO copies " + "VALUES(?,?,?,?,?,?,?)");
+                    "INSERT INTO copies " + "VALUES(?,?,?,?,?,?,?,'yes')");
 
                 sqlStatement.setInt(1, copy.getCopyID());
                 sqlStatement.setInt(2, uniqueID);
@@ -1197,7 +1197,7 @@ public abstract class Resource {
                     e.printStackTrace();
                 }
             }
-            
+
             if (dbConnection != null) {
                 try {
                     dbConnection.close();
@@ -1208,8 +1208,8 @@ public abstract class Resource {
             }
         }
     }
-    
-    
+
+
     public String[] hasBorrowed(String username) {
 
         String[] output = null;
@@ -1228,7 +1228,7 @@ public abstract class Resource {
         	   try {
                output = rs.getString("stamps").split(",");
         	   } catch (NullPointerException e) {
-        		   
+
         	   }
                System.out.println("has borrowed.. "+output);
             }
@@ -1242,7 +1242,7 @@ public abstract class Resource {
     }
 
     /**
-     * A wrapper function that returns a string representing a date, or null if 
+     * A wrapper function that returns a string representing a date, or null if
      * the given date is null. Necessary because format method for DateFormat
      *  would throw an exception when given null.
      * @param date The date to be converted to a string.
