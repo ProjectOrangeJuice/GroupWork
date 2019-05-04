@@ -75,8 +75,14 @@
     <module name="DefaultComesLast"/>
     <module name="EqualsHashCode"/>
     <module name="OneTopLevelClass"/>
-    <module name="CommentsIndentation"/>
-    <module name="Indentation"/>
+    <module name="CommentsIndentation">
+      <property name="severity" value="ignore"/>
+      <metadata name="net.sf.eclipsecs.core.lastEnabledSeverity" value="inherit"/>
+    </module>
+    <module name="Indentation">
+      <property name="severity" value="ignore"/>
+      <metadata name="net.sf.eclipsecs.core.lastEnabledSeverity" value="inherit"/>
+    </module>
     <module name="JavadocVariable"/>
     <module name="FallThrough">
       <property name="checkLastCaseGroup" value="true"/>
