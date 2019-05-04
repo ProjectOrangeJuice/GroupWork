@@ -63,7 +63,7 @@ public class EditCopiesController {
 	public  void allowReserve(ActionEvent e) {
 		Copy copy = copiesTable.getSelectionModel().getSelectedItem();
 		if(copy != null) {
-			copy.setHoldback("yes");
+			copy.setHoldback("no");
 		}
 		repop();
 	}
@@ -73,9 +73,10 @@ public class EditCopiesController {
 	 * @param e The actionEvent.
 	 */
 	public void disallowReserve(ActionEvent e) {
+	
 		Copy copy = copiesTable.getSelectionModel().getSelectedItem();
 		if(copy != null) {
-			copy.setHoldback("no");
+			copy.setHoldback("yes");
 		}
 		repop();
 	}
@@ -96,7 +97,7 @@ public class EditCopiesController {
 		loanDurCol.setCellValueFactory(new PropertyValueFactory<>("loanDuration"));
 		
 		TableColumn<Copy, String> holdbackCol = 
-				new TableColumn<Copy, String>("Can reserve?");
+				new TableColumn<Copy, String>("Disallow reserve?");
 		holdbackCol.setCellValueFactory(new PropertyValueFactory<>("holdback"));
 		
 		//generates rows of copyid and loanduration for each copy
@@ -173,7 +174,7 @@ public class EditCopiesController {
 			System.out.println("Copy adding");
 			int id = makeId();
 			Copy copy = new Copy(ScreenManager.getCurrentResource(),
-					id,null,Integer.parseInt(duration));
+					id,null,Integer.parseInt(duration),"no");
 			ScreenManager.getCurrentResource().addCopy(copy);
 			System.out.println("Copy.. "+copy.getLoanDuration());
 			
@@ -237,8 +238,7 @@ public class EditCopiesController {
 		if(goAhead) {
 			int durationNumber = Integer.parseInt(duration);
 			copy.setLoanDuration(durationNumber);
-			System.out.println("Duration is being set to: "+durationNumber);
-			System.out.println("Copy.. "+copy.getLoanDuration());
+
 			repop();
 		}
 		

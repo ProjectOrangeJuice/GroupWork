@@ -136,7 +136,7 @@ public class CopyController {
 			}
 		} else {
 			requestbutt.setDisable(true);
-			reserveButton.setDisable(false);
+			
 			setupStaffButtons();
 
 		}
@@ -302,6 +302,7 @@ public class CopyController {
 	 * allow the librarian to manage the resources.
 	 */
 	private void setupStaffButtons() {
+		reserveButton.setDisable(false);
 		Button editCopies = new Button("Edit copies");
 		editCopies.setOnAction(e -> {
 			try {

@@ -60,11 +60,12 @@ public class Copy implements Comparable<Copy> {
      * @param loanDuration The duration in days that a loan is valid, until it
      * is renewed or until the user needs to bring it back.
      */
-    public Copy(Resource resource, int copyID, User borrower, int loanDuration) {
+    public Copy(Resource resource, int copyID, User borrower, int loanDuration
+    		,String holdback) {
         this.resource = resource;
         this.borrower = borrower;
         this.copyID = copyID;
-        this.holdback = "yes";
+        this.holdback = holdback;
 
         this.loanDuration = loanDuration;
         borrowDate = null;

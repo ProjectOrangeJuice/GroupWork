@@ -879,6 +879,7 @@ public class ProfileController {
 
 		User user = (User)Person.loadPerson(username);
 		int free = Resource.getResource(resourceID).loanToUser(user);
+		System.out.println("Free is set to -- "+free);
 		if(free == 0) {
 			AlertBox.showInfoAlert("Waiting for free copy");
 		}else {

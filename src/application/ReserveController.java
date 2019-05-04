@@ -60,7 +60,7 @@ public class ReserveController {
 			} else {
 
 				Resource resource = Resource.getResource(r.getRId());
-				int free = resource.loanToUser(((User) User.loadPerson(
+				int free = resource.loanToReserved(((User) User.loadPerson(
 						r.getUsername())));
 				if (free == 0) {
 					AlertBox.showErrorAlert("No free copies! Reserve for another time");

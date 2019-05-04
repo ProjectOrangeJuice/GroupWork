@@ -272,20 +272,22 @@ public abstract class Resource {
 
         	//Check to see if it's reserved.
 
-        	if(!ReserveFeature.checkReserved(returnedCopy.getCopyID(), returnedCopy.getLoanDuration(), LocalDate.now())){
-
+        	if(ReserveFeature.checkReserved(returnedCopy.getCopyID(),
+        			returnedCopy.getLoanDuration(), LocalDate.now())){
+        		 returnedCopy.getBorrower().removeBorrowedCopy(returnedCopy);
             User firstRequest = userRequestQueue.peek();
-
+            pendingRequests.add(firstRequest);
             returnedCopy.resetDates();
-            returnedCopy.setBorrower(firstRequest);
-            returnedCopy.setBorrowDate(new Date());
+          //  returnedCopy.setBorrower(firstRequest);
+            returnedCopy.setBorrower(null);
+            //returnedCopy.setBorrowDate(new Date());
             saveCopyToDB(returnedCopy);
-
-            noDueDateCopies.add(returnedCopy);
-            firstRequest.addBorrowedCopy(returnedCopy);
+            freeCopies.add(returnedCopy);
+            //noDueDateCopies.add(returnedCopy);
+           // firstRequest.addBorrowedCopy(returnedCopy);
             userRequestQueue.dequeue();
 
-            Resource.insertBorrowRecord(firstRequest, returnedCopy);
+           // Resource.insertBorrowRecord(firstRequest, returnedCopy);
         	}else {
         		ReserveFeature.setReserve(returnedCopy.getCopyID());
         	}
@@ -293,13 +295,31 @@ public abstract class Resource {
     }
 
     /**
+     * Loan to a reserved user.
+     * @param user The username.
+     * @return number of days allowed to loan. 0 if none, 1 for indefinitely.
+     */
+    public int loanToReserved(User user) {
+    	return loanToUser(user,true);
+    }
+    /**
+     * Loan to a user.
+     * @param user The username.
+     * @return number of days allowed to loan. 0 if none, 1 for indefinitely.
+     */
+    public int loanToUser(User user) {
+    	return loanToUser(user,false);
+    }
+    
+    
+    /**
      * Ensures a copy is loaned to the given user if there are available copies,
      * else it adds the user to the request queue.
      *
      * @param user The user that wants to borrow a copy of this resource.
-     * @return number of days allowed to loan. 0 if none, 1 for indefinitely
+     * @return number of days allowed to loan. 0 if none, 1 for indefinitely.
      */
-    public int loanToUser(User user) {
+    private int loanToUser(User user,boolean reserved) {
         /*
          * If there are free copies, mark a copy as borrowed and reserve it for
          * the user.
@@ -308,15 +328,28 @@ public abstract class Resource {
         if (!freeCopies.isEmpty()) {
         	for(int i = 0; i < freeCopies.size();i++) {
             Copy copyToBorrow = freeCopies.get(i);
-            if(ReserveFeature.checkReserved(copyToBorrow.getCopyID(), copyToBorrow.getLoanDuration(), LocalDate.now())){
+            if(reserved || 
+            		ReserveFeature.checkReserved(copyToBorrow.getCopyID(),
+            		copyToBorrow.getLoanDuration(), LocalDate.now())){
             	freeCopies.remove(i);
 
 
             copyToBorrow.resetDates();
             copyToBorrow.setBorrower(user);
             copyToBorrow.setBorrowDate(new Date());
-
-            noDueDateCopies.add(copyToBorrow);
+            if(!userRequestQueue.isEmpty() || !pendingRequests.isEmpty()) {
+            	//someone is waiting
+            	if(freeCopies.isEmpty()) {
+            		copyToBorrow.setDueDate();
+            	}else {
+            		noDueDateCopies.add(copyToBorrow);
+            	}
+            		
+            	
+            }else {
+            	noDueDateCopies.add(copyToBorrow);
+            }
+            
             user.addBorrowedCopy(copyToBorrow);
 
             saveCopyToDB(copyToBorrow);
@@ -527,7 +560,8 @@ public abstract class Resource {
                 }
                 else {
                     Copy freeCopy = new Copy(this, savedCopies.getInt("copyID"),
-                        null, savedCopies.getInt("loanDuration"));
+                        null, savedCopies.getInt("loanDuration"),
+                        savedCopies.getString("holdBack"));
                     copyList.add(freeCopy);
                     freeCopies.add(freeCopy);
                 }
@@ -1146,7 +1180,9 @@ public abstract class Resource {
                 sqlStatement.executeUpdate();
                 dbConnection.close();
             } else {
-
+            	System.out.println("On else, so will update");
+            	System.out.println(copy.getCopyID());
+            	System.out.println(copy.getBorrower());
                 SimpleDateFormat normalDateFormat = new SimpleDateFormat(
                     "dd/MM/yyyy");
 
@@ -1175,40 +1211,13 @@ public abstract class Resource {
                     sqlStatement.setString(2, null);
                 }
 
-                sqlStatement.executeUpdate();
+                System.out.println("Values changed.. "+sqlStatement.executeUpdate());
             }
             dbConnection.close();
         }
         catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            if (sqlStatement != null) {
-                try {
-                    sqlStatement.close();
-                }
-                catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
-
-            if (statement != null) {
-                try {
-                    statement.close();
-                }
-                catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
-
-            if (dbConnection != null) {
-                try {
-                    dbConnection.close();
-                }
-                catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
+        } 
     }
 
 
