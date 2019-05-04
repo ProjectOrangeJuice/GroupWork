@@ -549,7 +549,7 @@ public class CopyController {
         }
         else {
             requestbutt.setDisable(true);
-           
+            reserveButton.setDisable(false);
             setupStaffButtons();
 
         }

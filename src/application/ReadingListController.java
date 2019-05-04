@@ -34,7 +34,7 @@ import model.User;
 
 
 /**
- * The Class ReadingListController.
+ * The Reading list controller (FXML).
  * @author Oliver Harris
  */
 public class ReadingListController {

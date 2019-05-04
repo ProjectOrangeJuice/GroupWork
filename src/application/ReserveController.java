@@ -16,12 +16,22 @@ import model.Reserve;
 import model.ReserveFeature;
 import model.Resource;
 import model.User;
-
+ 
+/**
+ * The reserve controller (fxml)
+ * @author Oliver Harris
+ */
 public class ReserveController {
 
+	/** The table. */
 	@FXML
 	TableView table;
 	
+	/**
+	 * Approve the reserve.
+	 *
+	 * @param e the ActionEvent.
+	 */
 	@FXML
 	public void approve(ActionEvent e) {
 		
@@ -56,6 +66,11 @@ public class ReserveController {
 		
 	}
 	
+	/**
+	 * Cancel the reserve.
+	 *
+	 * @param e the ActionEvent.
+	 */
 	@FXML
 	public void cancel(ActionEvent e) {
 		Reserve r = (Reserve) table.getSelectionModel().getSelectedItem();
@@ -66,6 +81,9 @@ public class ReserveController {
 	}
 	
 	
+	/**
+	 * Rebuild table.
+	 */
 	private void rebuildTable() {
 		
 		table.getItems().clear();
@@ -98,6 +116,9 @@ public class ReserveController {
 	
 	}
 	
+	/**
+	 * Initialize.
+	 */
 	@FXML
 	public void initialize() {
 		ReserveFeature.checkForLate();
