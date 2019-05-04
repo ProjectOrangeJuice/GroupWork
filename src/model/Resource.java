@@ -497,6 +497,7 @@ public abstract class Resource {
                     Date borrowDate = null;
                     Date lastRenewalDate = null;
                     Date dueDate = null;
+                    String holdback = "yes";
 
                     try {
                         SimpleDateFormat normalDateFormat = new SimpleDateFormat(
@@ -513,6 +514,7 @@ public abstract class Resource {
                         if (dbDueDate != null) {
                             dueDate = normalDateFormat.parse(dbDueDate);
                         }
+                        holdback = savedCopies.getString("holdBack");
                     }
                     catch (ParseException e) {
                         System.err.println(
@@ -521,7 +523,7 @@ public abstract class Resource {
 
                     copyList.add(new Copy(this, savedCopies.getInt("copyID"),
                         borrower, savedCopies.getInt("loanDuration"),
-                        borrowDate, lastRenewalDate, dueDate));
+                        borrowDate, lastRenewalDate, dueDate,holdback));
                 }
                 else {
                     Copy freeCopy = new Copy(this, savedCopies.getInt("copyID"),

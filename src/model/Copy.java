@@ -25,20 +25,22 @@ public class Copy implements Comparable<Copy> {
     private Date borrowDate;
     private Date lastRenewal;
     private Date dueDate;
+    private String holdback;
 
     /**
      * Makes a new copy with the given arguments as data.
      * @param resource The resource this copy belongs to.
      * @param copyID The ID of the new copy.
      * @param borrower The user borrowing the copy currently.
-     * @param loanDuration The duration in days that a loan is valid, untill it
+     * @param loanDuration The duration in days that a loan is valid, until it
      * is renewed or until the user needs to bring it back.
      * @param borrowDate Date copy was borrowed.
      * @param lastRenewal Last date the loan was renewed.
      * @param dueDate Date by which this copy needs to be returned.
+     * @param holdback yes if it can be reserved, no if false.
      */
     public Copy(Resource resource, int copyID, User borrower, int loanDuration,
-            Date borrowDate, Date lastRenewal, Date dueDate) {
+            Date borrowDate, Date lastRenewal, Date dueDate,String holdback) {
         this.resource = resource;
         this.borrower = borrower;
         this.copyID = copyID;
@@ -47,6 +49,7 @@ public class Copy implements Comparable<Copy> {
         this.borrowDate = borrowDate;
         this.lastRenewal = lastRenewal;
         this.dueDate = dueDate;
+        this.holdback =  holdback;
     }
 
     /**
@@ -61,6 +64,7 @@ public class Copy implements Comparable<Copy> {
         this.resource = resource;
         this.borrower = borrower;
         this.copyID = copyID;
+        this.holdback = "yes";
 
         this.loanDuration = loanDuration;
         borrowDate = null;
@@ -68,7 +72,40 @@ public class Copy implements Comparable<Copy> {
         dueDate = null;
     }
     
+    /**
+     * Update the if this copy can be reserved
+     * @param holdback yes for true, no for false.
+     */
+    public void setHoldback(String holdback) {
+    	try {
+    		 Connection connection = DBHelper.getConnection();
+
+    	   		
+
+       		 PreparedStatement statement = connection.prepareStatement("UPDATE copies "
+       	   		+ " SET holdBack=? WHERE copyId=?");
+       	       statement.setInt(2, copyID);
+       	       statement.setString(1, holdback);
+
+       	       statement.executeUpdate();
+       	       
+     			connection.close();
+     		this.holdback = holdback;
+        	
+
+       	} catch (SQLException e) {
+       		// TODO Auto-generated catch block
+       		e.printStackTrace();
+       	}
+    }
     
+    /**
+     * Get the holdback
+     * @return yes for true, no for false.
+     */
+    public String getHoldback() {
+    	return holdback;
+    }
     
     public int getLoanAmount() {
     	try {

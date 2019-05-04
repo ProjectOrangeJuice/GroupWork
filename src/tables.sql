@@ -536,7 +536,7 @@ DROP TABLE IF EXISTS `copies`;
 CREATE TABLE IF NOT EXISTS `copies` (`copyID` INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
                                                                                          `rID` INTEGER NOT NULL,
                                                                                                        `keeper` TEXT, loanDuration INTEGER, borrowDate TEXT, lastRenewal TEXT, dueDate TEXT,
-                                                                                                       holdBack varchar(255) DEFAULT `yes`,
+                                                                                                       holdBack varchar(255),
                                      FOREIGN KEY(`keeper`) REFERENCES `users`(`username`),
                                      FOREIGN KEY(`rID`) REFERENCES `resource`(`rID`));
 
@@ -548,7 +548,7 @@ VALUES (1,
         8,
         '09/12/2018',
         NULL,
-        NULL);
+        NULL,'yes');
 
 
 INSERT INTO `copies`
@@ -558,7 +558,7 @@ VALUES (3,
         7,
         NULL,
         NULL,
-        NULL);
+        NULL,'yes');
 
 
 INSERT INTO `copies`
@@ -568,7 +568,7 @@ VALUES (4,
         7,
         NULL,
         NULL,
-        NULL);
+        NULL,'yes');
 
 
 INSERT INTO `copies`
@@ -578,7 +578,7 @@ VALUES (5,
         7,
         NULL,
         NULL,
-        NULL);
+        NULL,'yes');
 
 
 INSERT INTO `copies`
@@ -588,7 +588,7 @@ VALUES (6,
         7,
         NULL,
         NULL,
-        NULL);
+        NULL,'yes');
 
 
 INSERT INTO `copies`
@@ -598,7 +598,7 @@ VALUES (7,
         7,
         NULL,
         NULL,
-        NULL);
+        NULL,'yes');
 
 
 INSERT INTO `copies`
@@ -608,7 +608,7 @@ VALUES (8,
         7,
         NULL,
         NULL,
-        NULL);
+        NULL,'yes');
 
 
 INSERT INTO `copies`
@@ -618,7 +618,7 @@ VALUES (9,
         7,
         NULL,
         NULL,
-        NULL);
+        NULL,'yes');
 
 
 INSERT INTO `copies`
@@ -628,7 +628,7 @@ VALUES (10,
         7,
         NULL,
         NULL,
-        NULL);
+        NULL,'yes');
 
 
 INSERT INTO `copies`
@@ -638,7 +638,7 @@ VALUES (11,
         7,
         '09/12/2018',
         NULL,
-        NULL);
+        NULL,'yes');
 
 
 INSERT INTO `copies`
@@ -648,7 +648,7 @@ VALUES (12,
         6,
         NULL,
         NULL,
-        NULL);
+        NULL,'yes');
 
 
 INSERT INTO `copies`
@@ -658,7 +658,7 @@ VALUES (13,
         5,
         NULL,
         NULL,
-        NULL);
+        NULL,'yes');
 
 
 INSERT INTO `copies`
@@ -668,7 +668,7 @@ VALUES (14,
         4,
         NULL,
         NULL,
-        NULL);
+        NULL,'yes');
 
 
 INSERT INTO `copies`
@@ -678,7 +678,7 @@ VALUES (15,
         3,
         NULL,
         NULL,
-        NULL);
+        NULL,'yes');
 
 
 INSERT INTO `copies`
@@ -688,7 +688,7 @@ VALUES (16,
         8,
         NULL,
         NULL,
-        NULL);
+        NULL,'yes');
 
 
 INSERT INTO `copies`
@@ -698,7 +698,7 @@ VALUES (17,
         7,
         NULL,
         NULL,
-        NULL);
+        NULL,'yes');
 
 
 INSERT INTO `copies`
@@ -708,7 +708,7 @@ VALUES (18,
         6,
         NULL,
         NULL,
-        NULL);
+        NULL,'yes');
 
 
 INSERT INTO `copies`
@@ -718,7 +718,7 @@ VALUES (19,
         5,
         NULL,
         NULL,
-        NULL);
+        NULL,'yes');
 
 
 INSERT INTO `copies`
@@ -728,7 +728,7 @@ VALUES (20,
         4,
         NULL,
         NULL,
-        NULL);
+        NULL,'yes');
 
 
 INSERT INTO `copies`
@@ -738,7 +738,7 @@ VALUES (21,
         7,
         NULL,
         NULL,
-        NULL);
+        NULL,'yes');
 
 
 INSERT INTO `copies`
@@ -748,7 +748,7 @@ VALUES (22,
         7,
         NULL,
         NULL,
-        NULL);
+        NULL,'yes');
 
 
 INSERT INTO `copies`
@@ -758,7 +758,7 @@ VALUES (23,
         7,
         NULL,
         NULL,
-        NULL);
+        NULL,'yes');
 
 
 INSERT INTO `copies`
@@ -768,7 +768,7 @@ VALUES (24,
         7,
         NULL,
         NULL,
-        NULL);
+        NULL,'yes');
 
 
 INSERT INTO `copies`
@@ -778,7 +778,7 @@ VALUES (25,
         7,
         NULL,
         NULL,
-        NULL);
+        NULL,'yes');
 
 
 INSERT INTO `copies`
@@ -788,7 +788,7 @@ VALUES (26,
         NULL,
         NULL,
         NULL,
-        NULL);
+        NULL,'yes');
 
 
 INSERT INTO `copies`
@@ -798,7 +798,7 @@ VALUES (27,
         NULL,
         NULL,
         NULL,
-        NULL);
+        NULL,'yes');
 
 
 INSERT INTO `copies`
@@ -808,7 +808,7 @@ VALUES (28,
         NULL,
         NULL,
         NULL,
-        NULL);
+        NULL,'yes');
 
 
 DROP TABLE IF EXISTS `borrowRecords`;
@@ -1028,7 +1028,7 @@ CREATE TABLE `listDesc`
 );
 
 
-DROP TABLE IF EXIST `reserve`;
+DROP TABLE IF EXISTS `reserve`;
 
 CREATE TABLE `reserve`
   ( `id` INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE,

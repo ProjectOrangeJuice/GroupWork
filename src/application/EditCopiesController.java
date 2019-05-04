@@ -64,6 +64,10 @@ public class EditCopiesController {
 				new TableColumn<Copy, Number>("Duration");
 		loanDurCol.setCellValueFactory(new PropertyValueFactory<>("loanDuration"));
 		
+		TableColumn<Copy, String> holdbackCol = 
+				new TableColumn<Copy, String>("Can reserve?");
+		holdbackCol.setCellValueFactory(new PropertyValueFactory<>("holdback"));
+		
 		//generates rows of copyid and loanduration for each copy
 		copiesTable.setItems(copyData);
 		
@@ -79,7 +83,7 @@ public class EditCopiesController {
 		});
 
 		//adds the columns to the tables and auto sizes them
-		copiesTable.getColumns().addAll(idCol,loanDurCol);
+		copiesTable.getColumns().addAll(idCol,loanDurCol,holdbackCol);
 		copiesTable.autosize();
 	}
 	
@@ -97,6 +101,31 @@ public class EditCopiesController {
 		
 		copiesTable.setItems(copyData);
 
+	}
+	
+	
+	/**
+	 * Change the holdback value.
+	 * @param e The actionEvent.
+	 */
+	public  void allowReserve(ActionEvent e) {
+		Copy copy = copiesTable.getSelectionModel().getSelectedItem();
+		if(copy != null) {
+			copy.setHoldback("yes");
+		}
+		repop();
+	}
+	
+	/**
+	 * Chagne the holdback value.
+	 * @param e The actionEvent.
+	 */
+	public void disallowReserve(ActionEvent e) {
+		Copy copy = copiesTable.getSelectionModel().getSelectedItem();
+		if(copy != null) {
+			copy.setHoldback("no");
+		}
+		repop();
 	}
 	
 	/**

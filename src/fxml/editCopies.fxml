@@ -11,6 +11,8 @@
       <TableView fx:id="copiesTable" prefHeight="200.0" prefWidth="200.0" />
       <Button mnemonicParsing="false" onAction="#addCopy" text="Add" />
       <Button mnemonicParsing="false" onAction="#deleteButton" text="Delete" />
+      <Button mnemonicParsing="false" onAction="#allowReserve" text="Allow reserve" />
+      <Button mnemonicParsing="false" onAction="#disallowReserve" text="Disallow reserve" />
       <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Loan duration: (Days)" />
       <TextField fx:id="loanDur" />
    </children>
