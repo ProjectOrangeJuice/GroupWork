@@ -127,16 +127,18 @@ public class CopyController {
 	 */
 	@FXML
 	public void initialize() {
+		
 		if (ScreenManager.getCurrentUser() instanceof User) {
 			checkIfBorrowed();
 			setupLimit();
+			checkCanReserve();
 			if (MyList.isInMyList(ScreenManager.getCurrentUser().getUsername(),
 					ScreenManager.getCurrentResource().getUniqueID())) {
 				addListButton.setText("Remove from list");
 			}
 		} else {
 			requestbutt.setDisable(true);
-			
+			rError.setVisible(false);
 			setupStaffButtons();
 
 		}
@@ -150,7 +152,7 @@ public class CopyController {
 
 		// disable dates
 		setupDatePicker();
-		checkCanReserve();
+		
 
 	}
 
@@ -302,7 +304,7 @@ public class CopyController {
 	 * allow the librarian to manage the resources.
 	 */
 	private void setupStaffButtons() {
-		reserveButton.setDisable(false);
+		reserveButton.setDisable(true);
 		Button editCopies = new Button("Edit copies");
 		editCopies.setOnAction(e -> {
 			try {

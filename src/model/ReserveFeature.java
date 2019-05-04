@@ -115,8 +115,10 @@ public class ReserveFeature {
 				} else {
 					String dateDB = results.getString("dueDate");
 					if (dateDB != null) {
+						
+						
 						DateTimeFormatter formatter = 
-								DateTimeFormatter.ofPattern("dd/MMM/yyyy",
+								DateTimeFormatter.ofPattern("d/MM/yyyy",
 										Locale.ENGLISH);
 						LocalDate dbDate = LocalDate.parse(dateDB, formatter);
 						if (date.isAfter(dbDate)) {
@@ -387,5 +389,5 @@ public class ReserveFeature {
 		}
 		return true;
 	}
-
+	
 }
